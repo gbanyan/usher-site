@@ -1,0 +1,110 @@
+- id: read_more
+  translation: 更多
+
+- id: contact_form
+  translation: 聯繫表單
+
+- id: send
+  translation: 送出
+
+- id: contact_info
+  translation: 聯繫資訊
+
+- id: subscribe_newsletter
+  translation: 訂閱電子報
+
+- id: subscribe
+  translation: 訂閱
+
+- id: contact_us
+  translation: 聯繫我們
+
+- id: latest_article
+  translation: 最新消息
+
+- id: categories
+  translation: 分類
+
+- id: tags
+  translation: 標籤
+
+- id: see_all
+  translation: 閱覽全部
+
+- id: apply_now
+  translation: 申請
+
+- id: posted_by
+  translation: 發布由
+
+- id: date
+  translation: 日期
+
+- id: time
+  translation: 時間
+
+- id: category
+  translation: 分類
+
+- id: related_course
+  translation: 相關課程
+
+- id: duration
+  translation: duration
+
+- id: weekly
+  translation: weekly
+
+- id: fee
+  translation: fee
+
+- id: teacher
+  translation: teacher
+
+- id: location
+  translation: location
+
+- id: entry_fee
+  translation: entry fee
+
+- id: event_speaker
+  translation: Event Speakers
+
+- id: more_event
+  translation: More Events
+
+- id: join
+  translation: Join
+  
+- id: enter_email
+  translation: Enter your email…
+
+- id: company
+  translation: company
+
+- id: links
+  translation: links
+
+- id: courses
+  translation: Courses
+
+- id: new_notice
+  translation: new notice
+
+- id: call
+  translation: call
+
+- id: email
+  translation: email
+
+- id: all
+  translation: All
+
+- id: interest
+  translation: SUMMARY OF ACTIVITIES/INTERESTS
+
+- id: our_teachers
+  translation: Our Teachers
+
+- id: download
+  translation: Download
