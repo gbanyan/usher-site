@@ -77,18 +77,18 @@ about:
 
 ############################# Course ################################
 course:
-  enable : true
+  enable : false
   title : "Our Course"
   # course item comes from "content/**/course" folder.
 
 ########################## Call to action ############################
 cta:
   enable : true
-  subtitle : "Click to Join the Advance Workshop"
-  title : "Training In Advannce Networking"
+  subtitle : "志工、捐款、或合作計畫"
+  title : "歡迎任何形式的支援、贊助！"
   button:
     enable : true
-    label : "join now"
+    label : "聯繫我們"
     link : "contact/"
 
 
@@ -96,12 +96,8 @@ cta:
 success_story:
   enable : true
   bg_image : "images/backgrounds/success-story.jpg"
-  title : "Success Stories"
-  content : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat pariatur. Excepteur sint occaecat.
-            
-            
-  ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris"
+  title : "紀錄片"
+  content : "紀錄尤塞氏患者的故事"
   # video link
   video_link : "https://www.youtube.com/watch?v=ResipmZmpDU"
 
@@ -109,7 +105,7 @@ success_story:
 ############################# event ################################
 event:
   enable : true
-  title : "Upcoming Events"
+  title : "即將到來的活動"
   # event item comes from "content/**/event" folder.
 
   
@@ -140,5 +136,5 @@ funfacts:
 ############################# blog ################################
 blog:
   enable : true
-  title : "Latest News"
+  title : "最新消息"
   # blog item comes from "content/**/blog" folder.

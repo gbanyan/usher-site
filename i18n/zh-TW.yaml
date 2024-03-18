@@ -80,10 +80,10 @@
   translation: Enter your email…
 
 - id: company
-  translation: company
+  translation: 關於協會
 
 - id: links
-  translation: links
+  translation: 資訊連結
 
 - id: courses
   translation: Courses
