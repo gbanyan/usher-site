@@ -1,23 +1,42 @@
 ---
-title: "About Us"
+title: "關於我們"
 draft: false
 # page title background image
 bg_image: "images/backgrounds/page-title.jpg"
 # about image
 image: "images/about/about-page.jpg"
 # meta description
-description : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore. dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."
+description : "尤塞氏症以及視聽雙弱者之病友團體"
 ---
 
-## ABOUT OUR JOURNY
+我們是一群因為先天性遺傳疾病（大多為 Usher Syndrome, 尤賽氏症），而導致同時有視網膜色素病變、視力障礙及聽力障礙的病友。
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-et.dolore magna aliqua. Ut enim ad minim veniam, quis nostrud. Lorem ipsum dolor sit amet consectetur,
-adipisicing elit. Saepe ipsa illo quod veritatis, magni debitis fugiat dolore voluptates! Consequatur,
-aliquid. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat perferendis sint optio similique.
-Et amet magni facilis vero corporis quos.
+病友中，包含了患者、父母，以及研究這些疾病的醫療人員、教授、和其他關懷這些疾病的社會人士。在2023七月初，我們決定匯集這些力量，向政府申請成立協會。
 
-exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum, dolor sit amet consectetur
-adipisicing elit. Ipsum a, facere fugit error accusamus est officiis vero in, nostrum laboriosam corrupti
-explicabo, cumque repudiandae deleniti perspiciatis quae consectetur enim. Laboriosam!
+由於這些病友視聽雙弱的特殊境遇，未來協會的目標將包含向外、對大眾述說，提供特殊教育、醫療遺傳等資源，以及連結更多同樣境遇的病友，關懷鼓勵，讓彼此知道你絕對不是孤單一個人。
+
+由於成立協會，需要有一定數量的起始會員，病友、擔憂孩子未來的父母、對疾病照護研究有興趣的專業人員如醫師、學者，皆是我們初步想招募的會員。
+
+### 協會宗旨
+
+
+推動台灣罹患尤塞氏症，及其他疑似先天遺傳因素致視力及聽力同受影響之患者、家屬，獲得妥善醫療、遺傳、學術諮詢、及其他社會關懷資源，並協助相同境遇患者，共同面對生活中的挑戰與課題。
+
+### 協會任務
+
+一、維護與增進本會病友公共權益
+
+二、促進本會病友身體、心理健康與福祉
+
+三、協助本會病友與其家庭尋求支援和社會資源
+
+四、提升公眾對尤塞氏症及其他視聽同受影響遺傳性疾病的認識與理解
+
+五、追蹤並更新國內外相關遺傳疾病之研究、醫療進展
+
+六、促進國內外相關病友或團體之聯繫與交流合作
+
+七、政府機關團體或會員之委託服務與諮詢
+
+八、其他依法令規定應辦理之事項
+

@@ -108,3 +108,6 @@
 
 - id: download
   translation: Download
+
+- id: social_links
+  translation: Social Links

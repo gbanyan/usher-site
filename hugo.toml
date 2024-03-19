@@ -94,12 +94,12 @@ link = "plugins/google-map/gmap.js"
 [params]
 logo = "images/logo.png"
 # Meta data
-description = "This is meta description"
-author = "Themefisher"
+description = "尤塞氏症以及視聽雙弱者之病友團體"
+author = "台灣尤塞氏症暨視聽弱協會"
 # contact info
-address = "9567 Turner Trace Apt. BC C3G8A4"
-mobile = "+211234565523"
-email = "info@educenter.com"
+address = "台北市中正區忠孝西路一段50號14樓之20、22號"
+mobile = "電話暫時空白"
+email = "E-mail 尚未申請"
 # contact form action
 contact_form_action = "#" # contact form works with https://formspree.io
 # Google Analitycs
@@ -248,3 +248,15 @@ url = "scholarship/"
 [[Languages.zh-TW.menu.footer]]
 name = "research"
 url = "research/"
+
+# Footer Social Menu
+
+
+[[Languages.zh-TW.menu.social]]
+name = "Line 社群連結"
+url = "https://line.me/ti/g2/53ghCyQ0KSgYg4vKqt3GT19pWRe0PKydKIrGUQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default"
+
+
+[[Languages.zh-TW.menu.social]]
+name = "Facebook 臉書社團"
+url = "http://facebook.com/groups/ushersyndrometw"
