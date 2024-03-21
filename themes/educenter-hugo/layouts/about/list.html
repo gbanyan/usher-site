@@ -43,7 +43,7 @@
 {{ partial "success-story.html" . }}
 <!-- /success story -->
 
-<!-- teacher -->
+<!-- leader -->
 {{ if $data.homepage.blog.enable }}
 <section class="section">
   <div class="container">
@@ -54,15 +54,15 @@
     </div>
     <div class="row justify-content-center">
       <!-- teacher -->
-      {{ range first 3 (where site.RegularPages "Type" "teacher")}}
+      {{ range first 3 (where site.RegularPages "Type" "leader")}}
       <div class="col-lg-4 col-sm-6 mb-5 mb-lg-0">
-        {{ .Render "teacher" }}
+        {{ .Render "leader" }}
       </div>
       {{ end }}
     </div>
   </div>
 </section>
 {{ end }}
-<!-- /teacher -->
+<!-- /leader -->
 
 {{ end }}
