@@ -21,7 +21,7 @@ fee : "From: $699"
 # apply url
 apply_url : "#"
 # type
-type: "course"
+type: "related_news"
 ---
 
 

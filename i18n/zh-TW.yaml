@@ -85,8 +85,8 @@
 - id: "links"
   translation: "資訊連結"
 
-- id: "courses"
-  translation: "Courses"
+- id: "related_news"
+  translation: "相關報導"
 
 - id: "new_notice"
   translation: "new notice"

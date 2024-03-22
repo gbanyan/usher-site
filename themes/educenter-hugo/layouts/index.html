@@ -84,17 +84,17 @@
 {{ end }}
 <!-- /about us -->
 
-<!-- courses -->
-{{ if $data.homepage.course.enable }}
+<!-- related_news -->
+{{ if $data.homepage.related_news.enable }}
 <section class="section-sm">
   <div class="container">
     <div class="row">
       <div class="col-12">
         <div class="d-flex align-items-center section-title justify-content-between">
-          <h2 class="mb-0 text-nowrap mr-3">{{ $data.homepage.course.title }}</h2>
+          <h2 class="mb-0 text-nowrap mr-3">{{ $data.homepage.related_news.title }}</h2>
           <div class="border-top w-100 border-primary d-none d-sm-block"></div>
           <div>
-            <a href="{{ `course` | relLangURL }}" class="btn btn-sm btn-outline-primary ml-sm-3 d-none d-sm-block">{{ i18n "see_all" }}</a>
+            <a href="{{ `related_news` | relLangURL }}" class="btn btn-sm btn-outline-primary ml-sm-3 d-none d-sm-block">{{ i18n "see_all" }}</a>
           </div>
         </div>
       </div>
@@ -102,23 +102,23 @@
     <!-- course list -->
     <div class="row justify-content-center">
       <!-- course item -->
-      {{ range first 6 (where site.RegularPages "Type" "course")}}
+      {{ range first 3 (where site.RegularPages "Type" "related_news")}}
       <div class="col-lg-4 col-sm-6 mb-5">
-        {{ .Render "course" }}
+        {{ .Render "related_news" }}
       </div>
       {{ end }}
     </div>
-    <!-- /course list -->
+    <!-- /related_news list -->
     <!-- mobile see all button -->
     <div class="row">
       <div class="col-12 text-center">
-        <a href="{{ `course` | relLangURL }}" class="btn btn-sm btn-outline-primary d-sm-none d-inline-block">{{ i18n "see_all" }}</a>
+        <a href="{{ `related_news` | relLangURL }}" class="btn btn-sm btn-outline-primary d-sm-none d-inline-block">{{ i18n "see_all" }}</a>
       </div>
     </div>
   </div>
 </section>
 {{ end }}
-<!-- /courses -->
+<!-- /related_news -->
 
 <!-- cta -->
 {{ if $data.homepage.cta.enable }}

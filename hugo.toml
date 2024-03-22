@@ -182,8 +182,8 @@ url = "about/"
 weight = 1
 
 [[Languages.zh-TW.menu.main]]
-name = "course"
-url = "course/"
+name = "相關報導"
+url = "related_news/"
 weight = 2
 
 [[Languages.zh-TW.menu.main]]

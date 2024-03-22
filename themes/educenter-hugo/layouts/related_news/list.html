@@ -1,6 +1,6 @@
 {{ define "main" }}
 
-<!-- courses -->
+<!-- related_news -->
 <section class="section">
   <div class="container">
     <!-- course list -->
@@ -8,13 +8,13 @@
       <!-- course item -->
       {{ range .Data.Pages }}
       <div class="col-lg-4 col-sm-6 mb-5">
-        {{ .Render "course" }}
+        {{ .Render "related_news" }}
       </div>
       {{ end }}
     </div>
-    <!-- /course list -->
+    <!-- /related_news list -->
   </div>
 </section>
-<!-- /courses -->
+<!-- /related_news -->
 
 {{ end }}

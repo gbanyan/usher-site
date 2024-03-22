@@ -10,7 +10,7 @@
           class="img-fluid w-100">
       </div>
     </div>
-    <!-- course info -->
+    <!-- related_news -->
     <div class="row align-items-center mb-5">
       <div class="col-xl-3 order-1 col-sm-6 mb-4 mb-xl-0">
         <h2>{{ .Title }}</h2>
@@ -98,15 +98,15 @@
     </div>
     <div class="row">
       <!-- course item -->
-      {{ $related := (where site.RegularPages "Type" "course") | intersect (where site.Pages ".Title" "!=" .Title) | union (site.RegularPages.Related . ) | shuffle | first 3}}
+      {{ $related := (where site.RegularPages "Type" "related_news") | intersect (where site.Pages ".Title" "!=" .Title) | union (site.RegularPages.Related . ) | shuffle | first 3}}
       {{ range first 3 $related }}
       <div class="col-lg-4 col-sm-6 mb-5">
-        {{ .Render "course"}}
+        {{ .Render "related_news"}}
       </div>
       {{ end }}
     </div>
   </div>
 </section>
-<!-- /related course -->
+<!-- /related news -->
 
 {{ end }}
