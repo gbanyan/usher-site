@@ -2,9 +2,9 @@
 title: "關於我們"
 draft: false
 # page title background image
-bg_image: "images/backgrounds/page-title.jpg"
+bg_image: "images/banner/banner.jpg"
 # about image
-image: "images/about/about-page.jpg"
+image: "images/banner/banner.jpg"
 # meta description
 description : "尤塞氏症以及視聽雙弱者之病友團體"
 ---
@@ -18,7 +18,6 @@ description : "尤塞氏症以及視聽雙弱者之病友團體"
 由於成立協會，需要有一定數量的起始會員，病友、擔憂孩子未來的父母、對疾病照護研究有興趣的專業人員如醫師、學者，皆是我們初步想招募的會員。
 
 ### 協會宗旨
-
 
 推動台灣罹患尤塞氏症，及其他疑似先天遺傳因素致視力及聽力同受影響之患者、家屬，獲得妥善醫療、遺傳、學術諮詢、及其他社會關懷資源，並協助相同境遇患者，共同面對生活中的挑戰與課題。
 
