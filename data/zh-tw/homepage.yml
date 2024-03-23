@@ -94,7 +94,7 @@ cta:
 ######################## Success story #############################
 success_story:
   enable : true
-  bg_image : "images/backgrounds/success-story.jpg"
+  bg_image : "images/backgrounds/Film-Background.jpg"
   title : "聽•見幸福的樂章"
   content : "
 導演：許豐明
