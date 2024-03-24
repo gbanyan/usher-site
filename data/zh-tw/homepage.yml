@@ -92,7 +92,7 @@ cta:
 
 
 ######################## Success story #############################
-success_story:
+documentary:
   enable : true
   bg_image : "images/backgrounds/Film-Background.jpg"
   title : "聽•見幸福的樂章"
@@ -116,7 +116,7 @@ event:
   
 ########################### funfacts ############################
 funfacts:
-  enable : true
+  enable : false
   funfact_item:
     # funfact item loop
     - name : "TEACHERS"

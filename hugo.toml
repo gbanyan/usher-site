@@ -114,14 +114,14 @@ preloader = "images/preloader.gif" # use jpg, png, svg or gif format.
 
 # Subscription
 [params.subscription]
-enable = true
+enable = false
 # mailchimp subsciption
 mailchimp_form_action = "https://gmail.us4.list-manage.com/subscribe/post?u=463ee871f45d2d93748e77cad&amp;id=a0a2c6d074" # replace this url with yours
 mailchimp_form_name = "b_463ee871f45d2d93748e77cad_a0a2c6d074" # replace this code with yours
 
 # google map
 [params.map]
-enable = true
+enable = false
 gmap_api = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU&libraries=places"
 map_latitude = "51.5223477"
 map_longitude = "-0.1622023"
@@ -177,9 +177,26 @@ copyright = "Copyright &copy; 2024 a hugo theme by [Themefisher](https://themefi
 
 # main menu
 [[Languages.zh-TW.menu.main]]
-name = "關於我們"
-url = "about/"
+name = "關於協會"
 weight = 1
+
+  [[Languages.zh-TW.menu.main]]
+    parent = "關於協會"
+    name = "創立目的"
+    url = "about/"
+    weight = 1
+
+  [[Languages.zh-TW.menu.main]]
+    parent = "關於協會"
+    name = "協會架構"
+    url = "scholarship/"
+    weight = 2
+
+  [[Languages.zh-TW.menu.main]]
+    parent = "關於協會"
+    name = "協會成員"
+    url = "leader/"
+    weight = 3
 
 [[Languages.zh-TW.menu.main]]
 name = "相關報導"
@@ -188,38 +205,43 @@ weight = 2
 
 [[Languages.zh-TW.menu.main]]
 weight = 3
-name = "Pages"
+name = "協會資源"
 hasChildren = true
 
-  [[Languages.zh-TW.menu.main]]
-  parent = "Pages"
-  name = "teacher"
-  url = "teacher/"
 
   [[Languages.zh-TW.menu.main]]
-  parent = "Pages"
-  name = "notice"
-  url = "notice/"
+  parent = "協會資源"
+  name = "協會文件"
+  url = "document/"
+  weight = 1
 
   [[Languages.zh-TW.menu.main]]
-  parent = "Pages"
-  name = "event"
+  parent = "協會資源"
+  name = "協會活動"
   url = "event/"
+  weight = 2
+
 
   [[Languages.zh-TW.menu.main]]
-  parent = "Pages"
-  name = "scholarship"
-  url = "scholarship/"
-
-  [[Languages.zh-TW.menu.main]]
-  parent = "Pages"
-  name = "research"
+  parent = "協會資源"
+  name = "研究資源"
   url = "research/"
+  weight = 3
   
 [[Languages.zh-TW.menu.main]]
 name = "最新消息"
-url = "blog/"
 weight = 4
+hasChildren = true
+
+  [[Languages.zh-TW.menu.main]]
+  parent = "最新消息"
+  name = "事務公告"
+  url = "notice/"
+
+  [[Languages.zh-TW.menu.main]]
+  parent = "最新消息"
+  name = "部落格"
+  url = "blog/"
   
 [[Languages.zh-TW.menu.main]]
 name = "聯繫資訊"
