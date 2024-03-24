@@ -188,8 +188,8 @@ weight = 1
 
   [[Languages.zh-TW.menu.main]]
     parent = "關於協會"
-    name = "協會架構"
-    url = "scholarship/"
+    name = "協會任務"
+    url = "mission/"
     weight = 2
 
   [[Languages.zh-TW.menu.main]]

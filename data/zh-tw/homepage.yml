@@ -72,7 +72,7 @@ about:
   button:
     enable : true
     label : "故事"
-    link : "about/"
+    link : "document/"
 
 
 ############################# related_news ################################

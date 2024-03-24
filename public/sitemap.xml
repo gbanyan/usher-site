@@ -185,11 +185,7 @@
   </url><url>
     <loc>http://localhost:1313/author/</loc>
   </url><url>
-    <loc>http://localhost:1313/scholarship/scholarship-1/</loc>
-  </url><url>
-    <loc>http://localhost:1313/scholarship/scholarship-2/</loc>
-  </url><url>
-    <loc>http://localhost:1313/scholarship/scholarship-3/</loc>
+    <loc>http://localhost:1313/mission/mission-3/</loc>
   </url><url>
     <loc>http://localhost:1313/leader/clark-malik/</loc>
   </url><url>
@@ -205,9 +201,13 @@
   </url><url>
     <loc>http://localhost:1313/leader/</loc>
   </url><url>
-    <loc>http://localhost:1313/scholarship/</loc>
-  </url><url>
     <loc>http://localhost:1313/leader/zim-cook/</loc>
+  </url><url>
+    <loc>http://localhost:1313/mission/</loc>
+  </url><url>
+    <loc>http://localhost:1313/mission/mission-1/</loc>
+  </url><url>
+    <loc>http://localhost:1313/mission/mission-2/</loc>
   </url><url>
     <loc>http://localhost:1313/about/</loc>
   </url>
