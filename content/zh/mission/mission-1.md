@@ -4,7 +4,7 @@ draft: false
 # page title background image
 bg_image: "images/backgrounds/page-title.jpg"
 # scholarship image
-image: "images/scholarship/scholarship-item-1.jpg"
+image: "images/mission/speech.jpg"
 # meta description
 description : "如何讓更多人認識到尤塞氏症患者以及視聽雙弱者的困境、爭取更多屬於我們的權益？"
 ---

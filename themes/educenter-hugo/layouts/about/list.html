@@ -43,26 +43,23 @@
 <!-- {{ partial "documentary.html" . }} -->
 <!-- /success story -->
 
-<!-- leader -->
-{{ if $data.homepage.blog.enable }}
+<!-- {{ if $data.homepage.blog.enable }}
 <section class="section">
   <div class="container">
     <div class="row">
       <div class="col-12">
         <h2 class="section-title">{{ i18n "our_leaders" }}</h2>
-      </div>
+      </div>  
     </div>
-    <div class="row justify-content-center">
-      <!-- teacher -->
-      {{ range first 3 (where site.RegularPages "Type" "leader")}}
-      <div class="col-lg-4 col-sm-6 mb-5 mb-lg-0">
-        {{ .Render "leader" }}
+      <div class="row justify-content-center">
+        {{ range first 3 (where site.RegularPages "Type" "leader")}}
+        <div class="col-lg-4 col-sm-6 mb-5 mb-lg-0">
+          {{ .Render "leader" }}
+        </div>
+        {{ end }}
       </div>
-      {{ end }}
-    </div>
   </div>
 </section>
-{{ end }}
-<!-- /leader -->
+{{ end }} -->
 
 {{ end }}

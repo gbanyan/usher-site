@@ -1,8 +1,8 @@
 ---
-title: "Our Courses"
+title: "研究資源"
 draft: false
 # page title background image
-bg_image: "images/backgrounds/page-title.jpg"
+bg_image: "images/banner/banner.jpg"
 # meta description
-description : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore. dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."
+description : "此處列出協會所知、聯繫的學術研究機構以及進行中的研究計畫"
 ---
