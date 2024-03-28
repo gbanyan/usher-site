@@ -109,7 +109,7 @@ documentary:
 
 ############################# event ################################
 event:
-  enable : true
+  enable : false
   title : "即將到來的活動"
   # event item comes from "content/**/event" folder.
 

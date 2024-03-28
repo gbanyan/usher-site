@@ -192,11 +192,11 @@ weight = 1
     url = "mission/"
     weight = 2
 
-  [[Languages.zh-TW.menu.main]]
-    parent = "關於協會"
-    name = "協會成員"
-    url = "leader/"
-    weight = 3
+  # [[Languages.zh-TW.menu.main]]
+  #   parent = "關於協會"
+  #   name = "協會成員"
+  #   url = "leader/"
+  #   weight = 3
 
 [[Languages.zh-TW.menu.main]]
 name = "相關報導"
@@ -215,11 +215,11 @@ hasChildren = true
   url = "document/"
   weight = 1
 
-  [[Languages.zh-TW.menu.main]]
-  parent = "協會資源"
-  name = "協會活動"
-  url = "event/"
-  weight = 2
+  # [[Languages.zh-TW.menu.main]]
+  # parent = "協會資源"
+  # name = "協會活動"
+  # url = "event/"
+  # weight = 2
 
 
   [[Languages.zh-TW.menu.main]]
@@ -249,26 +249,23 @@ url = "contact/"
 weight = 5
 
 
-# footer menu
+# footer menu 資訊連結
+
+#[[Languages.zh-TW.menu.footer]]
+#name = "協會成員"
+#url = "leader/"
 
 [[Languages.zh-TW.menu.footer]]
-name = "teacher"
-url = "teacher/"
-
-[[Languages.zh-TW.menu.footer]]
-name = "notice"
+name = "事務公告"
 url = "notice/"
 
 [[Languages.zh-TW.menu.footer]]
-name = "event"
+name = "最新活動"
 url = "event/"
 
-[[Languages.zh-TW.menu.footer]]
-name = "scholarship"
-url = "scholarship/"
 
 [[Languages.zh-TW.menu.footer]]
-name = "research"
+name = "研究資源"
 url = "research/"
 
 # Footer Social Menu
