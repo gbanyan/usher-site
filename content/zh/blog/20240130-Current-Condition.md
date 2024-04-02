@@ -1,8 +1,20 @@
 ---
-slug: 2024-01-30 第一屆第一次會員代表大會後現況報告
 title: 第一屆第一次會員代表大會會議後現況報告
-authors: [黃俊榕]
+date: 2024-01-30T15:27:17+06:00
+draft: false
+# page title background image
+bg_image: "images/banner/banner.jpg"
+# meta description
+description : ""
+# post thumbnail
+image: "images/blog/Notify.jpg"
+# post author
+author: "黃俊榕"
+# taxonomy
+categories: ["協會事務"]
 tags: [協會事務]
+# type
+type: "post"
 ---
 
 ## 等待正式成立前狀況

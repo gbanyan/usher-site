@@ -16,12 +16,14 @@
   a{
     display: block;
     padding: 5px 10px;
-    background: $light;
+    background: $primary-color;
     color: $text-color;
+    /*
     &:hover{
       background-color: $primary-color;
       color: $white;
     }
+    */
   }
 }
 

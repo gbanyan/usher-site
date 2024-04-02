@@ -3,11 +3,11 @@ title: "2023/10/26 近期會務更新"
 date: 2023-10-26T15:27:17+06:00
 draft: false
 # page title background image
-bg_image: "images/backgrounds/page-title.jpg"
+bg_image: "images/banner/banner.jpg"
 # meta description
-description : "撰寫這篇文章，稍微闡述一下想創立協會的一些核心想法、可能的方向，以及現況、未來需要完成的一些工作。"
+description : ""
 # post thumbnail
-image: "images/blog/post-1.jpg"
+image: "images/blog/Update.jpg"
 # post author
 author: "黃俊榕"
 # taxonomy

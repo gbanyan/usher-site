@@ -1,8 +1,20 @@
 ---
-slug: 2024-01-11 第一屆第一次會員代表大會會議通知
 title: 第一屆第一次會員代表大會會議通知
-authors: [黃俊榕]
+date: 2024-01-11T15:27:17+06:00
+draft: false
+# page title background image
+bg_image: "images/banner/banner.jpg"
+# meta description
+description : ""
+# post thumbnail
+image: "images/blog/Notify.jpg"
+# post author
+author: "黃俊榕"
+# taxonomy
+categories: ["協會事務"]
 tags: [協會事務]
+# type
+type: "post"
 ---
 
 > 2024/1/12 更新加上報名表單

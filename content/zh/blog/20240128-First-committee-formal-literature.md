@@ -1,12 +1,21 @@
 ---
-slug: 2024-01-27 第一屆第一次會員代表大會會議 新聞稿
 title: 第一屆第一次會員代表大會會議 新聞稿
-image: img/1st-commiittee-cover-image.jpg
-authors: [黃俊榕]
+date: 2024-01-27T15:27:17+06:00
+draft: false
+# page title background image
+bg_image: "images/banner/banner.jpg"
+# meta description
+description : ""
+# post thumbnail
+image: "images/blog/1st-commiittee-cover-image.jpg"
+# post author
+author: "黃俊榕"
+# taxonomy
+categories: ["協會事務"]
 tags: [協會事務]
+# type
+type: "post"
 ---
-
-![第一次會員代表大會合照](img/1st-commiittee-cover-image.jpg)
 
 台灣尤塞氏症暨視聽弱協會第 1 屆第 1 次會員代表大會已於西元 2024 年 1 月27 日（星期六）下午 1 時，假台北市南港路二段 60 巷 17 號 3 樓 3-14室 舉行，由籌備委員會主持，會員代表出席踴躍，會中順利完成初步工作事項報告、未來工作計畫及初步財務計畫、理監事選舉，大會圓滿閉幕。
 

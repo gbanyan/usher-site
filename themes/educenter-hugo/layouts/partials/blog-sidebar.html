@@ -1,7 +1,7 @@
 {{ "<!-- sidebar -->" | safeHTML }}
 <aside class="col-lg-4 order-1 order-lg-2">
   {{ "<!-- categories -->" | safeHTML }}
-  <div class="bg-white mb-5">
+  <div class="mb-5">
     <h4 class="mb-4">{{ i18n "categories" }}</h4>
     {{- if isset site.Taxonomies "categories" }}
     {{- if not (eq (len site.Taxonomies.categories) 0) }}
@@ -14,7 +14,7 @@
     {{- end }}
   </div>
   {{ "<!-- tags -->" | safeHTML }}
-  <div class="bg-white mb-5">
+  <div class="mb-5">
     <h4 class="mb-4">{{ i18n "tags" }}</h4>
     {{- if isset site.Taxonomies "tags" }}
     {{- if not (eq (len site.Taxonomies.tags) 0) }}
@@ -27,7 +27,7 @@
     {{- end }}
   </div>
   {{ "<!-- latest post -->" | safeHTML }}
-  <div class="bg-white">
+  <div class="">
     <h4 class="mb-4">{{ i18n "latest_article" }}</h4>
     {{ "<!-- post-item -->" | safeHTML }}
     {{ range first 3 ( where site.Pages "Type" "post" )}}
