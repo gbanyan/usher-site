@@ -23,7 +23,7 @@ slider:
       button:
         enable : true
         label : "更多故事"
-        link : "contact/"
+        link : "document/"
 
     # slider item loop
     - title : "視聽雙弱障礙"
@@ -33,8 +33,8 @@ slider:
       # available animation : left, right, up, down
       button:
         enable : true
-        label : "輔助資源"
-        link : "contact/"
+        label : "更多故事"
+        link : "document/"
 
 
 ############################### Banner feature ###############################
