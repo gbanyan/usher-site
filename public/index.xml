@@ -142,6 +142,13 @@
       <description>所有涉及到協會正式名義的事務，如對外募款、建立帳戶建立匯款管道、招收更多會員、以及會址租約等 都要等內政部收到，我們於第一次會員代表大會收齊的所有資料後，通過並核發社團法人統一編號。</description>
     </item>
     <item>
+      <title>讓我聽見更多——台灣尤塞氏症暨視聽弱協會</title>
+      <link>http://localhost:1313/related_news/%E8%81%BD%E8%A6%8B%E6%9B%B4%E5%A4%9A%E5%8F%B0%E7%81%A3%E5%B0%A4%E5%A1%9E%E6%B0%8F%E7%97%87%E6%9A%A8%E8%A6%96%E8%81%BD%E5%BC%B1%E5%8D%94%E6%9C%83/</link>
+      <pubDate>Sun, 28 Jan 2024 15:27:17 +0800</pubDate>
+      <guid>http://localhost:1313/related_news/%E8%81%BD%E8%A6%8B%E6%9B%B4%E5%A4%9A%E5%8F%B0%E7%81%A3%E5%B0%A4%E5%A1%9E%E6%B0%8F%E7%97%87%E6%9A%A8%E8%A6%96%E8%81%BD%E5%BC%B1%E5%8D%94%E6%9C%83/</guid>
+      <description>文/黃靖騰 熟悉的人都</description>
+    </item>
+    <item>
       <title>第一屆第一次會員代表大會會議 新聞稿</title>
       <link>http://localhost:1313/blog/20240128-first-committee-formal-literature/</link>
       <pubDate>Sat, 27 Jan 2024 15:27:17 +0600</pubDate>
@@ -150,9 +157,9 @@
     </item>
     <item>
       <title>第一屆第一次會員代表大會會議通知</title>
-      <link>http://localhost:1313/blog/20240111-first-committee/</link>
+      <link>http://localhost:1313/notice/20240111-first-committee/</link>
       <pubDate>Thu, 11 Jan 2024 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/blog/20240111-first-committee/</guid>
+      <guid>http://localhost:1313/notice/20240111-first-committee/</guid>
       <description>2024/1/12 更新加上報名表單 2024/1/25</description>
     </item>
     <item>
@@ -164,9 +171,9 @@
     </item>
     <item>
       <title>2023/09/16 創立前初步討論會議資訊</title>
-      <link>http://localhost:1313/blog/20230916-conferenceinfo/</link>
+      <link>http://localhost:1313/notice/20230916-conferenceinfo/</link>
       <pubDate>Sat, 16 Sep 2023 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/blog/20230916-conferenceinfo/</guid>
+      <guid>http://localhost:1313/notice/20230916-conferenceinfo/</guid>
       <description>會議資訊</description>
     </item>
     <item>
@@ -217,48 +224,6 @@
       <pubDate>Sat, 06 Jul 2019 15:27:17 +0600</pubDate>
       <guid>http://localhost:1313/research/research-6/</guid>
       <description>About Research Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
-    </item>
-    <item>
-      <title>Teaching Materials and Testing Methods</title>
-      <link>http://localhost:1313/notice/notice-1/</link>
-      <pubDate>Sat, 06 Jul 2019 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/notice/notice-1/</guid>
-      <description>About Notice Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
-    </item>
-    <item>
-      <title>Teaching Materials and Testing Methods</title>
-      <link>http://localhost:1313/notice/notice-2/</link>
-      <pubDate>Sat, 06 Jul 2019 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/notice/notice-2/</guid>
-      <description>About Notice Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
-    </item>
-    <item>
-      <title>Teaching Materials and Testing Methods</title>
-      <link>http://localhost:1313/notice/notice-3/</link>
-      <pubDate>Sat, 06 Jul 2019 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/notice/notice-3/</guid>
-      <description>About Notice Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
-    </item>
-    <item>
-      <title>Teaching Materials and Testing Methods</title>
-      <link>http://localhost:1313/notice/notice-4/</link>
-      <pubDate>Sat, 06 Jul 2019 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/notice/notice-4/</guid>
-      <description>About Notice Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
-    </item>
-    <item>
-      <title>Teaching Materials and Testing Methods</title>
-      <link>http://localhost:1313/notice/notice-5/</link>
-      <pubDate>Sat, 06 Jul 2019 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/notice/notice-5/</guid>
-      <description>About Notice Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
-    </item>
-    <item>
-      <title>Teaching Materials and Testing Methods</title>
-      <link>http://localhost:1313/notice/notice-6/</link>
-      <pubDate>Sat, 06 Jul 2019 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/notice/notice-6/</guid>
-      <description>About Notice Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
     </item>
     <item>
       <title>我是障礙者，我也想服務這個社會：為何人們不相信障礙者也能從事助人工作？</title>
