@@ -162,7 +162,12 @@ ul {
 img {
   vertical-align: middle;
   border: 0;
-  object-fit: scale-down; }
+  height: auto;
+  max-width: 100%; }
+
+.logo {
+  width: 200px;
+  height: 68px; }
 
 a,
 a:hover,
