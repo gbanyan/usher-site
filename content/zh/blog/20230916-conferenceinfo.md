@@ -15,6 +15,7 @@ categories: ["協會事務"]
 tags: [協會事務]
 # type
 type: "post"
+summary: "會議資訊"
 
 ---
 

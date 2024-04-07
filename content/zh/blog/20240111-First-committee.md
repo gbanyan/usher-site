@@ -15,6 +15,7 @@ categories: ["協會事務"]
 tags: [協會事務]
 # type
 type: "post"
+summary: ""
 ---
 
 > 2024/1/12 更新加上報名表單
