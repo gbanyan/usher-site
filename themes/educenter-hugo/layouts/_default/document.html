@@ -1,8 +1,3 @@
-<li class="list-group-item d-md-table mb-4 w-100 border-bottom hover-shadow bg-dark">
-  <!-- <div class="d-md-table-cell text-center p-4 bg-primary text-white mb-4 mb-md-0"><span class="h2 d-block">{{ humanize .PublishDate.Day }}</span> {{ .PublishDate.Format "Jan, 2006"}}</div> -->
-  
-    <div class="d-md-table-cell px-4 mb-4 mb-md-0">
-      <a href="{{ .Permalink }}" class="h4 mb-3 d-block">{{ .Title }}</a>
-    </div>
-  
+<li class="list-group-item document_list border-bottom hover-shadow bg-dark">
+   <a href="{{ .Permalink }}" class="h4">{{ .Title }}</a>
 </li>

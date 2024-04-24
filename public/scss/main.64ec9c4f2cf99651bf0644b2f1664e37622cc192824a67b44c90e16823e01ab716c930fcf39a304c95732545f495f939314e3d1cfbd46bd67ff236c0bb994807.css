@@ -163,8 +163,7 @@ ol {
 
 .document_list {
   display: list-item;
-  padding-left: 10px;
-  margin-left: -20px; }
+  padding-left: -20px; }
 
 img {
   vertical-align: middle;

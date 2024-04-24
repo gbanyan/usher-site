@@ -1,11 +1,11 @@
 {{ define "main" }}
 
-<!-- notice -->
+<!-- document_list -->
 <section class="section">
   <div class="container">
     <div class="row">
-      <div class="col-12">
-        <ol class="list-group list-group-numbered">
+      <div class="col-8">
+        <ol class="list-group">
           <!-- document item -->
           {{ range .Data.Pages }}
           {{ .Render "document" }}
@@ -15,6 +15,6 @@
     </div>
   </div>
 </section>
-<!-- /notice -->
+<!-- /document_list -->
 
 {{ end }}

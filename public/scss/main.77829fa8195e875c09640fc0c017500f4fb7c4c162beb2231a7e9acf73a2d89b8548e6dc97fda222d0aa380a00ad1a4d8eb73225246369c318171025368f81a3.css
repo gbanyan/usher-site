@@ -154,17 +154,12 @@ body {
   align-items: center;
   justify-content: center; }
 
-ul {
+ul, ol {
   list-style-type: none;
   margin: 0px; }
 
-ol {
-  margin: 0px; }
-
 .document_list {
-  display: list-item;
-  padding-left: 10px;
-  margin-left: -20px; }
+  display: list-item; }
 
 img {
   vertical-align: middle;

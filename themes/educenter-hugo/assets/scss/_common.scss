@@ -23,10 +23,28 @@ body {
   justify-content: center;
 }
 
-ul, ol {
+ul {
   list-style-type: none;
   margin: 0px;
 }
+
+ol {
+  margin: 0px;
+}
+
+.document_list {
+  display: list-item;
+  padding-left: 10px;
+  margin-left: -20px;
+}
+
+// .document_list li:nth-child(even) {
+//   background-color: #007bff; /* blue */
+// }
+
+// .document_list li:nth-child(odd) {
+//   background-color: #ff69b4; /* pink */
+// }
 
 img {
   vertical-align: middle;

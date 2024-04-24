@@ -12,7 +12,7 @@
     </div>
     <!-- related_news -->
     <div class="row align-items-center mb-5">
-      <h2>{{ .Title }}</h2>
+      <!-- <h2>{{ .Title }}</h2> -->
       <!-- border -->
       <div class="col-12 mt-4 order-4">
         <div class="border-bottom border-primary"></div>
@@ -40,12 +40,27 @@
     </div>
     <div class="row">
       <!-- course item -->
-      {{ $related := (where site.RegularPages "Type" "document") | intersect (where site.Pages ".Title" "!=" .Title) | union (site.RegularPages.Related . ) | shuffle | first 3}}
-      {{ range first 3 $related }}
-      <div class="col-lg-4 col-sm-6 mb-5">
-        {{ .Render "document"}}
-      </div>
+      
+      {{ $documents := (where site.RegularPages.ByPublishDate "Type" "document" | ) }}
+      
+      {{ with $documents.Next . }}
+      <a href="{{ .RelPermalink }}">
+        <div class="card col-lg-6 col-sm-6 mb-5 bg-dark" style="width: 30rem; padding: 10px;">
+          <h4 class="card-title">上一篇：</h4>
+          <h5 class="card-subtitle mb-2 text-muted">{{ .LinkTitle }}</h5>
+        </div>
+      </a>
       {{ end }}
+      
+      {{ with $documents.Prev . }}
+      <a href="{{ .RelPermalink }}">
+        <div class="card col-lg-6 col-sm-6 mb-5 bg-dark" style="width: 30rem; padding: 10px;">
+          <h4 class="card-title">下一篇：</h4>
+          <h5 class="card-subtitle mb-2 text-muted">{{ .LinkTitle }}</h5>
+        </div>
+      </a>
+      {{ end }}
+
     </div>
   </div>
 </section>

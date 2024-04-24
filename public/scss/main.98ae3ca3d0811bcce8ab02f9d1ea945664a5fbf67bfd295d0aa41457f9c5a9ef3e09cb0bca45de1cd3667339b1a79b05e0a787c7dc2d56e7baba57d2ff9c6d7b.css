@@ -166,6 +166,14 @@ ol {
   padding-left: 10px;
   margin-left: -20px; }
 
+.document_list li:nth-child(even) {
+  color: #007bff;
+  /* blue */ }
+
+.document_list li:nth-child(odd) {
+  color: #ff69b4;
+  /* pink */ }
+
 img {
   vertical-align: middle;
   border: 0;
