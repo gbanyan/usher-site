@@ -7,7 +7,7 @@
       <div class="col-8">
         <ol class="list-group">
           <!-- document item -->
-          {{ range .Data.Pages }}
+          {{ range sort .Data.Pages "Date" "asc"}}
           {{ .Render "document" }}
           {{ end }}
         </ol>
