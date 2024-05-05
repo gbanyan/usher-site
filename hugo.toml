@@ -191,7 +191,24 @@ weight = 1
     name = "協會任務"
     url = "mission/"
     weight = 2
+  
+  [[Languages.zh-TW.menu.main]]
+    parent = "關於協會"
+    name = "組織架構"
+    url = "structure/"
+    weight = 3
+  
+  [[Languages.zh-TW.menu.main]]
+    parent = "關於協會"
+    name = "理事長的話"
+    url = "message/"
+    weight = 4
 
+  [[Languages.zh-TW.menu.main]]
+    parent = "關於協會"
+    name = "Logo象徵"
+    url = "logo_represent/"
+    weight = 5
   # [[Languages.zh-TW.menu.main]]
   #   parent = "關於協會"
   #   name = "協會成員"

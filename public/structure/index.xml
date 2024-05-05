@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>組織架構 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</title>
+    <link>http://192.168.30.34:1313/structure/</link>
+    <description>Recent content in 組織架構 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <atom:link href="http://192.168.30.34:1313/structure/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

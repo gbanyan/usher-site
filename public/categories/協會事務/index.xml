@@ -2,59 +2,59 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>協會事務 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</title>
-    <link>http://localhost:1313/categories/%E5%8D%94%E6%9C%83%E4%BA%8B%E5%8B%99/</link>
+    <link>http://192.168.30.34:1313/categories/%E5%8D%94%E6%9C%83%E4%BA%8B%E5%8B%99/</link>
     <description>Recent content in 協會事務 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</description>
-    <generator>Hugo</generator>
+    <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
     <lastBuildDate>Sat, 06 Apr 2024 07:27:17 +0600</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/%E5%8D%94%E6%9C%83%E4%BA%8B%E5%8B%99/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://192.168.30.34:1313/categories/%E5%8D%94%E6%9C%83%E4%BA%8B%E5%8B%99/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Usher Working Group 工作小組</title>
-      <link>http://localhost:1313/blog/20240406-usher-working-group/</link>
+      <link>http://192.168.30.34:1313/blog/20240406-usher-working-group/</link>
       <pubDate>Sat, 06 Apr 2024 07:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/blog/20240406-usher-working-group/</guid>
+      <guid>http://192.168.30.34:1313/blog/20240406-usher-working-group/</guid>
       <description>由於視聽弱族群的需求有許多尚未檢視的細節，可能需要更進一步的資源募集、工程上的設計協助等等，於是透過一位熱心社會人士的召集，初步組成了這個工作小組。</description>
     </item>
     <item>
       <title>第一屆第一次會員代表大會會議後現況報告</title>
-      <link>http://localhost:1313/blog/20240130-current-condition/</link>
+      <link>http://192.168.30.34:1313/blog/20240130-current-condition/</link>
       <pubDate>Tue, 30 Jan 2024 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/blog/20240130-current-condition/</guid>
+      <guid>http://192.168.30.34:1313/blog/20240130-current-condition/</guid>
       <description>所有涉及到協會正式名義的事務，如對外募款、建立帳戶建立匯款管道、招收更多會員、以及會址租約等 都要等內政部收到，我們於第一次會員代表大會收齊的所有資料後，通過並核發社團法人統一編號。</description>
     </item>
     <item>
       <title>第一屆第一次會員代表大會會議 新聞稿</title>
-      <link>http://localhost:1313/blog/20240128-first-committee-formal-literature/</link>
+      <link>http://192.168.30.34:1313/blog/20240128-first-committee-formal-literature/</link>
       <pubDate>Sat, 27 Jan 2024 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/blog/20240128-first-committee-formal-literature/</guid>
+      <guid>http://192.168.30.34:1313/blog/20240128-first-committee-formal-literature/</guid>
       <description>由籌備委員會主持，會員代表出席踴躍，會中順利完成初步工作事項報告、未來工作計畫及初步財務計畫、理監事選舉，大會圓滿閉幕。</description>
     </item>
     <item>
       <title>第一屆第一次會員代表大會會議通知</title>
-      <link>http://localhost:1313/notice/20240111-first-committee/</link>
+      <link>http://192.168.30.34:1313/notice/20240111-first-committee/</link>
       <pubDate>Thu, 11 Jan 2024 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/notice/20240111-first-committee/</guid>
+      <guid>http://192.168.30.34:1313/notice/20240111-first-committee/</guid>
       <description>2024/1/12 更新加上報名表單 2024/1/25</description>
     </item>
     <item>
       <title>2023/10/26 近期會務更新</title>
-      <link>http://localhost:1313/blog/20231026-recentupdate/</link>
+      <link>http://192.168.30.34:1313/blog/20231026-recentupdate/</link>
       <pubDate>Thu, 26 Oct 2023 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/blog/20231026-recentupdate/</guid>
+      <guid>http://192.168.30.34:1313/blog/20231026-recentupdate/</guid>
       <description>近期會務報告： 由於統籌正式簽名會員過程有所等待，十月中才送出至內政部申請</description>
     </item>
     <item>
       <title>2023/09/16 創立前初步討論會議資訊</title>
-      <link>http://localhost:1313/notice/20230916-conferenceinfo/</link>
+      <link>http://192.168.30.34:1313/notice/20230916-conferenceinfo/</link>
       <pubDate>Sat, 16 Sep 2023 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/notice/20230916-conferenceinfo/</guid>
+      <guid>http://192.168.30.34:1313/notice/20230916-conferenceinfo/</guid>
       <description>會議資訊</description>
     </item>
     <item>
       <title>協會創立之前的一些想法，籌備中的事務</title>
-      <link>http://localhost:1313/blog/initial-blog-post-and-thoughts/</link>
+      <link>http://192.168.30.34:1313/blog/initial-blog-post-and-thoughts/</link>
       <pubDate>Sun, 30 Jul 2023 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/blog/initial-blog-post-and-thoughts/</guid>
+      <guid>http://192.168.30.34:1313/blog/initial-blog-post-and-thoughts/</guid>
       <description>撰寫這篇文章，稍微闡</description>
     </item>
   </channel>
