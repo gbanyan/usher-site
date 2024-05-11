@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>事務公告 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</title>
-    <link>http://192.168.30.15:1313/notice/</link>
+    <link>http://localhost:1313/notice/</link>
     <description>Recent content in 事務公告 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
     <lastBuildDate>Thu, 11 Jan 2024 15:27:17 +0600</lastBuildDate>
-    <atom:link href="http://192.168.30.15:1313/notice/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/notice/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>第一屆第一次會員代表大會會議通知</title>
-      <link>http://192.168.30.15:1313/notice/20240111-first-committee/</link>
+      <link>http://localhost:1313/notice/20240111-first-committee/</link>
       <pubDate>Thu, 11 Jan 2024 15:27:17 +0600</pubDate>
-      <guid>http://192.168.30.15:1313/notice/20240111-first-committee/</guid>
+      <guid>http://localhost:1313/notice/20240111-first-committee/</guid>
       <description>2024/1/12 更新加上報名表單 2024/1/25</description>
     </item>
     <item>
       <title>2023/09/16 創立前初步討論會議資訊</title>
-      <link>http://192.168.30.15:1313/notice/20230916-conferenceinfo/</link>
+      <link>http://localhost:1313/notice/20230916-conferenceinfo/</link>
       <pubDate>Sat, 16 Sep 2023 15:27:17 +0600</pubDate>
-      <guid>http://192.168.30.15:1313/notice/20230916-conferenceinfo/</guid>
+      <guid>http://localhost:1313/notice/20230916-conferenceinfo/</guid>
       <description>會議資訊</description>
     </item>
   </channel>
