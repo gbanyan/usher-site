@@ -24,8 +24,8 @@ body {
 }
 
 ul {
-  list-style-type: none;
-  margin: 0px;
+  // list-style-type: none;
+  margin: 2px;
 }
 
 ol {
@@ -406,11 +406,11 @@ textarea.form-control{
     }
 
     thead {
-      background: darken($color: $light, $amount: 2);
+      background: darken($color: $black, $amount: 2);
     }
 
     tbody {
-      background: $light;
+      background: $black;
 
       td {
         text-align: left !important;
