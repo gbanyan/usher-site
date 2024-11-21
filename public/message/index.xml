@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>理事長的話 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</title>
-    <link>https://usher-site.vercel.app/message/</link>
+    <link>http://localhost:1313/message/</link>
     <description>Recent content in 理事長的話 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
-    <atom:link href="https://usher-site.vercel.app/message/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/message/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

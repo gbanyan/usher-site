@@ -2,59 +2,59 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>部落格 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</title>
-    <link>https://usher-site.vercel.app/blog/</link>
+    <link>http://localhost:1313/blog/</link>
     <description>Recent content in 部落格 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
     <lastBuildDate>Thu, 21 Nov 2024 00:27:17 +0800</lastBuildDate>
-    <atom:link href="https://usher-site.vercel.app/blog/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2024-12-07 協會講座活動開放報名</title>
-      <link>https://usher-site.vercel.app/blog/20241121-short-lecture-open-for-registeration/</link>
+      <link>http://localhost:1313/blog/20241121-short-lecture-open-for-registeration/</link>
       <pubDate>Thu, 21 Nov 2024 00:27:17 +0800</pubDate>
-      <guid>https://usher-site.vercel.app/blog/20241121-short-lecture-open-for-registeration/</guid>
+      <guid>http://localhost:1313/blog/20241121-short-lecture-open-for-registeration/</guid>
       <description>於 2024 暑假美國舉辦的USH大會，內容經過簡短整理後，由協會舉辦小型講座分享內容，即日起開放報名</description>
     </item>
     <item>
       <title>USH Connections Conference 2024 大會簡述</title>
-      <link>https://usher-site.vercel.app/blog/20240720-usher-connection-conference-report/</link>
+      <link>http://localhost:1313/blog/20240720-usher-connection-conference-report/</link>
       <pubDate>Sat, 20 Jul 2024 00:27:17 +0800</pubDate>
-      <guid>https://usher-site.vercel.app/blog/20240720-usher-connection-conference-report/</guid>
+      <guid>http://localhost:1313/blog/20240720-usher-connection-conference-report/</guid>
       <description>2024 年 7 月 19-20 日，於美國羅徹斯特 (Rochester)舉辦的 USH Connections Conference 已經順利落幕。</description>
     </item>
     <item>
       <title>Usher Working Group 工作小組</title>
-      <link>https://usher-site.vercel.app/blog/20240406-usher-working-group/</link>
+      <link>http://localhost:1313/blog/20240406-usher-working-group/</link>
       <pubDate>Sat, 06 Apr 2024 07:27:17 +0600</pubDate>
-      <guid>https://usher-site.vercel.app/blog/20240406-usher-working-group/</guid>
+      <guid>http://localhost:1313/blog/20240406-usher-working-group/</guid>
       <description>由於視聽弱族群的需求有許多尚未檢視的細節，可能需要更進一步的資源募集、工程上的設計協助等等，於是透過一位熱心社會人士的召集，初步組成了這個工作小組。</description>
     </item>
     <item>
       <title>第一屆第一次會員代表大會會議後現況報告</title>
-      <link>https://usher-site.vercel.app/blog/20240130-current-condition/</link>
+      <link>http://localhost:1313/blog/20240130-current-condition/</link>
       <pubDate>Tue, 30 Jan 2024 15:27:17 +0600</pubDate>
-      <guid>https://usher-site.vercel.app/blog/20240130-current-condition/</guid>
+      <guid>http://localhost:1313/blog/20240130-current-condition/</guid>
       <description>所有涉及到協會正式名義的事務，如對外募款、建立帳戶建立匯款管道、招收更多會員、以及會址租約等 都要等內政部收到，我們於第一次會員代表大會收齊的所有資料後，通過並核發社團法人統一編號。</description>
     </item>
     <item>
       <title>第一屆第一次會員代表大會會議 新聞稿</title>
-      <link>https://usher-site.vercel.app/blog/20240128-first-committee-formal-literature/</link>
+      <link>http://localhost:1313/blog/20240128-first-committee-formal-literature/</link>
       <pubDate>Sat, 27 Jan 2024 15:27:17 +0600</pubDate>
-      <guid>https://usher-site.vercel.app/blog/20240128-first-committee-formal-literature/</guid>
+      <guid>http://localhost:1313/blog/20240128-first-committee-formal-literature/</guid>
       <description>由籌備委員會主持，會員代表出席踴躍，會中順利完成初步工作事項報告、未來工作計畫及初步財務計畫、理監事選舉，大會圓滿閉幕。</description>
     </item>
     <item>
       <title>2023/10/26 近期會務更新</title>
-      <link>https://usher-site.vercel.app/blog/20231026-recentupdate/</link>
+      <link>http://localhost:1313/blog/20231026-recentupdate/</link>
       <pubDate>Thu, 26 Oct 2023 15:27:17 +0600</pubDate>
-      <guid>https://usher-site.vercel.app/blog/20231026-recentupdate/</guid>
+      <guid>http://localhost:1313/blog/20231026-recentupdate/</guid>
       <description>近期會務報告： 由於統籌正式簽名會員過程有所等待，十月中才送出至內政部申請</description>
     </item>
     <item>
       <title>協會創立之前的一些想法，籌備中的事務</title>
-      <link>https://usher-site.vercel.app/blog/initial-blog-post-and-thoughts/</link>
+      <link>http://localhost:1313/blog/initial-blog-post-and-thoughts/</link>
       <pubDate>Sun, 30 Jul 2023 15:27:17 +0600</pubDate>
-      <guid>https://usher-site.vercel.app/blog/initial-blog-post-and-thoughts/</guid>
+      <guid>http://localhost:1313/blog/initial-blog-post-and-thoughts/</guid>
       <description>&lt;p&gt;撰寫這篇文章，稍微闡述一下想創立協會的一些核心想法、可能的方向，&#xA;以及現況、未來需要完成的一些工作。&lt;/p&gt;</description>
     </item>
   </channel>
