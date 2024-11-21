@@ -6,8 +6,15 @@
     <description>Recent content in 部落格 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 20 Jul 2024 00:27:17 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 21 Nov 2024 00:27:17 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2024-12-07 協會講座活動開放報名</title>
+      <link>http://localhost:1313/blog/20241121-short-lecture-open-for-registeration/</link>
+      <pubDate>Thu, 21 Nov 2024 00:27:17 +0800</pubDate>
+      <guid>http://localhost:1313/blog/20241121-short-lecture-open-for-registeration/</guid>
+      <description>於 2024 暑假美國舉辦的USH大會，內容經過簡短整理後，由協會舉辦小型講座分享內容，即日起開放報名</description>
+    </item>
     <item>
       <title>USH Connections Conference 2024 大會簡述</title>
       <link>http://localhost:1313/blog/20240720-usher-connection-conference-report/</link>
@@ -48,7 +55,7 @@
       <link>http://localhost:1313/blog/initial-blog-post-and-thoughts/</link>
       <pubDate>Sun, 30 Jul 2023 15:27:17 +0600</pubDate>
       <guid>http://localhost:1313/blog/initial-blog-post-and-thoughts/</guid>
-      <description>撰寫這篇文章，稍微闡</description>
+      <description>&lt;p&gt;撰寫這篇文章，稍微闡述一下想創立協會的一些核心想法、可能的方向，&#xA;以及現況、未來需要完成的一些工作。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

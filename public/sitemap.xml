@@ -26,17 +26,29 @@
     <loc>http://localhost:1313/</loc>
     <lastmod>2030-03-09T15:27:17+06:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/blog/20241121-short-lecture-open-for-registeration/</loc>
+    <lastmod>2024-11-21T00:27:17+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/</loc>
+    <lastmod>2024-11-21T00:27:17+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2024-11-21T00:27:17+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/%E5%8D%94%E6%9C%83%E6%B4%BB%E5%8B%95/</loc>
+    <lastmod>2024-11-21T00:27:17+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/%E5%8D%94%E6%9C%83%E6%B4%BB%E5%8B%95-%E5%AD%B8%E8%A1%93/</loc>
+    <lastmod>2024-11-21T00:27:17+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/blog/</loc>
+    <lastmod>2024-11-21T00:27:17+08:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/document/whisper-colab-%E5%BD%B1%E7%89%87%E8%AA%9E%E9%9F%B3%E8%BD%89%E6%96%87%E5%AD%97%E5%B7%A5%E5%85%B7/</loc>
     <lastmod>2024-08-16T15:27:17+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/document/</loc>
     <lastmod>2024-08-16T15:27:17+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2024-07-20T00:27:17+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2024-07-20T00:27:17+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/blog/20240720-usher-connection-conference-report/</loc>
     <lastmod>2024-07-20T00:27:17+08:00</lastmod>
@@ -45,9 +57,6 @@
     <lastmod>2024-07-20T00:27:17+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/%E5%8D%94%E6%9C%83%E4%BA%8B%E5%8B%99/</loc>
-    <lastmod>2024-07-20T00:27:17+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/blog/</loc>
     <lastmod>2024-07-20T00:27:17+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/document/%E5%AA%92%E9%AB%94%E5%AE%A3%E5%82%B3%E8%B3%87%E6%BA%90/</loc>
@@ -168,8 +177,6 @@
   </url><url>
     <loc>http://localhost:1313/logo_represent/</loc>
   </url><url>
-    <loc>http://localhost:1313/author/mark-dinn/</loc>
-  </url><url>
     <loc>http://localhost:1313/leader/</loc>
   </url><url>
     <loc>http://localhost:1313/leader/zim-cook/</loc>
@@ -181,6 +188,8 @@
     <loc>http://localhost:1313/message/</loc>
   </url><url>
     <loc>http://localhost:1313/structure/</loc>
+  </url><url>
+    <loc>http://localhost:1313/author/%E9%BB%83%E4%BF%8A%E6%A6%95/</loc>
   </url><url>
     <loc>http://localhost:1313/mission/mission-1/</loc>
   </url><url>

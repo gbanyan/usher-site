@@ -41,7 +41,7 @@
       <link>http://localhost:1313/notice/20240111-first-committee/</link>
       <pubDate>Thu, 11 Jan 2024 15:27:17 +0600</pubDate>
       <guid>http://localhost:1313/notice/20240111-first-committee/</guid>
-      <description>2024/1/12 更新加上報名表單 2024/1/25</description>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;2024/1/12 更新加上報名表單&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;2024/1/25 議程細節更新、議程檔案資料提供&lt;/p&gt;</description>
     </item>
     <item>
       <title>2023/10/26 近期會務更新</title>
@@ -62,7 +62,7 @@
       <link>http://localhost:1313/blog/initial-blog-post-and-thoughts/</link>
       <pubDate>Sun, 30 Jul 2023 15:27:17 +0600</pubDate>
       <guid>http://localhost:1313/blog/initial-blog-post-and-thoughts/</guid>
-      <description>撰寫這篇文章，稍微闡</description>
+      <description>&lt;p&gt;撰寫這篇文章，稍微闡述一下想創立協會的一些核心想法、可能的方向，&#xA;以及現況、未來需要完成的一些工作。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
