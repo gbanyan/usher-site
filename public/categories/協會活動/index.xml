@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>協會活動 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</title>
-    <link>http://localhost:1313/categories/%E5%8D%94%E6%9C%83%E6%B4%BB%E5%8B%95/</link>
+    <link>https://usher-site.vercel.app/categories/%E5%8D%94%E6%9C%83%E6%B4%BB%E5%8B%95/</link>
     <description>Recent content in 協會活動 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
     <lastBuildDate>Thu, 21 Nov 2024 00:27:17 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/%E5%8D%94%E6%9C%83%E6%B4%BB%E5%8B%95/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://usher-site.vercel.app/categories/%E5%8D%94%E6%9C%83%E6%B4%BB%E5%8B%95/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2024-12-07 協會講座活動開放報名</title>
-      <link>http://localhost:1313/blog/20241121-short-lecture-open-for-registeration/</link>
+      <link>https://usher-site.vercel.app/blog/20241121-short-lecture-open-for-registeration/</link>
       <pubDate>Thu, 21 Nov 2024 00:27:17 +0800</pubDate>
-      <guid>http://localhost:1313/blog/20241121-short-lecture-open-for-registeration/</guid>
+      <guid>https://usher-site.vercel.app/blog/20241121-short-lecture-open-for-registeration/</guid>
       <description>於 2024 暑假美國舉辦的USH大會，內容經過簡短整理後，由協會舉辦小型講座分享內容，即日起開放報名</description>
     </item>
   </channel>

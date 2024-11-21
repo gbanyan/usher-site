@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>想法 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</title>
-    <link>http://localhost:1313/tags/%E6%83%B3%E6%B3%95/</link>
+    <link>https://usher-site.vercel.app/tags/%E6%83%B3%E6%B3%95/</link>
     <description>Recent content in 想法 on 台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
     <lastBuildDate>Sun, 30 Jul 2023 15:27:17 +0600</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/%E6%83%B3%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://usher-site.vercel.app/tags/%E6%83%B3%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>協會創立之前的一些想法，籌備中的事務</title>
-      <link>http://localhost:1313/blog/initial-blog-post-and-thoughts/</link>
+      <link>https://usher-site.vercel.app/blog/initial-blog-post-and-thoughts/</link>
       <pubDate>Sun, 30 Jul 2023 15:27:17 +0600</pubDate>
-      <guid>http://localhost:1313/blog/initial-blog-post-and-thoughts/</guid>
+      <guid>https://usher-site.vercel.app/blog/initial-blog-post-and-thoughts/</guid>
       <description>&lt;p&gt;撰寫這篇文章，稍微闡述一下想創立協會的一些核心想法、可能的方向，&#xA;以及現況、未來需要完成的一些工作。&lt;/p&gt;</description>
     </item>
   </channel>
