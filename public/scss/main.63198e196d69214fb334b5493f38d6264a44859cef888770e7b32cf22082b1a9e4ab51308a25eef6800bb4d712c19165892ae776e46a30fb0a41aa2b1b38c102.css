@@ -26,7 +26,8 @@ h1, h2, h3, h4, h5, h6 {
   color: #ededf1;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", PingFang TC, Microsoft JhengHei UI, Microsoft JhengHei, sans-serif;
   font-weight: 700;
-  line-height: 1.2; }
+  line-height: 1.2;
+  padding-bottom: 10px; }
 
 h1, .h1 {
   font-size: 60px; }
@@ -61,22 +62,6 @@ h6, .h6 {
       font-size: 14px; } }
 .subtitle {
   font-size: 24px; }
-
-.blog-post-content > h1 {
-  padding-top: 25px;
-  padding-bottom: 10px; }
-
-.blog-post-content > h2 {
-  padding-top: 25px;
-  padding-bottom: 10px; }
-
-.blog-post-content > h3 {
-  padding-top: 25px;
-  padding-bottom: 10px; }
-
-.blog-post-content > h4 {
-  padding-top: 25px;
-  padding-bottom: 10px; }
 
 /* Button style */
 .btn {
