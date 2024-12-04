@@ -177,9 +177,6 @@ ul {
 ol {
   margin: 0px; }
 
-.blog-post-content > * li {
-  line-height: 40px; }
-
 .document_list {
   display: list-item;
   padding-left: 10px;
