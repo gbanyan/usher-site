@@ -4,8 +4,8 @@
 <section class="section">
   <div class="container">
     <div class="row">
-      <div class="col-8">
-        <ol class="list-group">
+      <div class="col-12">
+        <ol class="document-list">
           <!-- document item -->
           {{ range sort .Data.Pages "Date" "asc"}}
           {{ .Render "document" }}
