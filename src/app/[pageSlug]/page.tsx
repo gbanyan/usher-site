@@ -9,7 +9,6 @@ const VALID_SLUGS: Record<string, string> = {
   structure: "組織架構",
   message: "理事長的話",
   "logo-represent": "Logo象徵",
-  research: "研究資源",
 };
 
 interface PageProps {

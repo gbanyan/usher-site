@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getHomepage } from "@/lib/api";
 import ArticleCard from "@/components/ArticleCard";
@@ -5,25 +6,112 @@ import type { ArticleSummary } from "@/lib/types";
 
 export const revalidate = 300;
 
-function SectionHeader({
-  title,
-  href,
-}: {
-  title: string;
-  href: string;
-}) {
-  return (
-    <div className="flex items-center justify-between">
-      <h2 className="text-2xl font-bold text-primary">{title}</h2>
-      <Link
-        href={href}
-        className="text-sm font-medium text-primary-light hover:text-accent transition-colors"
-      >
-        查看更多 &rarr;
-      </Link>
-    </div>
-  );
+/* ------------------------------------------------------------------ */
+/*  Static homepage data (from original Hugo homepage.yml)             */
+/* ------------------------------------------------------------------ */
+
+const SLIDER_ITEMS = [
+  {
+    title: "台灣尤塞氏症暨視聽弱協會",
+    content: "Taiwan Usher Syndrome and Audiovisual Impairment Association",
+    button: { label: "關於我們", link: "/about" },
+  },
+  {
+    title: "尤塞氏症之病友團體",
+    content:
+      "我們是一群因為先天性遺傳疾病（大多為 Usher Syndrome, 尤塞氏症），而導致同時有視網膜色素病變、視力障礙及聽力障礙的病友。",
+    button: { label: "更多故事", link: "/document" },
+  },
+  {
+    title: "視聽雙弱障礙",
+    content: "協助視聽雙弱病友相同境遇患者，共同面對生活中的挑戰與課題",
+    button: { label: "更多故事", link: "/document" },
+  },
+];
+
+const FEATURE_ITEMS = [
+  {
+    name: "什麼是尤塞氏症？",
+    icon: "search",
+    content:
+      "尤塞氏症是一種罕見的遺傳性疾病，目前估計全球共有 400,000 名左右的患者。主要特徵是先天性的聽力損失，以及影響眼睛的視網膜色素病變，此外，某些尤塞氏症患者可能還會有平衡問題。",
+  },
+  {
+    name: "聽力損失",
+    icon: "headphone",
+    content:
+      "罹患尤塞氏症，在出生時或於漸漸成長時，會有聽力損失的情形。主要為感音性聽力損失，大多數損失頻率偏向中高頻率。",
+  },
+  {
+    name: "視網膜色素病變",
+    icon: "eye",
+    content:
+      "尤塞氏症會引起視網膜色素病變。受影響的視網膜逐漸退化，導致夜盲、視野狹窄。視野狹窄的特徵又被稱為隧道狀視野，用以形容僅剩中央局部視覺的狀況。",
+  },
+  {
+    name: "平衡問題及其他",
+    icon: "balance",
+    content:
+      "有某些類型尤塞氏症患者，會有輕微至嚴重的平衡問題。另外也有案例報告，有嗅味覺喪失的情況。尤塞氏症患者臨床傳統上，依據症狀嚴重程度、病程進展以分類。",
+  },
+];
+
+const ABOUT_SECTION = {
+  title: "視聽雙弱族群的困境",
+  image: "/images/banner/banner.jpg",
+  content:
+    "在台灣，除了尤塞氏症患者外，還有一群極為少數的人，因為不明原因（已證明或未證實的相關致病基因、後天因素），而一樣直接影響了視力、聽力，導致其比起正常人來說，直接被剝奪了，與外界溝通最重要的兩個管道。遺憾的是，由於群體極為少眾，以及特殊的雙重受限經驗，傳統的無障礙輔助設計、資源不見得適用。而在罕見疾病族群之中，也端為少見的基因型態，使其更難受到醫藥研究關注、照護資源的挹注。尤塞氏症與其這些族群的共同困境，將會是本協會著重的課題。",
+  button: { label: "故事", link: "/document" },
+};
+
+const DOCUMENTARY = {
+  bgImage: "/images/backgrounds/Film-Background.jpg",
+  title: "聽\u2027見幸福的樂章",
+  content:
+    "導演：許豐明\n\n本片歷經一年籌備與三年以上拍攝，紀錄一個住在南澳深山中原住民家庭，經歷三個孩子自出生即失去聽力，成長過程中，三個孩子進入青春期後，卻又面臨即將失去視力的困境。全片透過三年長期追蹤，和分子遺傳學與現代科技知識的陪伴與引導，詳細記錄故事中人物，相互交錯的緣分，如何抉擇？如何讓自己重新開始找回存在的信心和意義，既使這些人這些事，面對未來將走向黑暗的世界已是無可避免，又如何在科技與親情交織下，度過生命中的幽谷與黯淡……。",
+  videoLink: "https://www.youtube.com/watch?v=Cj0dRoHjMq4",
+};
+
+/* ------------------------------------------------------------------ */
+/*  Icon components for feature section                                */
+/* ------------------------------------------------------------------ */
+
+function FeatureIcon({ type }: { type: string }) {
+  const cls = "h-10 w-10 text-accent";
+  switch (type) {
+    case "search":
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+        </svg>
+      );
+    case "headphone":
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+        </svg>
+      );
+    case "eye":
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      );
+    case "balance":
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1.5M18.364 5.636l-1.06 1.06M21 12h-1.5M18.364 18.364l-1.06-1.06M12 19.5V21M7.697 18.364l-1.06 1.06M4.5 12H3M7.697 5.636l-1.06-1.06M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z" />
+        </svg>
+      );
+    default:
+      return null;
+  }
 }
+
+/* ------------------------------------------------------------------ */
+/*  Article list helper                                                */
+/* ------------------------------------------------------------------ */
 
 function ArticleList({
   articles,
@@ -37,8 +125,16 @@ function ArticleList({
   if (articles.length === 0) return null;
 
   return (
-    <section aria-labelledby={`section-${href.replace("/", "")}`}>
-      <SectionHeader title={title} href={href} />
+    <section className="mx-auto max-w-6xl px-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-primary">{title}</h2>
+        <Link
+          href={href}
+          className="text-sm font-medium text-primary-light hover:text-accent transition-colors"
+        >
+          查看更多 &rarr;
+        </Link>
+      </div>
       <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {articles.map((article) => (
           <li key={article.id}>
@@ -50,106 +146,196 @@ function ArticleList({
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Page component                                                     */
+/* ------------------------------------------------------------------ */
+
 export default async function HomePage() {
   let data;
   try {
     data = await getHomepage();
   } catch {
-    // API unavailable during build — render hero only
     data = null;
   }
 
   return (
-    <div className="flex flex-col gap-16 pb-16">
-      {/* Hero */}
+    <div className="flex flex-col">
+      {/* ============ Hero Slider ============ */}
       <section
         aria-label="首頁橫幅"
-        className="bg-primary py-20 text-white"
+        className="relative bg-cover bg-center py-24 text-white sm:py-32 lg:py-40"
+        style={{ backgroundImage: "url('/images/banner/banner.jpg')" }}
       >
-        <div className="mx-auto max-w-5xl px-4 text-center">
-          <h1 className="text-4xl font-bold leading-tight sm:text-5xl">
-            台灣尤塞氏症暨視聽弱協會
-          </h1>
-          <p className="mt-4 text-lg text-white/85 sm:text-xl">
-            尤塞氏症以及視聽雙弱者之病友團體
-          </p>
+        <div className="absolute inset-0 bg-black/50" aria-hidden="true" />
+        <div className="relative mx-auto max-w-5xl px-4">
+          {/* Show first slide statically; other slides are available as data */}
+          <div className="max-w-2xl">
+            <h1 className="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+              {SLIDER_ITEMS[0].title}
+            </h1>
+            <p className="mt-4 text-lg text-white/85 sm:text-xl">
+              {SLIDER_ITEMS[0].content}
+            </p>
+            <Link
+              href={SLIDER_ITEMS[0].button.link}
+              className="mt-8 inline-block rounded-lg bg-accent px-8 py-3 font-semibold text-white transition-colors hover:bg-accent-light"
+            >
+              {SLIDER_ITEMS[0].button.label}
+            </Link>
+          </div>
         </div>
       </section>
 
-      {data && (
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4">
-        {/* Featured / Pinned Articles */}
-        {data.featured.length > 0 && (
-          <section aria-labelledby="section-featured">
-            <h2
-              id="section-featured"
-              className="text-2xl font-bold text-primary"
-            >
-              精選文章
-            </h2>
-            <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {data.featured.map((article) => (
-                <li key={article.id}>
-                  <ArticleCard article={article} />
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        {/* Latest Blog Posts */}
-        <ArticleList
-          articles={data.latest_blog}
-          href="/blog"
-          title="最新文章"
-        />
-
-        {/* Latest Notices */}
-        <ArticleList
-          articles={data.latest_notice}
-          href="/notice"
-          title="最新公告"
-        />
-
-        {/* Latest Documents */}
-        <ArticleList
-          articles={data.latest_document}
-          href="/document"
-          title="最新文件"
-        />
-
-        {/* Latest Related News */}
-        <ArticleList
-          articles={data.latest_related_news}
-          href="/related-news"
-          title="相關報導"
-        />
-
-        {/* About Section */}
-        {data.about && (
-          <section aria-labelledby="section-about" className="rounded-lg bg-surface p-8">
-            <div className="flex items-center justify-between">
-              <h2
-                id="section-about"
-                className="text-2xl font-bold text-primary"
-              >
-                關於協會
-              </h2>
-              <Link
-                href="/about"
-                className="text-sm font-medium text-primary-light hover:text-accent transition-colors"
-              >
-                瞭解更多 &rarr;
-              </Link>
-            </div>
-            <div
-              className="prose prose-gray mt-4 line-clamp-4"
-              dangerouslySetInnerHTML={{ __html: data.about.content }}
+      {/* ============ Banner Feature — What is Usher Syndrome? ============ */}
+      <section className="bg-gray-100" aria-labelledby="feature-heading">
+        <div className="grid lg:grid-cols-12">
+          {/* Left image */}
+          <div className="relative hidden lg:col-span-4 lg:block">
+            <Image
+              src="/images/banner/banner_feature.jpg"
+              alt="台灣尤塞氏症暨視聽弱協會"
+              fill
+              className="object-cover"
             />
-          </section>
-        )}
-      </div>
+          </div>
+          {/* Right feature cards */}
+          <div className="bg-primary-dark lg:col-span-8">
+            <h2 id="feature-heading" className="sr-only">
+              認識尤塞氏症
+            </h2>
+            <div className="grid gap-8 p-8 sm:grid-cols-2 lg:gap-10 lg:p-12">
+              {FEATURE_ITEMS.map((item) => (
+                <div key={item.name} className="text-white">
+                  <FeatureIcon type={item.icon} />
+                  <h3 className="mt-4 text-lg font-bold">{item.name}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/80">
+                    {item.content}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ About Section ============ */}
+      <section className="py-16 sm:py-20" aria-labelledby="about-heading">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 md:grid-cols-2">
+          <div>
+            <h2
+              id="about-heading"
+              className="text-2xl font-bold text-primary sm:text-3xl"
+            >
+              {ABOUT_SECTION.title}
+            </h2>
+            <p className="mt-4 leading-relaxed text-gray-700">
+              {ABOUT_SECTION.content}
+            </p>
+            <Link
+              href={ABOUT_SECTION.button.link}
+              className="mt-6 inline-block rounded-lg border-2 border-primary px-6 py-2.5 font-medium text-primary transition-colors hover:bg-primary hover:text-white"
+            >
+              {ABOUT_SECTION.button.label}
+            </Link>
+          </div>
+          <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
+            <Image
+              src={ABOUT_SECTION.image}
+              alt="視聽雙弱族群的困境"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ============ Dynamic article sections from API ============ */}
+      {data && (
+        <div className="flex flex-col gap-16 pb-8">
+          {/* Related News */}
+          <ArticleList
+            articles={data.latest_related_news}
+            href="/related-news"
+            title="相關報導"
+          />
+
+          {/* Latest Blog */}
+          <ArticleList
+            articles={data.latest_blog}
+            href="/blog"
+            title="最新消息"
+          />
+
+          {/* Latest Notices */}
+          <ArticleList
+            articles={data.latest_notice}
+            href="/notice"
+            title="事務公告"
+          />
+
+          {/* Latest Documents */}
+          <ArticleList
+            articles={data.latest_document}
+            href="/document"
+            title="協會文件"
+          />
+        </div>
       )}
+
+      {/* ============ CTA Section ============ */}
+      <section className="bg-primary py-16 text-center text-white">
+        <div className="mx-auto max-w-3xl px-4">
+          <p className="text-sm font-medium uppercase tracking-wider text-white/70">
+            志工、捐款、或合作計畫
+          </p>
+          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
+            歡迎任何形式的支援、贊助！
+          </h2>
+          <Link
+            href="/contact"
+            className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary transition-colors hover:bg-gray-100"
+          >
+            聯繫我們
+          </Link>
+        </div>
+      </section>
+
+      {/* ============ Documentary Section ============ */}
+      <section
+        className="relative bg-cover bg-center py-16 sm:py-24"
+        style={{ backgroundImage: `url('${DOCUMENTARY.bgImage}')` }}
+        aria-labelledby="documentary-heading"
+      >
+        <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 md:grid-cols-2">
+          {/* Play button */}
+          <div className="flex items-center justify-center">
+            <a
+              href={DOCUMENTARY.videoLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-20 w-20 items-center justify-center rounded-full bg-accent text-white shadow-lg transition-transform hover:scale-110"
+              aria-label="播放紀錄片影片"
+            >
+              <svg className="ml-1 h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </a>
+          </div>
+          {/* Description */}
+          <div className="rounded-lg bg-primary-dark/90 p-8 text-white">
+            <h2
+              id="documentary-heading"
+              className="text-2xl font-bold sm:text-3xl"
+            >
+              {DOCUMENTARY.title}
+            </h2>
+            <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-white/85">
+              {DOCUMENTARY.content}
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

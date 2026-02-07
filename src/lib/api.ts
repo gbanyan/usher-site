@@ -65,9 +65,10 @@ export async function getCategories(): Promise<Category[]> {
 }
 
 export async function getPage(slug: string): Promise<Page> {
-  return fetchAPI<Page>(`/pages/${slug}`, {
+  const res = await fetchAPI<{ data: Page }>(`/pages/${slug}`, {
     tags: ["pages", `page-${slug}`],
   });
+  return res.data;
 }
 
 export async function getHomepage(): Promise<HomepageData> {

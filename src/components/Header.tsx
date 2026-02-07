@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -27,13 +28,7 @@ const NAV_ITEMS: NavItem[] = [
     ],
   },
   { label: "相關報導", href: "/related-news" },
-  {
-    label: "協會資源",
-    children: [
-      { label: "協會文件", href: "/document" },
-      { label: "研究資源", href: "/research" },
-    ],
-  },
+  { label: "協會文件", href: "/document" },
   {
     label: "最新消息",
     children: [
@@ -189,12 +184,14 @@ export default function Header() {
             className="flex items-center gap-3 text-white transition-opacity hover:opacity-90"
             aria-label="台灣尤塞氏症暨視聽弱協會 - 回到首頁"
           >
-            <span
-              className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent text-lg font-bold text-white"
+            <Image
+              src="/images/logo.png"
+              alt=""
+              width={40}
+              height={40}
+              className="h-10 w-10 rounded-lg"
               aria-hidden="true"
-            >
-              U
-            </span>
+            />
             <span className="text-base font-semibold leading-tight sm:text-lg">
               台灣尤塞氏症暨視聽弱協會
             </span>

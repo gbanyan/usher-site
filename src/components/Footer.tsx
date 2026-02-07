@@ -1,8 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const QUICK_LINKS = [
   { label: "事務公告", href: "/notice" },
   { label: "研究資源", href: "/research" },
+  { label: "協會文件", href: "/document" },
+  { label: "部落格", href: "/blog" },
 ] as const;
 
 const SOCIAL_LINKS = [
@@ -52,12 +55,14 @@ export default function Footer() {
               href="/"
               className="inline-flex items-center gap-2 text-lg font-semibold text-white transition-opacity hover:opacity-90"
             >
-              <span
-                className="flex h-8 w-8 items-center justify-center rounded-md bg-accent text-sm font-bold"
+              <Image
+                src="/images/logo.png"
+                alt=""
+                width={32}
+                height={32}
+                className="h-8 w-8 rounded-md"
                 aria-hidden="true"
-              >
-                U
-              </span>
+              />
               台灣尤塞氏症暨視聽弱協會
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-white/70">
