@@ -1,0 +1,119 @@
+{
+  "data": {
+    "id": 19,
+    "title": "病友經驗分享之五",
+    "slug": "document-2f8fad62",
+    "summary": null,
+    "content": "# 病友經驗分享之五\n\n我叫莊彥廷，民國64年出生，今年48歲，出生在宜蘭縣蘇澳鎮。家中有5個兄弟姊妹(我是老么)，都是有輕重不同的聽力障礙，其中我大姐(大我11歲)聽力障礙較重，小時候不會說話，到10歲時還不會叫爸爸，那時我父親才帶我大姐去醫院做檢查後聽力約為75分貝，然後我父親就帶著我大姐到台北配戴助聽器，不過那時候的助聽器品質不是很好，載起來都有雜音(我大姐那時是這樣認為的)，因此那時我大姐就不常常載助聽器。\n\n而我小時候常常跟鄰居小孩們一起在戶外玩遊戲，我父母那時就認為我很正常沒有發現異狀就疏忽了，而那時期的醫學資訊也不發達，父母並沒有帶我去醫院做檢查。而我在國小、國中、高中的學業成績也都在中等。\n\n直到念二專(電子科)時，我在學業成績方面就很差了，老師在上課我總是聽不懂上課的內容、上課時常常發呆、打瞌睡或是翹課，一個學期常常被當好幾科，都是要再參加暑假補修才通過。在住學校宿舍跟同學聊天時，同學常常笑我說話不標準，都說我說話有漏風，而宿舍走道的電話在響時我都沒有聽到，我二專的室友才提醒我應該聽力有問題，建議我要去醫院做檢查，我那時才告訴我父親我的聽力應該有問題，才和我父親一起去醫院做聽力檢查約為52分貝的聽力障礙，不過那時我並沒有積極想去配載助聽器。\n\n二專畢業後就接到兵單，在當兵時長官常常講話、點名我都聽不到，那時當兵造成我很大的壓力，所以就拿醫院的開的聽力診斷書向部隊辦理驗退手續，我當三個月的兵就退伍了。\n\n到26歲因為工作需要才開始配戴助聽器，工作方面並沒有一帆風順，時常工作2~3年就換工作，期間也有中途待業，工作上並不是非常穩定。\n\n直到40歲左右眼睛開始變差，晚上看汽車大燈會畏光，走路時常會撞到東西，視野變得比較差，到醫院看眼科檢查後被醫師告知是色素性視網膜病變。\n\n然後上網查資料，找到台灣色素性視網膜病變協會的網站，在網站看到尤塞氏症這個疾病名稱，自已就發覺我有可能是尤塞氏症，而剛好RP協會有幫忙做基因檢測，2020年聯絡上RP協會請幫忙連絡上花蓮慈濟大學眼科醫師黃舜平醫師，就跟3姐一起至花蓮慈濟大學找黃舜平醫師做RP基因檢測，經一年後報告出來了被通知確定是尤塞氏症USH2C型。\n\n由於科技的進步現在的助聽器比較15年前的助聽器進步很多，我目前載的是開放式耳掛式型的助聽器，不吵雜、清晰、舒適、自已的說話聲較自然，已經接近正常人的8成左右。眼睛方面我只要出門到戶外一定都會載帽子、配戴蔡司品牌的RP專用太陽眼鏡來保護眼睛。\n\n> 莊彥廷   2023.9.21",
+    "content_type": "document",
+    "content_type_label": "文件",
+    "featured_image_url": "/images/documents/peace8.jpg",
+    "featured_image_alt": null,
+    "author_name": null,
+    "meta_description": "尤塞氏症是一種罕見的遺傳性疾病，患者常常同時出現聽力障礙和視網膜色素病變，而且無法治療，只能及早發現，提前做好準備；根據統計，全球平均每10萬人約有2~4人罹患這種疾病。",
+    "meta_keywords": null,
+    "is_pinned": false,
+    "view_count": 2,
+    "published_at": "2024-03-20T20:27:17+08:00",
+    "categories": [
+      {
+        "id": 10,
+        "name": "document",
+        "slug": "document",
+        "description": null
+      }
+    ],
+    "tags": [],
+    "attachments": []
+  },
+  "related": [
+    {
+      "id": 10,
+      "title": "Whisper Colab 影片語音轉文字工具",
+      "slug": "whisper-colab",
+      "summary": null,
+      "excerpt": "由於部分視聽弱朋友，對於影片或聲音檔，需仰賴文字稿吸收訊息\n而最新科技的發展與進步， Whisper 語音辨識模型的開放，使得辨識率提高\n影片或語音轉成文字檔的正確性與速度都有所提高。\n\n有人提議是否可以把 Whispe...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/peace.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-08-16T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "媒體宣傳資源",
+      "slug": "document-ef6231ce",
+      "summary": null,
+      "excerpt": "## Logo 原始檔下載連結\n\n- [純 Logo 圖檔黑白底色 AI 檔](/materiel/LOGO_final.ai)\n- [長條協會名稱文字Logo PS 檔](/materiel/Logo_long.psb)\n- [正方協會名稱文字Logo PS 檔](/materiel/Logo_square.psb)",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": null,
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-05-01T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "title": "社會福利資源",
+      "slug": "document-d34b35ab",
+      "summary": null,
+      "excerpt": "## 社會福利資源\n\n### 法規篇\n\n- [身心障礙者權益保障法](https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=D0050046)\n\n- [身心障礙者權益保障法施行細則](https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=D0...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": null,
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-04-26T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "title": "眼科醫師觀點",
+      "slug": "document-b81734e3",
+      "summary": null,
+      "excerpt": "## 1. 什麼是尤塞氏綜合症\n\n尤塞氏綜合症（Usher syndrome）是一種遺傳性疾病，主要症狀為聽力受損及漸進性的視力喪失，可能也會影響平衡。視力缺損是由視網膜色素變性（Retinitis Pigmentosa）引起，是一種視網膜的...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/medicine.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-03-21T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ]
+    }
+  ]
+}

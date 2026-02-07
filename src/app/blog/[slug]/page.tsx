@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getArticle, getAttachmentDownloadUrl, getAllArticleSlugs } from "@/lib/api";
 import { formatDate, formatFileSize } from "@/lib/utils";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import ArticleCard from "@/components/ArticleCard";
 
@@ -48,26 +48,19 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   return (
     <>
-      <Breadcrumbs
+      <PageHeader
+        title={article.title}
         items={[
-          { label: "首頁", href: "/" },
           { label: "部落格", href: "/blog" },
           { label: article.title },
         ]}
+        description={article.published_at ? formatDate(article.published_at) : undefined}
       />
 
       <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            {article.title}
-          </h1>
-
-          <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-gray-600">
-            {article.published_at && (
-              <time dateTime={article.published_at}>
-                {formatDate(article.published_at)}
-              </time>
-            )}
+        {/* Metadata */}
+        <div className="mb-8">
+          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
             {article.author_name && (
               <span>
                 <span className="sr-only">作者：</span>
@@ -101,7 +94,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               ))}
             </div>
           )}
-        </header>
+        </div>
 
         {article.featured_image_url && (
           <figure className="mb-8 overflow-hidden rounded-lg">
@@ -132,7 +125,11 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               {article.attachments.map((attachment) => (
                 <li key={attachment.id}>
                   <a
-                    href={getAttachmentDownloadUrl(slug, attachment.id)}
+                    href={getAttachmentDownloadUrl(
+                      slug,
+                      attachment.id,
+                      attachment.original_filename
+                    )}
                     className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-surface"
                     download
                   >

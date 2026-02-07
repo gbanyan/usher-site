@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPage } from "@/lib/api";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -31,22 +31,18 @@ export default async function AboutPage() {
 
   return (
     <>
-      <Breadcrumbs
+      <PageHeader
+        title={page.title}
         items={[{ label: "創立目的" }]}
       />
 
       <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <header className="mb-10">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            {page.title}
-          </h1>
-        </header>
 
         <MarkdownRenderer content={page.content} />
 
         {page.children.length > 0 && (
           <nav className="mt-16 border-t border-gray-200 pt-10">
-            <h2 className="mb-6 text-xl font-semibold text-gray-900">
+            <h2 className="mb-6 text-xl font-semibold text-white">
               相關頁面
             </h2>
             <ul className="grid gap-4 sm:grid-cols-2">
@@ -54,9 +50,9 @@ export default async function AboutPage() {
                 <li key={child.id}>
                   <Link
                     href={`/${child.slug}`}
-                    className="block rounded-lg border border-gray-200 p-5 transition-colors hover:border-accent hover:bg-surface"
+                    className="block rounded-lg border border-white/10 p-5 transition-colors hover:border-accent hover:bg-primary/20"
                   >
-                    <span className="font-medium text-primary">
+                    <span className="font-medium text-accent">
                       {child.title}
                     </span>
                   </Link>

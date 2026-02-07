@@ -72,7 +72,7 @@ export default function MarkdownRenderer({
 
   return (
     <div
-      className={`prose prose-gray max-w-none prose-headings:text-primary prose-a:text-primary hover:prose-a:text-accent prose-img:rounded-lg ${className}`}
+      className={`prose prose-invert prose-gray max-w-none prose-headings:text-white prose-a:text-accent hover:prose-a:text-white prose-img:rounded-lg ${className}`}
     >
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
         {content}

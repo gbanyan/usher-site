@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-TW" className={notoSansTC.variable}>
-      <body className="min-h-screen bg-white font-sans text-gray-900 antialiased">
+      <body className="min-h-screen bg-black font-sans text-white antialiased">
         <a href="#main-content" className="skip-to-content">
           跳至主要內容
         </a>

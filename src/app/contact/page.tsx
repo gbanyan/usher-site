@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getPage } from "@/lib/api";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import type { Page } from "@/lib/types";
 
@@ -37,37 +37,50 @@ export default async function ContactPage() {
 
   return (
     <>
-      <Breadcrumbs
+      <PageHeader
+        title="聯繫資訊"
+        description="歡迎與我們聯繫，我們將竭誠為您服務"
         items={[{ label: "聯繫資訊" }]}
       />
 
       <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <header className="mb-10">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            聯繫資訊
-          </h1>
-          <p className="mt-3 text-lg text-gray-600">
-            歡迎與我們聯繫，我們將竭誠為您服務
-          </p>
-        </header>
 
         {page && page.content && (
           <div className="mb-12">
-            <MarkdownRenderer content={page.content} />
+            <MarkdownRenderer
+              content={page.content
+                .replace('(待建立金流）', '帳戶 台北富邦銀行 帳號 82120000204387')
+                .replace('（待建立金流）', '帳戶 台北富邦銀行 帳號 82120000204387')
+                .replace('(待建立金流)', '帳戶 台北富邦銀行 帳號 82120000204387')
+                .replace('（待建立金流)', '帳戶 台北富邦銀行 帳號 82120000204387')
+              }
+            />
           </div>
         )}
 
         <div className="grid gap-8 sm:grid-cols-2">
           {/* Contact details card */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-6 text-xl font-semibold text-gray-900">
+          <div className="rounded-xl border border-white/10 bg-primary/40 p-6 shadow-sm">
+            <h2 className="mb-6 text-xl font-semibold text-white">
               協會資訊
             </h2>
             <dl className="space-y-5">
               <div>
-                <dt className="text-sm font-medium text-gray-500">協會名稱</dt>
-                <dd className="mt-1 text-gray-900">
+                <dt className="text-sm font-medium text-gray-400">協會名稱</dt>
+                <dd className="mt-1 text-white">
                   台灣尤塞氏症暨視聽弱協會
+                </dd>
+              </div>
+              <div>
+                <dt className="text-sm font-medium text-gray-400">地址</dt>
+                <dd className="mt-1 text-white">
+                  台北市中正區忠孝西路一段50號14樓之20、22號
+                </dd>
+              </div>
+              <div>
+                <dt className="text-sm font-medium text-gray-400">統一編號</dt>
+                <dd className="mt-1 text-white">
+                  00577231
                 </dd>
               </div>
               <div>
@@ -76,10 +89,10 @@ export default async function ContactPage() {
                 </dt>
                 <dd className="mt-1">
                   <a
-                    href="mailto:ushersyndrometw@gmail.com"
+                    href="mailto:president@usher.org.tw"
                     className="text-accent transition-colors hover:text-accent-light"
                   >
-                    ushersyndrometw@gmail.com
+                    president@usher.org.tw
                   </a>
                 </dd>
               </div>
@@ -87,8 +100,8 @@ export default async function ContactPage() {
           </div>
 
           {/* Social links card */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-6 text-xl font-semibold text-gray-900">
+          <div className="rounded-xl border border-white/10 bg-primary/40 p-6 shadow-sm">
+            <h2 className="mb-6 text-xl font-semibold text-white">
               社群連結
             </h2>
             <ul className="space-y-4">
@@ -98,16 +111,16 @@ export default async function ContactPage() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-start gap-4 rounded-lg p-3 transition-colors hover:bg-surface"
+                    className="group flex items-start gap-4 rounded-lg p-3 transition-colors hover:bg-white/5"
                   >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-white transition-colors group-hover:bg-accent">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-white transition-colors group-hover:bg-white group-hover:text-accent">
                       <link.icon />
                     </span>
                     <div>
-                      <span className="font-medium text-gray-900 group-hover:text-accent">
+                      <span className="font-medium text-white group-hover:text-accent">
                         {link.name}
                       </span>
-                      <p className="mt-0.5 text-sm text-gray-500">
+                      <p className="mt-0.5 text-sm text-gray-400">
                         {link.description}
                       </p>
                     </div>

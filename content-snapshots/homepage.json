@@ -1,0 +1,495 @@
+{
+  "featured": [],
+  "latest_blog": [
+    {
+      "id": 6,
+      "title": "2024-12-07 協會講座活動開放報名",
+      "slug": "20241121-short-lecture-open-for-registeration",
+      "summary": "於 2024 暑假美國舉辦的USH大會，內容經過簡短整理後，由協會舉辦小型講座分享內容，即日起開放報名",
+      "excerpt": "於 2024 暑假美國舉辦的USH大會，內容經過簡短整理後，由協會舉辦小型講座分享內容，即日起開放報名",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/images/blog/2024-lecture.jpg",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2024-11-21T00:27:17+08:00",
+      "categories": [
+        {
+          "id": 6,
+          "name": "協會活動",
+          "slug": "category-566",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "USH Connections Conference 2024 大會簡述",
+      "slug": "20240720-usher-connection-conference-report",
+      "summary": "2024 年 7 月 19-20 日，於美國羅徹斯特 (Rochester)舉辦的 USH Connections Conference 已經順利落幕。",
+      "excerpt": "2024 年 7 月 19-20 日，於美國羅徹斯特 (Rochester)舉辦的 USH Connections Conference 已經順利落幕。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/images/blog/USH2024.png.webp",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2024-07-20T00:27:17+08:00",
+      "categories": [
+        {
+          "id": 5,
+          "name": "協會事務",
+          "slug": "category-554",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Usher Working Group 工作小組",
+      "slug": "20240406-usher-working-group",
+      "summary": "由於視聽弱族群的需求有許多尚未檢視的細節，可能需要更進一步的資源募集、工程上的設計協助等等，於是透過一位熱心社會人士的召集，初步組成了這個工作小組。",
+      "excerpt": "由於視聽弱族群的需求有許多尚未檢視的細節，可能需要更進一步的資源募集、工程上的設計協助等等，於是透過一位熱心社會人士的召集，初步組成了這個工作小組。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/images/blog/digital.jpg",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2024-04-06T09:27:17+08:00",
+      "categories": [
+        {
+          "id": 4,
+          "name": "協會事務",
+          "slug": "category-105",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "第一屆第一次會員代表大會會議後現況報告",
+      "slug": "20240130-current-condition",
+      "summary": "所有涉及到協會正式名義的事務，如對外募款、建立帳戶建立匯款管道、招收更多會員、以及會址租約等 都要等內政部收到，我們於第一次會員代表大會收齊的所有資料後，通過並核發社團法人統一編號。",
+      "excerpt": "所有涉及到協會正式名義的事務，如對外募款、建立帳戶建立匯款管道、招收更多會員、以及會址租約等 都要等內政部收到，我們於第一次會員代表大會收齊的所有資料後，通過並核發社團法人統一編號。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/images/blog/Notify.jpg",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2024-01-30T17:27:17+08:00",
+      "categories": [
+        {
+          "id": 3,
+          "name": "協會事務",
+          "slug": "category-227",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "第一屆第一次會員代表大會會議 新聞稿",
+      "slug": "20240128-first-committee-formal-literature",
+      "summary": "由籌備委員會主持，會員代表出席踴躍，會中順利完成初步工作事項報告、未來工作計畫及初步財務計畫、理監事選舉，大會圓滿閉幕。",
+      "excerpt": "由籌備委員會主持，會員代表出席踴躍，會中順利完成初步工作事項報告、未來工作計畫及初步財務計畫、理監事選舉，大會圓滿閉幕。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/images/blog/1st-commiittee-cover-image.jpg",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2024-01-27T17:27:17+08:00",
+      "categories": [
+        {
+          "id": 2,
+          "name": "協會事務",
+          "slug": "category-268",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "2023/10/26 近期會務更新",
+      "slug": "20231026-recentupdate",
+      "summary": "近期會務報告： 由於統籌正式簽名會員過程有所等待，十月中才送出至內政部申請",
+      "excerpt": "近期會務報告： 由於統籌正式簽名會員過程有所等待，十月中才送出至內政部申請",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/images/blog/Update.jpg",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2023-10-26T17:27:17+08:00",
+      "categories": [
+        {
+          "id": 1,
+          "name": "協會事務",
+          "slug": "category-325",
+          "description": null
+        }
+      ]
+    }
+  ],
+  "latest_notice": [
+    {
+      "id": 9,
+      "title": "第一屆第一次會員代表大會會議通知",
+      "slug": "20240111-first-committee",
+      "summary": "",
+      "excerpt": "> 2024/1/12 更新加上報名表單\n\n> 2024/1/25 議程細節更新、議程檔案資料提供\n\n## 會議時間地點\n\n- 時間：2024/1/27 1:00 PM 報到\n- 地點資訊：台北市南港路二段60巷17號3樓 3-14，[地圖連結](https://maps.app.goo....",
+      "content_type": "notice",
+      "content_type_label": "公告",
+      "featured_image_url": "/images/blog/Notify.jpg",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2024-01-11T17:27:17+08:00",
+      "categories": [
+        {
+          "id": 9,
+          "name": "協會事務",
+          "slug": "category-821",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "2023/09/16 創立前初步討論會議資訊",
+      "slug": "20230916-conferenceinfo",
+      "summary": "會議資訊",
+      "excerpt": "會議資訊",
+      "content_type": "notice",
+      "content_type_label": "公告",
+      "featured_image_url": "/images/blog/Create.jpg",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2023-09-16T17:27:17+08:00",
+      "categories": [
+        {
+          "id": 8,
+          "name": "協會事務",
+          "slug": "category-180",
+          "description": null
+        }
+      ]
+    }
+  ],
+  "latest_document": [
+    {
+      "id": 10,
+      "title": "Whisper Colab 影片語音轉文字工具",
+      "slug": "whisper-colab",
+      "summary": null,
+      "excerpt": "由於部分視聽弱朋友，對於影片或聲音檔，需仰賴文字稿吸收訊息\n而最新科技的發展與進步， Whisper 語音辨識模型的開放，使得辨識率提高\n影片或語音轉成文字檔的正確性與速度都有所提高。\n\n有人提議是否可以把 Whispe...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/peace.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-08-16T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "媒體宣傳資源",
+      "slug": "document-ef6231ce",
+      "summary": null,
+      "excerpt": "## Logo 原始檔下載連結\n\n- [純 Logo 圖檔黑白底色 AI 檔](/materiel/LOGO_final.ai)\n- [長條協會名稱文字Logo PS 檔](/materiel/Logo_long.psb)\n- [正方協會名稱文字Logo PS 檔](/materiel/Logo_square.psb)",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": null,
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-05-01T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "title": "社會福利資源",
+      "slug": "document-d34b35ab",
+      "summary": null,
+      "excerpt": "## 社會福利資源\n\n### 法規篇\n\n- [身心障礙者權益保障法](https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=D0050046)\n\n- [身心障礙者權益保障法施行細則](https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=D0...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": null,
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-04-26T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "title": "眼科醫師觀點",
+      "slug": "document-b81734e3",
+      "summary": null,
+      "excerpt": "## 1. 什麼是尤塞氏綜合症\n\n尤塞氏綜合症（Usher syndrome）是一種遺傳性疾病，主要症狀為聽力受損及漸進性的視力喪失，可能也會影響平衡。視力缺損是由視網膜色素變性（Retinitis Pigmentosa）引起，是一種視網膜的...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/medicine.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-03-21T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ]
+    }
+  ],
+  "latest_related_news": [
+    {
+      "id": 23,
+      "title": "罕病尤塞氏症 聽障視力退化無法治療",
+      "slug": "related_news-979295e1",
+      "summary": null,
+      "excerpt": "> 原始公視新聞[連結](https://news.pts.org.tw/article/686241?fbclid=IwAR0KzhoufL6N2cR57lXhGdvH8IiEKEew__v_xBe-5JdhsCwzcxhdtcKiHVI_aem_AXorDxskHHEgcV13Z4cw2gskGT7dEt8yzSU6uwfux1NsD5u13yY2Yb0utdEZRB79AiM...",
+      "content_type": "related_news",
+      "content_type_label": "相關新聞",
+      "featured_image_url": "/images/related_news/News-Cover.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-03-20T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 13,
+          "name": "相關報導",
+          "slug": "category-724",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "title": "讓我聽見更多——台灣尤塞氏症暨視聽弱協會",
+      "slug": "related_news-185f722d",
+      "summary": null,
+      "excerpt": "文/黃靖騰\n\n熟悉的人都知道，我還能聽見聲音，但卻距離語言非常遙遠。對我來說，聽見的彷彿是一個個或大或小的問號。\n\n曾經也能以口語方式和人們順暢交流，但擁有正常聽力的日子並不長久，似乎只為了學會說話，並稍...",
+      "content_type": "related_news",
+      "content_type_label": "相關新聞",
+      "featured_image_url": "/images/related_news/202401-12-04.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-01-28T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 15,
+          "name": "相關報導",
+          "slug": "category-547",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "title": "讓障礙者獲得資訊平權，這件事為什麼這麼難？",
+      "slug": "related_news-fcb30692",
+      "summary": null,
+      "excerpt": "> 本文經原作者 黃靖騰同意轉載自 [天下獨立評論投書](https://opinion.cw.com.tw/blog/profile/52/article/13042)\n\n今年9月23到25日，我參加了一場同儕支持員的培訓。\n\n衛福部辦理這個課程，是讓我們更了解各障別身...",
+      "content_type": "related_news",
+      "content_type_label": "相關新聞",
+      "featured_image_url": "/images/related_news/keyboard.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2019-07-06T17:27:17+08:00",
+      "categories": [
+        {
+          "id": 17,
+          "name": "相關報導",
+          "slug": "category-797",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "title": "我是障礙者，我也想服務這個社會：為何人們不相信障礙者也能從事助人工作？",
+      "slug": "related_news-e6b48d2d",
+      "summary": null,
+      "excerpt": "> 本文經原作者 黃靖騰同意轉載自 [天下獨立評論投書](https://opinion.cw.com.tw/blog/profile/52/article/13047)\n\n不知道身邊的朋友是否遇過，因為自己身障狀況不被了解，在報名活動時被拒絕的經驗嗎？遇到這個狀...",
+      "content_type": "related_news",
+      "content_type_label": "相關新聞",
+      "featured_image_url": "/images/related_news/report-news-1.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2019-07-06T17:27:17+08:00",
+      "categories": [
+        {
+          "id": 16,
+          "name": "相關報導",
+          "slug": "category-972",
+          "description": null
+        }
+      ]
+    }
+  ],
+  "about": {
+    "id": 1,
+    "title": "關於我們",
+    "slug": "about",
+    "content": "我們是一群因為先天性遺傳疾病（大多為 Usher Syndrome, 尤賽氏症），而導致同時有視網膜色素病變、視力障礙及聽力障礙的病友。\n\n病友中，包含了患者、父母，以及研究這些疾病的醫療人員、教授、和其他關懷這些疾病的社會人士。在2023七月初，我們決定匯集這些力量，向政府申請成立協會。\n\n由於這些病友視聽雙弱的特殊境遇，未來協會的目標將包含向外、對大眾述說，提供特殊教育、醫療遺傳等資源，以及連結更多同樣境遇的病友，關懷鼓勵，讓彼此知道你絕對不是孤單一個人。\n\n### 協會宗旨\n\n推動台灣罹患尤塞氏症，及其他疑似先天遺傳因素致視力及聽力同受影響之患者、家屬，獲得妥善醫療、遺傳、學術諮詢、及其他社會關懷資源，並協助相同境遇患者，共同面對生活中的挑戰與課題。\n\n### 協會任務\n\n一、維護與增進本會病友公共權益\n\n二、促進本會病友身體、心理健康與福祉\n\n三、協助本會病友與其家庭尋求支援和社會資源\n\n四、提升公眾對尤塞氏症及其他視聽同受影響遺傳性疾病的認識與理解\n\n五、追蹤並更新國內外相關遺傳疾病之研究、醫療進展\n\n六、促進國內外相關病友或團體之聯繫與交流合作\n\n七、政府機關團體或會員之委託服務與諮詢\n\n八、其他依法令規定應辦理之事項\n\n###",
+    "template": null,
+    "custom_fields": null,
+    "meta_description": "尤塞氏症以及視聽雙弱者之病友團體",
+    "meta_keywords": null,
+    "published_at": "2026-02-07T11:35:11+08:00"
+  },
+  "categories": [
+    {
+      "id": 1,
+      "name": "協會事務",
+      "slug": "category-325",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 2,
+      "name": "協會事務",
+      "slug": "category-268",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 3,
+      "name": "協會事務",
+      "slug": "category-227",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 4,
+      "name": "協會事務",
+      "slug": "category-105",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 5,
+      "name": "協會事務",
+      "slug": "category-554",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 6,
+      "name": "協會活動",
+      "slug": "category-566",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 7,
+      "name": "協會事務",
+      "slug": "category-219",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 8,
+      "name": "協會事務",
+      "slug": "category-180",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 9,
+      "name": "協會事務",
+      "slug": "category-821",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 10,
+      "name": "document",
+      "slug": "document",
+      "description": null,
+      "articles_count": 11
+    },
+    {
+      "id": 11,
+      "name": "相關報導",
+      "slug": "category-852",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 12,
+      "name": "相關報導",
+      "slug": "category-474",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 13,
+      "name": "相關報導",
+      "slug": "category-724",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 14,
+      "name": "相關報導",
+      "slug": "category-324",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 15,
+      "name": "相關報導",
+      "slug": "category-547",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 16,
+      "name": "相關報導",
+      "slug": "category-972",
+      "description": null,
+      "articles_count": 1
+    },
+    {
+      "id": 17,
+      "name": "相關報導",
+      "slug": "category-797",
+      "description": null,
+      "articles_count": 1
+    }
+  ]
+}

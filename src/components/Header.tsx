@@ -80,9 +80,8 @@ function DesktopDropdown({
         type="button"
         aria-expanded={open}
         aria-haspopup="true"
-        className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-light/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent ${
-          isActive ? "text-accent" : "text-white"
-        }`}
+        className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-light/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent ${isActive ? "text-accent" : "text-white"
+          }`}
         onClick={() => setOpen((prev) => !prev)}
       >
         {item.label}
@@ -111,9 +110,8 @@ function DesktopDropdown({
               <Link
                 href={child.href}
                 role="menuitem"
-                className={`block px-4 py-2.5 text-sm transition-colors hover:bg-primary-light/20 hover:text-accent ${
-                  pathname.startsWith(child.href) ? "text-accent" : "text-white"
-                }`}
+                className={`block px-4 py-2.5 text-sm transition-colors hover:bg-primary-light/20 hover:text-accent ${pathname.startsWith(child.href) ? "text-accent" : "text-white"
+                  }`}
                 onClick={() => setOpen(false)}
               >
                 {child.label}
@@ -139,8 +137,11 @@ export default function Header() {
   useEffect(() => {
     if (prevPathname.current !== pathname) {
       prevPathname.current = pathname;
-      setMobileMenuOpen(false);
-      setMobileOpenSubmenus(new Set());
+      // Defer state updates to avoid sync setState inside an effect body.
+      queueMicrotask(() => {
+        setMobileMenuOpen(false);
+        setMobileOpenSubmenus(new Set());
+      });
     }
   }, [pathname]);
 
@@ -185,16 +186,13 @@ export default function Header() {
             aria-label="台灣尤塞氏症暨視聽弱協會 - 回到首頁"
           >
             <Image
-              src="/images/logo.png"
-              alt=""
-              width={40}
-              height={40}
-              className="h-10 w-10 rounded-lg"
-              aria-hidden="true"
+              src="/images/Logo_long.png"
+              alt="台灣尤塞氏症暨視聽弱協會"
+              width={340}
+              height={68}
+              className="h-[50px] w-auto sm:h-[68px]"
+              priority
             />
-            <span className="text-base font-semibold leading-tight sm:text-lg">
-              台灣尤塞氏症暨視聽弱協會
-            </span>
           </Link>
 
           {/* Desktop navigation */}
@@ -213,11 +211,10 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href!}
-                  className={`rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-light/10 hover:text-accent ${
-                    pathname.startsWith(item.href!)
-                      ? "text-accent"
-                      : "text-white"
-                  }`}
+                  className={`rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-light/10 hover:text-accent ${pathname.startsWith(item.href!)
+                    ? "text-accent"
+                    : "text-white"
+                    }`}
                 >
                   {item.label}
                 </Link>
@@ -284,23 +281,21 @@ export default function Header() {
                     <>
                       <button
                         type="button"
-                        className={`flex w-full items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 ${
-                          item.children.some((child) =>
-                            pathname.startsWith(child.href)
-                          )
-                            ? "text-accent"
-                            : "text-white"
-                        }`}
+                        className={`flex w-full items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 ${item.children.some((child) =>
+                          pathname.startsWith(child.href)
+                        )
+                          ? "text-accent"
+                          : "text-white"
+                          }`}
                         aria-expanded={mobileOpenSubmenus.has(item.label)}
                         onClick={() => toggleMobileSubmenu(item.label)}
                       >
                         {item.label}
                         <svg
-                          className={`h-4 w-4 transition-transform ${
-                            mobileOpenSubmenus.has(item.label)
-                              ? "rotate-180"
-                              : ""
-                          }`}
+                          className={`h-4 w-4 transition-transform ${mobileOpenSubmenus.has(item.label)
+                            ? "rotate-180"
+                            : ""
+                            }`}
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -320,11 +315,10 @@ export default function Header() {
                             <li key={child.href}>
                               <Link
                                 href={child.href}
-                                className={`block rounded-md px-3 py-2 text-sm transition-colors hover:bg-primary-light/20 hover:text-accent ${
-                                  pathname.startsWith(child.href)
-                                    ? "text-accent"
-                                    : "text-white/80"
-                                }`}
+                                className={`block rounded-md px-3 py-2 text-sm transition-colors hover:bg-primary-light/20 hover:text-accent ${pathname.startsWith(child.href)
+                                  ? "text-accent"
+                                  : "text-white/80"
+                                  }`}
                               >
                                 {child.label}
                               </Link>
@@ -336,11 +330,10 @@ export default function Header() {
                   ) : (
                     <Link
                       href={item.href!}
-                      className={`block rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 hover:text-accent ${
-                        pathname.startsWith(item.href!)
-                          ? "text-accent"
-                          : "text-white"
-                      }`}
+                      className={`block rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 hover:text-accent ${pathname.startsWith(item.href!)
+                        ? "text-accent"
+                        : "text-white"
+                        }`}
                     >
                       {item.label}
                     </Link>

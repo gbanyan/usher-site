@@ -2,13 +2,19 @@
 @plugin "@tailwindcss/typography";
 
 @theme inline {
-  --color-primary: #1e3a5f;
-  --color-primary-light: #2a5a8f;
-  --color-primary-dark: #0f2440;
-  --color-accent: #e8913a;
-  --color-accent-light: #f0a85c;
+  --color-primary: #1a1a37;
+  /* Hugo: $secondary-color */
+  --color-primary-light: #2c2c54;
+  /* Lighter shade of #1a1a37 */
+  --color-primary-dark: #0d0d1f;
+  /* Darker shade of #1a1a37 */
+  --color-accent: #ec9b05;
+  /* Hugo: $primary-color */
+  --color-accent-light: #ffb84d;
+  /* Lighter shade of #ec9b05 */
   --color-surface: #f8f9fa;
   --color-surface-dark: #e9ecef;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang TC", "Heiti TC", "Microsoft JhengHei", var(--font-noto-sans-tc), sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 /* Skip to content link */
@@ -24,6 +30,7 @@
   border-radius: 0 0 0.5rem 0.5rem;
   transition: top 0.2s;
 }
+
 .skip-to-content:focus {
   top: 0;
 }
@@ -32,4 +39,11 @@
 :focus-visible {
   outline: 3px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+@layer base {
+  body {
+    background-color: #000;
+    color: #fff;
+  }
 }

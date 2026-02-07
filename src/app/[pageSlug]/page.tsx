@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPage } from "@/lib/api";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 
 const VALID_SLUGS: Record<string, string> = {
@@ -57,16 +57,12 @@ export default async function StaticPage({ params }: PageProps) {
 
   return (
     <>
-      <Breadcrumbs
+      <PageHeader
+        title={page.title}
         items={[{ label: page.title }]}
       />
 
       <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <header className="mb-10">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            {page.title}
-          </h1>
-        </header>
 
         <MarkdownRenderer content={page.content} />
       </article>

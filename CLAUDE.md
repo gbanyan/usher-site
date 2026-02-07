@@ -13,6 +13,7 @@ npm run dev          # Dev server with hot reload (needs Laravel API running on 
 npm run build        # Production build — generates static HTML (needs Laravel API once)
 npm run start        # Serve pre-built static site (NO Laravel needed)
 npm run lint         # ESLint
+npm run snapshot     # Generate local content snapshots from Laravel (for building without a live API)
 ```
 
 ## Development Workflow
@@ -47,6 +48,15 @@ The site is **fully static after build**. No Laravel API needed at runtime.
 - `next start` serves pre-built pages — works without Laravel
 - Content updates trigger on-demand revalidation via webhook (`POST /api/revalidate`)
 - All `fetch()` calls use `revalidate: false` (no time-based ISR)
+
+### Snapshot Mode (Build Without Laravel)
+
+If the Laravel API is not available (e.g., for GitHub/Vercel builds), you can build from committed JSON snapshots.
+
+1. With Laravel running locally on `http://localhost:8001`, generate snapshots:
+   - `npm run snapshot`
+2. Commit `content-snapshots/` and (optionally) `public/attachments/`
+3. In Vercel, set `CONTENT_SOURCE=snapshot` (and do not rely on `NEXT_PUBLIC_API_URL`)
 
 ### Content Source — Laravel API
 

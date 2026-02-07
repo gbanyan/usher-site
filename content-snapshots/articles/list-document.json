@@ -1,0 +1,335 @@
+{
+  "data": [
+    {
+      "id": 10,
+      "title": "Whisper Colab 影片語音轉文字工具",
+      "slug": "whisper-colab",
+      "summary": null,
+      "excerpt": "由於部分視聽弱朋友，對於影片或聲音檔，需仰賴文字稿吸收訊息\n而最新科技的發展與進步， Whisper 語音辨識模型的開放，使得辨識率提高\n影片或語音轉成文字檔的正確性與速度都有所提高。\n\n有人提議是否可以把 Whispe...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/peace.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-08-16T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": 12,
+      "title": "媒體宣傳資源",
+      "slug": "document-ef6231ce",
+      "summary": null,
+      "excerpt": "## Logo 原始檔下載連結\n\n- [純 Logo 圖檔黑白底色 AI 檔](/materiel/LOGO_final.ai)\n- [長條協會名稱文字Logo PS 檔](/materiel/Logo_long.psb)\n- [正方協會名稱文字Logo PS 檔](/materiel/Logo_square.psb)",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": null,
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-05-01T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": 22,
+      "title": "社會福利資源",
+      "slug": "document-d34b35ab",
+      "summary": null,
+      "excerpt": "## 社會福利資源\n\n### 法規篇\n\n- [身心障礙者權益保障法](https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=D0050046)\n\n- [身心障礙者權益保障法施行細則](https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=D0...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": null,
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-04-26T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": 21,
+      "title": "眼科醫師觀點",
+      "slug": "document-b81734e3",
+      "summary": null,
+      "excerpt": "## 1. 什麼是尤塞氏綜合症\n\n尤塞氏綜合症（Usher syndrome）是一種遺傳性疾病，主要症狀為聽力受損及漸進性的視力喪失，可能也會影響平衡。視力缺損是由視網膜色素變性（Retinitis Pigmentosa）引起，是一種視網膜的...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/medicine.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-03-21T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": 19,
+      "title": "病友經驗分享之五",
+      "slug": "document-2f8fad62",
+      "summary": null,
+      "excerpt": "# 病友經驗分享之五\n\n我叫莊彥廷，民國64年出生，今年48歲，出生在宜蘭縣蘇澳鎮。家中有5個兄弟姊妹(我是老么)，都是有輕重不同的聽力障礙，其中我大姐(大我11歲)聽力障礙較重，小時候不會說話，到10歲時還不會叫爸...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/peace8.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-03-20T20:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": 11,
+      "title": "什麼是尤塞氏症？尤塞氏症介紹",
+      "slug": "document-25e793fb",
+      "summary": null,
+      "excerpt": "## 尤塞氏症\n\n尤塞氏症（Usher Syndrome）是一種罕見的遺傳性疾病，\n\n* 全球估計有 400,000 名左右的患者\n* 美國估計有 40,000 名左右的患者\n* 歐洲估計有 37,000 名左右的患者\n\n主要特徵是先天性的聽力損失，以及影...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/peace.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-03-20T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": 13,
+      "title": "尤塞氏患者的困境",
+      "slug": "document-48ec7f25",
+      "summary": null,
+      "excerpt": "前面系列文章所述，尤塞氏患者的症狀可能會影響到視野、夜間視力、以及聽力、平衡。但是分型、疾病相關基因變異的不同，導致症狀嚴重度、出現時間、惡化速度不同。這些症狀，懷疑或檢驗確定的疾病相關基因變異、以及...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/peace2.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-03-20T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 11,
+          "name": "相關報導",
+          "slug": "category-852",
+          "description": null
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": 14,
+      "title": "特教老師觀點",
+      "slug": "document-f68da0b8",
+      "summary": null,
+      "excerpt": "## 特教老師經歷\n\n2015年，八年前的九月。我的班上來了一位聰譿可愛的小女生。由於遠道，必須住校。\n小女生先天聽障，智力正常，但因為溝通不良，雖已國小畢業，課業、文字能力有明顯落差。\n因為住校，放學後就留在...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/peace3.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-03-20T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": 15,
+      "title": "病友經驗分享-父母觀點",
+      "slug": "document-a8bdf6d9",
+      "summary": null,
+      "excerpt": "## 病友經驗分享-父母觀點\n\n[從基因檢查的結果可能是尤賽氏症候群] \n\n我清楚記得在台大醫院聽基因檢測結果的時候，醫生跟我說明這個名詞時的情形“尤賽氏症候群”一個我從來沒聽過，也不曉得是什麼的陌生名詞 \n\n因為是...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/peace4.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-03-20T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": 16,
+      "title": "病友經驗分享之一",
+      "slug": "document-694e4dd6",
+      "summary": null,
+      "excerpt": "# 病友經驗分享之一\n\n我是林怡慧，今年38歲。\n\n從小是輕度聽力障礙。\n\n當年的醫療技術沒有那麼先進，醫生給的診斷都是中耳炎或是抗生素用量過大而導致聽損。\n\n從有記憶以來就有配戴助聽器，以及去榮總接受語言治療。...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/peace5.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-03-20T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 12,
+          "name": "相關報導",
+          "slug": "category-474",
+          "description": null
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": 17,
+      "title": "病友經驗分享之三",
+      "slug": "document-d0608b86",
+      "summary": null,
+      "excerpt": "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我1993年出生，今年30歲，2003年（10歲）確診聽障並配戴助聽器、2016年（23歲）經眼底鏡檢查診斷為視網膜色素病變、2020年（27歲）經基因檢測確診為尤塞氏綜合症。...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/peace6.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-03-20T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": 18,
+      "title": "病友經驗分享之二",
+      "slug": "document-163bc74d",
+      "summary": null,
+      "excerpt": "# 病友經驗分享之二\n\n我叫涂清介，從出生就有很多毛病。\n一出生就發育不太好，不會走路，經常跌跌撞撞腳破破的，後來發現有輕度聽力跟平衡不穩的問題~然後接著視力就有弱視的情況，經常發炎生病，聽損達到極重度，一...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/peace7.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-03-20T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": 20,
+      "title": "病友經驗分享之四",
+      "slug": "document-ef370202",
+      "summary": null,
+      "excerpt": "# 病友經驗分享之四\n\n1）學齡前，外婆告訴我媽：「拎孟珍乾吶午草亨郎（台語）你們孟珍好像有耳聾⋯」，我媽帶我去給醫生看，醫生拿音叉在我耳朵旁問我有沒有聽到，我當然有聽到啊！於是醫生跟我媽說，我專注於一件事...",
+      "content_type": "document",
+      "content_type_label": "文件",
+      "featured_image_url": "/images/documents/peace9.jpg",
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2024-03-20T15:27:17+08:00",
+      "categories": [
+        {
+          "id": 10,
+          "name": "document",
+          "slug": "document",
+          "description": null
+        }
+      ],
+      "tags": []
+    }
+  ],
+  "links": {
+    "first": "http://localhost:8001/api/v1/articles?page=1",
+    "last": "http://localhost:8001/api/v1/articles?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http://localhost:8001/api/v1/articles?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "path": "http://localhost:8001/api/v1/articles",
+    "per_page": 500,
+    "to": 13,
+    "total": 13
+  }
+}

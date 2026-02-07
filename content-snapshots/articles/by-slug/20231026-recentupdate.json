@@ -1,0 +1,125 @@
+{
+  "data": {
+    "id": 1,
+    "title": "2023/10/26 近期會務更新",
+    "slug": "20231026-recentupdate",
+    "summary": "近期會務報告： 由於統籌正式簽名會員過程有所等待，十月中才送出至內政部申請",
+    "content": "近期會務報告：\n由於統籌正式簽名會員過程有所等待，十月中才送出至內政部申請\n另外十一月、十二月正逢教授們密集撰寫國科會計畫書焦頭爛額之際（大學教授研究經費主要來源）\n預計若內政部通過，第一次會員大會將等靖永皓教授忙碌結束後，於明年一月召開\n\n這期間簡單更新一下美國尤塞氏症協會及其他訊息：\n1. 美國尤塞氏症協會最近啟動一個基因報告登錄平台，開放尤塞氏症患者將基因上傳。上傳的潛在好處是，未來美國協會方尋找臨床試驗、治療研究等時將更有依據，個別患者也較有機會被徵詢到。我已經和靖教授討論過，未來協會內政部通過登記後，會將幫助大家上傳登記列為會務之一\n2. 上述資訊是因為之前我有付費參與過每年美國尤塞氏症協會辦的大會，因此在郵件列表內可以不定時接收到更新。另外他們也會不定時寄一些勵志文章、研究新知，之後取得同意後，可能會定時翻譯過來\n3. 除了尤塞氏症協會，相信很多人最關心的還是眼睛 RP 的問題，若是想接觸更多國際訊息，可以在臉書上搜尋 \nRetinitis Pigmentosa - research and potential treatments 這個社團。但是老實說，人數加倍，噪音也加倍，可以在裡面看到來自世界各地不同狀況的訊息，其實就是台灣群組的放大版。想練練外語能力的是可以進去跟人交流啦哈哈。",
+    "content_type": "blog",
+    "content_type_label": "部落格",
+    "featured_image_url": "/images/blog/Update.jpg",
+    "featured_image_alt": null,
+    "author_name": "黃俊榕",
+    "meta_description": null,
+    "meta_keywords": null,
+    "is_pinned": false,
+    "view_count": 2,
+    "published_at": "2023-10-26T17:27:17+08:00",
+    "categories": [
+      {
+        "id": 1,
+        "name": "協會事務",
+        "slug": "category-325",
+        "description": null
+      }
+    ],
+    "tags": [
+      {
+        "id": 1,
+        "name": "協會事務",
+        "slug": "tag-888"
+      }
+    ],
+    "attachments": []
+  },
+  "related": [
+    {
+      "id": 6,
+      "title": "2024-12-07 協會講座活動開放報名",
+      "slug": "20241121-short-lecture-open-for-registeration",
+      "summary": "於 2024 暑假美國舉辦的USH大會，內容經過簡短整理後，由協會舉辦小型講座分享內容，即日起開放報名",
+      "excerpt": "於 2024 暑假美國舉辦的USH大會，內容經過簡短整理後，由協會舉辦小型講座分享內容，即日起開放報名",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/images/blog/2024-lecture.jpg",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2024-11-21T00:27:17+08:00",
+      "categories": [
+        {
+          "id": 6,
+          "name": "協會活動",
+          "slug": "category-566",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "USH Connections Conference 2024 大會簡述",
+      "slug": "20240720-usher-connection-conference-report",
+      "summary": "2024 年 7 月 19-20 日，於美國羅徹斯特 (Rochester)舉辦的 USH Connections Conference 已經順利落幕。",
+      "excerpt": "2024 年 7 月 19-20 日，於美國羅徹斯特 (Rochester)舉辦的 USH Connections Conference 已經順利落幕。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/images/blog/USH2024.png.webp",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2024-07-20T00:27:17+08:00",
+      "categories": [
+        {
+          "id": 5,
+          "name": "協會事務",
+          "slug": "category-554",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Usher Working Group 工作小組",
+      "slug": "20240406-usher-working-group",
+      "summary": "由於視聽弱族群的需求有許多尚未檢視的細節，可能需要更進一步的資源募集、工程上的設計協助等等，於是透過一位熱心社會人士的召集，初步組成了這個工作小組。",
+      "excerpt": "由於視聽弱族群的需求有許多尚未檢視的細節，可能需要更進一步的資源募集、工程上的設計協助等等，於是透過一位熱心社會人士的召集，初步組成了這個工作小組。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/images/blog/digital.jpg",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2024-04-06T09:27:17+08:00",
+      "categories": [
+        {
+          "id": 4,
+          "name": "協會事務",
+          "slug": "category-105",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "第一屆第一次會員代表大會會議後現況報告",
+      "slug": "20240130-current-condition",
+      "summary": "所有涉及到協會正式名義的事務，如對外募款、建立帳戶建立匯款管道、招收更多會員、以及會址租約等 都要等內政部收到，我們於第一次會員代表大會收齊的所有資料後，通過並核發社團法人統一編號。",
+      "excerpt": "所有涉及到協會正式名義的事務，如對外募款、建立帳戶建立匯款管道、招收更多會員、以及會址租約等 都要等內政部收到，我們於第一次會員代表大會收齊的所有資料後，通過並核發社團法人統一編號。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/images/blog/Notify.jpg",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2024-01-30T17:27:17+08:00",
+      "categories": [
+        {
+          "id": 3,
+          "name": "協會事務",
+          "slug": "category-227",
+          "description": null
+        }
+      ]
+    }
+  ]
+}

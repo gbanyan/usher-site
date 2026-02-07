@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getHomepage } from "@/lib/api";
 import ArticleCard from "@/components/ArticleCard";
 import type { ArticleSummary } from "@/lib/types";
+import HeroSlider from "@/components/HeroSlider";
 
 export const revalidate = false;
 
@@ -12,17 +13,20 @@ export const revalidate = false;
 
 const SLIDER_ITEMS = [
   {
+    image: "/images/banner/banner.jpg",
     title: "台灣尤塞氏症暨視聽弱協會",
     content: "Taiwan Usher Syndrome and Audiovisual Impairment Association",
     button: { label: "關於我們", link: "/about" },
   },
   {
+    image: "/images/banner/banner.jpg",
     title: "尤塞氏症之病友團體",
     content:
       "我們是一群因為先天性遺傳疾病（大多為 Usher Syndrome, 尤塞氏症），而導致同時有視網膜色素病變、視力障礙及聽力障礙的病友。",
     button: { label: "更多故事", link: "/document" },
   },
   {
+    image: "/images/banner/banner.jpg",
     title: "視聽雙弱障礙",
     content: "協助視聽雙弱病友相同境遇患者，共同面對生活中的挑戰與課題",
     button: { label: "更多故事", link: "/document" },
@@ -126,13 +130,14 @@ function ArticleList({
 
   return (
     <section className="mx-auto max-w-6xl px-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-primary">{title}</h2>
+      <div className="flex items-center justify-between gap-4 mb-6">
+        <h2 className="text-2xl font-bold text-white whitespace-nowrap">{title}</h2>
+        <div className="h-px w-full bg-accent hidden sm:block"></div>
         <Link
           href={href}
-          className="text-sm font-medium text-primary-light hover:text-accent transition-colors"
+          className="hidden sm:inline-block whitespace-nowrap rounded border border-accent px-4 py-1.5 text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-white"
         >
-          查看更多 &rarr;
+          查看更多
         </Link>
       </div>
       <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -161,58 +166,41 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col">
       {/* ============ Hero Slider ============ */}
-      <section
-        aria-label="首頁橫幅"
-        className="relative bg-cover bg-center py-24 text-white sm:py-32 lg:py-40"
-        style={{ backgroundImage: "url('/images/banner/banner.jpg')" }}
-      >
-        <div className="absolute inset-0 bg-black/50" aria-hidden="true" />
-        <div className="relative mx-auto max-w-5xl px-4">
-          {/* Show first slide statically; other slides are available as data */}
-          <div className="max-w-2xl">
-            <h1 className="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
-              {SLIDER_ITEMS[0].title}
-            </h1>
-            <p className="mt-4 text-lg text-white/85 sm:text-xl">
-              {SLIDER_ITEMS[0].content}
-            </p>
-            <Link
-              href={SLIDER_ITEMS[0].button.link}
-              className="mt-8 inline-block rounded-lg bg-accent px-8 py-3 font-semibold text-white transition-colors hover:bg-accent-light"
-            >
-              {SLIDER_ITEMS[0].button.label}
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* ============ Hero Slider ============ */}
+      <HeroSlider slides={SLIDER_ITEMS} />
 
       {/* ============ Banner Feature — What is Usher Syndrome? ============ */}
-      <section className="bg-gray-100" aria-labelledby="feature-heading">
-        <div className="grid lg:grid-cols-12">
-          {/* Left image */}
-          <div className="relative hidden lg:col-span-4 lg:block">
-            <Image
-              src="/images/banner/banner_feature.jpg"
-              alt="台灣尤塞氏症暨視聽弱協會"
-              fill
-              className="object-cover"
-            />
-          </div>
-          {/* Right feature cards */}
-          <div className="bg-primary-dark lg:col-span-8">
-            <h2 id="feature-heading" className="sr-only">
-              認識尤塞氏症
-            </h2>
-            <div className="grid gap-8 p-8 sm:grid-cols-2 lg:gap-10 lg:p-12">
-              {FEATURE_ITEMS.map((item) => (
-                <div key={item.name} className="text-white">
-                  <FeatureIcon type={item.icon} />
-                  <h3 className="mt-4 text-lg font-bold">{item.name}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/80">
-                    {item.content}
-                  </p>
+      {/* ============ Banner Feature — What is Usher Syndrome? ============ */}
+      <section className="bg-gray-100 relative z-10 w-full" aria-labelledby="feature-heading">
+        <div className="w-full">
+          <div className="relative -mt-24 bg-primary-dark shadow-xl w-full">
+            <div className="grid lg:grid-cols-12 w-full">
+              {/* Left image */}
+              <div className="relative hidden lg:col-span-4 lg:block min-h-[400px]">
+                <Image
+                  src="/images/banner/banner_feature.jpg"
+                  alt="台灣尤塞氏症暨視聽弱協會"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              {/* Right feature cards */}
+              <div className="lg:col-span-8 p-8 sm:p-12 lg:pl-[70px] lg:pt-[80px] lg:pr-[10%] xl:pr-[30%]">
+                <h2 id="feature-heading" className="sr-only">
+                  認識尤塞氏症
+                </h2>
+                <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2">
+                  {FEATURE_ITEMS.map((item) => (
+                    <div key={item.name} className="text-white">
+                      <FeatureIcon type={item.icon} />
+                      <h3 className="mt-6 text-xl font-bold">{item.name}</h3>
+                      <p className="mt-4 text-sm leading-relaxed text-white/80">
+                        {item.content}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>
@@ -222,18 +210,19 @@ export default async function HomePage() {
       <section className="py-16 sm:py-20" aria-labelledby="about-heading">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 md:grid-cols-2">
           <div>
+
             <h2
               id="about-heading"
-              className="text-2xl font-bold text-primary sm:text-3xl"
+              className="text-2xl font-bold text-accent sm:text-3xl"
             >
               {ABOUT_SECTION.title}
             </h2>
-            <p className="mt-4 leading-relaxed text-gray-700">
+            <p className="mt-4 leading-relaxed text-gray-300">
               {ABOUT_SECTION.content}
             </p>
             <Link
               href={ABOUT_SECTION.button.link}
-              className="mt-6 inline-block rounded-lg border-2 border-primary px-6 py-2.5 font-medium text-primary transition-colors hover:bg-primary hover:text-white"
+              className="mt-6 inline-block rounded-lg border-2 border-accent px-6 py-2.5 font-medium text-accent transition-colors hover:bg-accent hover:text-white"
             >
               {ABOUT_SECTION.button.label}
             </Link>
@@ -251,41 +240,43 @@ export default async function HomePage() {
 
       {/* ============ Dynamic article sections from API ============ */}
       {data && (
-        <div className="flex flex-col gap-16 pb-8">
-          {/* Related News */}
-          <ArticleList
-            articles={data.latest_related_news}
-            href="/related-news"
-            title="相關報導"
-          />
+        <section className="bg-primary-light py-16 sm:py-24">
+          <div className="flex flex-col gap-16">
+            {/* Related News */}
+            <ArticleList
+              articles={data.latest_related_news}
+              href="/related-news"
+              title="相關報導"
+            />
 
-          {/* Latest Blog */}
-          <ArticleList
-            articles={data.latest_blog}
-            href="/blog"
-            title="最新消息"
-          />
+            {/* Latest Blog */}
+            {/* <ArticleList
+              articles={data.latest_blog}
+              href="/blog"
+              title="最新消息"
+            /> */}
 
-          {/* Latest Notices */}
-          <ArticleList
-            articles={data.latest_notice}
-            href="/notice"
-            title="事務公告"
-          />
+            {/* Latest Notices */}
+            {/* <ArticleList
+              articles={data.latest_notice}
+              href="/notice"
+              title="事務公告"
+            /> */}
 
-          {/* Latest Documents */}
-          <ArticleList
-            articles={data.latest_document}
-            href="/document"
-            title="協會文件"
-          />
-        </div>
+            {/* Latest Documents */}
+            {/* <ArticleList
+              articles={data.latest_document}
+              href="/document"
+              title="協會文件"
+            /> */}
+          </div>
+        </section>
       )}
 
       {/* ============ CTA Section ============ */}
-      <section className="bg-primary py-16 text-center text-white">
+      <section className="bg-accent py-16 text-center text-white">
         <div className="mx-auto max-w-3xl px-4">
-          <p className="text-sm font-medium uppercase tracking-wider text-white/70">
+          <p className="text-sm font-medium uppercase tracking-wider text-white/90">
             志工、捐款、或合作計畫
           </p>
           <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
@@ -293,7 +284,7 @@ export default async function HomePage() {
           </h2>
           <Link
             href="/contact"
-            className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary transition-colors hover:bg-gray-100"
+            className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-accent transition-colors hover:bg-gray-100"
           >
             聯繫我們
           </Link>
@@ -314,10 +305,11 @@ export default async function HomePage() {
               href={DOCUMENTARY.videoLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-20 w-20 items-center justify-center rounded-full bg-accent text-white shadow-lg transition-transform hover:scale-110"
+              className="relative flex h-20 w-20 items-center justify-center rounded-full bg-accent text-white shadow-lg transition-transform hover:scale-110"
               aria-label="播放紀錄片影片"
             >
-              <svg className="ml-1 h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
+              <svg className="relative ml-1 h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M8 5v14l11-7z" />
               </svg>
             </a>

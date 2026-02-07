@@ -48,22 +48,21 @@ export default function Footer() {
       className="border-t border-primary/10 bg-primary text-white"
     >
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-12">
           {/* Association info */}
-          <div>
+          <div className="lg:col-span-4">
             <Link
               href="/"
               className="inline-flex items-center gap-2 text-lg font-semibold text-white transition-opacity hover:opacity-90"
             >
               <Image
-                src="/images/logo.png"
-                alt=""
-                width={32}
-                height={32}
-                className="h-8 w-8 rounded-md"
+                src="/images/Logo_long.png"
+                alt="台灣尤塞氏症暨視聽弱協會"
+                width={280}
+                height={57}
+                className="h-auto w-[280px]"
                 aria-hidden="true"
               />
-              台灣尤塞氏症暨視聽弱協會
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-white/70">
               致力於推動尤塞氏症相關研究、支持病友與家屬，促進社會對視聽障礙的認識與理解。
@@ -71,7 +70,7 @@ export default function Footer() {
           </div>
 
           {/* Quick links */}
-          <div>
+          <div className="lg:col-span-2">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-white/90">
               快速連結
             </h2>
@@ -90,7 +89,7 @@ export default function Footer() {
           </div>
 
           {/* Social links */}
-          <div>
+          <div className="lg:col-span-3">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-white/90">
               社群連結
             </h2>
@@ -123,6 +122,32 @@ export default function Footer() {
                   </a>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div className="lg:col-span-3">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-white/90">
+              聯繫資訊
+            </h2>
+            <ul className="mt-4 space-y-3 text-sm text-white/70" role="list">
+              <li>
+                <span className="block font-medium text-white/90">地址</span>
+                台北市中正區忠孝西路一段50號<br />14樓之20、22號
+              </li>
+              <li>
+                <span className="block font-medium text-white/90">統一編號</span>
+                00577231
+              </li>
+              <li>
+                <span className="block font-medium text-white/90">電子信箱</span>
+                <a
+                  href="mailto:president@usher.org.tw"
+                  className="transition-colors hover:text-accent"
+                >
+                  president@usher.org.tw
+                </a>
+              </li>
             </ul>
           </div>
         </div>

@@ -17,7 +17,7 @@ export default function ArticleCard({
   const articleUrl = `${basePath}/${article.slug}`;
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+    <article className="group relative flex flex-col overflow-hidden rounded-xl border border-white/10 bg-primary/40 shadow-sm transition-shadow hover:shadow-md hover:shadow-accent/50">
       {/* Pinned indicator */}
       {article.is_pinned && (
         <div className="absolute left-3 top-3 z-10 flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-xs font-medium text-white shadow">
@@ -70,18 +70,18 @@ export default function ArticleCard({
       </Link>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex flex-1 flex-col p-4 bg-primary-dark/80 backdrop-blur-sm">
         {/* Meta: type badge + date */}
         <div className="mb-2 flex flex-wrap items-center gap-2">
           {showType && (
-            <span className="inline-block rounded bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+            <span className="inline-block rounded bg-accent/20 px-2 py-0.5 text-xs font-medium text-accent">
               {article.content_type_label}
             </span>
           )}
           {article.published_at && (
             <time
               dateTime={article.published_at}
-              className="text-xs text-gray-500"
+              className="text-xs text-gray-400"
             >
               {formatDate(article.published_at)}
             </time>
@@ -89,10 +89,10 @@ export default function ArticleCard({
         </div>
 
         {/* Title */}
-        <h3 className="mb-2 text-base font-semibold leading-snug text-gray-900">
+        <h3 className="mb-2 text-base font-semibold leading-snug text-white">
           <Link
             href={articleUrl}
-            className="after:absolute after:inset-0 hover:text-primary"
+            className="after:absolute after:inset-0 hover:text-accent transition-colors"
           >
             {article.title}
           </Link>
@@ -100,7 +100,7 @@ export default function ArticleCard({
 
         {/* Excerpt */}
         {article.excerpt && (
-          <p className="mb-3 line-clamp-2 flex-1 text-sm leading-relaxed text-gray-600">
+          <p className="mb-3 line-clamp-2 flex-1 text-sm leading-relaxed text-gray-300">
             {article.excerpt}
           </p>
         )}
@@ -111,7 +111,7 @@ export default function ArticleCard({
             {article.categories.map((category) => (
               <span
                 key={category.id}
-                className="inline-block rounded-full border border-gray-200 px-2 py-0.5 text-xs text-gray-500"
+                className="inline-block rounded-full border border-white/20 px-2 py-0.5 text-xs text-gray-400"
               >
                 {category.name}
               </span>

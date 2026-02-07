@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Repo archives / generated / large snapshot artifacts:
+    "hugo-archive/**",
+    "content-snapshots/**",
+    "public/attachments/**",
   ]),
 ]);
 
