@@ -7,11 +7,6 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "member.usher.org.tw",
       },
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "8001",
-      },
     ],
   },
 };
