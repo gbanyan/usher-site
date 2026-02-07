@@ -12,11 +12,11 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1
 
 async function fetchAPI<T>(
   path: string,
-  options?: { revalidate?: number; tags?: string[] }
+  options?: { revalidate?: number | false; tags?: string[] }
 ): Promise<T> {
   const res = await fetch(`${API_URL}${path}`, {
     next: {
-      revalidate: options?.revalidate ?? 300,
+      revalidate: options?.revalidate ?? false,
       tags: options?.tags,
     },
   });
@@ -73,9 +73,22 @@ export async function getPage(slug: string): Promise<Page> {
 
 export async function getHomepage(): Promise<HomepageData> {
   return fetchAPI<HomepageData>("/homepage", {
-    revalidate: 300,
     tags: ["homepage"],
   });
+}
+
+export async function getAllArticleSlugs(
+  type: ContentType
+): Promise<string[]> {
+  try {
+    const res = await fetchAPI<PaginatedResponse<ArticleSummary>>(
+      `/articles?type=${type}&per_page=500`,
+      { tags: ["articles"] }
+    );
+    return res.data.map((a) => a.slug);
+  } catch {
+    return [];
+  }
 }
 
 export function getAttachmentDownloadUrl(articleSlug: string, attachmentId: number): string {

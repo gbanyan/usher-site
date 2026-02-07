@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/api";
 import ArticleCard from "@/components/ArticleCard";
-import Pagination from "@/components/Pagination";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
@@ -9,15 +8,13 @@ export const metadata: Metadata = {
   description: "協會相關文件與資源",
 };
 
-export default async function DocumentListingPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string }>;
-}) {
-  const { page: pageParam } = await searchParams;
-  const page = Number(pageParam) || 1;
-
-  const articles = await getArticles({ type: "document", page });
+export default async function DocumentListingPage() {
+  let articles;
+  try {
+    articles = await getArticles({ type: "document", per_page: 100 });
+  } catch {
+    articles = null;
+  }
 
   return (
     <>
@@ -38,7 +35,7 @@ export default async function DocumentListingPage({
           </p>
         </header>
 
-        {articles.data.length > 0 ? (
+        {articles && articles.data.length > 0 ? (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {articles.data.map((article) => (
               <ArticleCard key={article.id} article={article} />
@@ -46,14 +43,6 @@ export default async function DocumentListingPage({
           </div>
         ) : (
           <p className="py-12 text-center text-gray-500">目前沒有文件</p>
-        )}
-
-        {articles.meta.last_page > 1 && (
-          <Pagination
-            currentPage={articles.meta.current_page}
-            lastPage={articles.meta.last_page}
-            basePath="/document"
-          />
         )}
       </section>
     </>

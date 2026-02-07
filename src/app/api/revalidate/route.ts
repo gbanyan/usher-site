@@ -6,8 +6,6 @@ interface RevalidateBody {
   slug?: string;
 }
 
-const EXPIRE_IMMEDIATELY = { expire: 0 };
-
 export async function POST(request: NextRequest) {
   const token = request.headers.get("x-revalidate-token");
 
@@ -40,23 +38,23 @@ export async function POST(request: NextRequest) {
   const revalidatedTags: string[] = [];
 
   if (type === "article") {
-    revalidateTag("articles", EXPIRE_IMMEDIATELY);
-    revalidateTag("homepage", EXPIRE_IMMEDIATELY);
+    revalidateTag("articles", "max");
+    revalidateTag("homepage", "max");
     revalidatedTags.push("articles", "homepage");
 
     if (slug) {
-      revalidateTag(`article-${slug}`, EXPIRE_IMMEDIATELY);
+      revalidateTag(`article-${slug}`, "max");
       revalidatedTags.push(`article-${slug}`);
     }
   }
 
   if (type === "page") {
-    revalidateTag("pages", EXPIRE_IMMEDIATELY);
-    revalidateTag("homepage", EXPIRE_IMMEDIATELY);
+    revalidateTag("pages", "max");
+    revalidateTag("homepage", "max");
     revalidatedTags.push("pages", "homepage");
 
     if (slug) {
-      revalidateTag(`page-${slug}`, EXPIRE_IMMEDIATELY);
+      revalidateTag(`page-${slug}`, "max");
       revalidatedTags.push(`page-${slug}`);
     }
   }

@@ -11,6 +11,10 @@ const VALID_SLUGS: Record<string, string> = {
   "logo-represent": "Logo象徵",
 };
 
+export function generateStaticParams() {
+  return Object.keys(VALID_SLUGS).map((pageSlug) => ({ pageSlug }));
+}
+
 interface PageProps {
   params: Promise<{ pageSlug: string }>;
 }

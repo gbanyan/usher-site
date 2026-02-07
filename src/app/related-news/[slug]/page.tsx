@@ -2,11 +2,16 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getArticle, getAttachmentDownloadUrl } from "@/lib/api";
+import { getArticle, getAttachmentDownloadUrl, getAllArticleSlugs } from "@/lib/api";
 import { formatDate, formatFileSize } from "@/lib/utils";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import ArticleCard from "@/components/ArticleCard";
+
+export async function generateStaticParams() {
+  const slugs = await getAllArticleSlugs("related_news");
+  return slugs.map((slug) => ({ slug }));
+}
 
 interface RelatedNewsDetailPageProps {
   params: Promise<{ slug: string }>;

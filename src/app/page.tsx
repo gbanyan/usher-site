@@ -4,7 +4,7 @@ import { getHomepage } from "@/lib/api";
 import ArticleCard from "@/components/ArticleCard";
 import type { ArticleSummary } from "@/lib/types";
 
-export const revalidate = 300;
+export const revalidate = false;
 
 /* ------------------------------------------------------------------ */
 /*  Static homepage data (from original Hugo homepage.yml)             */
