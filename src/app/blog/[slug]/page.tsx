@@ -71,7 +71,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             )}
           </div>
 
-          {article.categories.length > 0 && (
+          {article.categories?.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
               {article.categories.map((category) => (
                 <span
@@ -84,7 +84,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             </div>
           )}
 
-          {article.tags.length > 0 && (
+          {article.tags?.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-2">
               {article.tags.map((tag) => (
                 <span
@@ -115,7 +115,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           <MarkdownRenderer content={article.content} />
         </div>
 
-        {article.attachments.length > 0 && (
+        {article.attachments?.length > 0 && (
           <section className="mt-12 border-t border-gray-200 pt-8" aria-labelledby="attachments-heading">
             <h2
               id="attachments-heading"

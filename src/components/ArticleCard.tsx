@@ -106,7 +106,7 @@ export default function ArticleCard({
         )}
 
         {/* Categories */}
-        {article.categories.length > 0 && (
+        {article.categories?.length > 0 && (
           <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
             {article.categories.map((category) => (
               <span
