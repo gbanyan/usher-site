@@ -1,31 +1,36 @@
-# Usher Syndrome 協會網站
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-移動完架構了，讓架構比較明確了，接下來應該是根據架構再去填文字了，至少目前架構看起來比較清晰
+## Getting Started
 
-## 待辦事項
+First, run the development server:
 
-1. About Us Pages
-已經將文案內容複製過去了，不過因為是召集初始文案，所以不太適用現在正式成立的狀態，需要另外構想修改
-另外已經依照導演的要求新增不同關於協會的組織頁面了
-撰寫 Logo 故事
-2. Research 或許可以整合目前現有的中研院、教授資源，提供一個入口合作
-3. 聯繫我們頁面需要修改
-4. 作者頁面確認如何新增，不然發文者的連結會變空白，不然就隱藏
-5. 將教授去啟聰學校的演講稿拿來放在文件
-6. 參考導演的建議構想
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-PDF 放入文件目前可能需要這個模組
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-https://hugo-embed-pdf.netlify.app
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## 舊模板關掉但未來可用的資料型態
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-1. 關掉 Events，暫時沒有未來活動規劃
-這邊的活動可以是協會內部的演講，也可以是相關人員的舉辦的活動分享
-2. 成員名單，不然資料會沒完沒了，僅在關於我們頁面存放即可。
+## Learn More
 
-## 可以持續最佳化項目
+To learn more about Next.js, take a look at the following resources:
 
-1. 有些圖片還是太大，需要作尺寸變更以加快頁面載入速度
-2. Initial Load Animation 似乎有點久
-3. 
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
