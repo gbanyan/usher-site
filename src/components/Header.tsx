@@ -175,7 +175,7 @@ export default function Header() {
         跳到主要內容
       </a>
       <header
-        className="sticky top-0 z-40 border-b border-white/10 bg-primary shadow-md"
+        className="sticky top-0 z-40 border-b border-white/10 bg-primary/95 backdrop-blur-md shadow-md"
         role="banner"
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
@@ -190,7 +190,7 @@ export default function Header() {
               alt="台灣尤塞氏症暨視聽弱協會"
               width={340}
               height={68}
-              className="h-[50px] w-auto sm:h-[68px]"
+              className="h-[40px] w-auto sm:h-[68px]"
               priority
             />
           </Link>

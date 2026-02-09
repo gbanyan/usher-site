@@ -28,7 +28,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
   const backgroundImage = slides[0]?.image || "/images/banner/banner.jpg";
 
   return (
-    <section aria-label="首頁橫幅" className="relative h-[600px] sm:h-[700px] lg:h-[800px]">
+    <section aria-label="首頁橫幅" className="relative h-[550px] sm:h-[650px] lg:h-[800px]">
       {/* Static Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -39,7 +39,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
           priority
         />
         {/* Overlay */}
-        <div className="absolute inset-0 bg-primary/50" />
+        <div className="absolute inset-0 bg-primary/60 sm:bg-primary/50" />
       </div>
 
       {/* Slider Content */}
@@ -64,27 +64,27 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
           <SwiperSlide key={index} className="h-full w-full">
             <div className="flex h-full items-center">
               <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="max-w-3xl text-left">
+                <div className="max-w-3xl text-left pt-10 sm:pt-0">
                   <h1
-                    className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl animate-in fade-in slide-in-from-bottom-4 duration-1000"
+                    className="text-3xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl animate-in fade-in slide-in-from-bottom-4 duration-1000"
                     style={{ animationDelay: '200ms' }}
                   >
                     {slide.title}
                   </h1>
                   <p
-                    className="mt-6 text-lg leading-relaxed text-white/90 sm:text-xl animate-in fade-in slide-in-from-bottom-4 duration-1000"
+                    className="mt-4 sm:mt-6 text-base leading-relaxed text-white/90 sm:text-xl animate-in fade-in slide-in-from-bottom-4 duration-1000"
                     style={{ animationDelay: '400ms' }}
                   >
                     {slide.content}
                   </p>
                   
                   {/* Empty space for pagination to be positioned below subtitle via absolute positioning or margin */}
-                  <div className="h-12 sm:h-16"></div>
+                  <div className="h-10 sm:h-16"></div>
 
                   {slide.button?.label && (
                     <Link
                       href={slide.button.link}
-                      className="mt-4 inline-block rounded-none bg-accent px-10 py-4 font-semibold text-primary-dark transition-colors hover:bg-accent-light animate-in fade-in slide-in-from-bottom-4 duration-1000"
+                      className="mt-2 sm:mt-4 inline-block rounded-none bg-accent px-8 py-3 sm:px-10 sm:py-4 text-sm sm:text-base font-semibold text-primary-dark transition-colors hover:bg-accent-light animate-in fade-in slide-in-from-bottom-4 duration-1000"
                       style={{ animationDelay: '600ms' }}
                     >
                       {slide.button.label}
@@ -98,7 +98,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       </Swiper>
 
       {/* Custom Pagination Aligned with Content */}
-      <div className="absolute bottom-1/4 sm:bottom-1/3 lg:bottom-[30%] left-0 right-0 z-20 pointer-events-none">
+      <div className="absolute bottom-[20%] sm:bottom-1/3 lg:bottom-[30%] left-0 right-0 z-20 pointer-events-none">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             {/* 

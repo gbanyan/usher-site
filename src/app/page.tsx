@@ -129,7 +129,7 @@ function ArticleList({
   if (articles.length === 0) return null;
 
   return (
-    <section className="mx-auto max-w-6xl px-4">
+    <section className="mx-auto w-full max-w-6xl px-4">
       <div className="flex items-center justify-between gap-4 mb-6">
         <h2 className="text-2xl font-bold text-white whitespace-nowrap">{title}</h2>
         <div className="h-px w-full bg-accent hidden sm:block"></div>
@@ -140,9 +140,9 @@ function ArticleList({
           查看更多
         </Link>
       </div>
-      <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {articles.map((article) => (
-          <li key={article.id}>
+          <li key={article.id} className="w-full">
             <ArticleCard article={article} />
           </li>
         ))}
@@ -170,10 +170,9 @@ export default async function HomePage() {
       <HeroSlider slides={SLIDER_ITEMS} />
 
       {/* ============ Banner Feature — What is Usher Syndrome? ============ */}
-      {/* ============ Banner Feature — What is Usher Syndrome? ============ */}
       <section className="bg-gray-100 relative z-10 w-full" aria-labelledby="feature-heading">
         <div className="w-full">
-          <div className="relative -mt-24 bg-primary-dark shadow-xl w-full">
+          <div className="relative -mt-12 sm:-mt-24 bg-primary-dark shadow-xl w-full">
             <div className="grid lg:grid-cols-12 w-full">
               {/* Left image */}
               <div className="relative hidden lg:col-span-4 lg:block min-h-[400px]">
@@ -185,11 +184,11 @@ export default async function HomePage() {
                 />
               </div>
               {/* Right feature cards */}
-              <div className="lg:col-span-8 p-8 sm:p-12 lg:pl-[70px] lg:pt-[80px] lg:pr-[10%] xl:pr-[30%]">
+              <div className="w-full lg:col-span-8 p-6 sm:p-12 lg:pl-[70px] lg:pt-[80px] lg:pr-[10%] xl:pr-[30%]">
                 <h2 id="feature-heading" className="sr-only">
                   認識尤塞氏症
                 </h2>
-                <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:gap-y-12 sm:grid-cols-2">
                   {FEATURE_ITEMS.map((item) => (
                     <div key={item.name} className="text-white">
                       <FeatureIcon type={item.icon} />
@@ -207,8 +206,8 @@ export default async function HomePage() {
       </section>
 
       {/* ============ About Section ============ */}
-      <section className="py-16 sm:py-20" aria-labelledby="about-heading">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 md:grid-cols-2">
+      <section className="py-12 sm:py-20" aria-labelledby="about-heading">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 md:grid-cols-2 px-4">
           <div>
 
             <h2
@@ -227,7 +226,7 @@ export default async function HomePage() {
               {ABOUT_SECTION.button.label}
             </Link>
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-lg mt-6 md:mt-0">
             <Image
               src={ABOUT_SECTION.image}
               alt="視聽雙弱族群的困境"
@@ -240,8 +239,8 @@ export default async function HomePage() {
 
       {/* ============ Dynamic article sections from API ============ */}
       {data && (
-        <section className="bg-primary-light py-16 sm:py-24">
-          <div className="flex flex-col gap-16">
+        <section className="bg-primary-light py-12 sm:py-24">
+          <div className="flex flex-col gap-12 sm:gap-16">
             {/* Related News */}
             <ArticleList
               articles={data.latest_related_news}
@@ -274,12 +273,12 @@ export default async function HomePage() {
       )}
 
       {/* ============ CTA Section ============ */}
-      <section className="bg-accent py-16 text-center text-primary-dark">
+      <section className="bg-accent py-12 sm:py-16 text-center text-primary-dark">
         <div className="mx-auto max-w-3xl px-4">
           <p className="text-sm font-medium uppercase tracking-wider text-primary-dark/90">
             志工、捐款、或合作計畫
           </p>
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
+          <h2 className="mt-3 text-2xl sm:text-3xl font-bold md:text-4xl">
             歡迎任何形式的支援、贊助！
           </h2>
           <Link
@@ -293,29 +292,29 @@ export default async function HomePage() {
 
       {/* ============ Documentary Section ============ */}
       <section
-        className="relative bg-cover bg-center py-16 sm:py-24"
+        className="relative bg-cover bg-center py-12 sm:py-24"
         style={{ backgroundImage: `url('${DOCUMENTARY.bgImage}')` }}
         aria-labelledby="documentary-heading"
       >
         <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 md:grid-cols-2">
           {/* Play button */}
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center order-first md:order-last">
             <a
               href={DOCUMENTARY.videoLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative flex h-20 w-20 items-center justify-center rounded-full bg-accent text-primary-dark shadow-lg transition-transform hover:scale-110"
+              className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-accent text-primary-dark shadow-lg transition-transform hover:scale-110"
               aria-label="播放紀錄片影片"
             >
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
-              <svg className="relative ml-1 h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <svg className="relative ml-1 h-6 w-6 sm:h-8 sm:w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M8 5v14l11-7z" />
               </svg>
             </a>
           </div>
           {/* Description */}
-          <div className="rounded-lg bg-primary-dark/90 p-8 text-white">
+          <div className="rounded-lg bg-primary-dark/90 p-6 sm:p-8 text-white">
             <h2
               id="documentary-heading"
               className="text-2xl font-bold sm:text-3xl"
