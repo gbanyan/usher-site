@@ -11,6 +11,8 @@ export function formatDate(dateString: string | null): string {
 export function stripMarkdown(markdown: string): string {
   if (!markdown) return "";
   return markdown
+    .replace(/&nbsp;/g, " ") // Remove non-breaking spaces
+    .replace(/&[a-z0-9]+;/gi, "") // Remove other HTML entities
     .replace(/!\[.*?\]\(.*?\)/g, "") // Remove images
     .replace(/\[(.*?)\]\(.*?\)/g, "$1") // Remove links but keep text
     .replace(/([*_~`]{1,3})(.*?)\1/g, "$2") // Remove formatting
