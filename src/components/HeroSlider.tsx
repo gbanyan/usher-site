@@ -84,7 +84,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                   {slide.button?.label && (
                     <Link
                       href={slide.button.link}
-                      className="mt-10 inline-block rounded-none bg-accent px-10 py-4 font-semibold text-white transition-colors hover:bg-accent-light animate-in fade-in slide-in-from-bottom-4 duration-1000"
+                      className="mt-10 inline-block rounded-none bg-accent px-10 py-4 font-semibold text-primary-dark transition-colors hover:bg-accent-light animate-in fade-in slide-in-from-bottom-4 duration-1000"
                       style={{ animationDelay: '600ms' }}
                     >
                       {slide.button.label}
@@ -97,16 +97,24 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
         ))}
 
         {/* Custom Navigation Buttons */}
-        <div className="custom-swiper-button-prev absolute left-4 md:left-8 top-1/2 z-20 -translate-y-1/2 cursor-pointer rounded-full bg-accent p-3 text-white shadow-lg transition-all hover:bg-accent-light hover:scale-105 active:scale-95 disabled:opacity-50 sm:left-12">
+        <button
+          type="button"
+          aria-label="Previous slide"
+          className="custom-swiper-button-prev absolute left-4 md:left-8 top-1/2 z-20 -translate-y-1/2 cursor-pointer rounded-full bg-accent p-3 text-primary-dark shadow-lg transition-all hover:bg-accent-light hover:scale-105 active:scale-95 disabled:opacity-50 sm:left-12"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="h-6 w-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
           </svg>
-        </div>
-        <div className="custom-swiper-button-next absolute right-4 md:right-8 top-1/2 z-20 -translate-y-1/2 cursor-pointer rounded-full bg-accent p-3 text-white shadow-lg transition-all hover:bg-accent-light hover:scale-105 active:scale-95 disabled:opacity-50 sm:right-12">
+        </button>
+        <button
+          type="button"
+          aria-label="Next slide"
+          className="custom-swiper-button-next absolute right-4 md:right-8 top-1/2 z-20 -translate-y-1/2 cursor-pointer rounded-full bg-accent p-3 text-primary-dark shadow-lg transition-all hover:bg-accent-light hover:scale-105 active:scale-95 disabled:opacity-50 sm:right-12"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="h-6 w-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
           </svg>
-        </div>
+        </button>
 
       </Swiper>
 

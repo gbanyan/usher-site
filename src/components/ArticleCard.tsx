@@ -20,7 +20,7 @@ export default function ArticleCard({
     <article className="group relative flex flex-col overflow-hidden rounded-xl border border-white/10 bg-primary/40 shadow-sm transition-shadow hover:shadow-md hover:shadow-accent/50">
       {/* Pinned indicator */}
       {article.is_pinned && (
-        <div className="absolute left-3 top-3 z-10 flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-xs font-medium text-white shadow">
+        <div className="absolute left-3 top-3 z-10 flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-xs font-medium text-primary-dark shadow">
           <svg
             className="h-3 w-3"
             fill="currentColor"

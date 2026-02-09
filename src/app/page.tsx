@@ -135,7 +135,7 @@ function ArticleList({
         <div className="h-px w-full bg-accent hidden sm:block"></div>
         <Link
           href={href}
-          className="hidden sm:inline-block whitespace-nowrap rounded border border-accent px-4 py-1.5 text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-white"
+          className="hidden sm:inline-block whitespace-nowrap rounded border border-accent px-4 py-1.5 text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-primary-dark"
         >
           查看更多
         </Link>
@@ -222,7 +222,7 @@ export default async function HomePage() {
             </p>
             <Link
               href={ABOUT_SECTION.button.link}
-              className="mt-6 inline-block rounded-lg border-2 border-accent px-6 py-2.5 font-medium text-accent transition-colors hover:bg-accent hover:text-white"
+              className="mt-6 inline-block rounded-lg border-2 border-accent px-6 py-2.5 font-medium text-accent transition-colors hover:bg-accent hover:text-primary-dark"
             >
               {ABOUT_SECTION.button.label}
             </Link>
@@ -274,9 +274,9 @@ export default async function HomePage() {
       )}
 
       {/* ============ CTA Section ============ */}
-      <section className="bg-accent py-16 text-center text-white">
+      <section className="bg-accent py-16 text-center text-primary-dark">
         <div className="mx-auto max-w-3xl px-4">
-          <p className="text-sm font-medium uppercase tracking-wider text-white/90">
+          <p className="text-sm font-medium uppercase tracking-wider text-primary-dark/90">
             志工、捐款、或合作計畫
           </p>
           <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
@@ -284,7 +284,7 @@ export default async function HomePage() {
           </h2>
           <Link
             href="/contact"
-            className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-accent transition-colors hover:bg-gray-100"
+            className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary-dark transition-colors hover:bg-gray-100"
           >
             聯繫我們
           </Link>
@@ -305,7 +305,7 @@ export default async function HomePage() {
               href={DOCUMENTARY.videoLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative flex h-20 w-20 items-center justify-center rounded-full bg-accent text-white shadow-lg transition-transform hover:scale-110"
+              className="relative flex h-20 w-20 items-center justify-center rounded-full bg-accent text-primary-dark shadow-lg transition-transform hover:scale-110"
               aria-label="播放紀錄片影片"
             >
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
