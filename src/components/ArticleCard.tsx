@@ -2,18 +2,16 @@ import Link from "next/link";
 import Image from "next/image";
 import type { ArticleSummary } from "@/lib/types";
 import { CONTENT_TYPE_PATHS } from "@/lib/types";
-import { formatDate } from "@/lib/utils";
+import { formatDate, stripMarkdown } from "@/lib/utils";
 
 interface ArticleCardProps {
   article: ArticleSummary;
   showType?: boolean;
-  showExcerpt?: boolean;
 }
 
 export default function ArticleCard({
   article,
   showType = false,
-  showExcerpt = true,
 }: ArticleCardProps) {
   const basePath = CONTENT_TYPE_PATHS[article.content_type];
   const articleUrl = `${basePath}/${article.slug}`;
@@ -101,9 +99,9 @@ export default function ArticleCard({
         </h3>
 
         {/* Excerpt */}
-        {showExcerpt && article.excerpt && (
+        {article.excerpt && (
           <p className="mb-3 line-clamp-2 flex-1 text-sm leading-relaxed text-gray-300">
-            {article.excerpt}
+            {stripMarkdown(article.excerpt)}
           </p>
         )}
 

@@ -27,14 +27,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-TW" className={notoSansTC.variable}>
-      <body className="min-h-screen bg-black font-sans text-white antialiased overflow-x-hidden">
+      <body className="min-h-screen bg-black font-sans text-white antialiased">
         <a href="#main-content" className="skip-to-content">
           跳至主要內容
         </a>
 
         <Header />
 
-        <main id="main-content" className="w-full overflow-x-hidden">{children}</main>
+        <main id="main-content" className="relative w-full overflow-hidden">{children}</main>
 
         <Footer />
       </body>

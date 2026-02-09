@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getArticle, getAttachmentDownloadUrl, getAllArticleSlugs } from "@/lib/api";
-import { formatDate, formatFileSize } from "@/lib/utils";
+import { formatDate, formatFileSize, stripMarkdown } from "@/lib/utils";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import ArticleCard from "@/components/ArticleCard";
@@ -26,7 +26,7 @@ export async function generateMetadata({
     const { data: article } = await getArticle(slug);
     return {
       title: article.title,
-      description: article.meta_description || article.excerpt,
+      description: article.meta_description || stripMarkdown(article.excerpt || ""),
     };
   } catch {
     return { title: "文章未找到" };
@@ -163,7 +163,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             </h2>
             <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((relatedArticle) => (
-                <ArticleCard key={relatedArticle.id} article={relatedArticle} showExcerpt={false} />
+                <ArticleCard key={relatedArticle.id} article={relatedArticle} />
               ))}
             </div>
           </section>
