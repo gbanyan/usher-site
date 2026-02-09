@@ -143,7 +143,7 @@ function ArticleList({
       <ul className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {articles.map((article) => (
           <li key={article.id} className="w-full">
-            <ArticleCard article={article} />
+            <ArticleCard article={article} showExcerpt={false} />
           </li>
         ))}
       </ul>

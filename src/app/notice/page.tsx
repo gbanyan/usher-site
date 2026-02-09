@@ -31,7 +31,7 @@ export default async function NoticeListingPage() {
         {articles && articles.data.length > 0 ? (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {articles.data.map((article) => (
-              <ArticleCard key={article.id} article={article} />
+              <ArticleCard key={article.id} article={article} showExcerpt={false} />
             ))}
           </div>
         ) : (

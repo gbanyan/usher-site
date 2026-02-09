@@ -7,11 +7,13 @@ import { formatDate } from "@/lib/utils";
 interface ArticleCardProps {
   article: ArticleSummary;
   showType?: boolean;
+  showExcerpt?: boolean;
 }
 
 export default function ArticleCard({
   article,
   showType = false,
+  showExcerpt = true,
 }: ArticleCardProps) {
   const basePath = CONTENT_TYPE_PATHS[article.content_type];
   const articleUrl = `${basePath}/${article.slug}`;
@@ -99,7 +101,7 @@ export default function ArticleCard({
         </h3>
 
         {/* Excerpt */}
-        {article.excerpt && (
+        {showExcerpt && article.excerpt && (
           <p className="mb-3 line-clamp-2 flex-1 text-sm leading-relaxed text-gray-300">
             {article.excerpt}
           </p>
