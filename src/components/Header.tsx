@@ -28,13 +28,18 @@ const NAV_ITEMS: NavItem[] = [
     ],
   },
   { label: "相關報導", href: "/related-news" },
-  { label: "協會文件", href: "/document" },
+  {
+    label: "資源中心",
+    children: [
+      { label: "協會文件", href: "/document" },
+      { label: "建議與指引", href: "/guides" },
+      { label: "病友故事", href: "/story" },
+    ],
+  },
   {
     label: "最新消息",
     children: [
       { label: "事務公告", href: "/notice" },
-      { label: "建議與指引", href: "/guides" },
-      { label: "病友故事", href: "/story" },
       { label: "部落格", href: "/blog" },
     ],
   },
