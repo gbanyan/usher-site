@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { getPage } from "@/lib/api";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 
-const VALID_SLUGS: Record<string, string> = {
-  mission: "協會任務",
-  structure: "組織架構",
-  message: "理事長的話",
-  "logo-represent": "Logo象徵",
+const PAGE_ROUTES: Record<string, { title: string; apiSlug: string }> = {
+  mission: { title: "協會任務", apiSlug: "mission" },
+  structure: { title: "組織架構", apiSlug: "structure" },
+  message: { title: "理事長的話", apiSlug: "message" },
+  "logo-represent": { title: "Logo象徵", apiSlug: "logo_represent" },
+  logo_represent: { title: "Logo象徵", apiSlug: "logo_represent" },
 };
 
 export function generateStaticParams() {
-  return Object.keys(VALID_SLUGS).map((pageSlug) => ({ pageSlug }));
+  return ["mission", "structure", "message", "logo-represent"].map((pageSlug) => ({
+    pageSlug,
+  }));
 }
 
 interface PageProps {
@@ -21,37 +24,61 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { pageSlug } = await params;
+  const route = PAGE_ROUTES[pageSlug];
 
-  if (!VALID_SLUGS[pageSlug]) {
+  if (!route) {
     return {};
   }
 
   try {
-    const page = await getPage(pageSlug);
+    let page;
+    try {
+      page = await getPage(route.apiSlug);
+    } catch {
+      page = route.apiSlug === pageSlug ? undefined : await getPage(pageSlug);
+    }
+
+    if (!page) {
+      throw new Error("Page not found");
+    }
+
     return {
-      title: page.title || VALID_SLUGS[pageSlug],
+      title: page.title || route.title,
       description: page.meta_description || `台灣尤塞氏症暨視聽弱協會 - ${page.title}`,
       keywords: page.meta_keywords || undefined,
     };
   } catch {
     return {
-      title: VALID_SLUGS[pageSlug],
-      description: `台灣尤塞氏症暨視聽弱協會 - ${VALID_SLUGS[pageSlug]}`,
+      title: route.title,
+      description: `台灣尤塞氏症暨視聽弱協會 - ${route.title}`,
     };
   }
 }
 
 export default async function StaticPage({ params }: PageProps) {
   const { pageSlug } = await params;
+  const route = PAGE_ROUTES[pageSlug];
 
-  if (!VALID_SLUGS[pageSlug]) {
+  if (!route) {
     notFound();
+  }
+
+  if (pageSlug === "logo_represent") {
+    permanentRedirect("/logo-represent");
   }
 
   let page;
   try {
-    page = await getPage(pageSlug);
+    try {
+      page = await getPage(route.apiSlug);
+    } catch {
+      page = route.apiSlug === pageSlug ? undefined : await getPage(pageSlug);
+    }
   } catch {
+    notFound();
+  }
+
+  if (!page) {
     notFound();
   }
 
