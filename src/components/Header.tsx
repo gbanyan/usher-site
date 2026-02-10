@@ -33,6 +33,8 @@ const NAV_ITEMS: NavItem[] = [
     label: "最新消息",
     children: [
       { label: "事務公告", href: "/notice" },
+      { label: "建議與指引", href: "/guides" },
+      { label: "病友故事", href: "/story" },
       { label: "部落格", href: "/blog" },
     ],
   },
