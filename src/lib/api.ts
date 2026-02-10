@@ -23,6 +23,38 @@ const API_URL =
 const SNAPSHOT_DIR =
   process.env.CONTENT_SNAPSHOT_DIR || path.join(process.cwd(), "content-snapshots");
 
+function normalizeFeaturedImageUrl(url: string | null): string | null {
+  if (!url) return null;
+
+  if (url.startsWith("/migrated-images/")) {
+    return `/images/${url.slice("/migrated-images/".length)}`;
+  }
+
+  if (url.startsWith("migrated-images/")) {
+    return `/images/${url.slice("migrated-images/".length)}`;
+  }
+
+  return url;
+}
+
+function normalizeArticleSummary<T extends { featured_image_url: string | null }>(
+  article: T
+): T {
+  return {
+    ...article,
+    featured_image_url: normalizeFeaturedImageUrl(article.featured_image_url),
+  };
+}
+
+function normalizePaginatedArticles<T extends { featured_image_url: string | null }>(
+  res: PaginatedResponse<T>
+): PaginatedResponse<T> {
+  return {
+    ...res,
+    data: res.data.map(normalizeArticleSummary),
+  };
+}
+
 async function readSnapshot<T>(relativePath: string): Promise<T> {
   const fullPath = path.join(SNAPSHOT_DIR, relativePath);
   const raw = await readFile(fullPath, "utf8");
@@ -96,7 +128,7 @@ export async function getArticles(params?: {
     const start = (currentPage - 1) * perPage;
     const pageItems = filtered.slice(start, start + perPage);
 
-    return {
+    return normalizePaginatedArticles({
       data: pageItems,
       meta: {
         current_page: currentPage,
@@ -112,7 +144,7 @@ export async function getArticles(params?: {
         prev: null,
         next: null,
       },
-    };
+    });
   }
 
   const searchParams = new URLSearchParams();
@@ -124,22 +156,36 @@ export async function getArticles(params?: {
   if (params?.per_page) searchParams.set("per_page", String(params.per_page));
 
   const query = searchParams.toString();
-  return fetchAPI<PaginatedResponse<ArticleSummary>>(
+  const res = await fetchAPI<PaginatedResponse<ArticleSummary>>(
     `/articles${query ? `?${query}` : ""}`,
     { tags: ["articles"] }
   );
+
+  return normalizePaginatedArticles(res);
 }
 
 export async function getArticle(slug: string): Promise<ArticleDetailResponse> {
   if (CONTENT_SOURCE === "snapshot") {
-    return readSnapshot<ArticleDetailResponse>(
+    const res = await readSnapshot<ArticleDetailResponse>(
       path.join("articles", "by-slug", `${slug}.json`)
     );
+
+    return {
+      ...res,
+      data: normalizeArticleSummary(res.data),
+      related: (res.related ?? []).map(normalizeArticleSummary),
+    };
   }
 
-  return fetchAPI<ArticleDetailResponse>(`/articles/${slug}`, {
+  const res = await fetchAPI<ArticleDetailResponse>(`/articles/${slug}`, {
     tags: ["articles", `article-${slug}`],
   });
+
+  return {
+    ...res,
+    data: normalizeArticleSummary(res.data),
+    related: (res.related ?? []).map(normalizeArticleSummary),
+  };
 }
 
 export async function getCategories(): Promise<Category[]> {
@@ -170,12 +216,29 @@ export async function getPage(slug: string): Promise<Page> {
 
 export async function getHomepage(): Promise<HomepageData> {
   if (CONTENT_SOURCE === "snapshot") {
-    return readSnapshot<HomepageData>("homepage.json");
+    const data = await readSnapshot<HomepageData>("homepage.json");
+    return {
+      ...data,
+      featured: (data.featured ?? []).map(normalizeArticleSummary),
+      latest_blog: (data.latest_blog ?? []).map(normalizeArticleSummary),
+      latest_notice: (data.latest_notice ?? []).map(normalizeArticleSummary),
+      latest_document: (data.latest_document ?? []).map(normalizeArticleSummary),
+      latest_related_news: (data.latest_related_news ?? []).map(normalizeArticleSummary),
+    };
   }
 
-  return fetchAPI<HomepageData>("/homepage", {
+  const data = await fetchAPI<HomepageData>("/homepage", {
     tags: ["homepage"],
   });
+
+  return {
+    ...data,
+    featured: (data.featured ?? []).map(normalizeArticleSummary),
+    latest_blog: (data.latest_blog ?? []).map(normalizeArticleSummary),
+    latest_notice: (data.latest_notice ?? []).map(normalizeArticleSummary),
+    latest_document: (data.latest_document ?? []).map(normalizeArticleSummary),
+    latest_related_news: (data.latest_related_news ?? []).map(normalizeArticleSummary),
+  };
 }
 
 export async function getAllArticleSlugs(
