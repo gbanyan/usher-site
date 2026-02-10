@@ -7,14 +7,27 @@ import { formatDate, stripMarkdown } from "@/lib/utils";
 interface ArticleCardProps {
   article: ArticleSummary;
   showType?: boolean;
+  basePath?: string;
 }
 
 export default function ArticleCard({
   article,
   showType = false,
+  basePath,
 }: ArticleCardProps) {
-  const basePath = CONTENT_TYPE_PATHS[article.content_type];
-  const articleUrl = `${basePath}/${article.slug}`;
+  const resolveBasePath = () => {
+    if (basePath) return basePath;
+
+    if (article.content_type === "blog") {
+      const categorySlugs = article.categories?.map((c) => c.slug) ?? [];
+      if (categorySlugs.includes("guides")) return "/guides";
+      if (categorySlugs.includes("story")) return "/story";
+    }
+
+    return CONTENT_TYPE_PATHS[article.content_type];
+  };
+
+  const articleUrl = `${resolveBasePath()}/${article.slug}`;
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-xl border border-white/10 bg-primary/40 shadow-sm transition-shadow hover:shadow-md hover:shadow-accent/50">
