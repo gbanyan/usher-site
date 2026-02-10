@@ -16,6 +16,11 @@ export default async function BlogListingPage() {
     articles = null;
   }
 
+  const regularBlogArticles = (articles?.data ?? []).filter((article) => {
+    const categorySlugs = article.categories?.map((category) => category.slug) ?? [];
+    return !categorySlugs.includes("guides") && !categorySlugs.includes("story");
+  });
+
   return (
     <>
       <PageHeader
@@ -28,9 +33,9 @@ export default async function BlogListingPage() {
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
 
-        {articles && articles.data.length > 0 ? (
+        {articles && regularBlogArticles.length > 0 ? (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {articles.data.map((article) => (
+            {regularBlogArticles.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}
           </div>
