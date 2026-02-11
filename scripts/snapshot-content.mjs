@@ -6,7 +6,6 @@ const CONTENT_TYPES = ["blog", "notice", "document", "related_news"];
 const PAGE_SLUGS = [
   "about",
   "contact",
-  "mission",
   "structure",
   "message",
   "logo-represent",
