@@ -44,6 +44,30 @@ export default async function DocumentListingPage() {
       />
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mb-8 rounded-xl border border-emerald-300/25 bg-emerald-900/20 p-6 shadow-sm shadow-black/20">
+          <h2 className="text-balance text-2xl font-semibold text-white">
+            研究與衛教資料
+          </h2>
+          <h3 className="mt-2 text-lg font-semibold text-emerald-100">
+            視聽障礙疾病之遺傳學（2024-02-25）
+          </h3>
+          <p className="mt-2 max-w-3xl text-sm text-gray-200">
+            以視力與聽力同時受影響的遺傳疾病為主軸，整理遺傳檢測基本概念與案例討論，
+            包含 USH2A 第13號外顯子變異主題，可作為入門閱讀。
+          </p>
+          <p className="mt-2 text-xs text-emerald-100/90">
+            作者：慈濟大學分子生物暨人類遺傳學系 靖永皓 副教授
+          </p>
+          <div className="mt-4">
+            <Link
+              href="/document/8c4f66e6-2dd2-4488-915f-d4302259312e"
+              className="inline-flex items-center rounded-md bg-emerald-300 px-4 py-2 text-sm font-medium text-emerald-950 hover:bg-emerald-200"
+            >
+              查看文件
+            </Link>
+          </div>
+        </div>
+
         <header className="mb-8 rounded-xl border border-white/15 bg-primary/40 p-6 shadow-sm shadow-black/20">
           <h2 className="text-balance text-2xl font-semibold text-white">
             公開文件列表
