@@ -63,7 +63,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
         {slides.map((slide, index) => (
           <SwiperSlide key={index} className="h-full w-full">
             <div className="flex h-full items-center">
-              <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="container mx-auto px-6 lg:px-8">
                 <div className="max-w-3xl text-left pt-10 sm:pt-0">
                   <h1
                     className="text-3xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl animate-in fade-in slide-in-from-bottom-4 duration-1000"
@@ -99,7 +99,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 
       {/* Custom Pagination Aligned with Content */}
       <div className="absolute bottom-[20%] sm:bottom-1/3 lg:bottom-[30%] left-0 right-0 z-20 pointer-events-none">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <div className="max-w-3xl">
             {/* 
                 Approximate position under the subtitle. 

@@ -81,7 +81,7 @@ export default async function AboutPage() {
         items={[{ label: "創立目的" }]}
       />
 
-      <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <article className="mx-auto max-w-4xl px-6 py-12 lg:px-8">
 
         <MarkdownRenderer content={page.content} />
 

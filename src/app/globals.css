@@ -41,6 +41,20 @@
   outline-offset: 4px;
 }
 
+/* Content padding for comfortable mobile reading (avoids text too close to edges) */
+@layer utilities {
+  .content-padding-x {
+    padding-left: 1.5rem;   /* 24px mobile */
+    padding-right: 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    .content-padding-x {
+      padding-left: 2rem;   /* 32px desktop */
+      padding-right: 2rem;
+    }
+  }
+}
+
 @layer base {
   body {
     background-color: #000;

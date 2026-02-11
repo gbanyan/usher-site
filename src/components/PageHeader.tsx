@@ -51,7 +51,7 @@ export default function PageHeader({
             </div>
 
             <div className="relative z-10 flex h-full items-center justify-center text-center">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto px-6 lg:px-8">
                     {/* Breadcrumb List */}
                     <nav aria-label="breadcrumb">
                         <script

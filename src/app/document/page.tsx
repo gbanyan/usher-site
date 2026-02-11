@@ -43,7 +43,7 @@ export default async function DocumentListingPage() {
         items={[{ label: "協會文件" }]}
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
         <header className="mb-8 rounded-xl border border-white/15 bg-primary/40 p-6 shadow-sm shadow-black/20">
           <h2 className="text-balance text-2xl font-semibold text-white">
             公開文件列表

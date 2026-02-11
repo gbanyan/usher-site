@@ -236,7 +236,7 @@ export default function Header() {
         className="sticky top-0 z-40 border-b border-white/10 bg-primary/95 backdrop-blur-md shadow-md"
         role="banner"
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 lg:px-8">
           {/* Logo / Association name */}
           <Link
             href="/"

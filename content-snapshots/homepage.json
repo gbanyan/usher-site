@@ -18,7 +18,7 @@
         {
           "id": 6,
           "name": "協會活動",
-          "slug": "category-566",
+          "slug": "category-306",
           "description": null
         }
       ]
@@ -40,7 +40,7 @@
         {
           "id": 5,
           "name": "協會事務",
-          "slug": "category-554",
+          "slug": "category-785",
           "description": null
         }
       ]
@@ -62,7 +62,7 @@
         {
           "id": 4,
           "name": "協會事務",
-          "slug": "category-105",
+          "slug": "category-205",
           "description": null
         }
       ]
@@ -84,7 +84,7 @@
         {
           "id": 3,
           "name": "協會事務",
-          "slug": "category-227",
+          "slug": "category-271",
           "description": null
         }
       ]
@@ -106,7 +106,7 @@
         {
           "id": 2,
           "name": "協會事務",
-          "slug": "category-268",
+          "slug": "category-248",
           "description": null
         }
       ]
@@ -128,7 +128,7 @@
         {
           "id": 1,
           "name": "協會事務",
-          "slug": "category-325",
+          "slug": "category-423",
           "description": null
         }
       ]
@@ -152,7 +152,7 @@
         {
           "id": 9,
           "name": "協會事務",
-          "slug": "category-821",
+          "slug": "category-148",
           "description": null
         }
       ]
@@ -174,7 +174,7 @@
         {
           "id": 8,
           "name": "協會事務",
-          "slug": "category-180",
+          "slug": "category-336",
           "description": null
         }
       ]
@@ -288,7 +288,7 @@
         {
           "id": 13,
           "name": "相關報導",
-          "slug": "category-724",
+          "slug": "category-612",
           "description": null
         }
       ]
@@ -310,7 +310,7 @@
         {
           "id": 15,
           "name": "相關報導",
-          "slug": "category-547",
+          "slug": "category-211",
           "description": null
         }
       ]
@@ -332,7 +332,7 @@
         {
           "id": 17,
           "name": "相關報導",
-          "slug": "category-797",
+          "slug": "category-334",
           "description": null
         }
       ]
@@ -354,7 +354,7 @@
         {
           "id": 16,
           "name": "相關報導",
-          "slug": "category-972",
+          "slug": "category-995",
           "description": null
         }
       ]
@@ -369,69 +369,69 @@
     "custom_fields": null,
     "meta_description": "尤塞氏症以及視聽雙弱者之病友團體",
     "meta_keywords": null,
-    "published_at": "2026-02-07T11:35:11+08:00"
+    "published_at": "2026-02-10T09:51:24+08:00"
   },
   "categories": [
     {
       "id": 1,
       "name": "協會事務",
-      "slug": "category-325",
+      "slug": "category-423",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 2,
       "name": "協會事務",
-      "slug": "category-268",
+      "slug": "category-248",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 3,
       "name": "協會事務",
-      "slug": "category-227",
+      "slug": "category-271",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 4,
       "name": "協會事務",
-      "slug": "category-105",
+      "slug": "category-205",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 5,
       "name": "協會事務",
-      "slug": "category-554",
+      "slug": "category-785",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 6,
       "name": "協會活動",
-      "slug": "category-566",
+      "slug": "category-306",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 7,
       "name": "協會事務",
-      "slug": "category-219",
+      "slug": "category-943",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 8,
       "name": "協會事務",
-      "slug": "category-180",
+      "slug": "category-336",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 9,
       "name": "協會事務",
-      "slug": "category-821",
+      "slug": "category-148",
       "description": null,
       "articles_count": 1
     },
@@ -445,49 +445,49 @@
     {
       "id": 11,
       "name": "相關報導",
-      "slug": "category-852",
+      "slug": "category-497",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 12,
       "name": "相關報導",
-      "slug": "category-474",
+      "slug": "category-949",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 13,
       "name": "相關報導",
-      "slug": "category-724",
+      "slug": "category-612",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 14,
       "name": "相關報導",
-      "slug": "category-324",
+      "slug": "category-532",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 15,
       "name": "相關報導",
-      "slug": "category-547",
+      "slug": "category-211",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 16,
       "name": "相關報導",
-      "slug": "category-972",
+      "slug": "category-995",
       "description": null,
       "articles_count": 1
     },
     {
       "id": 17,
       "name": "相關報導",
-      "slug": "category-797",
+      "slug": "category-334",
       "description": null,
       "articles_count": 1
     }

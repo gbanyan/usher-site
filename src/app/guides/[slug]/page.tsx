@@ -74,7 +74,7 @@ export default async function GuidesDetailPage({ params }: GuidesDetailPageProps
         description={article.published_at ? formatDate(article.published_at) : undefined}
       />
 
-      <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <article className="mx-auto max-w-4xl px-6 py-12 lg:px-8">
         <div className="mb-8">
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
             {article.author_name && (
@@ -148,7 +148,7 @@ export default async function GuidesDetailPage({ params }: GuidesDetailPageProps
         )}
       </article>
 
-      <nav className="mx-auto max-w-4xl px-4 pb-12 sm:px-6 lg:px-8">
+      <nav className="mx-auto max-w-4xl px-6 pb-12 lg:px-8">
         <Link
           href="/guides"
           className="inline-flex items-center text-sm font-medium text-primary hover:text-primary-light"

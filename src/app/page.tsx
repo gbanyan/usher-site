@@ -136,7 +136,7 @@ function ArticleList({
   if (articles.length === 0) return null;
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-4">
+    <section className="mx-auto w-full max-w-6xl px-6 lg:px-8">
       <div className="flex items-center justify-between gap-4 mb-6">
         <h2 className="text-2xl font-bold text-white whitespace-nowrap">{title}</h2>
         <div className="h-px w-full bg-accent hidden sm:block"></div>
@@ -214,7 +214,7 @@ export default async function HomePage() {
 
       {/* ============ About Section ============ */}
       <section className="py-12 sm:py-20" aria-labelledby="about-heading">
-        <div className="mx-auto grid max-w-6xl items-center gap-8 md:grid-cols-2 px-4">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 md:grid-cols-2 px-6 lg:px-8">
           <div>
 
             <h2
@@ -281,7 +281,7 @@ export default async function HomePage() {
 
       {/* ============ CTA Section ============ */}
       <section className="bg-accent py-12 sm:py-16 text-center text-primary-dark">
-        <div className="mx-auto max-w-3xl px-4">
+        <div className="mx-auto max-w-3xl px-6 lg:px-8">
           <p className="text-sm font-medium uppercase tracking-wider text-primary-dark/90">
             志工、捐款、或合作計畫
           </p>
@@ -304,7 +304,7 @@ export default async function HomePage() {
         aria-labelledby="documentary-heading"
       >
         <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 md:grid-cols-2">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-6 lg:px-8 md:grid-cols-2">
           {/* Play button */}
           <div className="flex items-center justify-center order-first md:order-last">
             <a

@@ -60,7 +60,7 @@ export default async function ContactPage() {
         items={[{ label: "聯繫資訊" }]}
       />
 
-      <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-4xl px-6 py-12 lg:px-8">
 
         {page && page.content && (
           <div className="mb-12">

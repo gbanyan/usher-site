@@ -24,7 +24,7 @@ export default async function GuidesListingPage() {
         items={[{ label: "建議與指引" }]}
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
         {articles && articles.data.length > 0 ? (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {articles.data.map((article) => (

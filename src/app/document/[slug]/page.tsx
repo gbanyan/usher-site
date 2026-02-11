@@ -61,7 +61,7 @@ export default async function DocumentDetailPage({
         description={updatedAt ? `更新：${formatDate(updatedAt)}` : undefined}
       />
 
-      <article className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+      <article className="mx-auto max-w-5xl px-6 py-12 lg:px-8">
         <section className="rounded-xl border border-white/15 bg-primary-dark/70 p-6 shadow-sm shadow-black/20">
           <div className="flex flex-wrap items-center gap-2">
             {document.category && (
@@ -236,7 +236,7 @@ export default async function DocumentDetailPage({
         )}
       </article>
 
-      <nav className="mx-auto max-w-5xl px-4 pb-12 sm:px-6 lg:px-8">
+      <nav className="mx-auto max-w-5xl px-6 pb-12 lg:px-8">
         <Link
           href="/document"
           className="inline-flex items-center text-sm font-medium text-primary hover:text-primary-light"

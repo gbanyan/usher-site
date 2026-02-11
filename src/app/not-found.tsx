@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 text-center">
+    <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 text-center">
       <h1 className="text-6xl font-bold text-accent">404</h1>
       <p className="mt-4 text-xl text-white">找不到頁面</p>
       <p className="mt-2 text-gray-400">

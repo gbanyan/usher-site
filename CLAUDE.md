@@ -49,14 +49,15 @@ The site is **fully static after build**. No Laravel API needed at runtime.
 - Content updates trigger on-demand revalidation via webhook (`POST /api/revalidate`)
 - All `fetch()` calls use `revalidate: false` (no time-based ISR)
 
-### Snapshot Mode (Build Without Laravel)
+### Snapshot Mode (Optional Fallback)
 
-If the Laravel API is not available (e.g., for GitHub/Vercel builds), you can build from committed JSON snapshots.
+Default mode is `CONTENT_SOURCE=api`.  
+Only use snapshot mode when the Laravel API cannot be reached during build.
 
 1. With Laravel running locally on `http://localhost:8001`, generate snapshots:
    - `npm run snapshot`
 2. Commit `content-snapshots/` and (optionally) `public/attachments/`
-3. In Vercel, set `CONTENT_SOURCE=snapshot` (and do not rely on `NEXT_PUBLIC_API_URL`)
+3. Set `CONTENT_SOURCE=snapshot` only for fallback deployments
 
 ### Content Source — Laravel API
 
@@ -106,6 +107,7 @@ Laravel calls this webhook automatically when admin creates/updates/publishes/ar
 ### Environment Variables
 
 ```
+CONTENT_SOURCE=api                                   # Preferred source
 NEXT_PUBLIC_API_URL=http://localhost:8001/api/v1   # Laravel API base
 REVALIDATE_TOKEN=your-secret-token-here             # Webhook auth token
 ```
