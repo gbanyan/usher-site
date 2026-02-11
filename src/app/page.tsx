@@ -23,13 +23,13 @@ const SLIDER_ITEMS = [
     title: "尤塞氏症之病友團體",
     content:
       "我們是一群因為先天性遺傳疾病（大多為 Usher Syndrome, 尤塞氏症），而導致同時有視網膜色素病變、視力障礙及聽力障礙的病友。",
-    button: { label: "更多故事", link: "/document" },
+    button: { label: "更多故事", link: "/story" },
   },
   {
     image: "/images/banner/banner.jpg",
     title: "視聽雙弱障礙",
     content: "協助視聽雙弱病友相同境遇患者，共同面對生活中的挑戰與課題",
-    button: { label: "更多故事", link: "/document" },
+    button: { label: "更多故事", link: "/story" },
   },
 ];
 
@@ -65,7 +65,7 @@ const ABOUT_SECTION = {
   image: "/images/banner/banner.jpg",
   content:
     "在台灣，除了尤塞氏症患者外，還有一群極為少數的人，因為不明原因（已證明或未證實的相關致病基因、後天因素），而一樣直接影響了視力、聽力，導致其比起正常人來說，直接被剝奪了，與外界溝通最重要的兩個管道。遺憾的是，由於群體極為少眾，以及特殊的雙重受限經驗，傳統的無障礙輔助設計、資源不見得適用。而在罕見疾病族群之中，也端為少見的基因型態，使其更難受到醫藥研究關注、照護資源的挹注。尤塞氏症與其這些族群的共同困境，將會是本協會著重的課題。",
-  button: { label: "故事", link: "/document" },
+  button: { label: "故事", link: "/story" },
 };
 
 const DOCUMENTARY = {
