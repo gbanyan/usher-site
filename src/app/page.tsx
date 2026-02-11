@@ -86,26 +86,33 @@ function FeatureIcon({ type }: { type: string }) {
     case "search":
       return (
         <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.25 3.75c0 3.75 7.5 3.75 7.5 7.5s-7.5 3.75-7.5 7.5" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 3.75c0 3.75-7.5 3.75-7.5 7.5s7.5 3.75 7.5 7.5" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.625 6h6.75M7.875 11.25h8.25M8.625 16.5h6.75" />
         </svg>
       );
     case "headphone":
       return (
         <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.5 5.25a5.25 5.25 0 015.25 5.25v1.125a4.125 4.125 0 11-8.25 0V9a2.625 2.625 0 115.25 0v.75" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18 8.25a6 6 0 010 7.5M20.25 7.125a7.5 7.5 0 010 9.75" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.5 4.5l15 15" />
         </svg>
       );
     case "eye":
       return (
         <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 12h2.25m-1.5-1.5L4.5 12l-1.5 1.5M21.75 12H19.5m1.5-1.5L19.5 12l1.5 1.5" />
         </svg>
       );
     case "balance":
       return (
         <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1.5M18.364 5.636l-1.06 1.06M21 12h-1.5M18.364 18.364l-1.06-1.06M12 19.5V21M7.697 18.364l-1.06 1.06M4.5 12H3M7.697 5.636l-1.06-1.06M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3.75v14.25M9 21h6" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 7.5h12M6 7.5l-2.25 4.5h4.5L6 7.5zM18 7.5l-2.25 4.5h4.5L18 7.5z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 15.75a2.25 2.25 0 104.5 0" />
         </svg>
       );
     default:
