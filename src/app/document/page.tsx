@@ -1,59 +1,55 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getArticles } from "@/lib/api";
+import { getPublicDocuments } from "@/lib/api";
 import PageHeader from "@/components/PageHeader";
-import { formatDate, stripMarkdown } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "協會文件",
-  description: "協會公開文件與資源列表",
+  description: "協會公開文件、版本資訊與下載列表",
 };
 
 export default async function DocumentListingPage() {
-  let articles;
+  let response;
   try {
-    articles = await getArticles({ type: "document", per_page: 100 });
+    response = await getPublicDocuments({ per_page: 500 });
   } catch {
-    articles = null;
+    response = null;
   }
 
-  const allDocuments = articles?.data ?? [];
+  const allDocuments = response?.data ?? [];
   const categoryOptions = Array.from(
     new Map(
       allDocuments
-        .flatMap((article) => article.categories ?? [])
+        .map((document) => document.category)
+        .filter(
+          (category): category is NonNullable<(typeof allDocuments)[number]["category"]> =>
+            category !== null
+        )
         .map((category) => [category.slug, category])
     ).values()
   ).sort((a, b) => a.name.localeCompare(b.name, "zh-Hant"));
 
-  const tagOptions = Array.from(
-    new Map(
-      allDocuments
-        .flatMap((article) => article.tags ?? [])
-        .map((tag) => [tag.slug, tag])
-    ).values()
-  ).sort((a, b) => a.name.localeCompare(b.name, "zh-Hant"));
-
-  const latestPublishedDate = allDocuments
-    .map((article) => article.published_at)
-    .filter((publishedAt): publishedAt is string => Boolean(publishedAt))
+  const latestUpdatedDate = allDocuments
+    .map((document) => document.updated_at || document.published_at)
+    .filter((value): value is string => Boolean(value))
     .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())[0];
 
   return (
     <>
       <PageHeader
         title="協會文件"
-        description="公開文件、指引與資源下載入口"
+        description="公開文件、版本資訊與下載入口"
         items={[{ label: "協會文件" }]}
       />
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <header className="mb-8 rounded-xl border border-white/15 bg-primary/40 p-6 shadow-sm shadow-black/20">
           <h2 className="text-balance text-2xl font-semibold text-white">
-            文件資源列表
+            公開文件列表
           </h2>
           <p className="mt-2 max-w-3xl text-pretty text-sm text-gray-300">
-            可透過分類與標籤快速判讀文件用途，點入文件頁面可查看說明與附件下載資訊。
+            本頁資料由 member 文件庫同步。每筆文件保留版本資訊、更新日期與下載連結。
           </p>
           <dl className="mt-5 grid grid-cols-1 gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-lg border border-white/10 bg-primary-dark/70 px-4 py-3">
@@ -69,21 +65,19 @@ export default async function DocumentListingPage() {
               </dd>
             </div>
             <div className="rounded-lg border border-white/10 bg-primary-dark/70 px-4 py-3">
-              <dt className="text-gray-300">主題標籤</dt>
-              <dd className="mt-1 text-lg font-semibold tabular-nums text-white">
-                {tagOptions.length}
-              </dd>
+              <dt className="text-gray-300">已索引狀態</dt>
+              <dd className="mt-1 text-lg font-semibold text-white">公開中</dd>
             </div>
             <div className="rounded-lg border border-white/10 bg-primary-dark/70 px-4 py-3">
               <dt className="text-gray-300">最近更新日</dt>
               <dd className="mt-1 text-lg font-semibold tabular-nums text-white">
-                {latestPublishedDate ? formatDate(latestPublishedDate) : "尚無資料"}
+                {latestUpdatedDate ? formatDate(latestUpdatedDate) : "尚無資料"}
               </dd>
             </div>
           </dl>
         </header>
 
-        {articles && allDocuments.length > 0 ? (
+        {response && allDocuments.length > 0 ? (
           <>
             <div className="hidden overflow-hidden rounded-xl border border-white/15 bg-primary-dark/70 shadow-sm shadow-black/20 md:block">
               <table className="min-w-full divide-y divide-white/10">
@@ -94,19 +88,19 @@ export default async function DocumentListingPage() {
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-semibold text-gray-200"
                     >
-                      文件資源
+                      文件
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-semibold text-gray-200"
                     >
-                      分類與標籤
+                      分類與文號
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-semibold text-gray-200"
                     >
-                      更新資訊
+                      版本與更新
                     </th>
                     <th
                       scope="col"
@@ -117,82 +111,69 @@ export default async function DocumentListingPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/10">
-                  {allDocuments.map((article) => {
-                    const articleUrl = `/document/${article.slug}`;
-                    const summaryText = stripMarkdown(
-                      article.summary ?? article.excerpt ?? ""
-                    );
+                  {allDocuments.map((document) => {
+                    const detailUrl = `/document/${document.slug}`;
+                    const updatedAt = document.updated_at || document.published_at;
 
                     return (
-                      <tr key={article.id} className="align-top hover:bg-white/5">
+                      <tr key={document.slug} className="align-top hover:bg-white/5">
                         <td className="px-6 py-4">
-                          <div className="flex items-start gap-2">
-                            {article.is_pinned && (
-                              <span className="rounded bg-accent px-2 py-0.5 text-xs font-medium text-primary-dark">
-                                置頂
-                              </span>
+                          <div>
+                            <Link
+                              href={detailUrl}
+                              className="text-base font-semibold text-white hover:text-accent"
+                            >
+                              {document.title}
+                            </Link>
+                            {document.description && (
+                              <p className="mt-1 line-clamp-2 text-sm text-gray-300">
+                                {document.description}
+                              </p>
                             )}
-                            <div>
-                              <Link
-                                href={articleUrl}
-                                className="text-base font-semibold text-white hover:text-accent"
-                              >
-                                {article.title}
-                              </Link>
-                              {summaryText && (
-                                <p className="mt-1 line-clamp-2 text-sm text-gray-300">
-                                  {summaryText}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex flex-wrap gap-1.5">
-                            {(article.categories ?? []).map((category) => (
-                              <span
-                                key={category.slug}
-                                className="rounded-full bg-accent/15 px-2 py-0.5 text-xs font-medium text-accent-light"
-                              >
-                                {category.name}
-                              </span>
-                            ))}
-                            {(article.tags ?? []).map((tag) => (
-                              <span
-                                key={tag.slug}
-                                className="rounded-full border border-white/20 px-2 py-0.5 text-xs text-gray-300"
-                              >
-                                #{tag.name}
-                              </span>
-                            ))}
-                            {(!article.categories || article.categories.length === 0) &&
-                              (!article.tags || article.tags.length === 0) && (
-                                <span className="text-xs text-gray-400">未分類</span>
-                              )}
                           </div>
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-200">
-                          <p className="tabular-nums">
-                            {article.published_at ? formatDate(article.published_at) : "未設定"}
+                          <div className="flex flex-wrap gap-1.5">
+                            {document.category && (
+                              <span className="rounded-full bg-accent/15 px-2 py-0.5 text-xs font-medium text-accent-light">
+                                {document.category.name}
+                              </span>
+                            )}
+                            <span className="rounded-full border border-white/20 px-2 py-0.5 text-xs text-gray-300">
+                              {document.access_level_label}
+                            </span>
+                          </div>
+                          {document.document_number && (
+                            <p className="mt-2 text-xs text-gray-300">
+                              文號：{document.document_number}
+                            </p>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-200">
+                          <p>版本：{document.current_version?.version_number ?? "-"}</p>
+                          <p className="mt-1 text-xs text-gray-400">
+                            更新：{updatedAt ? formatDate(updatedAt) : "未設定"}
                           </p>
                           <p className="mt-1 text-xs text-gray-400">
-                            {article.author_name ?? "社團法人台灣尤塞氏症病友協會"}
+                            檔案：{document.current_version?.file_size_human ?? "-"}
                           </p>
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex justify-end gap-2">
                             <Link
-                              href={articleUrl}
+                              href={detailUrl}
                               className="inline-flex items-center rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-primary-dark hover:bg-accent-light"
                             >
-                              查看內容
+                              查看詳情
                             </Link>
-                            <Link
-                              href={`${articleUrl}#attachments-heading`}
-                              className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
-                            >
-                              附件下載
-                            </Link>
+                            {document.links.download_url && (
+                              <a
+                                href={document.links.download_url}
+                                className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
+                              >
+                                下載
+                              </a>
+                            )}
                           </div>
                         </td>
                       </tr>
@@ -203,71 +184,54 @@ export default async function DocumentListingPage() {
             </div>
 
             <ul className="space-y-4 md:hidden">
-              {allDocuments.map((article) => {
-                const articleUrl = `/document/${article.slug}`;
-                const summaryText = stripMarkdown(
-                  article.summary ?? article.excerpt ?? ""
-                );
+              {allDocuments.map((document) => {
+                const detailUrl = `/document/${document.slug}`;
+                const updatedAt = document.updated_at || document.published_at;
 
                 return (
                   <li
-                    key={article.id}
+                    key={document.slug}
                     className="rounded-xl border border-white/15 bg-primary-dark/70 p-4 shadow-sm shadow-black/20"
                   >
-                    <div className="flex items-start justify-between gap-3">
-                      <h3 className="text-balance text-base font-semibold text-white">
-                        <Link href={articleUrl} className="hover:text-accent">
-                          {article.title}
-                        </Link>
-                      </h3>
-                      {article.is_pinned && (
-                        <span className="rounded bg-accent px-2 py-0.5 text-xs font-medium text-primary-dark">
-                          置頂
-                        </span>
-                      )}
-                    </div>
-                    {summaryText && (
+                    <h3 className="text-balance text-base font-semibold text-white">
+                      <Link href={detailUrl} className="hover:text-accent">
+                        {document.title}
+                      </Link>
+                    </h3>
+                    {document.description && (
                       <p className="mt-2 line-clamp-3 text-pretty text-sm text-gray-300">
-                        {summaryText}
+                        {document.description}
                       </p>
                     )}
                     <dl className="mt-3 grid grid-cols-1 gap-1 text-sm text-gray-200">
                       <div>
-                        <dt className="sr-only">更新日</dt>
-                        <dd className="tabular-nums">
-                          更新：{article.published_at ? formatDate(article.published_at) : "未設定"}
-                        </dd>
+                        <dt className="sr-only">分類</dt>
+                        <dd>分類：{document.category?.name ?? "未分類"}</dd>
                       </div>
                       <div>
-                        <dt className="sr-only">來源</dt>
-                        <dd>來源：{article.author_name ?? "社團法人台灣尤塞氏症病友協會"}</dd>
+                        <dt className="sr-only">版本</dt>
+                        <dd>版本：{document.current_version?.version_number ?? "-"}</dd>
+                      </div>
+                      <div>
+                        <dt className="sr-only">更新</dt>
+                        <dd>更新：{updatedAt ? formatDate(updatedAt) : "未設定"}</dd>
                       </div>
                     </dl>
-                    {(article.categories?.length ?? 0) > 0 && (
-                      <div className="mt-3 flex flex-wrap gap-1.5">
-                        {article.categories.map((category) => (
-                          <span
-                            key={category.slug}
-                            className="rounded-full bg-accent/15 px-2 py-0.5 text-xs font-medium text-accent-light"
-                          >
-                            {category.name}
-                          </span>
-                        ))}
-                      </div>
-                    )}
                     <div className="mt-4 flex gap-2">
                       <Link
-                        href={articleUrl}
+                        href={detailUrl}
                         className="inline-flex items-center rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-primary-dark hover:bg-accent-light"
                       >
-                        查看內容
+                        查看詳情
                       </Link>
-                      <Link
-                        href={`${articleUrl}#attachments-heading`}
-                        className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
-                      >
-                        附件下載
-                      </Link>
+                      {document.links.download_url && (
+                        <a
+                          href={document.links.download_url}
+                          className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
+                        >
+                          下載
+                        </a>
+                      )}
                     </div>
                   </li>
                 );

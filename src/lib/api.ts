@@ -6,6 +6,10 @@ import type {
   Category,
   HomepageData,
   ContentType,
+  PublicDocumentSummary,
+  PublicDocument,
+  PublicDocumentDetailResponse,
+  PublicDocumentVersion,
 } from "./types";
 
 import "server-only";
@@ -52,6 +56,112 @@ function normalizePaginatedArticles<T extends { featured_image_url: string | nul
   return {
     ...res,
     data: res.data.map(normalizeArticleSummary),
+  };
+}
+
+function mapLegacyArticleSummaryToPublicDocument(
+  article: ArticleSummary
+): PublicDocumentSummary {
+  return {
+    id: article.id,
+    slug: article.slug,
+    public_uuid: article.slug,
+    title: article.title,
+    document_number: null,
+    summary: article.summary ?? article.excerpt,
+    description: article.summary ?? article.excerpt,
+    status: "active",
+    status_label: "啟用",
+    access_level: "public",
+    access_level_label: "公開",
+    published_at: article.published_at,
+    updated_at: article.published_at,
+    expires_at: null,
+    version_count: 1,
+    category: article.categories?.[0]
+      ? {
+          id: article.categories[0].id,
+          name: article.categories[0].name,
+          slug: article.categories[0].slug,
+          icon: null,
+        }
+      : null,
+    current_version: null,
+    links: {
+      api_url: `${API_URL}/articles/${article.slug}`,
+      detail_url: `/document/${article.slug}`,
+      web_url: `/document/${article.slug}`,
+      download_url: null,
+    },
+    metadata: {
+      document_type: article.categories?.[0]?.name ?? null,
+      expiration_status: null,
+      auto_archive_on_expiry: false,
+      expiry_notice: null,
+    },
+  };
+}
+
+function mapLegacyAttachmentToVersion(
+  articleSlug: string,
+  attachment: {
+    id: number;
+    original_filename: string;
+    mime_type: string;
+    file_size: number;
+    description: string | null;
+  },
+  index: number
+): PublicDocumentVersion {
+  const extension = attachment.original_filename.includes(".")
+    ? attachment.original_filename.split(".").pop() ?? ""
+    : "";
+
+  return {
+    id: attachment.id,
+    version_number: `${index + 1}.0`,
+    version_notes: attachment.description,
+    is_current: index === 0,
+    original_filename: attachment.original_filename,
+    mime_type: attachment.mime_type,
+    file_extension: extension.toLowerCase(),
+    file_size: attachment.file_size,
+    file_size_human: `${(attachment.file_size / 1024).toFixed(1)} KB`,
+    file_hash: null,
+    uploaded_by: null,
+    uploaded_at: null,
+    download_url: getAttachmentDownloadUrl(
+      articleSlug,
+      attachment.id,
+      attachment.original_filename
+    ),
+  };
+}
+
+function mapLegacyArticleDetailToPublicDocument(
+  response: ArticleDetailResponse
+): PublicDocumentDetailResponse {
+  const article = response.data;
+  const versions = (article.attachments ?? []).map((attachment, index) =>
+    mapLegacyAttachmentToVersion(article.slug, attachment, index)
+  );
+
+  const mapped: PublicDocument = {
+    ...mapLegacyArticleSummaryToPublicDocument(article),
+    current_version: versions[0] ?? null,
+    version_count: versions.length > 0 ? versions.length : 1,
+    versions,
+    links: {
+      api_url: `${API_URL}/articles/${article.slug}`,
+      detail_url: `/document/${article.slug}`,
+      web_url: `/document/${article.slug}`,
+      download_url: versions[0]?.download_url ?? null,
+    },
+  };
+
+  return {
+    data: mapped,
+    related: (response.related ?? []).map(mapLegacyArticleSummaryToPublicDocument),
   };
 }
 
@@ -263,6 +373,89 @@ export async function getAllArticleSlugs(
     return res.data.map((a) => a.slug);
   } catch {
     return [];
+  }
+}
+
+export async function getPublicDocuments(params?: {
+  search?: string;
+  category?: string;
+  page?: number;
+  per_page?: number;
+}): Promise<PaginatedResponse<PublicDocumentSummary>> {
+  if (CONTENT_SOURCE === "snapshot") {
+    const legacy = await getArticles({
+      type: "document",
+      per_page: params?.per_page ?? 500,
+    });
+
+    return {
+      ...legacy,
+      data: legacy.data.map(mapLegacyArticleSummaryToPublicDocument),
+    };
+  }
+
+  const searchParams = new URLSearchParams();
+  if (params?.search) searchParams.set("search", params.search);
+  if (params?.category) searchParams.set("category", params.category);
+  if (params?.page) searchParams.set("page", String(params.page));
+  if (params?.per_page) searchParams.set("per_page", String(params.per_page));
+
+  const query = searchParams.toString();
+
+  try {
+    return await fetchAPI<PaginatedResponse<PublicDocumentSummary>>(
+      `/public-documents${query ? `?${query}` : ""}`,
+      { tags: ["documents"] }
+    );
+  } catch {
+    // Backward-compatible fallback while older deployments still expose document articles only.
+    const legacy = await getArticles({
+      type: "document",
+      search: params?.search,
+      category: params?.category,
+      page: params?.page,
+      per_page: params?.per_page ?? 500,
+    });
+
+    return {
+      ...legacy,
+      data: legacy.data.map(mapLegacyArticleSummaryToPublicDocument),
+    };
+  }
+}
+
+export async function getPublicDocument(
+  slug: string
+): Promise<PublicDocumentDetailResponse> {
+  if (CONTENT_SOURCE === "snapshot") {
+    const legacy = await getArticle(slug);
+    return mapLegacyArticleDetailToPublicDocument(legacy);
+  }
+
+  try {
+    return await fetchAPI<PublicDocumentDetailResponse>(
+      `/public-documents/${slug}`,
+      { tags: ["documents", `document-${slug}`] }
+    );
+  } catch {
+    const legacy = await getArticle(slug);
+    return mapLegacyArticleDetailToPublicDocument(legacy);
+  }
+}
+
+export async function getAllPublicDocumentSlugs(): Promise<string[]> {
+  if (CONTENT_SOURCE === "snapshot") {
+    return getAllArticleSlugs("document");
+  }
+
+  try {
+    const res = await fetchAPI<PaginatedResponse<PublicDocumentSummary>>(
+      "/public-documents?per_page=500",
+      { tags: ["documents"] }
+    );
+    return res.data.map((document) => document.slug);
+  } catch {
+    return getAllArticleSlugs("document");
   }
 }
 

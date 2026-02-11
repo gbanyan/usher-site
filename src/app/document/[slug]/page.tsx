@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
-import { getArticle, getAttachmentDownloadUrl, getAllArticleSlugs } from "@/lib/api";
-import { formatDate, formatFileSize, stripMarkdown } from "@/lib/utils";
+import {
+  getAllPublicDocumentSlugs,
+  getPublicDocument,
+} from "@/lib/api";
+import { formatDate } from "@/lib/utils";
 import PageHeader from "@/components/PageHeader";
-import MarkdownRenderer from "@/components/MarkdownRenderer";
-import ArticleCard from "@/components/ArticleCard";
-
-export async function generateStaticParams() {
-  const slugs = await getAllArticleSlugs("document");
-  return slugs.map((slug) => ({ slug }));
-}
 
 interface DocumentDetailPageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateStaticParams() {
+  const slugs = await getAllPublicDocumentSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -23,10 +23,10 @@ export async function generateMetadata({
   const { slug } = await params;
 
   try {
-    const { data: article } = await getArticle(slug);
+    const { data: document } = await getPublicDocument(slug);
     return {
-      title: article.title,
-      description: article.meta_description || stripMarkdown(article.excerpt || ""),
+      title: document.title,
+      description: document.summary || document.description || undefined,
     };
   } catch {
     return { title: "文件未找到" };
@@ -38,141 +38,205 @@ export default async function DocumentDetailPage({
 }: DocumentDetailPageProps) {
   const { slug } = await params;
 
-  let article;
+  let document;
   let related;
   try {
-    const response = await getArticle(slug);
-    article = response.data;
-    related = response.related;
+    const response = await getPublicDocument(slug);
+    document = response.data;
+    related = response.related ?? [];
   } catch {
     notFound();
   }
 
+  const updatedAt = document.updated_at || document.published_at;
+
   return (
     <>
       <PageHeader
-        title={article.title}
+        title={document.title}
         items={[
           { label: "協會文件", href: "/document" },
-          { label: article.title },
+          { label: document.title },
         ]}
-        description={article.published_at ? formatDate(article.published_at) : undefined}
+        description={updatedAt ? `更新：${formatDate(updatedAt)}` : undefined}
       />
 
-      <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        {/* Metadata */}
-        <div className="mb-8">
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
-            {article.author_name && (
-              <span>
-                <span className="sr-only">作者：</span>
-                {article.author_name}
+      <article className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+        <section className="rounded-xl border border-white/15 bg-primary-dark/70 p-6 shadow-sm shadow-black/20">
+          <div className="flex flex-wrap items-center gap-2">
+            {document.category && (
+              <span className="rounded-full bg-accent/15 px-3 py-1 text-xs font-medium text-accent-light">
+                {document.category.name}
               </span>
             )}
+            <span className="rounded-full border border-white/20 px-3 py-1 text-xs text-gray-200">
+              {document.access_level_label}
+            </span>
+            <span className="rounded-full border border-white/20 px-3 py-1 text-xs text-gray-200">
+              {document.status_label}
+            </span>
           </div>
 
-          {article.categories?.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-2">
-              {article.categories.map((category) => (
-                <span
-                  key={category.id}
-                  className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
-                >
-                  {category.name}
-                </span>
-              ))}
+          <dl className="mt-4 grid grid-cols-1 gap-3 text-sm text-gray-200 sm:grid-cols-2">
+            <div>
+              <dt className="text-gray-400">文號</dt>
+              <dd className="mt-1">{document.document_number ?? "未提供"}</dd>
             </div>
+            <div>
+              <dt className="text-gray-400">目前版本</dt>
+              <dd className="mt-1">
+                {document.current_version?.version_number ?? "未設定"}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-gray-400">最近更新</dt>
+              <dd className="mt-1">
+                {updatedAt ? formatDate(updatedAt) : "未設定"}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-gray-400">有效期限</dt>
+              <dd className="mt-1">
+                {document.expires_at
+                  ? formatDate(document.expires_at)
+                  : "無期限"}
+              </dd>
+            </div>
+          </dl>
+
+          {document.description && (
+            <p className="mt-5 text-sm leading-relaxed text-gray-300">
+              {document.description}
+            </p>
           )}
 
-          {article.tags?.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-2">
-              {article.tags.map((tag) => (
-                <span
-                  key={tag.slug}
-                  className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600"
-                >
-                  {tag.name}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {article.featured_image_url && (
-          <figure className="mb-8 overflow-hidden rounded-lg">
-            <Image
-              src={article.featured_image_url}
-              alt={article.featured_image_alt || article.title}
-              width={1200}
-              height={630}
-              className="h-auto w-full object-cover"
-              priority
-            />
-          </figure>
-        )}
-
-        <div className="prose prose-lg max-w-none">
-          <MarkdownRenderer content={article.content} />
-        </div>
-
-        {article.attachments?.length > 0 && (
-          <section className="mt-12 border-t border-gray-200 pt-8" aria-labelledby="attachments-heading">
-            <h2
-              id="attachments-heading"
-              className="text-xl font-semibold text-gray-900"
+          <div className="mt-6 flex flex-wrap gap-2">
+            {document.current_version?.download_url && (
+              <a
+                href={document.current_version.download_url}
+                className="inline-flex items-center rounded-md bg-accent px-4 py-2 text-sm font-medium text-primary-dark hover:bg-accent-light"
+              >
+                下載目前版本
+              </a>
+            )}
+            <a
+              href={document.links.web_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-md border border-white/20 px-4 py-2 text-sm font-medium text-gray-200 hover:bg-white/10"
             >
-              附件下載
-            </h2>
-            <ul className="mt-4 divide-y divide-gray-100 rounded-lg border border-gray-200">
-              {article.attachments.map((attachment) => (
-                <li key={attachment.id}>
-                  <a
-                    href={getAttachmentDownloadUrl(
-                      slug,
-                      attachment.id,
-                      attachment.original_filename
-                    )}
-                    className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-surface"
-                    download
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-primary">
-                        {attachment.original_filename}
-                      </p>
-                      {attachment.description && (
-                        <p className="mt-1 truncate text-xs text-gray-500">
-                          {attachment.description}
+              前往 member 文件頁
+            </a>
+          </div>
+        </section>
+
+        <section
+          className="mt-8 rounded-xl border border-white/15 bg-primary-dark/70 p-6 shadow-sm shadow-black/20"
+          aria-labelledby="versions-heading"
+        >
+          <h2 id="versions-heading" className="text-xl font-semibold text-white">
+            版本資訊
+          </h2>
+
+          {document.versions.length > 0 ? (
+            <div className="mt-4 overflow-x-auto">
+              <table className="min-w-full divide-y divide-white/10">
+                <caption className="sr-only">文件版本歷程</caption>
+                <thead className="bg-primary/50">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-200">
+                      版本
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-200">
+                      檔案
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-200">
+                      更新日期
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-200">
+                      雜湊
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-semibold text-gray-200">
+                      下載
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/10">
+                  {document.versions.map((version) => (
+                    <tr key={version.id}>
+                      <td className="px-4 py-3 text-sm text-gray-100">
+                        {version.version_number}
+                        {version.is_current && (
+                          <span className="ml-2 rounded bg-green-700/60 px-2 py-0.5 text-xs text-green-100">
+                            最新
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-200">
+                        <p className="break-all">{version.original_filename}</p>
+                        <p className="mt-1 text-xs text-gray-400">
+                          {version.file_size_human}
                         </p>
-                      )}
-                    </div>
-                    <span className="ml-4 shrink-0 text-xs text-gray-400">
-                      {formatFileSize(attachment.file_size)}
-                    </span>
-                  </a>
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-200">
+                        {version.uploaded_at
+                          ? formatDate(version.uploaded_at)
+                          : "未設定"}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-gray-300">
+                        {version.file_hash
+                          ? `${version.file_hash.slice(0, 16)}...`
+                          : "-"}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <a
+                          href={version.download_url}
+                          className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
+                        >
+                          下載
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="mt-4 text-sm text-gray-300">目前沒有版本資料。</p>
+          )}
+        </section>
+
+        {related.length > 0 && (
+          <section
+            className="mt-8 rounded-xl border border-white/15 bg-primary-dark/70 p-6 shadow-sm shadow-black/20"
+            aria-labelledby="related-heading"
+          >
+            <h2 id="related-heading" className="text-xl font-semibold text-white">
+              相關文件
+            </h2>
+            <ul className="mt-4 grid gap-4 sm:grid-cols-2">
+              {related.map((item) => (
+                <li
+                  key={item.slug}
+                  className="rounded-lg border border-white/15 bg-primary/30 p-4"
+                >
+                  <Link
+                    href={`/document/${item.slug}`}
+                    className="text-sm font-semibold text-white hover:text-accent"
+                  >
+                    {item.title}
+                  </Link>
+                  <p className="mt-2 text-xs text-gray-300">
+                    {item.category?.name ?? "未分類"}
+                  </p>
                 </li>
               ))}
             </ul>
           </section>
         )}
-
-        {related.length > 0 && (
-          <section className="mt-12 border-t border-gray-200 pt-8" aria-labelledby="related-heading">
-            <h2
-              id="related-heading"
-              className="text-xl font-semibold text-gray-900"
-            >
-              相關文件
-            </h2>
-            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {related.map((relatedArticle) => (
-                <ArticleCard key={relatedArticle.id} article={relatedArticle} />
-              ))}
-            </div>
-          </section>
-        )}
       </article>
 
-      <nav className="mx-auto max-w-4xl px-4 pb-12 sm:px-6 lg:px-8">
+      <nav className="mx-auto max-w-5xl px-4 pb-12 sm:px-6 lg:px-8">
         <Link
           href="/document"
           className="inline-flex items-center text-sm font-medium text-primary hover:text-primary-light"

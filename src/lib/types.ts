@@ -95,6 +95,76 @@ export interface HomepageData {
   categories: Category[];
 }
 
+export interface PublicDocumentCategory {
+  id: number;
+  name: string;
+  slug: string;
+  icon: string | null;
+}
+
+export interface PublicDocumentVersion {
+  id: number;
+  version_number: string;
+  version_notes: string | null;
+  is_current: boolean;
+  original_filename: string;
+  mime_type: string;
+  file_extension: string;
+  file_size: number;
+  file_size_human: string;
+  file_hash: string | null;
+  uploaded_by: string | null;
+  uploaded_at: string | null;
+  download_url: string;
+}
+
+export interface PublicDocumentSummary {
+  id: number;
+  slug: string;
+  public_uuid: string;
+  title: string;
+  document_number: string | null;
+  summary: string | null;
+  description: string | null;
+  status: string;
+  status_label: string;
+  access_level: string;
+  access_level_label: string;
+  published_at: string | null;
+  updated_at: string | null;
+  expires_at: string | null;
+  version_count: number;
+  category: PublicDocumentCategory | null;
+  current_version: PublicDocumentVersion | null;
+  links: {
+    api_url: string;
+    detail_url: string;
+    web_url: string;
+    download_url: string | null;
+  };
+  metadata: {
+    document_type: string | null;
+    expiration_status: string | null;
+    auto_archive_on_expiry: boolean;
+    expiry_notice: string | null;
+  };
+}
+
+export interface PublicDocument extends PublicDocumentSummary {
+  versions: PublicDocumentVersion[];
+  audit?: {
+    view_count: number;
+    download_count: number;
+    last_updated_by: string | null;
+    created_by: string | null;
+  };
+}
+
+export interface PublicDocumentDetailResponse {
+  data: PublicDocument;
+  related: PublicDocumentSummary[];
+}
+
 export type ContentType = "blog" | "notice" | "document" | "related_news";
 
 export const CONTENT_TYPE_LABELS: Record<ContentType, string> = {

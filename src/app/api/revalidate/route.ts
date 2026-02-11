@@ -2,7 +2,7 @@ import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 interface RevalidateBody {
-  type: "article" | "page";
+  type: "article" | "page" | "document";
   slug?: string;
 }
 
@@ -28,9 +28,9 @@ export async function POST(request: NextRequest) {
 
   const { type, slug } = body;
 
-  if (type !== "article" && type !== "page") {
+  if (type !== "article" && type !== "page" && type !== "document") {
     return NextResponse.json(
-      { error: "Invalid type. Must be 'article' or 'page'." },
+      { error: "Invalid type. Must be 'article', 'page', or 'document'." },
       { status: 400 }
     );
   }
@@ -56,6 +56,16 @@ export async function POST(request: NextRequest) {
     if (slug) {
       revalidateTag(`page-${slug}`, "max");
       revalidatedTags.push(`page-${slug}`);
+    }
+  }
+
+  if (type === "document") {
+    revalidateTag("documents", "max");
+    revalidatedTags.push("documents");
+
+    if (slug) {
+      revalidateTag(`document-${slug}`, "max");
+      revalidatedTags.push(`document-${slug}`);
     }
   }
 
