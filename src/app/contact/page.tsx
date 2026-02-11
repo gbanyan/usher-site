@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { getPage } from "@/lib/api";
+import { getPage, getPublicDocuments } from "@/lib/api";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
-import type { Page } from "@/lib/types";
+import type { Page, PublicDocumentSummary } from "@/lib/types";
+import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "聯繫資訊",
@@ -32,8 +33,31 @@ async function fetchContactPage(): Promise<Page | null> {
   }
 }
 
+async function fetchLegalDocuments(): Promise<PublicDocumentSummary[]> {
+  try {
+    const response = await getPublicDocuments({ per_page: 500 });
+    return response.data;
+  } catch {
+    return [];
+  }
+}
+
 export default async function ContactPage() {
   const page = await fetchContactPage();
+  const legalDocuments = await fetchLegalDocuments();
+
+  const incorporationLicense =
+    legalDocuments.find((doc) => doc.title === "內政部立案證書") ?? null;
+  const incorporationLetter =
+    legalDocuments.find((doc) => doc.title === "內政部立案函") ?? null;
+  const registrationCertificate =
+    legalDocuments.find((doc) => doc.title === "法人登記證書") ?? null;
+
+  const legalReferences = [
+    incorporationLicense,
+    registrationCertificate,
+    incorporationLetter,
+  ].filter((doc): doc is PublicDocumentSummary => doc !== null);
 
   return (
     <>
@@ -97,6 +121,50 @@ export default async function ContactPage() {
                 </dd>
               </div>
             </dl>
+
+            <div className="mt-6 border-t border-white/10 pt-6">
+              <h3 className="text-base font-semibold text-white">立案與法人資訊</h3>
+              <dl className="mt-4 space-y-3">
+                <div>
+                  <dt className="text-sm font-medium text-gray-400">立案機關</dt>
+                  <dd className="mt-1 text-white">內政部</dd>
+                </div>
+                <div>
+                  <dt className="text-sm font-medium text-gray-400">立案函文號</dt>
+                  <dd className="mt-1 text-white">
+                    {incorporationLetter?.document_number ?? "請參考下列公開文件"}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-sm font-medium text-gray-400">法人登記文號</dt>
+                  <dd className="mt-1 text-white">
+                    {registrationCertificate?.document_number ?? "請參考下列公開文件"}
+                  </dd>
+                </div>
+              </dl>
+
+              {legalReferences.length > 0 && (
+                <ul className="mt-4 space-y-3">
+                  {legalReferences.map((document) => (
+                    <li
+                      key={document.slug}
+                      className="rounded-lg border border-white/10 bg-primary-dark/70 p-3"
+                    >
+                      <a
+                        href={`/document/${document.slug}`}
+                        className="text-sm font-medium text-accent transition-colors hover:text-accent-light"
+                      >
+                        {document.title}
+                      </a>
+                      <p className="mt-1 text-xs text-gray-300">
+                        版本 {document.current_version?.version_number ?? "未設定"} ・
+                        更新 {formatDate(document.updated_at || document.published_at)}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
 
           {/* Social links card */}
