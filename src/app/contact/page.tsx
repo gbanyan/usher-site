@@ -3,7 +3,6 @@ import { getPage, getPublicDocuments } from "@/lib/api";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import type { Page, PublicDocumentSummary } from "@/lib/types";
-import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "聯繫資訊",
@@ -52,12 +51,6 @@ export default async function ContactPage() {
     legalDocuments.find((doc) => doc.title === "內政部立案函") ?? null;
   const registrationCertificate =
     legalDocuments.find((doc) => doc.title === "法人登記證書") ?? null;
-
-  const legalReferences = [
-    incorporationLicense,
-    registrationCertificate,
-    incorporationLetter,
-  ].filter((doc): doc is PublicDocumentSummary => doc !== null);
 
   return (
     <>
@@ -143,26 +136,10 @@ export default async function ContactPage() {
                 </div>
               </dl>
 
-              {legalReferences.length > 0 && (
-                <ul className="mt-4 space-y-3">
-                  {legalReferences.map((document) => (
-                    <li
-                      key={document.slug}
-                      className="rounded-lg border border-white/10 bg-primary-dark/70 p-3"
-                    >
-                      <a
-                        href={`/document/${document.slug}`}
-                        className="text-sm font-medium text-accent transition-colors hover:text-accent-light"
-                      >
-                        {document.title}
-                      </a>
-                      <p className="mt-1 text-xs text-gray-300">
-                        版本 {document.current_version?.version_number ?? "未設定"} ・
-                        更新 {formatDate(document.updated_at || document.published_at)}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
+              {incorporationLicense && (
+                <p className="mt-4 text-xs leading-relaxed text-gray-400">
+                  立案證明文件已公開：{incorporationLicense.title}
+                </p>
               )}
             </div>
           </div>
