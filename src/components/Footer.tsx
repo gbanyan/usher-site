@@ -2,10 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 const QUICK_LINKS = [
-  { label: "事務公告", href: "/notice" },
-  { label: "研究資源", href: "/research" },
-  { label: "協會文件", href: "/document" },
-  { label: "部落格", href: "/blog" },
+  { label: "事務公告", href: "/notice", icon: "notice" },
+  { label: "研究資源", href: "/research", icon: "research" },
+  { label: "協會文件", href: "/document", icon: "document" },
+  { label: "部落格", href: "/blog", icon: "blog" },
 ] as const;
 
 const SOCIAL_LINKS = [
@@ -38,6 +38,76 @@ const SOCIAL_LINKS = [
     ),
   },
 ] as const;
+
+type FooterIconType =
+  | "notice"
+  | "research"
+  | "document"
+  | "blog"
+  | "address"
+  | "business-id"
+  | "email";
+
+function FooterIcon({
+  type,
+  className = "h-4 w-4",
+}: {
+  type: FooterIconType;
+  className?: string;
+}) {
+  switch (type) {
+    case "notice":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 11.25l9-3.75v9l-9-3.75v-1.5z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6.75 13.125V16.5A1.5 1.5 0 008.25 18h1.5" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12.75 9a3.75 3.75 0 013.75 3.75 3.75 3.75 0 01-3.75 3.75" />
+        </svg>
+      );
+    case "research":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.5 3.75a6.75 6.75 0 105.155 11.11l4.297 4.297" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7.5 10.5h6M10.5 7.5v6" />
+        </svg>
+      );
+    case "document":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+        </svg>
+      );
+    case "blog":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 3.75l4.5 4.5M18 6l-9.75 9.75L6 20.25l4.5-2.25L20.25 8.25a1.591 1.591 0 000-2.25l-1.5-1.5a1.591 1.591 0 00-2.25 0z" />
+        </svg>
+      );
+    case "address":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 21s6-5.25 6-10.125A6 6 0 106 10.875C6 15.75 12 21 12 21z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 12.75a1.875 1.875 0 100-3.75 1.875 1.875 0 000 3.75z" />
+        </svg>
+      );
+    case "business-id":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 9.75l8.25-6 8.25 6v10.5a1.5 1.5 0 01-1.5 1.5h-13.5a1.5 1.5 0 01-1.5-1.5V9.75z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 14.25h6M9 17.25h4.5" />
+        </svg>
+      );
+    case "email":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 6.75h16.5a1.5 1.5 0 011.5 1.5v7.5a1.5 1.5 0 01-1.5 1.5H3.75a1.5 1.5 0 01-1.5-1.5v-7.5a1.5 1.5 0 011.5-1.5z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7.5l9 6 9-6" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -79,8 +149,12 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/70 transition-colors hover:text-accent"
+                    className="inline-flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-accent"
                   >
+                    <FooterIcon
+                      type={link.icon}
+                      className="h-4 w-4 text-accent"
+                    />
                     {link.label}
                   </Link>
                 </li>
@@ -131,22 +205,40 @@ export default function Footer() {
               聯繫資訊
             </h2>
             <ul className="mt-4 space-y-3 text-sm text-white/70" role="list">
-              <li>
-                <span className="block font-medium text-white/90">地址</span>
-                台北市中正區忠孝西路一段50號<br />14樓之20、22號
+              <li className="flex items-start gap-2">
+                <FooterIcon
+                  type="address"
+                  className="mt-0.5 h-4 w-4 shrink-0 text-accent"
+                />
+                <div>
+                  <span className="block font-medium text-white/90">地址</span>
+                  台北市中正區忠孝西路一段50號<br />14樓之20、22號
+                </div>
               </li>
-              <li>
-                <span className="block font-medium text-white/90">統一編號</span>
-                00577231
+              <li className="flex items-start gap-2">
+                <FooterIcon
+                  type="business-id"
+                  className="mt-0.5 h-4 w-4 shrink-0 text-accent"
+                />
+                <div>
+                  <span className="block font-medium text-white/90">統一編號</span>
+                  00577231
+                </div>
               </li>
-              <li>
-                <span className="block font-medium text-white/90">電子信箱</span>
-                <a
-                  href="mailto:president@usher.org.tw"
-                  className="transition-colors hover:text-accent"
-                >
-                  president@usher.org.tw
-                </a>
+              <li className="flex items-start gap-2">
+                <FooterIcon
+                  type="email"
+                  className="mt-0.5 h-4 w-4 shrink-0 text-accent"
+                />
+                <div>
+                  <span className="block font-medium text-white/90">電子信箱</span>
+                  <a
+                    href="mailto:president@usher.org.tw"
+                    className="transition-colors hover:text-accent"
+                  >
+                    president@usher.org.tw
+                  </a>
+                </div>
               </li>
             </ul>
           </div>

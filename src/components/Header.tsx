@@ -14,11 +14,15 @@ interface NavItem {
   label: string;
   href?: string;
   children?: NavDropdownItem[];
+  icon: NavIconType;
 }
+
+type NavIconType = "about" | "related-news" | "resources" | "updates" | "contact";
 
 const NAV_ITEMS: NavItem[] = [
   {
     label: "關於協會",
+    icon: "about",
     children: [
       { label: "創立目的", href: "/about" },
       { label: "協會任務", href: "/mission" },
@@ -27,9 +31,10 @@ const NAV_ITEMS: NavItem[] = [
       { label: "Logo象徵", href: "/logo-represent" },
     ],
   },
-  { label: "相關報導", href: "/related-news" },
+  { label: "相關報導", href: "/related-news", icon: "related-news" },
   {
     label: "資源中心",
+    icon: "resources",
     children: [
       { label: "協會文件", href: "/document" },
       { label: "建議與指引", href: "/guides" },
@@ -38,13 +43,57 @@ const NAV_ITEMS: NavItem[] = [
   },
   {
     label: "最新消息",
+    icon: "updates",
     children: [
       { label: "事務公告", href: "/notice" },
       { label: "部落格", href: "/blog" },
     ],
   },
-  { label: "聯繫資訊", href: "/contact" },
+  { label: "聯繫資訊", href: "/contact", icon: "contact" },
 ];
+
+function NavIcon({ type, className }: { type: NavIconType; className: string }) {
+  switch (type) {
+    case "about":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 9.75L12 3.75l8.25 6v9.75a1.5 1.5 0 01-1.5 1.5h-13.5a1.5 1.5 0 01-1.5-1.5V9.75z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 21v-6h6v6" />
+        </svg>
+      );
+    case "related-news":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.5 5.25h15v13.5a1.5 1.5 0 01-1.5 1.5H6a1.5 1.5 0 01-1.5-1.5V5.25z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7.5 8.25h3v3h-3v-3zM12.75 8.25h3.75M12.75 10.5h3.75M7.5 13.5h9M7.5 15.75h9" />
+        </svg>
+      );
+    case "resources":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 6.75a1.5 1.5 0 011.5-1.5h5.25l1.5 1.5h6a1.5 1.5 0 011.5 1.5v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V6.75z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 9.75h15" />
+        </svg>
+      );
+    case "updates":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 11.25l9-3.75v9l-9-3.75v-1.5z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6.75 13.125V16.5A1.5 1.5 0 008.25 18h1.5" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12.75 9a3.75 3.75 0 013.75 3.75 3.75 3.75 0 01-3.75 3.75" />
+        </svg>
+      );
+    case "contact":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 6.75h16.5a1.5 1.5 0 011.5 1.5v7.5a1.5 1.5 0 01-1.5 1.5H3.75a1.5 1.5 0 01-1.5-1.5v-7.5a1.5 1.5 0 011.5-1.5z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7.5l9 6 9-6" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
 
 function DesktopDropdown({
   item,
@@ -91,7 +140,10 @@ function DesktopDropdown({
           }`}
         onClick={() => setOpen((prev) => !prev)}
       >
-        {item.label}
+        <span className="inline-flex items-center gap-1.5">
+          <NavIcon type={item.icon} className="h-4 w-4" />
+          <span>{item.label}</span>
+        </span>
         <svg
           className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`}
           fill="none"
@@ -218,12 +270,13 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href!}
-                  className={`rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-light/10 hover:text-accent ${pathname.startsWith(item.href!)
+                  className={`inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-light/10 hover:text-accent ${pathname.startsWith(item.href!)
                     ? "text-accent"
                     : "text-white"
                     }`}
                 >
-                  {item.label}
+                  <NavIcon type={item.icon} className="h-4 w-4" />
+                  <span>{item.label}</span>
                 </Link>
               )
             )}
@@ -297,7 +350,10 @@ export default function Header() {
                         aria-expanded={mobileOpenSubmenus.has(item.label)}
                         onClick={() => toggleMobileSubmenu(item.label)}
                       >
-                        {item.label}
+                        <span className="inline-flex items-center gap-2">
+                          <NavIcon type={item.icon} className="h-4 w-4" />
+                          <span>{item.label}</span>
+                        </span>
                         <svg
                           className={`h-4 w-4 transition-transform ${mobileOpenSubmenus.has(item.label)
                             ? "rotate-180"
@@ -337,12 +393,13 @@ export default function Header() {
                   ) : (
                     <Link
                       href={item.href!}
-                      className={`block rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 hover:text-accent ${pathname.startsWith(item.href!)
+                      className={`inline-flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 hover:text-accent ${pathname.startsWith(item.href!)
                         ? "text-accent"
                         : "text-white"
                         }`}
                     >
-                      {item.label}
+                      <NavIcon type={item.icon} className="h-4 w-4" />
+                      <span>{item.label}</span>
                     </Link>
                   )}
                 </li>
