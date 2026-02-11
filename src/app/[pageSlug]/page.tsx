@@ -5,7 +5,6 @@ import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 
 const PAGE_ROUTES: Record<string, { title: string; apiSlug: string }> = {
-  mission: { title: "協會任務", apiSlug: "mission" },
   structure: { title: "組織架構", apiSlug: "structure" },
   message: { title: "理事長的話", apiSlug: "message" },
   "logo-represent": { title: "Logo象徵", apiSlug: "logo_represent" },
@@ -13,7 +12,7 @@ const PAGE_ROUTES: Record<string, { title: string; apiSlug: string }> = {
 };
 
 export function generateStaticParams() {
-  return ["mission", "structure", "message", "logo-represent"].map((pageSlug) => ({
+  return ["structure", "message", "logo-represent"].map((pageSlug) => ({
     pageSlug,
   }));
 }

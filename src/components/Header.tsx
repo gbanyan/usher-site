@@ -25,7 +25,6 @@ const NAV_ITEMS: NavItem[] = [
     icon: "about",
     children: [
       { label: "創立目的", href: "/about" },
-      { label: "協會任務", href: "/mission" },
       { label: "組織架構", href: "/structure" },
       { label: "理事長的話", href: "/message" },
       { label: "Logo象徵", href: "/logo-represent" },
