@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getArticle, getAttachmentDownloadUrl, getAllArticleSlugs } from "@/lib/api";
-import { formatDate, formatFileSize, stripMarkdown } from "@/lib/utils";
+import { getArticle, getAllArticleSlugs } from "@/lib/api";
+import { formatDate, stripMarkdown } from "@/lib/utils";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import ArticleCard from "@/components/ArticleCard";
+import ArticleAttachments from "@/components/ArticleAttachments";
 
 export async function generateStaticParams() {
   const slugs = await getAllArticleSlugs("blog");
@@ -113,45 +114,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           <MarkdownRenderer content={article.content} />
         </div>
 
-        {article.attachments?.length > 0 && (
-          <section className="mt-12 border-t border-gray-200 pt-8" aria-labelledby="attachments-heading">
-            <h2
-              id="attachments-heading"
-              className="text-xl font-semibold text-gray-900"
-            >
-              附件下載
-            </h2>
-            <ul className="mt-4 divide-y divide-gray-100 rounded-lg border border-gray-200">
-              {article.attachments.map((attachment) => (
-                <li key={attachment.id}>
-                  <a
-                    href={getAttachmentDownloadUrl(
-                      slug,
-                      attachment.id,
-                      attachment.original_filename
-                    )}
-                    className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-surface"
-                    download
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-primary">
-                        {attachment.original_filename}
-                      </p>
-                      {attachment.description && (
-                        <p className="mt-1 truncate text-xs text-gray-500">
-                          {attachment.description}
-                        </p>
-                      )}
-                    </div>
-                    <span className="ml-4 shrink-0 text-xs text-gray-400">
-                      {formatFileSize(attachment.file_size)}
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
+        <ArticleAttachments articleSlug={slug} attachments={article.attachments} />
 
         {related.length > 0 && (
           <section className="mt-12 border-t border-gray-200 pt-8" aria-labelledby="related-heading">
