@@ -24,26 +24,8 @@ interface HeroSliderProps {
 }
 
 export default function HeroSlider({ slides }: HeroSliderProps) {
-  // Assuming all slides use the same background image, or we just use the first one as the base
-  const backgroundImage = slides[0]?.image || "/images/banner/banner.jpg";
-
   return (
     <section aria-label="首頁橫幅輪播" aria-roledescription="輪播" role="region" className="relative h-[550px] sm:h-[650px] lg:h-[800px]">
-      {/* Static Background Image */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={backgroundImage}
-          alt=""
-          fill
-          className="object-cover"
-          sizes="100vw"
-          priority
-        />
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-primary/60 sm:bg-primary/50" />
-      </div>
-
-      {/* Slider Content */}
       <Swiper
         modules={[Autoplay, Pagination, A11y]}
         speed={1000}
@@ -70,8 +52,20 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
         className="h-full w-full relative z-10 group"
       >
         {slides.map((slide, index) => (
-          <SwiperSlide key={index} className="h-full w-full">
-            <div className="flex h-full items-center">
+          <SwiperSlide key={index} className="relative h-full w-full">
+            {/* Per-slide background image */}
+            <div className="absolute inset-0 z-0">
+              <Image
+                src={slide.image}
+                alt=""
+                fill
+                className="object-cover"
+                sizes="100vw"
+                priority={index < 2}
+              />
+              <div className="absolute inset-0 bg-primary/60 sm:bg-primary/50" />
+            </div>
+            <div className="relative z-10 flex h-full items-center">
               <div className="container mx-auto px-6 lg:px-8">
                 <div className="max-w-3xl text-left pt-10 sm:pt-0">
                   <h1
