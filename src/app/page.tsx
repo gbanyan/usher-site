@@ -174,7 +174,7 @@ function FeatureIcon({ type }: { type: string }) {
 /*  Article list helper                                                */
 /* ------------------------------------------------------------------ */
 
-const LATEST_NEWS_LIMIT = 3;
+const ARTICLE_LIMIT = 3;
 
 /** 最新消息：合併事務公告 + 部落格，依發佈日期排序，最多 3 篇 */
 function mergeAndSortLatestNews(data: {
@@ -188,7 +188,7 @@ function mergeAndSortLatestNews(data: {
       const dateB = b.published_at ? new Date(b.published_at).getTime() : 0;
       return dateB - dateA;
     })
-    .slice(0, LATEST_NEWS_LIMIT);
+    .slice(0, ARTICLE_LIMIT);
 }
 
 function ArticleList({
@@ -321,12 +321,21 @@ export default async function HomePage() {
       {/* ============ 相關報導 + 最新消息（事務公告 + 部落格） ============ */}
       {data && (
         <section className="bg-primary-light py-16 sm:py-24">
-          <div className="flex flex-col gap-12 sm:gap-16">
+          <div className="flex flex-col gap-16 sm:gap-20">
             <ArticleList
-              articles={data.latest_related_news}
+              articles={data.latest_related_news.slice(0, ARTICLE_LIMIT)}
               href="/related-news"
               title="相關報導"
             />
+
+            {/* 區隔：分隔線 + 標籤 */}
+            <div className="mx-auto w-full max-w-6xl px-6 lg:px-8" aria-hidden="true">
+              <div className="h-px w-full bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
+              <p className="mt-5 text-center text-xs font-medium uppercase tracking-[0.2em] text-white/40">
+                事務公告 · 部落格
+              </p>
+            </div>
+
             <ArticleList
               articles={mergeAndSortLatestNews(data)}
               href="/blog"
