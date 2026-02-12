@@ -12,7 +12,7 @@ interface LogoProps {
 
 /**
  * Split logo: icon + text with Iansui font.
- * Styles match original Logo_long: 台灣 + 暨視聽弱協會 (white), 尤塞氏症 (accent).
+ * Original Logo_long: 台灣、暨、協會 (white), 尤塞氏症、視聽弱 (accent).
  */
 export default function Logo({ variant = "header", href = "/", className = "" }: LogoProps) {
   const content = (
@@ -36,7 +36,9 @@ export default function Logo({ variant = "header", href = "/", className = "" }:
         >
           <span>台灣</span>
           <span className="text-accent">尤塞氏症</span>
-          <span>暨視聽弱協會</span>
+          <span>暨</span>
+          <span className="text-accent">視聽弱</span>
+          <span>協會</span>
         </span>
         {variant === "footer" && (
           <span className="mt-0.5 text-xs font-sans text-white/90 leading-tight">
