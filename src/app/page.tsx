@@ -266,7 +266,7 @@ export default async function HomePage() {
               src={ABOUT_SECTION.image}
               alt="視聽雙弱族群的困境"
               fill
-              className="object-cover object-[75%_35%]"
+              className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
               loading="lazy"
             />
