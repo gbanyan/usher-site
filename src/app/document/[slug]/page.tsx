@@ -133,14 +133,6 @@ export default async function DocumentDetailPage({
                 下載目前版本
               </a>
             )}
-            <a
-              href={document.links.web_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center rounded-md border border-white/20 px-4 py-2 text-sm font-medium text-gray-200 hover:bg-white/10"
-            >
-              前往 member 文件頁
-            </a>
           </div>
         </section>
 
