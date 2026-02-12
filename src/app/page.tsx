@@ -97,6 +97,7 @@ const PARTNERS = [
     logo: "https://www.tcu.edu.tw/var/file/33/1033/img/1940/tculogo_new2024.png",
     logoAlt: "慈濟大學 Logo",
     website: "https://imbhg.tcu.edu.tw",
+    logoSize: "h-20 w-32 sm:h-24 sm:w-40", // 慈濟大學 logo 較小，放大顯示
   },
 ];
 
@@ -373,9 +374,11 @@ export default async function HomePage() {
             {PARTNERS.map((partner) => {
               const linkClass =
                 "flex flex-col items-center gap-2 text-center transition-all hover:opacity-90 hover:scale-[1.02] min-w-[120px] sm:min-w-[140px]";
+              const logoContainerClass =
+                "relative " + ("logoSize" in partner && partner.logoSize ? partner.logoSize : "h-14 w-24 sm:h-16 sm:w-28");
               const content = (
                 <>
-                  <div className="relative h-14 w-24 sm:h-16 sm:w-28">
+                  <div className={logoContainerClass}>
                     <Image
                       src={partner.logo}
                       alt={partner.logoAlt}
