@@ -32,21 +32,20 @@ const SLIDER_ITEMS = [
   {
     image: "/images/banner/hero-support.jpg",
     title: "台灣尤塞氏症暨視聽弱協會",
-    content: "Taiwan Usher Syndrome and Audiovisual Impairment Association",
+    content: "為視聽雙弱病友與家庭，提供支持、關懷與資源連結",
     button: { label: "關於我們", link: "/about" },
   },
   {
     image: "/images/banner/hero-sign-language.jpg",
     title: "尤塞氏症之病友團體",
-    content:
-      "我們是一群因為先天性遺傳疾病（大多為 Usher Syndrome, 尤塞氏症），而導致同時有視網膜色素病變、視力障礙及聽力障礙的病友。",
-    button: { label: "更多故事", link: "/story" },
+    content: "我們是視聽雙弱的病友與家屬，彼此扶持，不再孤單",
+    button: { label: "病友故事", link: "/story" },
   },
   {
     image: "/images/banner/hero-founding.jpg",
     title: "視聽雙弱障礙",
-    content: "協助視聽雙弱病友相同境遇患者，共同面對生活中的挑戰與課題",
-    button: { label: "更多故事", link: "/story" },
+    content: "協助病友與相同境遇患者，共同面對生活中的挑戰",
+    button: { label: "聯絡我們", link: "/contact" },
   },
 ];
 
