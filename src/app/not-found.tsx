@@ -11,6 +11,7 @@ export default function NotFound() {
       <Link
         href="/"
         className="mt-8 inline-block rounded-lg bg-accent px-6 py-3 text-white transition-colors hover:bg-accent-light"
+        aria-label="返回網站首頁"
       >
         返回首頁
       </Link>

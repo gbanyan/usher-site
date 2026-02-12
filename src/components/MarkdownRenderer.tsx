@@ -18,7 +18,7 @@ const components: Components = {
     if (src.startsWith("data:")) {
       return (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={src} alt={alt || ""} loading="lazy" />
+        <img src={src} alt={alt ?? ""} loading="lazy" />
       );
     }
 

@@ -136,13 +136,14 @@ function ArticleList({
   if (articles.length === 0) return null;
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-6 lg:px-8">
+    <section className="mx-auto w-full max-w-6xl px-6 lg:px-8" aria-labelledby={`article-list-${title.replace(/\s/g, "-")}`}>
       <div className="flex items-center justify-between gap-4 mb-6">
-        <h2 className="text-2xl font-bold text-white whitespace-nowrap">{title}</h2>
+        <h2 id={`article-list-${title.replace(/\s/g, "-")}`} className="text-2xl font-bold text-white whitespace-nowrap">{title}</h2>
         <div className="h-px w-full bg-accent hidden sm:block"></div>
         <Link
           href={href}
           className="hidden sm:inline-block whitespace-nowrap rounded border border-accent px-4 py-1.5 text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-primary-dark"
+          aria-label={`查看更多${title}列表`}
         >
           查看更多
         </Link>
@@ -280,17 +281,18 @@ export default async function HomePage() {
       )}
 
       {/* ============ CTA Section ============ */}
-      <section className="bg-accent py-12 sm:py-16 text-center text-primary-dark">
+      <section className="bg-accent py-12 sm:py-16 text-center text-primary-dark" aria-labelledby="cta-heading">
         <div className="mx-auto max-w-3xl px-6 lg:px-8">
           <p className="text-sm font-medium uppercase tracking-wider text-primary-dark/90">
             志工、捐款、或合作計畫
           </p>
-          <h2 className="mt-3 text-2xl sm:text-3xl font-bold md:text-4xl">
+          <h2 id="cta-heading" className="mt-3 text-2xl sm:text-3xl font-bold md:text-4xl">
             歡迎任何形式的支援、贊助！
           </h2>
           <Link
             href="/contact"
             className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary-dark transition-colors hover:bg-gray-100"
+            aria-label="聯繫我們取得支援與贊助資訊"
           >
             聯繫我們
           </Link>

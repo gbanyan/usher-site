@@ -120,10 +120,11 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-12">
           {/* Association info */}
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-4" role="group" aria-labelledby="footer-association">
             <Link
               href="/"
               className="inline-flex items-center gap-2 text-lg font-semibold text-white transition-opacity hover:opacity-90"
+              aria-label="台灣尤塞氏症暨視聽弱協會 - 回到首頁"
             >
               <Image
                 src="/images/Logo_long.png"
@@ -134,13 +135,14 @@ export default function Footer() {
                 aria-hidden="true"
               />
             </Link>
+            <span id="footer-association" className="sr-only">協會簡介</span>
             <p className="mt-3 text-sm leading-relaxed text-white/70">
               致力於推動尤塞氏症相關研究、支持病友與家屬，促進社會對視聽障礙的認識與理解。
             </p>
           </div>
 
           {/* Quick links */}
-          <div className="lg:col-span-2">
+          <nav className="lg:col-span-2" aria-label="頁尾快速連結">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-white/90">
               快速連結
             </h2>
@@ -160,7 +162,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           {/* Social links */}
           <div className="lg:col-span-3">
@@ -200,8 +202,8 @@ export default function Footer() {
           </div>
 
           {/* Contact Info */}
-          <div className="lg:col-span-3">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-white/90">
+          <div className="lg:col-span-3" role="group" aria-labelledby="footer-contact-heading">
+            <h2 id="footer-contact-heading" className="text-sm font-semibold uppercase tracking-wider text-white/90">
               聯繫資訊
             </h2>
             <ul className="mt-4 space-y-3 text-sm text-white/70" role="list">
@@ -235,6 +237,7 @@ export default function Footer() {
                   <a
                     href="mailto:president@usher.org.tw"
                     className="transition-colors hover:text-accent"
+                    aria-label="寄信至 president@usher.org.tw"
                   >
                     president@usher.org.tw
                   </a>

@@ -86,7 +86,7 @@ export default function ArticleCard({
   const articleUrl = `${resolveBasePath()}/${article.slug}`;
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-xl border border-white/10 bg-primary/40 shadow-sm transition-shadow hover:shadow-md hover:shadow-accent/50">
+    <article className="group relative flex flex-col overflow-hidden rounded-xl border border-white/10 bg-primary/40 shadow-sm transition-shadow hover:shadow-md hover:shadow-accent/50" aria-labelledby={`article-title-${article.id}`}>
       {/* Pinned indicator */}
       {article.is_pinned && (
         <div className="absolute left-3 top-3 z-10 flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-xs font-medium text-primary-dark shadow">
@@ -138,6 +138,7 @@ export default function ArticleCard({
             <time
               dateTime={article.published_at}
               className="text-xs text-gray-400"
+              aria-label={`發佈日期：${formatDate(article.published_at)}`}
             >
               {formatDate(article.published_at)}
             </time>
@@ -145,7 +146,7 @@ export default function ArticleCard({
         </div>
 
         {/* Title */}
-        <h3 className="mb-2 text-base font-semibold leading-snug text-white">
+        <h3 id={`article-title-${article.id}`} className="mb-2 text-base font-semibold leading-snug text-white">
           <Link
             href={articleUrl}
             className="after:absolute after:inset-0 hover:text-accent transition-colors"

@@ -34,13 +34,13 @@ export default function RootLayout({
   return (
     <html lang="zh-TW" className={notoSansTC.variable}>
       <body className="min-h-screen bg-black font-sans text-white antialiased">
-        <a href="#main-content" className="skip-to-content">
+        <a href="#main-content" className="skip-to-content" aria-label="跳過導覽，直接前往主要內容">
           跳至主要內容
         </a>
 
         <Header />
 
-        <main id="main-content" className="relative w-full overflow-hidden">{children}</main>
+        <main id="main-content" className="relative w-full overflow-hidden" tabIndex={-1} role="main">{children}</main>
 
         <Footer />
         <ScrollToTop />

@@ -36,7 +36,7 @@ export default function PageHeader({
     };
 
     return (
-        <section className="relative h-[300px] w-full bg-cover bg-center sm:h-[400px]">
+        <section className="relative h-[300px] w-full bg-cover bg-center sm:h-[400px]" aria-labelledby="page-header-title">
             {/* Background Image */}
             <div className="absolute inset-0">
                 <Image
@@ -82,7 +82,7 @@ export default function PageHeader({
                     </nav>
 
                     {/* Title */}
-                    <h1 className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+                    <h1 id="page-header-title" className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
                         {title}
                     </h1>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay, Pagination, A11y } from "swiper/modules";
 import Image from "next/image";
 import Link from "next/link";
 import "swiper/css";
@@ -28,12 +28,12 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
   const backgroundImage = slides[0]?.image || "/images/banner/banner.jpg";
 
   return (
-    <section aria-label="首頁橫幅" className="relative h-[550px] sm:h-[650px] lg:h-[800px]">
+    <section aria-label="首頁橫幅輪播" aria-roledescription="輪播" role="region" className="relative h-[550px] sm:h-[650px] lg:h-[800px]">
       {/* Static Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
           src={backgroundImage}
-          alt="Hero Background"
+          alt=""
           fill
           className="object-cover"
           priority
@@ -44,8 +44,16 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 
       {/* Slider Content */}
       <Swiper
-        modules={[Autoplay, Pagination]}
+        modules={[Autoplay, Pagination, A11y]}
         speed={1000}
+        a11y={{
+          enabled: true,
+          prevSlideMessage: "上一張投影片",
+          nextSlideMessage: "下一張投影片",
+          firstSlideMessage: "第一張投影片",
+          lastSlideMessage: "最後一張投影片",
+          paginationBulletMessage: "前往投影片 {{index}}",
+        }}
         autoplay={{
           delay: 5000,
           disableOnInteraction: false,
@@ -86,6 +94,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                       href={slide.button.link}
                       className="mt-2 sm:mt-4 inline-block rounded-none bg-accent px-8 py-3 sm:px-10 sm:py-4 text-sm sm:text-base font-semibold text-primary-dark transition-colors hover:bg-accent-light animate-in fade-in slide-in-from-bottom-4 duration-1000"
                       style={{ animationDelay: '600ms' }}
+                      aria-label={`${slide.button.label}：${slide.title}`}
                     >
                       {slide.button.label}
                     </Link>

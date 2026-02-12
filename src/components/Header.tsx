@@ -135,6 +135,7 @@ function DesktopDropdown({
         type="button"
         aria-expanded={open}
         aria-haspopup="true"
+        aria-label={`${item.label}，${open ? "關閉" : "開啟"}子選單`}
         className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-light/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent ${isActive ? "text-accent" : "text-white"
           }`}
         onClick={() => setOpen((prev) => !prev)}
@@ -161,6 +162,7 @@ function DesktopDropdown({
       {open && item.children && (
         <ul
           role="menu"
+          aria-label={`${item.label} 子選單`}
           className="absolute left-0 z-50 mt-1 min-w-[180px] rounded-lg border border-white/10 bg-primary-dark py-1 shadow-xl"
         >
           {item.children.map((child) => (
@@ -168,6 +170,7 @@ function DesktopDropdown({
               <Link
                 href={child.href}
                 role="menuitem"
+                aria-current={pathname.startsWith(child.href) ? "page" : undefined}
                 className={`block px-4 py-2.5 text-sm transition-colors hover:bg-primary-light/20 hover:text-accent ${pathname.startsWith(child.href) ? "text-accent" : "text-white"
                   }`}
                 onClick={() => setOpen(false)}
@@ -229,9 +232,6 @@ export default function Header() {
 
   return (
     <>
-      <a href="#main-content" className="skip-to-content">
-        跳到主要內容
-      </a>
       <header
         className="sticky top-0 z-40 border-b border-white/10 bg-primary/95 backdrop-blur-md shadow-md"
         role="banner"
@@ -269,6 +269,7 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href!}
+                  aria-current={pathname.startsWith(item.href!) ? "page" : undefined}
                   className={`inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-light/10 hover:text-accent ${pathname.startsWith(item.href!)
                     ? "text-accent"
                     : "text-white"
@@ -340,13 +341,15 @@ export default function Header() {
                     <>
                       <button
                         type="button"
+                        aria-expanded={mobileOpenSubmenus.has(item.label)}
+                        aria-controls={`mobile-submenu-${item.label}`}
+                        aria-label={`${item.label}，${mobileOpenSubmenus.has(item.label) ? "收合" : "展開"}子選單`}
                         className={`flex w-full items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 ${item.children.some((child) =>
                           pathname.startsWith(child.href)
                         )
                           ? "text-accent"
                           : "text-white"
                           }`}
-                        aria-expanded={mobileOpenSubmenus.has(item.label)}
                         onClick={() => toggleMobileSubmenu(item.label)}
                       >
                         <span className="inline-flex items-center gap-2">
@@ -372,11 +375,12 @@ export default function Header() {
                         </svg>
                       </button>
                       {mobileOpenSubmenus.has(item.label) && (
-                        <ul className="ml-4 space-y-1 border-l border-white/10 pl-3 pt-1">
+                        <ul id={`mobile-submenu-${item.label}`} className="ml-4 space-y-1 border-l border-white/10 pl-3 pt-1" role="group" aria-label={`${item.label} 子選單`}>
                           {item.children.map((child) => (
                             <li key={child.href}>
                               <Link
                                 href={child.href}
+                                aria-current={pathname.startsWith(child.href) ? "page" : undefined}
                                 className={`block rounded-md px-3 py-2 text-sm transition-colors hover:bg-primary-light/20 hover:text-accent ${pathname.startsWith(child.href)
                                   ? "text-accent"
                                   : "text-white/80"
@@ -392,6 +396,7 @@ export default function Header() {
                   ) : (
                     <Link
                       href={item.href!}
+                      aria-current={pathname.startsWith(item.href!) ? "page" : undefined}
                       className={`inline-flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 hover:text-accent ${pathname.startsWith(item.href!)
                         ? "text-accent"
                         : "text-white"
