@@ -76,6 +76,23 @@ const DOCUMENTARY = {
   videoLink: "https://www.youtube.com/watch?v=Cj0dRoHjMq4",
 };
 
+/* 合作夥伴 Logo：科懋、龍泰均使用官方遠端 */
+const PARTNERS = [
+  {
+    name: "科懋聯誼活動中心",
+    description: "感謝科懋公司贊助活動場地",
+    logo: "https://www.excelsiorgroup.com.tw/img/Excelsior%20logo.svg",
+    logoAlt: "科懋生物科技股份有限公司 Logo",
+  },
+  {
+    name: "龍泰視覺輔具中心",
+    description: "感謝龍泰視覺輔具中心支持協會活動",
+    logo: "https://static.wixstatic.com/media/ab6733_7bb2d85ea91a435b84820153d00394aa~mv2.jpg/v1/fill/w_192,h_192,lg_1,usm_0.66_1.00_0.01/ab6733_7bb2d85ea91a435b84820153d00394aa~mv2.jpg",
+    logoAlt: "龍泰視覺輔具中心 Logo",
+    website: "https://www.shinemed.com.tw",
+  },
+];
+
 /* ------------------------------------------------------------------ */
 /*  Icon components for feature section                                */
 /* ------------------------------------------------------------------ */
@@ -296,6 +313,53 @@ export default async function HomePage() {
           >
             聯繫我們
           </Link>
+        </div>
+      </section>
+
+      {/* ============ Partners Section ============ */}
+      <section className="py-12 sm:py-16 bg-primary-dark" aria-labelledby="partners-heading">
+        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+          <h2 id="partners-heading" className="text-center text-xl font-bold text-white sm:text-2xl">
+            感謝合作夥伴
+          </h2>
+          <ul className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-12">
+            {PARTNERS.map((partner) => {
+              const cardClass =
+                "flex flex-col items-center rounded-xl border border-white/10 bg-primary/40 p-8 text-center transition-colors hover:border-accent/30 hover:bg-primary/60";
+              const content = (
+                <>
+                  <div className="relative h-24 w-40 sm:h-28 sm:w-48">
+                    <Image
+                      src={partner.logo}
+                      alt={partner.logoAlt}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 640px) 160px, 192px"
+                    />
+                  </div>
+                  <h3 className="mt-4 text-lg font-semibold text-white">{partner.name}</h3>
+                  <p className="mt-1 text-sm text-gray-300">{partner.description}</p>
+                </>
+              );
+              return (
+                <li key={partner.name}>
+                  {"website" in partner && partner.website ? (
+                    <a
+                      href={partner.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`block ${cardClass}`}
+                      aria-label={`${partner.name}（在新視窗開啟官網）`}
+                    >
+                      {content}
+                    </a>
+                  ) : (
+                    <div className={cardClass}>{content}</div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </section>
 
