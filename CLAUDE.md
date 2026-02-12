@@ -35,7 +35,7 @@ npm run snapshot     # Generate local content snapshots from Laravel (for buildi
 
 - **Framework**: Next.js 16.1.6 (App Router, React 19)
 - **Styling**: Tailwind CSS 4 with `@tailwindcss/typography`
-- **Font**: Noto Sans TC (Google Fonts, via `next/font`)
+- **Font**: System font stack (PingFang TC, Heiti TC, Microsoft JhengHei, Noto Sans CJK TC, etc. — no web font)
 - **Markdown**: `react-markdown` + `remark-gfm` + `rehype-raw`
 
 ## Architecture
