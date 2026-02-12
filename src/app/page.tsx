@@ -97,7 +97,7 @@ const PARTNERS = [
     logo: "/images/partners/tcu-logo.png", // 本地圖檔（537×118，寬版）
     logoAlt: "慈濟大學 Logo",
     website: "https://imbhg.tcu.edu.tw",
-    logoSize: "h-12 w-56 sm:h-14 sm:w-64", // 配合寬高比 4.5:1（537×118）
+    logoSize: "h-16 w-52 sm:h-20 sm:w-64", // 裁切後 220×68，寬高比 3.2:1
   },
 ];
 
