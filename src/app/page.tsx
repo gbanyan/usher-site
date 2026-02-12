@@ -317,87 +317,89 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ============ Documentary Section ============ */}
+      {/* ============ Documentary Section + Partners ============ */}
       <section
         className="relative bg-cover bg-center py-12 sm:py-24"
         style={{ backgroundImage: `url('${DOCUMENTARY.bgImage}')` }}
         aria-labelledby="documentary-heading"
       >
         <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-6 lg:px-8 md:grid-cols-2">
-          {/* Play button */}
-          <div className="flex items-center justify-center order-first md:order-last">
-            <a
-              href={DOCUMENTARY.videoLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-accent text-primary-dark shadow-lg transition-transform hover:scale-110"
-              aria-label="播放紀錄片影片"
-            >
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
-              <svg className="relative ml-1 h-6 w-6 sm:h-8 sm:w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </a>
+        <div className="relative mx-auto max-w-6xl px-6 lg:px-8">
+          {/* Documentary content */}
+          <div className="grid items-center gap-10 md:grid-cols-2">
+            <div className="flex items-center justify-center order-first md:order-last">
+              <a
+                href={DOCUMENTARY.videoLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-accent text-primary-dark shadow-lg transition-transform hover:scale-110"
+                aria-label="播放紀錄片影片"
+              >
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
+                <svg className="relative ml-1 h-6 w-6 sm:h-8 sm:w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </a>
+            </div>
+            <div className="rounded-lg bg-primary-dark/90 p-6 sm:p-8 text-white">
+              <h2 id="documentary-heading" className="text-2xl font-bold sm:text-3xl">
+                {DOCUMENTARY.title}
+              </h2>
+              <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-white/85">
+                {DOCUMENTARY.content}
+              </p>
+            </div>
           </div>
-          {/* Description */}
-          <div className="rounded-lg bg-primary-dark/90 p-6 sm:p-8 text-white">
-            <h2
-              id="documentary-heading"
-              className="text-2xl font-bold sm:text-3xl"
-            >
-              {DOCUMENTARY.title}
-            </h2>
-            <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-white/85">
-              {DOCUMENTARY.content}
-            </p>
-          </div>
-        </div>
-      </section>
 
-      {/* ============ Partners Section ============ */}
-      <section className="py-6 sm:py-8 bg-primary-dark" aria-labelledby="partners-heading">
-        <div className="mx-auto max-w-4xl px-6 lg:px-8">
-          <h2 id="partners-heading" className="text-center text-sm font-semibold uppercase tracking-wider text-white/80">
-            感謝合作夥伴
-          </h2>
-          <ul className="mt-4 flex flex-wrap items-center justify-center gap-6 sm:gap-10">
-            {PARTNERS.map((partner) => {
-              const cardClass =
-                "flex flex-col items-center gap-1 rounded-lg border border-white/10 bg-primary/40 px-5 py-4 text-center transition-colors hover:border-accent/30 hover:bg-primary/60 min-w-[140px]";
-              const content = (
-                <>
-                  <div className="relative h-14 w-24 sm:h-16 sm:w-28">
-                    <Image
-                      src={partner.logo}
-                      alt={partner.logoAlt}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 640px) 96px, 112px"
-                    />
-                  </div>
-                  <span className="text-xs font-medium text-white">{partner.name}</span>
-                </>
-              );
-              return (
-                <li key={partner.name}>
-                  {"website" in partner && partner.website ? (
-                    <a
-                      href={partner.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`block ${cardClass}`}
-                      aria-label={`${partner.name}（在新視窗開啟官網）`}
-                    >
-                      {content}
-                    </a>
-                  ) : (
-                    <div className={cardClass}>{content}</div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+          {/* Partners — 融入 Documentary 區塊底部，沿用同背景與 ArticleList 風格 */}
+          <div
+            className="mt-12 sm:mt-16 pt-8 sm:pt-10 border-t border-white/20"
+            aria-labelledby="partners-heading"
+          >
+            <div className="flex items-center gap-4 mb-6">
+              <h2 id="partners-heading" className="text-lg font-bold text-white whitespace-nowrap">
+                感謝合作夥伴
+              </h2>
+              <div className="h-px w-full bg-accent/60" aria-hidden="true" />
+            </div>
+            <ul className="flex flex-wrap items-center gap-6 sm:gap-10">
+              {PARTNERS.map((partner) => {
+                const linkClass =
+                  "flex flex-col items-center gap-2 rounded-lg px-4 py-3 text-center transition-colors hover:bg-white/10 min-w-[120px] sm:min-w-[140px]";
+                const content = (
+                  <>
+                    <div className="relative h-12 w-20 sm:h-14 sm:w-24">
+                      <Image
+                        src={partner.logo}
+                        alt={partner.logoAlt}
+                        fill
+                        className="object-contain object-center"
+                        sizes="(max-width: 640px) 80px, 96px"
+                      />
+                    </div>
+                    <span className="text-xs font-medium text-white/90">{partner.name}</span>
+                  </>
+                );
+                return (
+                  <li key={partner.name}>
+                    {"website" in partner && partner.website ? (
+                      <a
+                        href={partner.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`block ${linkClass}`}
+                        aria-label={`${partner.name}（在新視窗開啟官網）`}
+                      >
+                        {content}
+                      </a>
+                    ) : (
+                      <div className={linkClass}>{content}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </section>
     </div>
