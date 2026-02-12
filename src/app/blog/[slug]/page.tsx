@@ -105,7 +105,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               width={1200}
               height={630}
               className="h-auto w-full object-cover"
-              priority
+              sizes="(max-width: 896px) 100vw, 896px"
             />
           </figure>
         )}

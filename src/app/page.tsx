@@ -213,6 +213,8 @@ export default async function HomePage() {
                   alt="台灣尤塞氏症暨視聽弱協會"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 1024px) 0px, 33vw"
+                  loading="lazy"
                 />
               </div>
               {/* Right feature cards */}
@@ -264,6 +266,8 @@ export default async function HomePage() {
               alt="視聽雙弱族群的困境"
               fill
               className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              loading="lazy"
             />
           </div>
         </div>

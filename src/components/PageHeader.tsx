@@ -44,6 +44,7 @@ export default function PageHeader({
                     alt={title}
                     fill
                     className="object-cover"
+                    sizes="100vw"
                     priority
                 />
                 {/* Overlay to match original theme's dark overlay */}

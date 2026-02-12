@@ -132,6 +132,8 @@ export default function Footer() {
                 width={280}
                 height={57}
                 className="h-auto w-[280px]"
+                sizes="280px"
+                loading="lazy"
                 aria-hidden="true"
               />
             </Link>

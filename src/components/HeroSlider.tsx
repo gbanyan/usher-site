@@ -36,6 +36,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
           alt=""
           fill
           className="object-cover"
+          sizes="100vw"
           priority
         />
         {/* Overlay */}
