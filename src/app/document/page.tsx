@@ -104,7 +104,7 @@ export default async function DocumentListingPage() {
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-right text-xs font-semibold text-gray-200"
+                      className="min-w-[10rem] px-6 py-3 text-right text-xs font-semibold text-gray-200"
                     >
                       操作
                     </th>
@@ -159,17 +159,17 @@ export default async function DocumentListingPage() {
                           </p>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="flex justify-end gap-2">
+                          <div className="flex flex-nowrap justify-end gap-2">
                             <Link
                               href={detailUrl}
-                              className="inline-flex items-center rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-primary-dark hover:bg-accent-light"
+                              className="inline-flex shrink-0 items-center whitespace-nowrap rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-primary-dark hover:bg-accent-light"
                             >
                               查看詳情
                             </Link>
                             {document.links.download_url && (
                               <a
                                 href={document.links.download_url}
-                                className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
+                                className="inline-flex shrink-0 items-center whitespace-nowrap rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
                               >
                                 下載
                               </a>
@@ -217,17 +217,17 @@ export default async function DocumentListingPage() {
                         <dd>更新：{updatedAt ? formatDate(updatedAt) : "未設定"}</dd>
                       </div>
                     </dl>
-                    <div className="mt-4 flex gap-2">
+                    <div className="mt-4 flex flex-nowrap gap-2">
                       <Link
                         href={detailUrl}
-                        className="inline-flex items-center rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-primary-dark hover:bg-accent-light"
+                        className="inline-flex shrink-0 items-center whitespace-nowrap rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-primary-dark hover:bg-accent-light"
                       >
                         查看詳情
                       </Link>
                       {document.links.download_url && (
                         <a
                           href={document.links.download_url}
-                          className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
+                          className="inline-flex shrink-0 items-center whitespace-nowrap rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
                         >
                           下載
                         </a>
