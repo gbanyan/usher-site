@@ -320,30 +320,26 @@ export default async function HomePage() {
 
       {/* ============ 相關報導 + 最新消息（事務公告 + 部落格） ============ */}
       {data && (
-        <section className="bg-primary-light py-16 sm:py-24">
-          <div className="flex flex-col gap-16 sm:gap-20">
+        <div className="flex flex-col">
+          {/* 相關報導 — 較淺背景 */}
+          <section className="bg-primary-light py-16 sm:py-24">
             <ArticleList
               articles={data.latest_related_news.slice(0, ARTICLE_LIMIT)}
               href="/related-news"
               title="相關報導"
             />
+          </section>
 
-            {/* 區隔：分隔線 + 標籤 */}
-            <div className="mx-auto w-full max-w-6xl px-6 lg:px-8" aria-hidden="true">
-              <div className="h-px w-full bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
-              <p className="mt-5 text-center text-xs font-medium uppercase tracking-[0.2em] text-white/40">
-                事務公告 · 部落格
-              </p>
-            </div>
-
+          {/* 最新消息 — 較深背景，色調區隔 */}
+          <section className="bg-primary-dark py-16 sm:py-24">
             <ArticleList
               articles={mergeAndSortLatestNews(data)}
               href="/blog"
               title="最新消息"
               showType
             />
-          </div>
-        </section>
+          </section>
+        </div>
       )}
 
       {/* ============ CTA Section ============ */}
