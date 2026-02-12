@@ -94,10 +94,10 @@ const PARTNERS = [
   },
   {
     name: "慈濟大學分子生物暨人類遺傳學系",
-    logo: "https://www.tcu.edu.tw/var/file/33/1033/img/1940/tculogo_new2024.png",
+    logo: "/images/partners/tcu-logo.png", // 本地圖檔（537×118，寬版）
     logoAlt: "慈濟大學 Logo",
     website: "https://imbhg.tcu.edu.tw",
-    logoSize: "h-20 w-32 sm:h-24 sm:w-40", // 慈濟大學 logo 較小，放大顯示
+    logoSize: "h-12 w-56 sm:h-14 sm:w-64", // 配合寬高比 4.5:1（537×118）
   },
 ];
 
