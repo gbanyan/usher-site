@@ -116,6 +116,14 @@ const PARTNERS = [
     website: "https://imbhg.tcu.edu.tw",
     logoSize: "h-16 w-52 sm:h-20 sm:w-64", // 裁切後 220×68，寬高比 3.2:1
   },
+  {
+    name: "Benevity",
+    description: "企業慈善與志工平台，連結非營利組織與企業捐贈與志願服務",
+    logo: "/images/partners/benevity-logo.svg",
+    logoAlt: "Benevity Logo",
+    website: "https://benevity.com/nonprofits",
+    logoSize: "h-12 w-40 sm:h-14 sm:w-48", // SVG 寬版 216×59
+  },
 ];
 
 /* ------------------------------------------------------------------ */
