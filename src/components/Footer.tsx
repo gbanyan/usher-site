@@ -143,7 +143,7 @@ export default function Footer() {
 
           {/* Quick links */}
           <nav className="lg:col-span-2" aria-label="頁尾快速連結">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-white/90">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-white/90 text-balance">
               快速連結
             </h2>
             <ul className="mt-4 space-y-2" role="list">
@@ -151,7 +151,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="inline-flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-accent"
+                    className="inline-flex items-center gap-2 text-sm text-white/70 transition-colors duration-200 hover:text-accent-light"
                   >
                     <FooterIcon
                       type={link.icon}
@@ -166,7 +166,7 @@ export default function Footer() {
 
           {/* Social links */}
           <div className="lg:col-span-3">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-white/90">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-white/90 text-balance">
               社群連結
             </h2>
             <ul className="mt-4 space-y-3" role="list">
@@ -176,7 +176,7 @@ export default function Footer() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-accent"
+                    className="inline-flex items-center gap-2 text-sm text-white/70 transition-colors duration-200 hover:text-accent-light"
                     aria-label={`${link.label} (在新視窗開啟)`}
                   >
                     {link.icon}
@@ -203,7 +203,7 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div className="lg:col-span-3" role="group" aria-labelledby="footer-contact-heading">
-            <h2 id="footer-contact-heading" className="text-sm font-semibold uppercase tracking-wider text-white/90">
+            <h2 id="footer-contact-heading" className="text-sm font-semibold uppercase tracking-wider text-white/90 text-balance">
               聯繫資訊
             </h2>
             <ul className="mt-4 space-y-3 text-sm text-white/70" role="list">
@@ -236,7 +236,7 @@ export default function Footer() {
                   <span className="block font-medium text-white/90">電子信箱</span>
                   <a
                     href="mailto:president@usher.org.tw"
-                    className="transition-colors hover:text-accent"
+                    className="transition-colors duration-200 hover:text-accent-light"
                     aria-label="寄信至 president@usher.org.tw"
                   >
                     president@usher.org.tw

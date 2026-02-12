@@ -71,7 +71,7 @@ export default function PageHeader({
                                                 {item.label}
                                             </span>
                                         ) : (
-                                            <Link href={item.href} className="transition-colors hover:text-accent">
+                                            <Link href={item.href} className="transition-colors duration-200 hover:text-accent-light">
                                                 {item.label}
                                             </Link>
                                         )}
@@ -82,13 +82,13 @@ export default function PageHeader({
                     </nav>
 
                     {/* Title */}
-                    <h1 id="page-header-title" className="mt-4 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+                    <h1 id="page-header-title" className="mt-4 text-heading-1 text-white">
                         {title}
                     </h1>
 
                     {/* Description (optional) */}
                     {description && (
-                        <p className="mt-4 max-w-2xl mx-auto text-lg text-white/90">
+                        <p className="mt-4 max-w-2xl mx-auto text-lead">
                             {description}
                         </p>
                     )}

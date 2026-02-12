@@ -86,7 +86,7 @@ export default function ArticleCard({
   const articleUrl = `${resolveBasePath()}/${article.slug}`;
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-xl border border-white/10 bg-primary/40 shadow-sm transition-shadow hover:shadow-md hover:shadow-accent/50" aria-labelledby={`article-title-${article.id}`}>
+    <article className="group relative flex flex-col overflow-hidden rounded-xl border border-white/10 bg-primary/40 shadow-sm transition-shadow duration-200 hover:shadow-md hover:shadow-accent/20" aria-labelledby={`article-title-${article.id}`}>
       {/* Pinned indicator */}
       {article.is_pinned && (
         <div className="absolute left-3 top-3 z-10 flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-xs font-medium text-primary-dark shadow">
@@ -137,7 +137,7 @@ export default function ArticleCard({
           {article.published_at && (
             <time
               dateTime={article.published_at}
-              className="text-xs text-gray-400"
+              className="text-xs text-muted"
               aria-label={`發佈日期：${formatDate(article.published_at)}`}
             >
               {formatDate(article.published_at)}
@@ -157,7 +157,7 @@ export default function ArticleCard({
 
         {/* Excerpt */}
         {article.excerpt && (
-          <p className="mb-3 line-clamp-2 flex-1 text-sm leading-relaxed text-gray-300">
+          <p className="mb-3 line-clamp-2 flex-1 text-sm leading-relaxed text-muted">
             {stripMarkdown(article.excerpt)}
           </p>
         )}
@@ -168,7 +168,7 @@ export default function ArticleCard({
             {article.categories.map((category) => (
               <span
                 key={category.id}
-                className="inline-block rounded-full border border-white/20 px-2 py-0.5 text-xs text-gray-400"
+                className="inline-block rounded-full border border-white/20 px-2 py-0.5 text-xs text-muted"
               >
                 {category.name}
               </span>

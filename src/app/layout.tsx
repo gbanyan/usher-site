@@ -1,16 +1,8 @@
 import type { Metadata } from "next";
-import { Noto_Sans_TC } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import "./globals.css";
-
-const notoSansTC = Noto_Sans_TC({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-noto-sans-tc",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -32,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-TW" className={notoSansTC.variable}>
+    <html lang="zh-TW">
       <body className="min-h-screen bg-black font-sans text-white antialiased">
         <a href="#main-content" className="skip-to-content" aria-label="跳過導覽，直接前往主要內容">
           跳至主要內容

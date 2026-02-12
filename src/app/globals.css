@@ -14,7 +14,7 @@
   /* Lighter shade of #ec9b05 */
   --color-surface: #f8f9fa;
   --color-surface-dark: #e9ecef;
-  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang TC", "Heiti TC", "Microsoft JhengHei", var(--font-noto-sans-tc), sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang TC", "Heiti TC", "Microsoft JhengHei", "Noto Sans CJK TC", "Noto Sans TC", "WenQuanYi Micro Hei", "WenQuanYi Zen Hei", "Droid Sans Fallback", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 /* Skip to content link */
@@ -59,5 +59,59 @@
   body {
     background-color: #000;
     color: #fff;
+    font-size: 1rem;
+    line-height: 1.625;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* Typography utilities */
+@layer utilities {
+  .text-display {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 700;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+  .text-heading-1 {
+    font-size: clamp(1.875rem, 4vw, 3rem);
+    font-weight: 700;
+    text-wrap: balance;
+  }
+  .text-heading-2 {
+    font-size: clamp(1.5rem, 3vw, 1.875rem);
+    font-weight: 700;
+    text-wrap: balance;
+  }
+  .text-heading-3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+  .text-lead {
+    font-size: clamp(1.125rem, 2vw, 1.25rem);
+    line-height: 1.625;
+    color: rgb(255 255 255 / 0.9);
+    text-wrap: pretty;
+  }
+  .text-body {
+    font-size: 1rem;
+    line-height: 1.625;
+    text-wrap: pretty;
+  }
+  .text-muted {
+    color: rgb(255 255 255 / 0.7);
+  }
+}
+
+/* Prose dark theme for markdown content */
+@layer components {
+  .prose-dark {
+    --tw-prose-body: rgb(255 255 255 / 0.85);
+    --tw-prose-headings: rgb(255 255 255);
+    --tw-prose-links: var(--color-accent);
+    --tw-prose-quotes: var(--color-accent-light);
   }
 }

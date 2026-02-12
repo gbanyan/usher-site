@@ -76,7 +76,7 @@ export default async function StoryDetailPage({ params }: StoryDetailPageProps) 
 
       <article className="mx-auto max-w-4xl px-6 py-12 lg:px-8">
         <div className="mb-8">
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+          <div className="flex flex-wrap items-center gap-4 text-sm text-white/70">
             {article.author_name && (
               <span>
                 <span className="sr-only">作者：</span>
@@ -90,7 +90,7 @@ export default async function StoryDetailPage({ params }: StoryDetailPageProps) 
               {article.categories.map((category) => (
                 <span
                   key={category.id}
-                  className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
+                  className="inline-flex items-center rounded-full bg-accent/15 px-3 py-1 text-xs font-medium text-accent"
                 >
                   {category.name}
                 </span>
@@ -103,7 +103,7 @@ export default async function StoryDetailPage({ params }: StoryDetailPageProps) 
               {article.tags.map((tag) => (
                 <span
                   key={tag.slug}
-                  className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600"
+                  className="inline-flex items-center rounded-full border border-white/20 px-3 py-1 text-xs text-white/80"
                 >
                   {tag.name}
                 </span>
@@ -132,10 +132,10 @@ export default async function StoryDetailPage({ params }: StoryDetailPageProps) 
         <ArticleAttachments articleSlug={slug} attachments={article.attachments} />
 
         {related.length > 0 && (
-          <section className="mt-12 border-t border-gray-200 pt-8" aria-labelledby="related-heading">
+          <section className="mt-12 border-t border-white/10 pt-8" aria-labelledby="related-heading">
             <h2
               id="related-heading"
-              className="text-xl font-semibold text-gray-900"
+              className="text-xl font-semibold text-white"
             >
               相關文章
             </h2>
@@ -151,7 +151,7 @@ export default async function StoryDetailPage({ params }: StoryDetailPageProps) 
       <nav className="mx-auto max-w-4xl px-6 pb-12 lg:px-8">
         <Link
           href="/story"
-          className="inline-flex items-center text-sm font-medium text-primary hover:text-primary-light"
+          className="inline-flex items-center text-sm font-medium text-accent transition-colors hover:text-accent-light"
         >
           <span aria-hidden="true">&larr;</span>
           <span className="ml-2">返回病友故事列表</span>

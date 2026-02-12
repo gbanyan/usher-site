@@ -74,13 +74,13 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
               <div className="container mx-auto px-6 lg:px-8">
                 <div className="max-w-3xl text-left pt-10 sm:pt-0">
                   <h1
-                    className="text-3xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl animate-in fade-in slide-in-from-bottom-4 duration-1000"
+                    className="text-display text-white animate-in fade-in slide-in-from-bottom-4 duration-1000"
                     style={{ animationDelay: '200ms' }}
                   >
                     {slide.title}
                   </h1>
                   <p
-                    className="mt-4 sm:mt-6 text-base leading-relaxed text-white/90 sm:text-xl animate-in fade-in slide-in-from-bottom-4 duration-1000"
+                    className="mt-4 sm:mt-6 text-lead animate-in fade-in slide-in-from-bottom-4 duration-1000"
                     style={{ animationDelay: '400ms' }}
                   >
                     {slide.content}
@@ -92,7 +92,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                   {slide.button?.label && (
                     <Link
                       href={slide.button.link}
-                      className="mt-2 sm:mt-4 inline-block rounded-none bg-accent px-8 py-3 sm:px-10 sm:py-4 text-sm sm:text-base font-semibold text-primary-dark transition-colors hover:bg-accent-light animate-in fade-in slide-in-from-bottom-4 duration-1000"
+                      className="mt-2 sm:mt-4 inline-block rounded-lg bg-accent px-8 py-3 sm:px-10 sm:py-4 text-sm sm:text-base font-semibold text-primary-dark transition-colors duration-200 hover:bg-accent-light animate-in fade-in slide-in-from-bottom-4 duration-1000"
                       style={{ animationDelay: '600ms' }}
                       aria-label={`${slide.button.label}：${slide.title}`}
                     >

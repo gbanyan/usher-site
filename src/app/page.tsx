@@ -156,11 +156,11 @@ function ArticleList({
   return (
     <section className="mx-auto w-full max-w-6xl px-6 lg:px-8" aria-labelledby={`article-list-${title.replace(/\s/g, "-")}`}>
       <div className="flex items-center justify-between gap-4 mb-6">
-        <h2 id={`article-list-${title.replace(/\s/g, "-")}`} className="text-2xl font-bold text-white whitespace-nowrap">{title}</h2>
+        <h2 id={`article-list-${title.replace(/\s/g, "-")}`} className="text-heading-2 text-white whitespace-nowrap">{title}</h2>
         <div className="h-px w-full bg-accent hidden sm:block"></div>
         <Link
           href={href}
-          className="hidden sm:inline-block whitespace-nowrap rounded border border-accent px-4 py-1.5 text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-primary-dark"
+          className="hidden sm:inline-block whitespace-nowrap rounded-lg border border-accent px-4 py-1.5 text-sm font-medium text-accent transition-colors duration-200 hover:bg-accent hover:text-primary-dark"
           aria-label={`查看更多${title}列表`}
         >
           查看更多
@@ -218,8 +218,8 @@ export default async function HomePage() {
                   {FEATURE_ITEMS.map((item) => (
                     <div key={item.name} className="text-white">
                       <FeatureIcon type={item.icon} />
-                      <h3 className="mt-6 text-xl font-bold">{item.name}</h3>
-                      <p className="mt-4 text-sm leading-relaxed text-white/80">
+                      <h3 className="mt-6 text-heading-3">{item.name}</h3>
+                      <p className="mt-4 text-body text-muted">
                         {item.content}
                       </p>
                     </div>
@@ -232,22 +232,22 @@ export default async function HomePage() {
       </section>
 
       {/* ============ About Section ============ */}
-      <section className="py-12 sm:py-20" aria-labelledby="about-heading">
+      <section className="py-14 sm:py-20" aria-labelledby="about-heading">
         <div className="mx-auto grid max-w-6xl items-center gap-8 md:grid-cols-2 px-6 lg:px-8">
           <div>
 
             <h2
               id="about-heading"
-              className="text-2xl font-bold text-accent sm:text-3xl"
+              className="text-heading-2 text-accent"
             >
               {ABOUT_SECTION.title}
             </h2>
-            <p className="mt-4 leading-relaxed text-gray-300">
+            <p className="mt-4 text-body text-muted">
               {ABOUT_SECTION.content}
             </p>
             <Link
               href={ABOUT_SECTION.button.link}
-              className="mt-6 inline-block rounded-lg border-2 border-accent px-6 py-2.5 font-medium text-accent transition-colors hover:bg-accent hover:text-primary-dark"
+              className="mt-6 inline-block rounded-lg border-2 border-accent px-6 py-2.5 font-medium text-accent transition-colors duration-200 hover:bg-accent hover:text-primary-dark"
             >
               {ABOUT_SECTION.button.label}
             </Link>
@@ -265,7 +265,7 @@ export default async function HomePage() {
 
       {/* ============ Dynamic article sections from API ============ */}
       {data && (
-        <section className="bg-primary-light py-12 sm:py-24">
+        <section className="bg-primary-light py-16 sm:py-24">
           <div className="flex flex-col gap-12 sm:gap-16">
             {/* Related News */}
             <ArticleList
@@ -299,17 +299,17 @@ export default async function HomePage() {
       )}
 
       {/* ============ CTA Section ============ */}
-      <section className="bg-accent py-12 sm:py-16 text-center text-primary-dark" aria-labelledby="cta-heading">
+      <section className="bg-accent py-14 sm:py-20 text-center text-primary-dark" aria-labelledby="cta-heading">
         <div className="mx-auto max-w-3xl px-6 lg:px-8">
           <p className="text-sm font-medium uppercase tracking-wider text-primary-dark/90">
             志工、捐款、或合作計畫
           </p>
-          <h2 id="cta-heading" className="mt-3 text-2xl sm:text-3xl font-bold md:text-4xl">
+          <h2 id="cta-heading" className="mt-3 text-heading-2">
             歡迎任何形式的支援、贊助！
           </h2>
           <Link
             href="/contact"
-            className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary-dark transition-colors hover:bg-gray-100"
+            className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary-dark transition-colors duration-200 hover:bg-gray-100"
             aria-label="聯繫我們取得支援與贊助資訊"
           >
             聯繫我們
@@ -319,7 +319,7 @@ export default async function HomePage() {
 
       {/* ============ Documentary Section ============ */}
       <section
-        className="relative bg-cover bg-center py-12 sm:py-24"
+        className="relative bg-cover bg-center py-14 sm:py-24"
         style={{ backgroundImage: `url('${DOCUMENTARY.bgImage}')` }}
         aria-labelledby="documentary-heading"
       >
@@ -340,10 +340,10 @@ export default async function HomePage() {
             </a>
           </div>
           <div className="rounded-lg bg-primary-dark/90 p-6 sm:p-8 text-white">
-            <h2 id="documentary-heading" className="text-2xl font-bold sm:text-3xl">
+            <h2 id="documentary-heading" className="text-heading-2">
               {DOCUMENTARY.title}
             </h2>
-            <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-white/85">
+            <p className="mt-4 text-body text-white/85 whitespace-pre-line">
               {DOCUMENTARY.content}
             </p>
           </div>
@@ -351,10 +351,10 @@ export default async function HomePage() {
       </section>
 
       {/* ============ Partners Section ============ */}
-      <section className="border-t border-white/10 bg-primary-dark py-10 sm:py-12" aria-labelledby="partners-heading">
+      <section className="border-t border-white/10 bg-primary-dark py-12 sm:py-16" aria-labelledby="partners-heading">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <div className="flex items-center gap-4 mb-6">
-            <h2 id="partners-heading" className="text-2xl font-bold text-white whitespace-nowrap">
+            <h2 id="partners-heading" className="text-heading-2 text-white whitespace-nowrap">
               感謝合作夥伴
             </h2>
             <div className="h-px w-full bg-accent hidden sm:block" aria-hidden="true" />

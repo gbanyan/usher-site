@@ -239,7 +239,7 @@ export default async function DocumentDetailPage({
       <nav className="mx-auto max-w-5xl px-6 pb-12 lg:px-8">
         <Link
           href="/document"
-          className="inline-flex items-center text-sm font-medium text-primary hover:text-primary-light"
+          className="inline-flex items-center text-sm font-medium text-accent transition-colors hover:text-accent-light"
         >
           <span aria-hidden="true">&larr;</span>
           <span className="ml-2">返回協會文件列表</span>
