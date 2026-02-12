@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/api";
+import { buildPageMetadata } from "@/lib/metadata";
 import ArticleCard from "@/components/ArticleCard";
 import PageHeader from "@/components/PageHeader";
 
-export const metadata: Metadata = {
-  title: "相關報導",
-  description: "與尤塞氏症相關的新聞報導與媒體報導",
-};
+export const metadata: Metadata = buildPageMetadata(
+  "相關報導",
+  "與尤塞氏症相關的新聞報導與媒體報導",
+  "/related-news"
+);
 
 export default async function RelatedNewsListingPage() {
   let articles;

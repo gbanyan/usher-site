@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/api";
+import { buildPageMetadata } from "@/lib/metadata";
 import ArticleCard from "@/components/ArticleCard";
 import PageHeader from "@/components/PageHeader";
 
-export const metadata: Metadata = {
-  title: "部落格",
-  description: "協會成員分享的生活經驗與心得",
-};
+export const metadata: Metadata = buildPageMetadata(
+  "部落格",
+  "協會成員分享的生活經驗與心得",
+  "/blog"
+);
 
 export default async function BlogListingPage() {
   let articles;

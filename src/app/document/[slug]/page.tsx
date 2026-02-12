@@ -5,7 +5,10 @@ import {
   getAllPublicDocumentSlugs,
   getPublicDocument,
 } from "@/lib/api";
+import { buildPageMetadata } from "@/lib/metadata";
+import { getWebPageSchema } from "@/lib/jsonld";
 import { formatDate } from "@/lib/utils";
+import JsonLd from "@/components/JsonLd";
 import PageHeader from "@/components/PageHeader";
 
 interface DocumentDetailPageProps {
@@ -24,10 +27,14 @@ export async function generateMetadata({
 
   try {
     const { data: document } = await getPublicDocument(slug);
-    return {
-      title: document.title,
-      description: document.summary || document.description || undefined,
-    };
+    const description =
+      document.summary || document.description || "協會公開文件與下載";
+    return buildPageMetadata(
+      document.title,
+      description,
+      `/document/${slug}`,
+      {}
+    );
   } catch {
     return { title: "文件未找到" };
   }
@@ -52,6 +59,13 @@ export default async function DocumentDetailPage({
 
   return (
     <>
+      <JsonLd
+        data={getWebPageSchema(
+          document.title,
+          document.summary || document.description || "協會公開文件與下載",
+          `/document/${slug}`
+        )}
+      />
       <PageHeader
         title={document.title}
         items={[

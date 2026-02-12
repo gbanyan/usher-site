@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/api";
+import { buildPageMetadata } from "@/lib/metadata";
 import ArticleCard from "@/components/ArticleCard";
 import PageHeader from "@/components/PageHeader";
 
-export const metadata: Metadata = {
-  title: "事務公告",
-  description: "協會重要公告與通知事項",
-};
+export const metadata: Metadata = buildPageMetadata(
+  "事務公告",
+  "協會重要公告與通知事項",
+  "/notice"
+);
 
 export default async function NoticeListingPage() {
   let articles;

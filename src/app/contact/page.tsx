@@ -4,10 +4,13 @@ import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import type { Page, PublicDocumentSummary } from "@/lib/types";
 
-export const metadata: Metadata = {
-  title: "聯繫資訊",
-  description: "台灣尤塞氏症暨視聽弱協會的聯繫方式與社群連結",
-};
+import { buildPageMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = buildPageMetadata(
+  "聯繫資訊",
+  "台灣尤塞氏症暨視聽弱協會的聯繫方式與社群連結",
+  "/contact"
+);
 
 const SOCIAL_LINKS = [
   {

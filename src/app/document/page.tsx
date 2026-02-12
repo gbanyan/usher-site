@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getPublicDocuments } from "@/lib/api";
+import { buildPageMetadata } from "@/lib/metadata";
 import PageHeader from "@/components/PageHeader";
 import { formatDate } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: "協會文件",
-  description: "協會公開文件、版本資訊與下載列表",
-};
+export const metadata: Metadata = buildPageMetadata(
+  "協會文件",
+  "協會公開文件、版本資訊與下載列表",
+  "/document"
+);
 
 export default async function DocumentListingPage() {
   let response;

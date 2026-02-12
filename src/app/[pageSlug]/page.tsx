@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import { getPage } from "@/lib/api";
+import { buildPageMetadata } from "@/lib/metadata";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 
@@ -19,6 +20,10 @@ export function generateStaticParams() {
 
 interface PageProps {
   params: Promise<{ pageSlug: string }>;
+}
+
+function getPathname(pageSlug: string): string {
+  return pageSlug === "logo_represent" ? "/logo-represent" : `/${pageSlug}`;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -41,16 +46,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       throw new Error("Page not found");
     }
 
-    return {
-      title: page.title || route.title,
-      description: page.meta_description || `台灣尤塞氏症暨視聽弱協會 - ${page.title}`,
+    const title = page.title || route.title;
+    const description =
+      page.meta_description || `台灣尤塞氏症暨視聽弱協會 - ${title}`;
+    return buildPageMetadata(title, description, getPathname(pageSlug), {
       keywords: page.meta_keywords || undefined,
-    };
+    });
   } catch {
-    return {
-      title: route.title,
-      description: `台灣尤塞氏症暨視聽弱協會 - ${route.title}`,
-    };
+    return buildPageMetadata(
+      route.title,
+      `台灣尤塞氏症暨視聽弱協會 - ${route.title}`,
+      getPathname(pageSlug)
+    );
   }
 }
 

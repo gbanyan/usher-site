@@ -3,7 +3,10 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getArticle, getArticles } from "@/lib/api";
-import { formatDate, stripMarkdown } from "@/lib/utils";
+import { buildArticleMetadata } from "@/lib/metadata";
+import { getArticleSchema } from "@/lib/jsonld";
+import { formatDate } from "@/lib/utils";
+import JsonLd from "@/components/JsonLd";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import ArticleCard from "@/components/ArticleCard";
@@ -34,10 +37,11 @@ export async function generateMetadata({
       return { title: "文章未找到" };
     }
 
-    return {
-      title: article.title,
-      description: article.meta_description || stripMarkdown(article.excerpt || ""),
-    };
+    return buildArticleMetadata(
+      article,
+      `/story/${slug}`,
+      "病友與家屬的真實經驗分享"
+    );
   } catch {
     return { title: "文章未找到" };
   }
@@ -65,6 +69,13 @@ export default async function StoryDetailPage({ params }: StoryDetailPageProps) 
 
   return (
     <>
+      <JsonLd
+        data={getArticleSchema(
+          article,
+          `/story/${slug}`,
+          "病友與家屬的真實經驗分享"
+        )}
+      />
       <PageHeader
         title={article.title}
         items={[

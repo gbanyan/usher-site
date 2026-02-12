@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/api";
+import { buildPageMetadata } from "@/lib/metadata";
 import ArticleCard from "@/components/ArticleCard";
 import PageHeader from "@/components/PageHeader";
 
-export const metadata: Metadata = {
-  title: "建議與指引",
-  description: "尤塞氏症相關照護、資源與實務建議",
-};
+export const metadata: Metadata = buildPageMetadata(
+  "建議與指引",
+  "尤塞氏症相關照護、資源與實務建議",
+  "/guides"
+);
 
 export default async function GuidesListingPage() {
   let articles;

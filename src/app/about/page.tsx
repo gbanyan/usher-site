@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPage, getPublicDocuments } from "@/lib/api";
+import { buildPageMetadata } from "@/lib/metadata";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import type { PublicDocumentSummary } from "@/lib/types";
@@ -33,16 +34,18 @@ const GOVERNANCE_DOCUMENTS = [
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const page = await getPage("about");
-    return {
-      title: page.title || "創立目的",
-      description: page.meta_description || "台灣尤塞氏症暨視聽弱協會的創立目的與宗旨",
+    const title = page.title || "創立目的";
+    const description =
+      page.meta_description || "台灣尤塞氏症暨視聽弱協會的創立目的與宗旨";
+    return buildPageMetadata(title, description, "/about", {
       keywords: page.meta_keywords || undefined,
-    };
+    });
   } catch {
-    return {
-      title: "創立目的",
-      description: "台灣尤塞氏症暨視聽弱協會的創立目的與宗旨",
-    };
+    return buildPageMetadata(
+      "創立目的",
+      "台灣尤塞氏症暨視聽弱協會的創立目的與宗旨",
+      "/about"
+    );
   }
 }
 

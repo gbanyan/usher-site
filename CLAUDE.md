@@ -109,10 +109,20 @@ Laravel calls this webhook automatically when admin creates/updates/publishes/ar
 ```
 CONTENT_SOURCE=api                                   # Preferred source
 NEXT_PUBLIC_API_URL=http://localhost:8001/api/v1   # Laravel API base
+NEXT_PUBLIC_SITE_URL=https://www.usher.org.tw      # Absolute site URL for canonical, OG, sitemap, JSON-LD
 REVALIDATE_TOKEN=your-secret-token-here             # Webhook auth token
 ```
 
 Production values configured in Vercel (or hosting platform).
+
+### SEO / GEO
+
+- **Sitemap**: `/sitemap.xml` — dynamically generated from API content
+- **Robots**: `/robots.txt` — allows all, disallows `/api/`, references sitemap
+- **Metadata**: `metadataBase`, Open Graph, Twitter Cards, canonical URLs on all pages
+- **JSON-LD**: Organization (layout), Article (article pages), WebPage (document pages)
+- **GEO**: `geo.region: TW`, `geo.placename: Taiwan` in root layout
+- **Helpers**: `src/lib/site.ts` (`getSiteUrl`), `src/lib/metadata.ts` (`buildArticleMetadata`, `buildPageMetadata`), `src/lib/jsonld.ts`
 
 ## Route Structure
 

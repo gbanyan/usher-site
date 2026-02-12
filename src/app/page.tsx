@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getHomepage } from "@/lib/api";
@@ -6,6 +7,22 @@ import type { ArticleSummary } from "@/lib/types";
 import HeroSlider from "@/components/HeroSlider";
 
 export const revalidate = false;
+
+export const metadata: Metadata = {
+  title: "台灣尤塞氏症暨視聽弱協會",
+  description:
+    "台灣尤塞氏症暨視聽弱協會致力於尤塞氏症（Usher Syndrome）及視聽雙重障礙者的支持與服務，提供病友交流、資源分享與權益倡導。",
+  openGraph: {
+    title: "台灣尤塞氏症暨視聽弱協會",
+    description:
+      "台灣尤塞氏症暨視聽弱協會致力於尤塞氏症及視聽雙重障礙者的支持與服務，提供病友交流、資源分享與權益倡導。",
+    url: "/",
+    images: ["/images/banner/hero-support.jpg"],
+  },
+  alternates: {
+    canonical: "/",
+  },
+};
 
 /* ------------------------------------------------------------------ */
 /*  Static homepage data (from original Hugo homepage.yml)             */

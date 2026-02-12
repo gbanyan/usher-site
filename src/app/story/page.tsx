@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/api";
+import { buildPageMetadata } from "@/lib/metadata";
 import ArticleCard from "@/components/ArticleCard";
 import PageHeader from "@/components/PageHeader";
 
-export const metadata: Metadata = {
-  title: "病友故事",
-  description: "病友與家屬的真實經驗分享",
-};
+export const metadata: Metadata = buildPageMetadata(
+  "病友故事",
+  "病友與家屬的真實經驗分享",
+  "/story"
+);
 
 export default async function StoryListingPage() {
   let articles;

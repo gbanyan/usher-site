@@ -3,7 +3,10 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getArticle, getAllArticleSlugs } from "@/lib/api";
-import { formatDate, stripMarkdown } from "@/lib/utils";
+import { buildArticleMetadata } from "@/lib/metadata";
+import { getArticleSchema } from "@/lib/jsonld";
+import { formatDate } from "@/lib/utils";
+import JsonLd from "@/components/JsonLd";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import ArticleCard from "@/components/ArticleCard";
@@ -25,10 +28,11 @@ export async function generateMetadata({
 
   try {
     const { data: article } = await getArticle(slug);
-    return {
-      title: article.title,
-      description: article.meta_description || stripMarkdown(article.excerpt || ""),
-    };
+    return buildArticleMetadata(
+      article,
+      `/related-news/${slug}`,
+      "與尤塞氏症相關的新聞報導與媒體報導"
+    );
   } catch {
     return { title: "報導未找到" };
   }
@@ -51,6 +55,13 @@ export default async function RelatedNewsDetailPage({
 
   return (
     <>
+      <JsonLd
+        data={getArticleSchema(
+          article,
+          `/related-news/${slug}`,
+          "與尤塞氏症相關的新聞報導與媒體報導"
+        )}
+      />
       <PageHeader
         title={article.title}
         items={[
