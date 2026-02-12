@@ -76,7 +76,7 @@ const DOCUMENTARY = {
   videoLink: "https://www.youtube.com/watch?v=Cj0dRoHjMq4",
 };
 
-/* 合作夥伴 Logo：科懋、龍泰均使用官方遠端 */
+/* 合作夥伴 Logo：科懋、龍泰、慈濟大學均使用官方遠端 */
 const PARTNERS = [
   {
     name: "科懋聯誼活動中心",
@@ -91,6 +91,12 @@ const PARTNERS = [
     logo: "https://static.wixstatic.com/media/ab6733_7bb2d85ea91a435b84820153d00394aa~mv2.jpg/v1/fill/w_192,h_192,lg_1,usm_0.66_1.00_0.01/ab6733_7bb2d85ea91a435b84820153d00394aa~mv2.jpg",
     logoAlt: "龍泰視覺輔具中心 Logo",
     website: "https://www.shinemed.com.tw",
+  },
+  {
+    name: "慈濟大學分子生物暨人類遺傳學系",
+    logo: "https://www.tcu.edu.tw/var/file/33/1033/img/1940/tculogo_new2024.png",
+    logoAlt: "慈濟大學 Logo",
+    website: "https://imbhg.tcu.edu.tw",
   },
 ];
 
@@ -355,11 +361,10 @@ export default async function HomePage() {
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <div className="flex items-center gap-4 mb-6">
             <h2 id="partners-heading" className="text-heading-2 text-white whitespace-nowrap">
-              感謝合作夥伴
+              合作夥伴
             </h2>
             <div className="h-px w-full bg-accent hidden sm:block" aria-hidden="true" />
           </div>
-          <p className="mb-6 text-sm text-white/70">感謝以下夥伴支持協會</p>
           <ul className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
             {PARTNERS.map((partner) => {
               const linkClass =
