@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import Logo from "./Logo";
 
 const QUICK_LINKS = [
   { label: "事務公告", href: "/notice", icon: "notice" },
@@ -121,22 +121,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-12">
           {/* Association info */}
           <div className="lg:col-span-4" role="group" aria-labelledby="footer-association">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-lg font-semibold text-white transition-opacity hover:opacity-90"
-              aria-label="台灣尤塞氏症暨視聽弱協會 - 回到首頁"
-            >
-              <Image
-                src="/images/Logo_long.png"
-                alt="台灣尤塞氏症暨視聽弱協會"
-                width={280}
-                height={57}
-                className="h-auto w-[280px]"
-                sizes="280px"
-                loading="lazy"
-                aria-hidden="true"
-              />
-            </Link>
+            <Logo variant="footer" href="/" />
             <span id="footer-association" className="sr-only">協會簡介</span>
             <p className="mt-3 text-sm leading-relaxed text-white/70">
               致力於推動尤塞氏症相關研究、支持病友與家屬，促進社會對視聽障礙的認識與理解。

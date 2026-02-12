@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Logo from "./Logo";
 import { usePathname } from "next/navigation";
 
 interface NavDropdownItem {
@@ -238,21 +238,7 @@ export default function Header() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 lg:px-8">
           {/* Logo / Association name */}
-          <Link
-            href="/"
-            className="flex items-center gap-3 text-white transition-opacity hover:opacity-90"
-            aria-label="台灣尤塞氏症暨視聽弱協會 - 回到首頁"
-          >
-            <Image
-              src="/images/Logo_long.png"
-              alt="台灣尤塞氏症暨視聽弱協會"
-              width={340}
-              height={68}
-              className="h-[40px] w-auto sm:h-[68px]"
-              sizes="(max-width: 640px) 200px, 340px"
-              priority
-            />
-          </Link>
+          <Logo variant="header" href="/" className="shrink-0" />
 
           {/* Desktop navigation */}
           <nav

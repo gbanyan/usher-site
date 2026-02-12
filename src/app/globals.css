@@ -1,6 +1,15 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* Logo subset: 台灣尤塞氏症暨視聽弱協會 (Iansui, ~6KB) */
+@font-face {
+  font-family: "Iansui";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/iansui-logo.woff2") format("woff2");
+}
+
 @theme inline {
   --color-primary: #1a1a37;
   /* Hugo: $secondary-color */

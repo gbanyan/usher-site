@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "snapshot": "node scripts/snapshot-content.mjs"
+    "snapshot": "node scripts/snapshot-content.mjs",
+    "subset-logo-font": "node scripts/subset-logo-font.mjs"
   },
   "dependencies": {
     "modules": "^0.4.0",
