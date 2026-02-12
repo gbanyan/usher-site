@@ -20,19 +20,19 @@ export default function Logo({ variant = "header", href = "/", className = "" }:
       className={`inline-flex items-center gap-2 sm:gap-3 ${className}`}
       style={{ fontFamily: "Iansui, var(--font-sans)" }}
     >
-      {/* Icon: left portion of Logo_long (icon only) */}
+      {/* Icon: standalone 408×408 for crisp display */}
       <Image
-        src="/images/Logo_long.png"
+        src="/images/logo-icon.png"
         alt=""
-        width={68}
-        height={68}
-        className={`shrink-0 object-cover object-left ${variant === "header" ? "h-8 w-8 sm:h-12 sm:w-12" : "h-8 w-8"}`}
-        sizes={variant === "header" ? "48px" : "40px"}
+        width={408}
+        height={408}
+        className={`shrink-0 ${variant === "header" ? "h-8 w-8 sm:h-12 sm:w-12" : "h-8 w-8"}`}
+        sizes={variant === "header" ? "48px" : "32px"}
         aria-hidden
       />
       <span className="flex flex-col justify-center">
         <span
-          className={`leading-tight text-white ${variant === "header" ? "text-sm sm:text-xl" : "text-sm"}`}
+          className={`leading-tight text-white ${variant === "header" ? "text-base sm:text-xl" : "text-sm"}`}
         >
           <span>台灣</span>
           <span className="text-accent">尤塞氏症</span>
