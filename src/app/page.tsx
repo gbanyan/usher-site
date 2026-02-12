@@ -171,8 +171,31 @@ function FeatureIcon({ type }: { type: string }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Article list helper                                                */
+/*  Article list helper — single "最新消息" block with mixed content   */
 /* ------------------------------------------------------------------ */
+
+const LATEST_NEWS_LIMIT = 9;
+
+function mergeAndSortLatestNews(data: {
+  latest_blog: ArticleSummary[];
+  latest_notice: ArticleSummary[];
+  latest_document: ArticleSummary[];
+  latest_related_news: ArticleSummary[];
+}): ArticleSummary[] {
+  const merged = [
+    ...data.latest_blog,
+    ...data.latest_notice,
+    ...data.latest_document,
+    ...data.latest_related_news,
+  ];
+  return merged
+    .sort((a, b) => {
+      const dateA = a.published_at ? new Date(a.published_at).getTime() : 0;
+      const dateB = b.published_at ? new Date(b.published_at).getTime() : 0;
+      return dateB - dateA;
+    })
+    .slice(0, LATEST_NEWS_LIMIT);
+}
 
 function ArticleList({
   articles,
@@ -200,8 +223,8 @@ function ArticleList({
       </div>
       <ul className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {articles.map((article) => (
-          <li key={article.id} className="w-full">
-            <ArticleCard article={article} />
+          <li key={`${article.content_type}-${article.id}`} className="w-full">
+            <ArticleCard article={article} showType basePath={undefined} />
           </li>
         ))}
       </ul>
@@ -299,37 +322,15 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ============ Dynamic article sections from API ============ */}
+      {/* ============ 最新消息 — 合併部落格、公告、文件、相關報導 ============ */}
       {data && (
         <section className="bg-primary-light py-16 sm:py-24">
           <div className="flex flex-col gap-12 sm:gap-16">
-            {/* Related News */}
             <ArticleList
-              articles={data.latest_related_news}
-              href="/related-news"
-              title="相關報導"
-            />
-
-            {/* Latest Blog */}
-            {/* <ArticleList
-              articles={data.latest_blog}
+              articles={mergeAndSortLatestNews(data)}
               href="/blog"
               title="最新消息"
-            /> */}
-
-            {/* Latest Notices */}
-            {/* <ArticleList
-              articles={data.latest_notice}
-              href="/notice"
-              title="事務公告"
-            /> */}
-
-            {/* Latest Documents */}
-            {/* <ArticleList
-              articles={data.latest_document}
-              href="/document"
-              title="協會文件"
-            /> */}
+            />
           </div>
         </section>
       )}

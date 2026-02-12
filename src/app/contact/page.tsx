@@ -205,7 +205,7 @@ export default async function ContactPage() {
                     rel="noopener noreferrer"
                     className="group flex items-start gap-4 rounded-lg p-3 transition-colors hover:bg-white/5"
                   >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-white transition-colors group-hover:bg-white group-hover:text-accent">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-primary-dark transition-colors group-hover:bg-white group-hover:text-accent">
                       <link.icon />
                     </span>
                     <div>

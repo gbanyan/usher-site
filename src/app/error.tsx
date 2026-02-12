@@ -14,7 +14,7 @@ export default function Error({
       </p>
       <button
         onClick={reset}
-        className="mt-8 inline-block cursor-pointer rounded-lg bg-accent px-6 py-3 text-white transition-colors hover:bg-accent-light"
+        className="mt-8 inline-block cursor-pointer rounded-lg bg-accent px-6 py-3 font-semibold text-primary-dark transition-colors hover:bg-accent-light"
         aria-label="重新載入頁面"
       >
         重新嘗試

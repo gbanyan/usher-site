@@ -45,7 +45,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
           clickable: true,
           el: ".hero-pagination",
           renderBullet: function (index, className) {
-            return '<span class="' + className + '"></span>';
+            return '<button type="button" class="' + className + '" aria-label="前往投影片 ' + (index + 1) + '"></button>';
           },
         }}
         loop={true}
@@ -101,7 +101,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
         ))}
       </Swiper>
 
-      {/* Custom Pagination Aligned with Content */}
+      {/* Pagination bullets - clickable, keyboard accessible */}
       <div className="absolute bottom-[20%] sm:bottom-1/3 lg:bottom-[30%] left-0 right-0 z-20 pointer-events-none">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="max-w-3xl">
@@ -119,7 +119,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
         </div>
       </div>
 
-      {/* Custom Styles for Swiper Pagination */}
+      {/* Custom Styles for Swiper Pagination - buttons for accessibility */}
       <style jsx global>{`
         .hero-pagination .swiper-pagination-bullet {
           width: 10px;
@@ -130,6 +130,8 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
           border-radius: 0 !important;
           cursor: pointer;
           margin: 0 !important;
+          border: none;
+          padding: 0;
         }
         .hero-pagination .swiper-pagination-bullet-active {
           background: var(--color-accent) !important;
