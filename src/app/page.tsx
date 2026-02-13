@@ -137,6 +137,7 @@ const PARTNERS = [
     logo: "https://www.tfrd.org.tw/tfrd/assets/images/Logo.png",
     logoAlt: "財團法人罕見疾病基金會 Logo",
     website: "https://www.tfrd.org.tw/tfrd/home",
+    logoOnLightBg: true, // 官網 Logo 為深色字，在深色區塊加淺底避免被吃掉
   },
 ];
 
@@ -423,9 +424,13 @@ export default async function HomePage() {
                 "flex flex-col items-center gap-2 text-center transition-all hover:opacity-90 hover:scale-[1.02] min-w-0";
               const logoContainerClass =
                 "relative " + ("logoSize" in partner && partner.logoSize ? partner.logoSize : "h-14 w-24 sm:h-16 sm:w-28");
+              const logoWrapperClass =
+                "logoOnLightBg" in partner && partner.logoOnLightBg
+                  ? "rounded-lg bg-white p-2 " + logoContainerClass
+                  : logoContainerClass;
               const content = (
                 <>
-                  <div className={logoContainerClass}>
+                  <div className={logoWrapperClass}>
                     <Image
                       src={partner.logo}
                       alt={partner.logoAlt}
