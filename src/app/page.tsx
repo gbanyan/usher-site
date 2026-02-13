@@ -134,10 +134,9 @@ const PARTNERS = [
   {
     name: "財團法人罕見疾病基金會",
     description: "罕見疾病病友服務與倡議",
-    logo: "/images/partners/tfrd-logo.svg",
+    logo: "https://www.tfrd.org.tw/tfrd/assets/images/Logo.png",
     logoAlt: "財團法人罕見疾病基金會 Logo",
     website: "https://www.tfrd.org.tw/tfrd/home",
-    logoSize: "h-10 w-44 sm:h-12 sm:w-52",
   },
 ];
 
