@@ -145,68 +145,123 @@ export default async function DocumentDetailPage({
           </h2>
 
           {document.versions.length > 0 ? (
-            <div className="mt-4 overflow-x-auto">
-              <table className="min-w-full divide-y divide-white/10">
-                <caption className="sr-only">文件版本歷程</caption>
-                <thead className="bg-primary/50">
-                  <tr>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-200">
-                      版本
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-200">
-                      檔案
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-200">
-                      更新日期
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-200">
-                      雜湊
-                    </th>
-                    <th className="px-4 py-3 text-right text-xs font-semibold text-gray-200">
-                      下載
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/10">
-                  {document.versions.map((version) => (
-                    <tr key={version.id}>
-                      <td className="px-4 py-3 text-sm text-gray-100">
-                        {version.version_number}
-                        {version.is_current && (
-                          <span className="ml-2 rounded bg-green-700/60 px-2 py-0.5 text-xs text-green-100">
-                            最新
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-200">
-                        <p className="break-all">{version.original_filename}</p>
-                        <p className="mt-1 text-xs text-gray-400">
-                          {version.file_size_human}
-                        </p>
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-200">
-                        {version.uploaded_at
-                          ? formatDate(version.uploaded_at)
-                          : "未設定"}
-                      </td>
-                      <td className="px-4 py-3 text-xs text-gray-300">
-                        {version.file_hash
-                          ? `${version.file_hash.slice(0, 16)}...`
-                          : "-"}
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <a
-                          href={version.download_url}
-                          className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
-                        >
-                          下載
-                        </a>
-                      </td>
+            <>
+              <div className="mt-4 hidden overflow-hidden rounded-lg border border-white/10 md:block">
+                <table className="min-w-full divide-y divide-white/10">
+                  <caption className="sr-only">文件版本歷程</caption>
+                  <thead className="bg-primary/50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-200">
+                        版本
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-200">
+                        檔案
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-200">
+                        更新日期
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-200">
+                        雜湊
+                      </th>
+                      <th className="px-4 py-3 text-right text-xs font-semibold text-gray-200">
+                        下載
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-white/10">
+                    {document.versions.map((version) => (
+                      <tr key={version.id}>
+                        <td className="px-4 py-3 text-sm text-gray-100">
+                          {version.version_number}
+                          {version.is_current && (
+                            <span className="ml-2 rounded bg-green-700/60 px-2 py-0.5 text-xs text-green-100">
+                              最新
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-200">
+                          <p className="break-all">{version.original_filename}</p>
+                          <p className="mt-1 text-xs text-gray-400">
+                            {version.file_size_human}
+                          </p>
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-200">
+                          {version.uploaded_at
+                            ? formatDate(version.uploaded_at)
+                            : "未設定"}
+                        </td>
+                        <td className="px-4 py-3 text-xs text-gray-300">
+                          {version.file_hash
+                            ? `${version.file_hash.slice(0, 16)}...`
+                            : "-"}
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <a
+                            href={version.download_url}
+                            className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
+                          >
+                            下載
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <ul className="mt-4 space-y-3 md:hidden" aria-label="文件版本歷程">
+                {document.versions.map((version) => (
+                  <li
+                    key={version.id}
+                    className="rounded-lg border border-white/10 bg-primary/30 p-4"
+                  >
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-sm font-semibold text-white">
+                        版本 {version.version_number}
+                      </span>
+                      {version.is_current && (
+                        <span className="rounded bg-green-700/60 px-2 py-0.5 text-xs text-green-100">
+                          最新
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-2 break-all text-sm text-gray-200">
+                      {version.original_filename}
+                    </p>
+                    <dl className="mt-2 grid grid-cols-1 gap-1 text-xs text-gray-400">
+                      <div>
+                        <dt className="sr-only">檔案大小</dt>
+                        <dd>{version.file_size_human}</dd>
+                      </div>
+                      <div>
+                        <dt className="sr-only">更新日期</dt>
+                        <dd>
+                          {version.uploaded_at
+                            ? formatDate(version.uploaded_at)
+                            : "未設定"}
+                        </dd>
+                      </div>
+                      {version.file_hash && (
+                        <div>
+                          <dt className="sr-only">雜湊</dt>
+                          <dd className="font-mono">
+                            {version.file_hash.slice(0, 16)}...
+                          </dd>
+                        </div>
+                      )}
+                    </dl>
+                    <div className="mt-3">
+                      <a
+                        href={version.download_url}
+                        className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
+                      >
+                        下載
+                      </a>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </>
           ) : (
             <p className="mt-4 text-sm text-gray-300">目前沒有版本資料。</p>
           )}

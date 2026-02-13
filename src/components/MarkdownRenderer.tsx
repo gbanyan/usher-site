@@ -52,12 +52,12 @@ const components: Components = {
   },
   table: ({ children }) => (
     <div
-      className="my-4 overflow-x-auto"
+      className="my-4 -mx-2 overflow-x-auto rounded-lg border border-white/10 px-2 sm:mx-0 sm:px-0"
       role="region"
-      aria-label="表格"
+      aria-label="表格（小螢幕可左右滑動）"
       tabIndex={0}
     >
-      <table>{children}</table>
+      <table className="min-w-max border-collapse text-sm">{children}</table>
     </div>
   ),
 };

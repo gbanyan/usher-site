@@ -122,7 +122,7 @@ export default async function AboutPage() {
             </div>
           </dl>
 
-          <div className="mt-6 overflow-x-auto rounded-lg border border-white/10">
+          <div className="mt-6 hidden overflow-hidden rounded-lg border border-white/10 md:block">
             <table className="min-w-full divide-y divide-white/10">
               <caption className="sr-only">協會合法設立與治理文件清單</caption>
               <thead className="bg-primary-dark/70">
@@ -195,6 +195,70 @@ export default async function AboutPage() {
               </tbody>
             </table>
           </div>
+
+          <ul
+            className="mt-6 space-y-4 md:hidden"
+            aria-label="協會合法設立與治理文件清單"
+          >
+            {governanceRows.map((row) => {
+              const document = row.document;
+              const hash = document?.current_version?.file_hash;
+              const updatedAt = document?.updated_at || document?.published_at;
+
+              return (
+                <li
+                  key={row.key}
+                  className="rounded-lg border border-white/10 bg-primary-dark/50 p-4"
+                >
+                  <h3 className="text-base font-semibold text-white">
+                    {document ? (
+                      <Link
+                        href={`/document/${document.slug}`}
+                        className="hover:text-accent"
+                      >
+                        {document.title}
+                      </Link>
+                    ) : (
+                      row.title
+                    )}
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-300">{row.purpose}</p>
+                  <dl className="mt-3 grid grid-cols-1 gap-1 text-sm text-gray-200">
+                    <div>
+                      <dt className="sr-only">版本</dt>
+                      <dd>
+                        {document?.current_version?.version_number ?? "未同步"}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="sr-only">最近更新</dt>
+                      <dd>{updatedAt ? formatDate(updatedAt) : "未同步"}</dd>
+                    </div>
+                    {hash && (
+                      <div>
+                        <dt className="sr-only">檔案雜湊</dt>
+                        <dd className="font-mono text-xs text-gray-400">
+                          {hash.slice(0, 16)}...
+                        </dd>
+                      </div>
+                    )}
+                  </dl>
+                  <div className="mt-4">
+                    {document?.links.download_url ? (
+                      <a
+                        href={document.links.download_url}
+                        className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
+                      >
+                        下載
+                      </a>
+                    ) : (
+                      <span className="text-xs text-gray-400">未提供</span>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
         </section>
 
         {page.children.length > 0 && (
