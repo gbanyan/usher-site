@@ -410,10 +410,10 @@ export default async function HomePage() {
             </h2>
             <div className="h-px w-full bg-accent hidden sm:block" aria-hidden="true" />
           </div>
-          <ul className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8" aria-labelledby="partners-heading">
             {PARTNERS.map((partner) => {
               const linkClass =
-                "flex flex-col items-center gap-2 text-center transition-all hover:opacity-90 hover:scale-[1.02] min-w-[120px] sm:min-w-[140px]";
+                "flex flex-col items-center gap-2 text-center transition-all hover:opacity-90 hover:scale-[1.02] min-w-0";
               const logoContainerClass =
                 "relative " + ("logoSize" in partner && partner.logoSize ? partner.logoSize : "h-14 w-24 sm:h-16 sm:w-28");
               const content = (
@@ -427,11 +427,11 @@ export default async function HomePage() {
                       sizes="(max-width: 640px) 96px, 112px"
                     />
                   </div>
-                  <span className="text-xs font-medium text-white/90">{partner.name}</span>
+                  <span className="text-xs font-medium text-white/90 line-clamp-2">{partner.name}</span>
                 </>
               );
               return (
-                <li key={partner.name}>
+                <li key={partner.name} className="min-w-0">
                   {"website" in partner && partner.website ? (
                     <a
                       href={partner.website}
