@@ -123,6 +123,14 @@ const PARTNERS = [
     website: "https://benevity.com/nonprofits",
     logoSize: "h-12 w-40 sm:h-14 sm:w-48", // SVG 寬版 216×59
   },
+  {
+    name: "許豐明影像創意工作室",
+    description: "感謝許豐明導演與工作室製作紀錄片《聽・見幸福的樂章》",
+    logo: "/images/partners/hsu-fengming-studio-logo.svg",
+    logoAlt: "許豐明影像創意工作室 Logo",
+    website: "https://www.facebook.com/plumpig.tw", // Plum Pig 影像創意工作室
+    logoSize: "h-10 w-44 sm:h-12 sm:w-52", // 文字較長，寬版
+  },
 ];
 
 /* ------------------------------------------------------------------ */
