@@ -131,6 +131,14 @@ const PARTNERS = [
     website: "https://www.facebook.com/plumpig.tw", // Plum Pig 影像創意工作室
     logoSize: "h-10 w-44 sm:h-12 sm:w-52", // 文字較長，寬版
   },
+  {
+    name: "財團法人罕見疾病基金會",
+    description: "罕見疾病病友服務與倡議",
+    logo: "/images/partners/tfrd-logo.svg",
+    logoAlt: "財團法人罕見疾病基金會 Logo",
+    website: "https://www.tfrd.org.tw/tfrd/home",
+    logoSize: "h-10 w-44 sm:h-12 sm:w-52",
+  },
 ];
 
 /* ------------------------------------------------------------------ */
