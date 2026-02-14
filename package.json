@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && npx pagefind --site .next && rm -rf public/_pagefind && cp -r .next/pagefind public/_pagefind",
     "start": "next start",
     "lint": "eslint",
     "snapshot": "node scripts/snapshot-content.mjs",
@@ -21,7 +21,10 @@
     "react-dom": "19.2.3",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
-    "swiper": "^12.1.0"
+    "swiper": "^12.1.0",
+    "cmdk": "^1.1.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -31,6 +34,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "pagefind": "^1.4.0",
     "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "typescript": "^5"

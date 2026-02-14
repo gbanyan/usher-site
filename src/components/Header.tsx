@@ -1,9 +1,16 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
+import { SearchButton } from "./SearchModal";
+
+const SearchModal = dynamic(
+  () => import("./SearchModal").then((mod) => ({ default: mod.SearchModal })),
+  { ssr: false }
+);
 
 interface NavDropdownItem {
   label: string;
@@ -187,6 +194,7 @@ function DesktopDropdown({
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [mobileOpenSubmenus, setMobileOpenSubmenus] = useState<Set<string>>(
     new Set()
   );
@@ -240,12 +248,13 @@ export default function Header() {
           {/* Logo / Association name */}
           <Logo variant="header" href="/" className="shrink-0" />
 
-          {/* Desktop navigation */}
-          <nav
-            aria-label="主要導覽"
-            className="hidden items-center gap-1 lg:flex"
-          >
-            {NAV_ITEMS.map((item) =>
+          {/* Desktop navigation + Search */}
+          <div className="flex items-center gap-2">
+            <nav
+              aria-label="主要導覽"
+              className="hidden items-center gap-1 lg:flex"
+            >
+              {NAV_ITEMS.map((item) =>
               item.children ? (
                 <DesktopDropdown
                   key={item.label}
@@ -266,18 +275,17 @@ export default function Header() {
                   <span>{item.label}</span>
                 </Link>
               )
-            )}
-          </nav>
-
-          {/* Mobile hamburger button */}
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md p-2 text-white transition-colors hover:bg-primary-light/20 lg:hidden"
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-menu"
-            aria-label={mobileMenuOpen ? "關閉選單" : "開啟選單"}
-            onClick={() => setMobileMenuOpen((prev) => !prev)}
-          >
+              )}
+            </nav>
+            <SearchButton onClick={() => setIsSearchOpen(true)} />
+            <button
+              type="button"
+              className="inline-flex items-center justify-center rounded-md p-2 text-white transition-colors hover:bg-primary-light/20 lg:hidden"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={mobileMenuOpen ? "關閉選單" : "開啟選單"}
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+            >
             {mobileMenuOpen ? (
               <svg
                 className="h-6 w-6"
@@ -308,8 +316,9 @@ export default function Header() {
                   d="M4 6h16M4 12h16M4 18h16"
                 />
               </svg>
-            )}
-          </button>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Mobile menu */}
@@ -399,6 +408,7 @@ export default function Header() {
           </div>
         )}
       </header>
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );
 }

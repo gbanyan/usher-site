@@ -90,15 +90,16 @@ export default async function StaticPage({ params }: PageProps) {
 
   return (
     <>
-      <PageHeader
-        title={page.title}
-        items={[{ label: page.title }]}
-      />
+      <div data-pagefind-body>
+        <PageHeader
+          title={page.title}
+          items={[{ label: page.title }]}
+        />
 
-      <article className="mx-auto max-w-4xl px-6 py-12 lg:px-8">
-
-        <MarkdownRenderer content={page.content} />
-      </article>
+        <article className="mx-auto max-w-4xl px-6 py-12 lg:px-8">
+          <MarkdownRenderer content={page.content} />
+        </article>
+      </div>
     </>
   );
 }

@@ -66,16 +66,17 @@ export default async function DocumentDetailPage({
           `/document/${slug}`
         )}
       />
-      <PageHeader
-        title={document.title}
-        items={[
-          { label: "協會文件", href: "/document" },
-          { label: document.title },
-        ]}
-        description={updatedAt ? `更新：${formatDate(updatedAt)}` : undefined}
-      />
+      <div data-pagefind-body>
+        <PageHeader
+          title={document.title}
+          items={[
+            { label: "協會文件", href: "/document" },
+            { label: document.title },
+          ]}
+          description={updatedAt ? `更新：${formatDate(updatedAt)}` : undefined}
+        />
 
-      <article className="mx-auto max-w-5xl px-6 py-12 lg:px-8">
+        <article className="mx-auto max-w-5xl px-6 py-12 lg:px-8">
         <section className="rounded-xl border border-white/15 bg-primary-dark/70 p-6 shadow-sm shadow-black/20">
           <div className="flex flex-wrap items-center gap-2">
             {document.category && (
@@ -268,10 +269,11 @@ export default async function DocumentDetailPage({
         </section>
 
         {related.length > 0 && (
-          <section
-            className="mt-8 rounded-xl border border-white/15 bg-primary-dark/70 p-6 shadow-sm shadow-black/20"
-            aria-labelledby="related-heading"
-          >
+            <section
+              className="mt-8 rounded-xl border border-white/15 bg-primary-dark/70 p-6 shadow-sm shadow-black/20"
+              aria-labelledby="related-heading"
+              data-pagefind-ignore
+            >
             <h2 id="related-heading" className="text-xl font-semibold text-white">
               相關文件
             </h2>
@@ -293,11 +295,12 @@ export default async function DocumentDetailPage({
                 </li>
               ))}
             </ul>
-          </section>
-        )}
-      </article>
+            </section>
+          )}
+        </article>
+      </div>
 
-      <nav className="mx-auto max-w-5xl px-6 pb-12 lg:px-8">
+      <nav className="mx-auto max-w-5xl px-6 pb-12 lg:px-8" data-pagefind-ignore>
         <Link
           href="/document"
           className="inline-flex items-center text-sm font-medium text-accent transition-colors hover:text-accent-light"

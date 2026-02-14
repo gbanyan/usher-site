@@ -62,16 +62,17 @@ export default async function NoticeDetailPage({
           "協會重要公告與通知事項"
         )}
       />
-      <PageHeader
-        title={article.title}
-        items={[
-          { label: "事務公告", href: "/notice" },
-          { label: article.title },
-        ]}
-        description={article.published_at ? formatDate(article.published_at) : undefined}
-      />
+      <div data-pagefind-body>
+        <PageHeader
+          title={article.title}
+          items={[
+            { label: "事務公告", href: "/notice" },
+            { label: article.title },
+          ]}
+          description={article.published_at ? formatDate(article.published_at) : undefined}
+        />
 
-      <article className="mx-auto max-w-4xl px-6 py-12 lg:px-8">
+        <article className="mx-auto max-w-4xl px-6 py-12 lg:px-8">
         {/* Metadata */}
         <div className="mb-8">
           <div className="flex flex-wrap items-center gap-4 text-sm text-white/70">
@@ -129,8 +130,8 @@ export default async function NoticeDetailPage({
 
         <ArticleAttachments articleSlug={slug} attachments={article.attachments} />
 
-        {related.length > 0 && (
-          <section className="mt-12 border-t border-white/10 pt-8" aria-labelledby="related-heading">
+          {related.length > 0 && (
+            <section className="mt-12 border-t border-white/10 pt-8" aria-labelledby="related-heading" data-pagefind-ignore>
             <h2
               id="related-heading"
               className="text-xl font-semibold text-white"
@@ -142,11 +143,12 @@ export default async function NoticeDetailPage({
                 <ArticleCard key={relatedArticle.id} article={relatedArticle} />
               ))}
             </div>
-          </section>
-        )}
-      </article>
+            </section>
+          )}
+        </article>
+      </div>
 
-      <nav className="mx-auto max-w-4xl px-6 pb-12 lg:px-8">
+      <nav className="mx-auto max-w-4xl px-6 pb-12 lg:px-8" data-pagefind-ignore>
         <Link
           href="/notice"
           className="inline-flex items-center text-sm font-medium text-accent transition-colors hover:text-accent-light"

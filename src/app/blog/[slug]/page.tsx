@@ -60,28 +60,29 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           "協會成員分享的生活經驗與心得"
         )}
       />
-      <PageHeader
-        title={article.title}
-        items={[
-          { label: "部落格", href: "/blog" },
-          { label: article.title },
-        ]}
-        description={article.published_at ? formatDate(article.published_at) : undefined}
-      />
+      <div data-pagefind-body>
+        <PageHeader
+          title={article.title}
+          items={[
+            { label: "部落格", href: "/blog" },
+            { label: article.title },
+          ]}
+          description={article.published_at ? formatDate(article.published_at) : undefined}
+        />
 
-      <article className="mx-auto max-w-4xl px-6 py-12 lg:px-8">
-        {/* Metadata */}
-        <div className="mb-8">
-          <div className="flex flex-wrap items-center gap-4 text-sm text-white/70">
+        <article className="mx-auto max-w-4xl px-6 py-12 lg:px-8">
+          {/* Metadata */}
+          <div className="mb-8">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-white/70">
             {article.author_name && (
-              <span>
-                <span className="sr-only">作者：</span>
-                {article.author_name}
-              </span>
-            )}
-          </div>
+                <span>
+                  <span className="sr-only">作者：</span>
+                  {article.author_name}
+                </span>
+              )}
+            </div>
 
-          {article.categories?.length > 0 && (
+            {article.categories?.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
               {article.categories.map((category) => (
                 <span
@@ -126,9 +127,12 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         </div>
 
         <ArticleAttachments articleSlug={slug} attachments={article.attachments} />
+        </article>
+      </div>
 
         {related.length > 0 && (
-          <section className="mt-12 border-t border-white/10 pt-8" aria-labelledby="related-heading">
+          <div data-pagefind-ignore>
+            <section className="mx-auto max-w-4xl px-6 mt-12 border-t border-white/10 pt-8 lg:px-8" aria-labelledby="related-heading">
             <h2
               id="related-heading"
               className="text-xl font-semibold text-white"
@@ -140,11 +144,11 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                 <ArticleCard key={relatedArticle.id} article={relatedArticle} />
               ))}
             </div>
-          </section>
+            </section>
+          </div>
         )}
-      </article>
 
-      <nav className="mx-auto max-w-4xl px-6 pb-12 lg:px-8">
+      <nav className="mx-auto max-w-4xl px-6 pb-12 lg:px-8" data-pagefind-ignore>
         <Link
           href="/blog"
           className="inline-flex items-center text-sm font-medium text-accent transition-colors hover:text-accent-light"
