@@ -192,17 +192,17 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
       shouldFilter={false}
       className="fixed left-1/2 top-[20%] z-[9999] w-full max-w-2xl -translate-x-1/2 rounded-2xl border border-white/20 bg-primary-dark shadow-2xl backdrop-blur-md"
     >
-      <div className="flex items-center border-b border-white/10 px-4">
+      <div className="flex items-center gap-3 border-b border-white/10 px-5 py-1">
         <SearchIcon className="h-5 w-5 shrink-0 text-white/50" />
         <Command.Input
           value={search}
           onValueChange={setSearch}
           placeholder="搜尋文章或快速導航…"
-          className="flex h-14 w-full bg-transparent px-3 text-base text-white placeholder:text-white/50 focus:outline-none"
+          className="flex h-14 w-full min-w-0 rounded-lg bg-transparent pl-0 pr-4 text-base text-white placeholder:text-white/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset focus-visible:ring-offset-0"
         />
       </div>
 
-      <Command.List className="max-h-[min(60vh,400px)] overflow-y-auto p-2">
+      <Command.List className="max-h-[min(60vh,400px)] overflow-y-auto px-3 py-2">
         {loading && (
           <Command.Loading className="flex items-center justify-center py-8 text-sm text-white/60">
             搜尋中…
@@ -212,7 +212,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
         {!loading && !search.trim() && (
           <Command.Group
             heading="導航"
-            className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-white/50"
+            className="[&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-white/50"
           >
             {navActions.map((action) => (
               <Command.Item
@@ -220,7 +220,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 value={`${action.title} ${action.url}`}
                 onSelect={() => handleSelect(action.url)}
                 className={cn(
-                  "flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-white outline-none transition-colors",
+                  "flex cursor-pointer items-center gap-3 rounded-lg px-4 py-2.5 text-sm text-white outline-none transition-colors",
                   "data-[selected=true]:bg-primary-light/30 data-[selected=true]:text-accent"
                 )}
               >
@@ -236,7 +236,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
         {!loading && search.trim() && results.length > 0 && (
           <Command.Group
             heading="搜尋結果"
-            className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-white/50"
+            className="[&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-white/50"
           >
             {results.map((result, i) => (
               <Command.Item
@@ -244,7 +244,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 value={`${result.meta?.title ?? ""} ${result.url}`}
                 onSelect={() => handleSelect(result.url)}
                 className={cn(
-                  "flex cursor-pointer flex-col gap-0.5 rounded-lg px-3 py-2.5 outline-none transition-colors",
+                  "flex cursor-pointer flex-col gap-0.5 rounded-lg px-4 py-2.5 outline-none transition-colors",
                   "data-[selected=true]:bg-primary-light/30"
                 )}
               >
@@ -267,7 +267,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
         </Command.Empty>
       </Command.List>
 
-      <div className="border-t border-white/10 px-4 py-2 text-xs text-white/50">
+      <div className="border-t border-white/10 px-5 py-3 text-xs text-white/50">
         <span>ESC 關閉</span>
         <span className="ml-4">⌘K 開啟</span>
         <span className="ml-4 hidden sm:inline">以空格分隔詞彙可提升中文搜尋</span>
