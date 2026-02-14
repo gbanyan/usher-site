@@ -50,6 +50,12 @@
   outline-offset: 4px;
 }
 
+/* Search modal: no focus outline (user preference) */
+.search-modal input:focus-visible {
+  outline: none;
+  outline-offset: 0;
+}
+
 /* Content padding for comfortable mobile reading (avoids text too close to edges) */
 @layer utilities {
   .content-padding-x {

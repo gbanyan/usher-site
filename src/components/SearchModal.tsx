@@ -190,7 +190,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
       onOpenChange={(open) => !open && onClose()}
       label="全站搜尋"
       shouldFilter={false}
-      className="fixed left-1/2 top-[20%] z-[9999] w-full max-w-2xl -translate-x-1/2 rounded-2xl border border-white/20 bg-primary-dark shadow-2xl backdrop-blur-md"
+      className="search-modal fixed left-1/2 top-[20%] z-[9999] w-full max-w-2xl -translate-x-1/2 rounded-2xl border border-white/20 bg-primary-dark shadow-2xl backdrop-blur-md"
     >
       <div className="flex items-center gap-3 border-b border-white/10 px-5 py-1">
         <SearchIcon className="h-5 w-5 shrink-0 text-white/50" />
