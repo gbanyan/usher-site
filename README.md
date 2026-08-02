@@ -181,12 +181,19 @@ npm run start   # serve the built site, no CMS needed
 Full setup, environment variables, content sources and the revalidation webhook
 are documented in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md).
 
+## Contributing
+
+Reports of anything that is unreachable by keyboard, unreadable at high zoom, or
+unannounced by a screen reader are the most valuable contribution anyone can
+make here. See [`CONTRIBUTING.md`](CONTRIBUTING.md), which also sets out the
+accessibility requirements any UI change has to meet, and
+[`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
+
 ## Licence and contact
 
-No open-source licence is currently attached to this repository. It is published
-for transparency and reference. If you work with a disability organisation and
-want to reuse any of the accessibility patterns here, please get in touch and we
-will be glad to help.
+Released under the [MIT Licence](LICENSE). If you work with a disability
+organisation and want to reuse the accessibility patterns here, please do — and
+get in touch if it would help to talk them through.
 
 Contact the association through the channels listed at
 [www.usher.org.tw/contact](https://www.usher.org.tw/contact).
