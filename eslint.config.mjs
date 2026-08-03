@@ -16,6 +16,9 @@ const eslintConfig = defineConfig([
     "hugo-archive/**",
     "content-snapshots/**",
     "public/attachments/**",
+    "public/_pagefind/**",
+    "public/pagefind/**",
+    "pagefind/**",
   ]),
 ]);
 
