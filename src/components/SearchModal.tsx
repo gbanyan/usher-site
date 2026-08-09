@@ -198,7 +198,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
           value={search}
           onValueChange={setSearch}
           placeholder="搜尋文章或快速導航…"
-          className="flex h-14 w-full min-w-0 bg-transparent pl-0 pr-4 text-base text-white placeholder:text-white/50 focus:outline-none focus-visible:outline-none"
+          className="flex h-14 w-full min-w-0 rounded-md bg-transparent pl-0 pr-4 text-base text-white placeholder:text-white/50"
         />
       </div>
 

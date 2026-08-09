@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, A11y } from "swiper/modules";
+import type { Swiper as SwiperInstance } from "swiper";
 import Image from "next/image";
 import Link from "next/link";
 import "swiper/css";
@@ -23,12 +25,47 @@ interface HeroSliderProps {
   slides: SliderItem[];
 }
 
+function usePrefersReducedMotion() {
+  // Start conservatively during hydration; motion is enabled only after the
+  // browser preference has been read.
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(true);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => setPrefersReducedMotion(mediaQuery.matches);
+
+    updatePreference();
+    mediaQuery.addEventListener("change", updatePreference);
+    return () => mediaQuery.removeEventListener("change", updatePreference);
+  }, []);
+
+  return prefersReducedMotion;
+}
+
 export default function HeroSlider({ slides }: HeroSliderProps) {
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const swiperRef = useRef<SwiperInstance | null>(null);
+
+  useEffect(() => {
+    const swiper = swiperRef.current;
+    if (!swiper?.autoplay) return;
+
+    if (prefersReducedMotion) {
+      swiper.autoplay.stop();
+    } else {
+      swiper.autoplay.start();
+    }
+  }, [prefersReducedMotion]);
+
   return (
     <section aria-label="首頁橫幅輪播" aria-roledescription="輪播" role="region" className="relative h-[550px] sm:h-[650px] lg:h-[800px]">
       <Swiper
         modules={[Autoplay, Pagination, A11y]}
-        speed={1000}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+          if (prefersReducedMotion) swiper.autoplay?.stop();
+        }}
+        speed={prefersReducedMotion ? 0 : 1000}
         a11y={{
           enabled: true,
           prevSlideMessage: "上一張投影片",
@@ -37,7 +74,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
           lastSlideMessage: "最後一張投影片",
           paginationBulletMessage: "前往投影片 {{index}}",
         }}
-        autoplay={{
+        autoplay={prefersReducedMotion ? false : {
           delay: 5000,
           disableOnInteraction: false,
         }}
@@ -111,10 +148,36 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                 Subtitle is below title. 
                 We adjust the bottom position to align it visually.
             */}
-            <div 
-              className="hero-pagination flex gap-3 pointer-events-auto animate-in fade-in slide-in-from-bottom-4 duration-1000"
+            <div
+              className="hero-controls flex items-center gap-3 pointer-events-auto animate-in fade-in slide-in-from-bottom-4 duration-1000"
               style={{ animationDelay: '500ms' }}
-            ></div>
+              role="group"
+              aria-label="輪播控制"
+            >
+              <button
+                type="button"
+                onClick={() => swiperRef.current?.slidePrev()}
+                className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-white/70 bg-primary-dark/85 text-white shadow-lg transition-colors hover:bg-primary-dark hover:text-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark"
+                aria-label="上一張投影片"
+              >
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+
+              <div className="hero-pagination flex items-center gap-2" />
+
+              <button
+                type="button"
+                onClick={() => swiperRef.current?.slideNext()}
+                className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-white/70 bg-primary-dark/85 text-white shadow-lg transition-colors hover:bg-primary-dark hover:text-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark"
+                aria-label="下一張投影片"
+              >
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -122,20 +185,38 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       {/* Custom Styles for Swiper Pagination - buttons for accessibility */}
       <style jsx global>{`
         .hero-pagination .swiper-pagination-bullet {
-          width: 10px;
-          height: 10px;
-          background: #fff !important;
-          opacity: 0.5;
-          transition: all 0.3s ease;
-          border-radius: 0 !important;
+          width: 2.75rem;
+          height: 2.75rem;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          background: rgb(13 13 31 / 0.85) !important;
+          opacity: 1;
+          transition: background-color 0.3s ease, border-color 0.3s ease;
+          border: 2px solid rgb(255 255 255 / 0.75);
+          border-radius: 9999px !important;
           cursor: pointer;
           margin: 0 !important;
-          border: none;
           padding: 0;
+        }
+        .hero-pagination .swiper-pagination-bullet::after {
+          content: "";
+          width: 0.5rem;
+          height: 0.5rem;
+          border-radius: 9999px;
+          background: #fff;
         }
         .hero-pagination .swiper-pagination-bullet-active {
           background: var(--color-accent) !important;
-          opacity: 1;
+          border-color: var(--color-accent);
+        }
+        .hero-pagination .swiper-pagination-bullet-active::after {
+          background: var(--color-primary-dark);
+        }
+        .hero-pagination .swiper-pagination-bullet:focus-visible {
+          outline: 3px solid var(--color-accent);
+          outline-offset: 3px;
         }
       `}</style>
     </section>

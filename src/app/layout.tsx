@@ -54,7 +54,7 @@ export default function RootLayout({
 
         <Header />
 
-        <main id="main-content" className="relative w-full overflow-hidden" tabIndex={-1} role="main">{children}</main>
+        <main id="main-content" className="relative w-full" tabIndex={-1} role="main">{children}</main>
 
         <Footer />
         <ScrollToTop />
