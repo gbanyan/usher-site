@@ -136,7 +136,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       </Swiper>
 
       {/* Pagination bullets - clickable, keyboard accessible */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-6 z-20 sm:bottom-8 lg:bottom-10">
+      <div className="pointer-events-none absolute inset-x-0 bottom-20 z-20 sm:bottom-24 lg:bottom-24">
         <div className="container mx-auto flex justify-center px-4 sm:px-6 lg:px-8">
           <div
             className="hero-controls flex flex-nowrap items-center justify-center gap-2 pointer-events-auto animate-in fade-in slide-in-from-bottom-4 duration-1000"
