@@ -50,12 +50,6 @@
   outline-offset: 4px;
 }
 
-/* Search modal: no focus outline (user preference) */
-.search-modal input:focus-visible {
-  outline: none;
-  outline-offset: 0;
-}
-
 /* Content padding for comfortable mobile reading (avoids text too close to edges) */
 @layer utilities {
   .content-padding-x {
@@ -128,5 +122,21 @@
     --tw-prose-headings: rgb(255 255 255);
     --tw-prose-links: var(--color-accent);
     --tw-prose-quotes: var(--color-accent-light);
+  }
+}
+
+/* Respect reduced-motion preferences across CSS transitions and animations. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -368,7 +368,7 @@ export default async function HomePage() {
           </h2>
           <Link
             href="/contact"
-            className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary-dark transition-colors duration-200 hover:bg-gray-100"
+            className="mt-8 inline-flex items-center justify-center rounded-lg bg-primary-dark px-8 py-3 font-semibold text-white transition-colors duration-200 hover:bg-primary focus-visible:ring-2 focus-visible:ring-primary-dark focus-visible:ring-offset-2 focus-visible:ring-offset-accent"
             aria-label="聯繫我們取得支援與贊助資訊"
           >
             聯繫我們
