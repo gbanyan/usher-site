@@ -139,7 +139,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       <div className="pointer-events-none absolute inset-x-0 bottom-20 z-20 sm:bottom-24 lg:bottom-24">
         <div className="container mx-auto flex justify-center px-4 sm:px-6 lg:px-8">
           <div
-            className="hero-controls flex flex-nowrap items-center justify-center gap-2 pointer-events-auto animate-in fade-in slide-in-from-bottom-4 duration-1000"
+            className="hero-controls flex flex-nowrap items-center justify-center gap-1.5 pointer-events-auto animate-in fade-in slide-in-from-bottom-4 duration-1000 sm:gap-2"
             style={{ animationDelay: '500ms' }}
             role="group"
             aria-label="輪播控制"
@@ -147,7 +147,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
             <button
               type="button"
               onClick={() => swiperRef.current?.slidePrev()}
-              className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-white/70 bg-primary-dark/85 text-white shadow-lg transition-colors hover:bg-primary-dark hover:text-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark sm:size-11"
+              className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-white/50 bg-primary-dark/60 text-white/90 shadow-md transition-colors hover:border-white/80 hover:bg-primary-dark/80 hover:text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark sm:size-10"
               aria-label="上一張投影片"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -155,12 +155,12 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
               </svg>
             </button>
 
-            <div className="hero-pagination flex items-center gap-2" />
+            <div className="hero-pagination flex items-center gap-0.5 sm:gap-1" />
 
             <button
               type="button"
               onClick={() => swiperRef.current?.slideNext()}
-              className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-white/70 bg-primary-dark/85 text-white shadow-lg transition-colors hover:bg-primary-dark hover:text-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark sm:size-11"
+              className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-white/50 bg-primary-dark/60 text-white/90 shadow-md transition-colors hover:border-white/80 hover:bg-primary-dark/80 hover:text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark sm:size-10"
               aria-label="下一張投影片"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -182,44 +182,41 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
           transform: none !important;
         }
         .hero-pagination .swiper-pagination-bullet {
-          width: 2.25rem;
-          height: 2.25rem;
+          width: 2.75rem;
+          height: 2.75rem;
           display: inline-flex;
           align-items: center;
           justify-content: center;
           position: relative;
-          background: rgb(13 13 31 / 0.85) !important;
+          background: transparent !important;
           opacity: 1;
-          transition: background-color 0.3s ease, border-color 0.3s ease;
-          border: 2px solid rgb(255 255 255 / 0.75);
+          transition: transform 0.2s ease;
+          border: 0;
           border-radius: 9999px !important;
           cursor: pointer;
           margin: 0 !important;
           padding: 0;
-        }
-        @media (min-width: 640px) {
-          .hero-pagination .swiper-pagination-bullet {
-            width: 2.75rem;
-            height: 2.75rem;
-          }
         }
         .hero-pagination .swiper-pagination-bullet::after {
           content: "";
           width: 0.5rem;
           height: 0.5rem;
           border-radius: 9999px;
-          background: #fff;
+          background: rgb(255 255 255 / 0.7);
+          transition: background-color 0.2s ease, transform 0.2s ease;
         }
-        .hero-pagination .swiper-pagination-bullet-active {
-          background: var(--color-accent) !important;
-          border-color: var(--color-accent);
+        .hero-pagination .swiper-pagination-bullet:hover::after {
+          background: var(--color-accent-light);
+          transform: scale(1.2);
         }
         .hero-pagination .swiper-pagination-bullet-active::after {
-          background: var(--color-primary-dark);
+          width: 0.75rem;
+          height: 0.75rem;
+          background: var(--color-accent);
         }
         .hero-pagination .swiper-pagination-bullet:focus-visible {
-          outline: 3px solid var(--color-accent);
-          outline-offset: 3px;
+          outline: 2px solid var(--color-accent);
+          outline-offset: 1px;
         }
       `}</style>
     </section>
