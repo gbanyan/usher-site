@@ -139,7 +139,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       <div className="pointer-events-none absolute inset-x-0 bottom-6 z-20 sm:bottom-8 lg:bottom-10">
         <div className="container mx-auto flex justify-center px-4 sm:px-6 lg:px-8">
           <div
-            className="hero-controls flex flex-wrap items-center justify-center gap-2 pointer-events-auto animate-in fade-in slide-in-from-bottom-4 duration-1000"
+            className="hero-controls flex flex-nowrap items-center justify-center gap-2 pointer-events-auto animate-in fade-in slide-in-from-bottom-4 duration-1000"
             style={{ animationDelay: '500ms' }}
             role="group"
             aria-label="輪播控制"
@@ -173,6 +173,14 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 
       {/* Custom Styles for Swiper Pagination - buttons for accessibility */}
       <style jsx global>{`
+        /* Swiper's pagination defaults to absolute positioning and width: 100%,
+           which would force the arrows onto separate rows in this control bar. */
+        .hero-pagination.swiper-pagination,
+        .hero-pagination.swiper-pagination-horizontal {
+          position: static !important;
+          width: auto !important;
+          transform: none !important;
+        }
         .hero-pagination .swiper-pagination-bullet {
           width: 2.25rem;
           height: 2.25rem;
