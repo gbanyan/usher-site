@@ -53,7 +53,8 @@
 /* Keep the search field's focus indicator visible without overwhelming the modal. */
 .search-modal input:focus-visible {
   outline: 2px solid var(--color-accent);
-  outline-offset: 1px;
+  /* Keep the focus indicator aligned with the input's own rounded box. */
+  outline-offset: -2px;
 }
 
 /* Content padding for comfortable mobile reading (avoids text too close to edges) */
