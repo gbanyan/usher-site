@@ -118,9 +118,6 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                     {slide.content}
                   </p>
                   
-                  {/* Empty space for pagination to be positioned below subtitle via absolute positioning or margin */}
-                  <div className="h-10 sm:h-16"></div>
-
                   {slide.button?.label && (
                     <Link
                       href={slide.button.link}
@@ -139,45 +136,37 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       </Swiper>
 
       {/* Pagination bullets - clickable, keyboard accessible */}
-      <div className="absolute bottom-[20%] sm:bottom-1/3 lg:bottom-[30%] left-0 right-0 z-20 pointer-events-none">
-        <div className="container mx-auto px-6 lg:px-8">
-          <div className="max-w-3xl">
-            {/* 
-                Approximate position under the subtitle. 
-                Since the content is flex items-center, it's roughly in the middle.
-                Subtitle is below title. 
-                We adjust the bottom position to align it visually.
-            */}
-            <div
-              className="hero-controls flex items-center gap-3 pointer-events-auto animate-in fade-in slide-in-from-bottom-4 duration-1000"
-              style={{ animationDelay: '500ms' }}
-              role="group"
-              aria-label="輪播控制"
+      <div className="pointer-events-none absolute inset-x-0 bottom-6 z-20 sm:bottom-8 lg:bottom-10">
+        <div className="container mx-auto flex justify-center px-4 sm:px-6 lg:px-8">
+          <div
+            className="hero-controls flex flex-wrap items-center justify-center gap-2 pointer-events-auto animate-in fade-in slide-in-from-bottom-4 duration-1000"
+            style={{ animationDelay: '500ms' }}
+            role="group"
+            aria-label="輪播控制"
+          >
+            <button
+              type="button"
+              onClick={() => swiperRef.current?.slidePrev()}
+              className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-white/70 bg-primary-dark/85 text-white shadow-lg transition-colors hover:bg-primary-dark hover:text-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark sm:size-11"
+              aria-label="上一張投影片"
             >
-              <button
-                type="button"
-                onClick={() => swiperRef.current?.slidePrev()}
-                className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-white/70 bg-primary-dark/85 text-white shadow-lg transition-colors hover:bg-primary-dark hover:text-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark"
-                aria-label="上一張投影片"
-              >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
 
-              <div className="hero-pagination flex items-center gap-2" />
+            <div className="hero-pagination flex items-center gap-2" />
 
-              <button
-                type="button"
-                onClick={() => swiperRef.current?.slideNext()}
-                className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-white/70 bg-primary-dark/85 text-white shadow-lg transition-colors hover:bg-primary-dark hover:text-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark"
-                aria-label="下一張投影片"
-              >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => swiperRef.current?.slideNext()}
+              className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-white/70 bg-primary-dark/85 text-white shadow-lg transition-colors hover:bg-primary-dark hover:text-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark sm:size-11"
+              aria-label="下一張投影片"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
@@ -185,8 +174,8 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       {/* Custom Styles for Swiper Pagination - buttons for accessibility */}
       <style jsx global>{`
         .hero-pagination .swiper-pagination-bullet {
-          width: 2.75rem;
-          height: 2.75rem;
+          width: 2.25rem;
+          height: 2.25rem;
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -199,6 +188,12 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
           cursor: pointer;
           margin: 0 !important;
           padding: 0;
+        }
+        @media (min-width: 640px) {
+          .hero-pagination .swiper-pagination-bullet {
+            width: 2.75rem;
+            height: 2.75rem;
+          }
         }
         .hero-pagination .swiper-pagination-bullet::after {
           content: "";
