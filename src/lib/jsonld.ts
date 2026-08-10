@@ -1,30 +1,38 @@
 import { getSiteUrl } from "./site";
+import { FALLBACK_ORGANIZATION_PROFILE } from "./contact";
+import type { OrganizationProfile } from "./types";
 
 const ORG_NAME = "台灣尤塞氏症暨視聽弱協會";
 const ORG_DESCRIPTION =
   "台灣尤塞氏症暨視聽弱協會致力於尤塞氏症（Usher Syndrome）及視聽雙重障礙者的支持與服務，提供病友交流、資源分享與權益倡導。";
 
-export function getOrganizationSchema(): Record<string, unknown> {
+export function getOrganizationSchema(
+  profile: OrganizationProfile = FALLBACK_ORGANIZATION_PROFILE
+): Record<string, unknown> {
   const siteUrl = getSiteUrl();
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: ORG_NAME,
+    name: profile.name,
     url: siteUrl,
     logo: `${siteUrl}/images/logo.png`,
     description: ORG_DESCRIPTION,
     address: {
       "@type": "PostalAddress",
       addressCountry: "TW",
-      addressRegion: "台北市",
-      addressLocality: "中正區",
-      streetAddress: "忠孝西路一段50號14樓之20、22號",
+      streetAddress: profile.address,
     },
     sameAs: [
       "https://line.me/ti/g2/53ghCyQ0KSgYg4vKqt3GT19pWRe0PKydKIrGUQ",
       "https://www.facebook.com/groups/ushersyndrometw",
     ],
-    email: "president@usher.org.tw",
+    email: profile.email,
+    telephone: profile.phone,
+    identifier: {
+      "@type": "PropertyValue",
+      propertyID: "統一編號",
+      value: profile.tax_id,
+    },
   };
 }
 

@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import JsonLd from "@/components/JsonLd";
+import { getOrganizationProfile } from "@/lib/api";
 import { getOrganizationSchema } from "@/lib/jsonld";
 import "./globals.css";
 
@@ -39,15 +40,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationProfile = await getOrganizationProfile();
+
   return (
     <html lang="zh-TW">
       <body className="min-h-screen bg-black font-sans text-white antialiased">
-        <JsonLd data={getOrganizationSchema()} />
+        <JsonLd data={getOrganizationSchema(organizationProfile)} />
         <a href="#main-content" className="skip-to-content" aria-label="跳過導覽，直接前往主要內容">
           跳至主要內容
         </a>
@@ -56,7 +59,7 @@ export default function RootLayout({
 
         <main id="main-content" className="relative w-full" tabIndex={-1} role="main">{children}</main>
 
-        <Footer />
+        <Footer profile={organizationProfile} />
         <ScrollToTop />
       </body>
     </html>

@@ -5,12 +5,14 @@ import type {
   Page,
   Category,
   HomepageData,
+  OrganizationProfile,
   ContentType,
   PublicDocumentSummary,
   PublicDocument,
   PublicDocumentDetailResponse,
   PublicDocumentVersion,
 } from "./types";
+import { FALLBACK_ORGANIZATION_PROFILE } from "./contact";
 
 import "server-only";
 import path from "node:path";
@@ -349,6 +351,23 @@ export async function getHomepage(): Promise<HomepageData> {
     latest_document: (data.latest_document ?? []).map(normalizeArticleSummary),
     latest_related_news: (data.latest_related_news ?? []).map(normalizeArticleSummary),
   };
+}
+
+export async function getOrganizationProfile(): Promise<OrganizationProfile> {
+  if (CONTENT_SOURCE === "snapshot") {
+    return FALLBACK_ORGANIZATION_PROFILE;
+  }
+
+  try {
+    const response = await fetchAPI<{ data: OrganizationProfile }>(
+      "/organization-profile",
+      { tags: ["organization-profile"] }
+    );
+
+    return response.data;
+  } catch {
+    return FALLBACK_ORGANIZATION_PROFILE;
+  }
 }
 
 export async function getAllArticleSlugs(

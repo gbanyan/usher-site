@@ -95,6 +95,14 @@ export interface HomepageData {
   categories: Category[];
 }
 
+export interface OrganizationProfile {
+  name: string;
+  address: string;
+  tax_id: string;
+  email: string;
+  phone: string;
+}
+
 export interface PublicDocumentCategory {
   id: number;
   name: string;

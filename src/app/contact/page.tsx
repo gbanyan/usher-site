@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { getPage, getPublicDocuments } from "@/lib/api";
+import { getOrganizationProfile, getPage, getPublicDocuments } from "@/lib/api";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import type { Page, PublicDocumentSummary } from "@/lib/types";
+import { formatPhoneForDisplay, getPhoneHref } from "@/lib/contact";
 
 import { buildPageMetadata } from "@/lib/metadata";
 
@@ -45,8 +46,11 @@ async function fetchLegalDocuments(): Promise<PublicDocumentSummary[]> {
 }
 
 export default async function ContactPage() {
-  const page = await fetchContactPage();
-  const legalDocuments = await fetchLegalDocuments();
+  const [page, legalDocuments, organization] = await Promise.all([
+    fetchContactPage(),
+    fetchLegalDocuments(),
+    getOrganizationProfile(),
+  ]);
 
   const incorporationLicense =
     legalDocuments.find((doc) => doc.title === "內政部立案證書") ?? null;
@@ -93,7 +97,7 @@ export default async function ContactPage() {
                 <div>
                   <dt className="text-sm font-medium text-gray-400">協會名稱</dt>
                   <dd className="mt-1 text-white">
-                    台灣尤塞氏症暨視聽弱協會
+                    {organization.name}
                   </dd>
                 </div>
               </div>
@@ -104,9 +108,7 @@ export default async function ContactPage() {
                 />
                 <div>
                   <dt className="text-sm font-medium text-gray-400">地址</dt>
-                  <dd className="mt-1 text-white">
-                    台北市中正區忠孝西路一段50號14樓之20、22號
-                  </dd>
+                  <dd className="mt-1 whitespace-pre-line text-white">{organization.address}</dd>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -117,7 +119,7 @@ export default async function ContactPage() {
                 <div>
                   <dt className="text-sm font-medium text-gray-400">統一編號</dt>
                   <dd className="mt-1 text-white">
-                    00577231
+                    {organization.tax_id}
                   </dd>
                 </div>
               </div>
@@ -130,10 +132,27 @@ export default async function ContactPage() {
                   <dt className="text-sm font-medium text-gray-400">電子信箱</dt>
                   <dd className="mt-1">
                     <a
-                      href="mailto:president@usher.org.tw"
+                      href={`mailto:${organization.email}`}
                       className="text-accent transition-colors hover:text-accent-light"
                     >
-                      president@usher.org.tw
+                      {organization.email}
+                    </a>
+                  </dd>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <ContactMetaIcon
+                  type="phone"
+                  className="mt-0.5 h-5 w-5 shrink-0 text-accent"
+                />
+                <div>
+                  <dt className="text-sm font-medium text-gray-400">聯絡電話</dt>
+                  <dd className="mt-1">
+                    <a
+                      href={getPhoneHref(organization.phone)}
+                      className="text-accent transition-colors hover:text-accent-light"
+                    >
+                      {formatPhoneForDisplay(organization.phone)}
                     </a>
                   </dd>
                 </div>
@@ -232,6 +251,7 @@ type ContactMetaIconType =
   | "address"
   | "business-id"
   | "email"
+  | "phone"
   | "authority"
   | "incorporation-letter"
   | "registration"
@@ -271,6 +291,12 @@ function ContactMetaIcon({
         <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 6.75h16.5a1.5 1.5 0 011.5 1.5v7.5a1.5 1.5 0 01-1.5 1.5H3.75a1.5 1.5 0 01-1.5-1.5v-7.5a1.5 1.5 0 011.5-1.5z" />
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7.5l9 6 9-6" />
+        </svg>
+      );
+    case "phone":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6.75 3.75h2.25l1.125 4.5-2.25 1.125a12.04 12.04 0 006.75 6.75l1.125-2.25 4.5 1.125v2.25a1.5 1.5 0 01-1.5 1.5C11.294 18.75 5.25 12.706 5.25 5.25a1.5 1.5 0 011.5-1.5z" />
         </svg>
       );
     case "authority":

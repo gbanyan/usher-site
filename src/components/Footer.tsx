@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Logo from "./Logo";
+import { formatPhoneForDisplay, getPhoneHref } from "@/lib/contact";
+import type { OrganizationProfile } from "@/lib/types";
 
 const QUICK_LINKS = [
   { label: "事務公告", href: "/notice", icon: "notice" },
@@ -46,7 +48,8 @@ type FooterIconType =
   | "blog"
   | "address"
   | "business-id"
-  | "email";
+  | "email"
+  | "phone";
 
 function FooterIcon({
   type,
@@ -104,12 +107,18 @@ function FooterIcon({
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7.5l9 6 9-6" />
         </svg>
       );
+    case "phone":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6.75 3.75h2.25l1.125 4.5-2.25 1.125a12.04 12.04 0 006.75 6.75l1.125-2.25 4.5 1.125v2.25a1.5 1.5 0 01-1.5 1.5C11.294 18.75 5.25 12.706 5.25 5.25a1.5 1.5 0 011.5-1.5z" />
+        </svg>
+      );
     default:
       return null;
   }
 }
 
-export default function Footer() {
+export default function Footer({ profile }: { profile: OrganizationProfile }) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -201,7 +210,7 @@ export default function Footer() {
                 />
                 <div>
                   <span className="block font-medium text-white/90">地址</span>
-                  台北市中正區忠孝西路一段50號<br />14樓之20、22號
+                  <span className="whitespace-pre-line">{profile.address}</span>
                 </div>
               </li>
               <li className="flex items-start gap-2">
@@ -211,7 +220,7 @@ export default function Footer() {
                 />
                 <div>
                   <span className="block font-medium text-white/90">統一編號</span>
-                  00577231
+                  {profile.tax_id}
                 </div>
               </li>
               <li className="flex items-start gap-2">
@@ -222,11 +231,26 @@ export default function Footer() {
                 <div>
                   <span className="block font-medium text-white/90">電子信箱</span>
                   <a
-                    href="mailto:president@usher.org.tw"
+                    href={`mailto:${profile.email}`}
                     className="transition-colors duration-200 hover:text-accent-light"
-                    aria-label="寄信至 president@usher.org.tw"
+                    aria-label={`寄信至 ${profile.email}`}
                   >
-                    president@usher.org.tw
+                    {profile.email}
+                  </a>
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <FooterIcon
+                  type="phone"
+                  className="mt-0.5 h-4 w-4 shrink-0 text-accent"
+                />
+                <div>
+                  <span className="block font-medium text-white/90">聯絡電話</span>
+                  <a
+                    href={getPhoneHref(profile.phone)}
+                    className="transition-colors duration-200 hover:text-accent-light"
+                  >
+                    {formatPhoneForDisplay(profile.phone)}
                   </a>
                 </div>
               </li>
@@ -237,7 +261,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="mt-10 border-t border-white/10 pt-6 text-center">
           <p className="text-sm text-white/50">
-            &copy; {currentYear} 台灣尤塞氏症暨視聽弱協會
+            &copy; {currentYear} {profile.name}
           </p>
         </div>
       </div>

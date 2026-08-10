@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPage, getPublicDocuments } from "@/lib/api";
+import { getOrganizationProfile, getPage, getPublicDocuments } from "@/lib/api";
 import { buildPageMetadata } from "@/lib/metadata";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
@@ -52,6 +52,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function AboutPage() {
   let page;
   let documents: PublicDocumentSummary[] = [];
+  const organization = await getOrganizationProfile();
   try {
     page = await getPage("about");
   } catch {
@@ -103,7 +104,7 @@ export default async function AboutPage() {
           <dl className="mt-5 grid grid-cols-1 gap-3 text-sm text-gray-200 sm:grid-cols-2">
             <div className="rounded-lg border border-white/10 bg-primary-dark/70 px-4 py-3">
               <dt className="text-gray-400">統一編號</dt>
-              <dd className="mt-1 font-medium text-white">00577231</dd>
+              <dd className="mt-1 font-medium text-white">{organization.tax_id}</dd>
             </div>
             <div className="rounded-lg border border-white/10 bg-primary-dark/70 px-4 py-3">
               <dt className="text-gray-400">立案機關</dt>
