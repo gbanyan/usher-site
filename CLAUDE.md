@@ -33,9 +33,9 @@ npm run snapshot     # Generate local content snapshots from Laravel (for buildi
 
 ## Tech Stack
 
-- **Framework**: Next.js 16.1.6 (App Router, React 19)
+- **Framework**: Next.js 16.3.0 (App Router, React 19)
 - **Styling**: Tailwind CSS 4 with `@tailwindcss/typography`
-- **Font**: System font stack (PingFang TC, Heiti TC, Microsoft JhengHei, Noto Sans CJK TC, etc. — no web font)
+- **Font**: System font stack (PingFang TC, Heiti TC, Microsoft JhengHei, Noto Sans CJK TC, etc.); the logo wordmark uses a subset webfont (`/fonts/iansui-logo.woff2`) rendered by `Logo.tsx`
 - **Markdown**: `react-markdown` + `remark-gfm` + `rehype-raw`
 
 ## Architecture
@@ -136,15 +136,18 @@ Production values configured in Vercel (or hosting platform).
 |---|---|---|
 | `/` | Static | Homepage — static layout from Hugo `homepage.yml` + dynamic article lists |
 | `/about` | Static | 創立目的 — content from Laravel `pages/about` |
-| `/contact` | Static | 聯繫我們 — hardcoded contact info |
+| `/contact` | Static | 聯繫資訊 — organization profile from CMS with local fallbacks |
 | `/blog` | Static | 部落格 listing — all blog articles |
 | `/blog/[slug]` | SSG | Blog article detail |
+| `/story`, `/story/[slug]` | Static/SSG | 病友故事 — blog articles in the `story` category |
+| `/guides`, `/guides/[slug]` | Static/SSG | 建議與指引 — blog articles in the `guides` category |
 | `/notice` | Static | 事務公告 listing |
 | `/notice/[slug]` | SSG | Notice detail |
 | `/document` | Static | 協會文件 listing |
 | `/document/[slug]` | SSG | Document detail |
 | `/related-news` | Static | 相關報導 listing |
 | `/related-news/[slug]` | SSG | Related news detail |
+| `/research` | Static | Permanent redirect to `/document` |
 | `/[pageSlug]` | SSG | Static pages: structure, message, logo-represent |
 | `/api/revalidate` | Dynamic | Webhook for on-demand cache invalidation |
 
@@ -152,21 +155,33 @@ Production values configured in Vercel (or hosting platform).
 
 - `src/lib/api.ts` — API client with `fetchAPI()`, all data-fetching functions
 - `src/lib/types.ts` — TypeScript interfaces for all API data shapes
+- `src/lib/transform.ts` — Legacy article ↔ public document mapping
+- `src/lib/governance.ts` — Governance document lookup for about/contact pages
+- `src/lib/article-sections.ts` — Shared per-section config (titles, paths, categories)
+- `src/lib/contact.ts` — Organization profile fallbacks and phone/donation helpers
 - `src/lib/utils.ts` — `formatDate()`, `formatFileSize()` helpers
+- `src/lib/metadata.ts`, `src/lib/jsonld.ts`, `src/lib/site.ts` — SEO helpers
 - `src/app/page.tsx` — Homepage with static data constants (slider, features, about, documentary)
-- `src/app/layout.tsx` — Root layout with Noto Sans TC font, Header, Footer
+- `src/app/layout.tsx` — Root layout with Header, Footer, skip link and JSON-LD
 - `src/app/globals.css` — Tailwind config with custom theme colors
 - `src/app/api/revalidate/route.ts` — Revalidation webhook endpoint
 - `next.config.ts` — Remote image patterns for Laravel backend
 
 ## Components
 
-- `Header.tsx` — Site navigation with logo (`/images/logo.png`)
-- `Footer.tsx` — Site footer with logo and links
-- `ArticleCard.tsx` — Reusable article card (used in listings and homepage)
-- `Breadcrumbs.tsx` — Breadcrumb navigation
+- `Header.tsx` — Site navigation with `Logo` and accessible dropdowns
+- `Footer.tsx` — Site footer with `Logo` and links
+- `Logo.tsx` — Branded logo wordmark (subset webfont)
+- `ArticleCard.tsx` — Reusable article card
+- `ArticleListing.tsx` — Shared listing grid with empty/error states
+- `ArticleDetail.tsx` — Shared article detail renderer
+- `ArticleAttachments.tsx` — Attachment download list
+- `HeroSlider.tsx` — Homepage carousel (single h1, reduced-motion aware)
+- `SearchModal.tsx` — Pagefind search modal
+- `PageHeader.tsx` — Page banner with breadcrumb
 - `MarkdownRenderer.tsx` — Renders markdown content with `react-markdown`
-- `Pagination.tsx` — Pagination component (currently unused — may be needed for client-side pagination later)
+- `JsonLd.tsx` — JSON-LD structured data component
+- `ScrollToTop.tsx` — Scroll-to-top control
 
 ## Theme Colors
 
@@ -179,18 +194,21 @@ Defined in `globals.css` via `@theme inline`:
 - `surface`: #f8f9fa
 - `surface-dark`: #e9ecef
 
-## Content Types
+## Content Sections
 
-Four article types managed in Laravel, each with its own listing and detail page:
+Four article types come directly from the CMS; `/story` and `/guides` are blog
+articles curated by CMS category. All per-section strings live in
+`src/lib/article-sections.ts` (`ARTICLE_SECTION_CONFIG`); the CMS type→path
+mapping is `CONTENT_TYPE_PATHS` in `src/lib/types.ts`.
 
-| Type | Path | Chinese Label |
-|---|---|---|
-| `blog` | `/blog` | 部落格 |
-| `notice` | `/notice` | 事務公告 |
-| `document` | `/document` | 協會文件 |
-| `related_news` | `/related-news` | 相關報導 |
-
-Mapping defined in `src/lib/types.ts` as `CONTENT_TYPE_PATHS`.
+| Section | Path | Source | Chinese Label |
+|---|---|---|---|
+| `blog` | `/blog` | CMS type `blog` | 部落格 |
+| `notice` | `/notice` | CMS type `notice` | 事務公告 |
+| `document` | `/document` | CMS type `document` | 協會文件 |
+| `related_news` | `/related-news` | CMS type `related_news` | 相關報導 |
+| `story` | `/story` | blog + category `story` | 病友故事 |
+| `guides` | `/guides` | blog + category `guides` | 建議與指引 |
 
 ## Hugo Migration Notes
 

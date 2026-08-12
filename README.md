@@ -98,16 +98,17 @@ drove the following, all of which are in the codebase now:
 
 | Implemented | Where |
 |---|---|
-| Skip-to-content link, labelled in Chinese | `src/app/layout.tsx:51` |
+| Skip-to-content link, labelled in Chinese | `src/app/layout.tsx:54` |
 | 4px high-contrast focus ring with 4px offset on every focusable element | `src/app/globals.css:48` |
 | ARIA landmarks and descriptive labels throughout | 23 page and component files |
-| Carousel exposed as a labelled `role="region"` with `aria-roledescription`, and real `<button>` pagination controls rather than clickable `<div>`s | `src/components/HeroSlider.tsx:28,48` |
-| Navigation dropdowns as real `<button>` elements with `aria-expanded` and `aria-haspopup`, toggled on click rather than hover alone | `src/components/Header.tsx:141` |
-| Screen-reader-only captions and labels on the governance document tables | `src/app/about/page.tsx:128` |
+| Carousel exposed as a labelled `role="region"` with `aria-roledescription`, and real `<button>` pagination controls rather than clickable `<div>`s | `src/components/HeroSlider.tsx:61,84` |
+| Navigation dropdowns as real `<button>` elements with `aria-expanded` and `aria-haspopup`, toggled on click rather than hover alone | `src/components/Header.tsx:143` |
+| Screen-reader-only captions and labels on the governance document tables | `src/app/about/page.tsx:105` |
 | External links announce that they open in a new window, instead of relying on a visual icon | `src/components/MarkdownRenderer.tsx:49` |
 | Fluid `clamp()` type scale and 1.625 body line-height for low-vision reading | `src/app/globals.css` |
 | Generous touch and reading margins on small screens | `.content-padding-x` in `src/app/globals.css` |
 | Client-side search with Traditional Chinese word segmentation, so content is reachable without navigating the menus | Pagefind, indexed at build |
+| `prefers-reduced-motion` support — animations and autoplay disable, smooth scrolling is turned off | `src/components/HeroSlider.tsx:34`, `src/app/globals.css:136` |
 
 An audit found white text on the orange accent colour failing badly at a 1.98:1
 contrast ratio. Rather than abandon the brand colour, the pairing was inverted:
@@ -120,7 +121,6 @@ The target standard is WCAG 2.1 AA.
 
 Accessibility work here is ongoing rather than finished:
 
-- `prefers-reduced-motion` support for the homepage slider and transitions
 - Automated axe checks wired into CI so regressions fail the build
 - A full screen-reader pass with VoiceOver and NVDA, ideally with members of the
   association rather than only developers

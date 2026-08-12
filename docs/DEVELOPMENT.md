@@ -50,11 +50,19 @@ production actually serves, use `build` + `start` instead.
 | `npm run dev` | Dev server with hot reload. Requires the CMS. |
 | `npm run build` | Production build, then generates the Pagefind search index. |
 | `npm run start` | Serves the pre-built static site. No CMS needed. |
+| `npm run test` | Runs the vitest unit suite. |
+| `npm run check:content` | Validates snapshot Markdown for formatting errors (run before committing a snapshot refresh). |
 | `npm run lint` | ESLint. |
 | `npm run snapshot` | Writes local content snapshots from the CMS into `content-snapshots/`. |
+| `npm run subset-logo-font` | Regenerates the subset logo webfont (`public/fonts/iansui-logo.woff2`). |
+| `npm run extract-logo-icon` | Extracts the logo icon asset. |
 
 `npm run build` runs `next build`, then indexes the output with Pagefind and
 copies the index to `public/_pagefind`.
+
+`node scripts/crop-tcu-logo.mjs` is a one-off logo-prep tool (not a package
+script); it is documented in `docs/assets/partner-logo-sources.md` and consumes
+`sharp`.
 
 ## Environment variables
 
@@ -172,7 +180,7 @@ Two sources, handled differently:
 | `src/lib/types.ts` | Interfaces for API payloads, `CONTENT_TYPE_PATHS` |
 | `src/lib/metadata.ts`, `src/lib/jsonld.ts`, `src/lib/site.ts` | SEO helpers |
 | `content-snapshots/` | Committed content for snapshot mode |
-| `scripts/` | Build-time utilities (snapshots, font subsetting) |
+| `scripts/` | Build utilities: snapshots, snapshot Markdown checks, font subsetting, logo prep |
 | `hugo-archive/` | The original Hugo site, kept for reference |
 
 `CLAUDE.md` in the repository root covers the same ground in a format aimed at
