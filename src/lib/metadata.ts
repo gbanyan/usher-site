@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getSiteUrl } from "./site";
 import { stripMarkdown } from "./utils";
 
-const DEFAULT_OG_IMAGE = "/og-default.jpg";
+const DEFAULT_OG_IMAGE = "/images/banner/hero-support.jpg";
 
 /**
  * Build metadata for article pages (blog, notice, document, related-news, guides, story).

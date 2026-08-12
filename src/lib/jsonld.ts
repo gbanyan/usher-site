@@ -56,7 +56,7 @@ export function getArticleSchema(
     ? (article.featured_image_url.startsWith("http")
         ? article.featured_image_url
         : `${siteUrl}${article.featured_image_url}`)
-    : `${siteUrl}/og-default.jpg`;
+    : `${siteUrl}/images/banner/hero-support.jpg`;
 
   return {
     "@context": "https://schema.org",

@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "zh_TW",
     siteName: "台灣尤塞氏症暨視聽弱協會",
-    images: ["/og-default.jpg"],
+    images: ["/images/banner/hero-support.jpg"],
   },
   twitter: {
     card: "summary_large_image",
