@@ -53,6 +53,7 @@ production actually serves, use `build` + `start` instead.
 | `npm run test` | Runs the vitest unit suite. |
 | `npm run check:content` | Validates snapshot Markdown for formatting errors (run before committing a snapshot refresh). |
 | `npm run check:assets` | Verifies every content reference resolves to a real file under `public/`. Exits 1 on missing references. |
+| `npm run check:a11y` | Static accessibility invariants over the built output (single page heading, skip links, focus ring). Run after `npm run build`. |
 | `npm run lint` | ESLint. |
 | `npm run snapshot` | Writes local content snapshots from the CMS into `content-snapshots/`. |
 | `npm run refresh:content` | One-command content refresh: `snapshot`, then both checks. Honours `SNAPSHOT_API_URL`. |
@@ -65,6 +66,24 @@ copies the index to `public/_pagefind`.
 `node scripts/crop-tcu-logo.mjs` is a one-off logo-prep tool (not a package
 script); it is documented in `docs/assets/partner-logo-sources.md` and consumes
 `sharp`.
+
+## Continuous integration
+
+`.github/workflows/ci.yml` runs on pushes to `main` and on pull requests. It
+executes the whole guard chain in a snapshot-mode build, so it needs no CMS
+access and no secrets:
+
+```
+npm ci → lint → test → check:content → check:assets → build → check:a11y
+```
+
+`CONTENT_SOURCE=snapshot` makes `next build` read the committed
+`content-snapshots/` instead of the CMS, so a fresh checkout is reproducible.
+Deployment stays on Vercel and is independent of this workflow.
+
+Adding a CI step: it must not require the CMS (use snapshot mode), must not
+need secrets that trip other contributors, and ideally must run in under a few
+minutes.
 
 ## Environment variables
 

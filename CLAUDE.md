@@ -17,6 +17,7 @@ npm run lint             # ESLint
 npm run snapshot         # Generate local content snapshots from Laravel (for building without a live API)
 npm run check:content    # Validate snapshot Markdown formatting
 npm run check:assets     # Verify every content reference resolves to a real file in public/
+npm run check:a11y       # Static accessibility invariants over built output (run after build)
 npm run refresh:content  # snapshot + both checks in one command (honours SNAPSHOT_API_URL)
 ```
 

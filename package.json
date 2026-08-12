@@ -12,6 +12,7 @@
     "test": "vitest run",
     "check:content": "node scripts/check-markdown.mjs",
     "check:assets": "node scripts/check-content-assets.mjs",
+    "check:a11y": "node scripts/check-a11y-static.mjs",
     "lint": "eslint",
     "snapshot": "node scripts/snapshot-content.mjs",
     "refresh:content": "npm run snapshot && npm run check:content && npm run check:assets",

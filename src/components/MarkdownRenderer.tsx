@@ -3,14 +3,54 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Image from "next/image";
-import type { Components } from "react-markdown";
+import type { Components, ExtraProps } from "react-markdown";
 
 interface MarkdownRendererProps {
   content: string;
   className?: string;
 }
 
+const DEMOTED_HEADINGS = {
+  h1: "h2",
+  h2: "h3",
+  h3: "h4",
+  h4: "h5",
+  h5: "h6",
+  h6: "h6",
+} as const;
+
+type HeadingLevel = keyof typeof DEMOTED_HEADINGS;
+
+type HeadingProps = React.HTMLAttributes<HTMLHeadingElement> & ExtraProps;
+
+/**
+ * Content headings are demoted by one level (h1→h2 … h6 stays h6). The page's
+ * own title owns the single h1 (PageHeader on content pages, the first hero
+ * slide on the homepage); CMS markdown that starts with `#` would otherwise
+ * duplicate it.
+ */
+function ShiftedHeading({ level }: { level: HeadingLevel }) {
+  return function Heading({ node, ...props }: HeadingProps) {
+    void node; // react-markdown injects the AST node; do not forward it to DOM
+    const Tag = DEMOTED_HEADINGS[level];
+    return <Tag {...props} />;
+  };
+}
+
+const demotedHeadingComponents: Pick<
+  Components,
+  "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
+> = {
+  h1: ShiftedHeading({ level: "h1" }),
+  h2: ShiftedHeading({ level: "h2" }),
+  h3: ShiftedHeading({ level: "h3" }),
+  h4: ShiftedHeading({ level: "h4" }),
+  h5: ShiftedHeading({ level: "h5" }),
+  h6: ShiftedHeading({ level: "h6" }),
+};
+
 const components: Components = {
+  ...demotedHeadingComponents,
   img: ({ src, alt }) => {
     if (!src || typeof src !== "string") return null;
 

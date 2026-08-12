@@ -109,6 +109,7 @@ drove the following, all of which are in the codebase now:
 | Generous touch and reading margins on small screens | `.content-padding-x` in `src/app/globals.css` |
 | Client-side search with Traditional Chinese word segmentation, so content is reachable without navigating the menus | Pagefind, indexed at build |
 | `prefers-reduced-motion` support — animations and autoplay disable, smooth scrolling is turned off | `src/components/HeroSlider.tsx:34`, `src/app/globals.css:136` |
+| Automated structural checks in CI that fail the build on regressions (single page heading, skip links, focus ring) | `.github/workflows/ci.yml`, `scripts/check-a11y-static.mjs` |
 
 An audit found white text on the orange accent colour failing badly at a 1.98:1
 contrast ratio. Rather than abandon the brand colour, the pairing was inverted:
@@ -121,7 +122,9 @@ The target standard is WCAG 2.1 AA.
 
 Accessibility work here is ongoing rather than finished:
 
-- Automated axe checks wired into CI so regressions fail the build
+- Full axe scan of rendered pages in CI — structural checks (page headings,
+  skip links, focus ring) already run against every build; rendering-level
+  scanner with a real browser remains
 - A full screen-reader pass with VoiceOver and NVDA, ideally with members of the
   association rather than only developers
 
