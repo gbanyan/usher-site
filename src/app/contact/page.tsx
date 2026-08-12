@@ -3,7 +3,14 @@ import { getOrganizationProfile, getPage, getPublicDocuments } from "@/lib/api";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import type { Page, PublicDocumentSummary } from "@/lib/types";
-import { formatPhoneForDisplay, getPhoneHref } from "@/lib/contact";
+import {
+  formatDonationAccount,
+  DONATION_INFO,
+  formatPhoneForDisplay,
+  getPhoneHref,
+} from "@/lib/contact";
+import { extractContactContent } from "@/lib/transform";
+import { findGovernanceDocuments } from "@/lib/governance";
 
 import { buildPageMetadata } from "@/lib/metadata";
 
@@ -22,7 +29,7 @@ const SOCIAL_LINKS = [
   },
   {
     name: "Facebook 社團",
-    href: "http://facebook.com/groups/ushersyndrometw",
+    href: "https://www.facebook.com/groups/ushersyndrometw",
     icon: FacebookIcon,
     description: "追蹤協會最新動態與活動資訊",
   },
@@ -52,12 +59,14 @@ export default async function ContactPage() {
     getOrganizationProfile(),
   ]);
 
-  const incorporationLicense =
-    legalDocuments.find((doc) => doc.title === "內政部立案證書") ?? null;
-  const incorporationLetter =
-    legalDocuments.find((doc) => doc.title === "內政部立案函") ?? null;
-  const registrationCertificate =
-    legalDocuments.find((doc) => doc.title === "法人登記證書") ?? null;
+  const { content: contactContent, donationPending } = extractContactContent(
+    page?.content ?? ""
+  );
+
+  const governanceDocuments = findGovernanceDocuments(legalDocuments);
+  const incorporationLicense = governanceDocuments["license"] ?? null;
+  const incorporationLetter = governanceDocuments["letter"] ?? null;
+  const registrationCertificate = governanceDocuments["registration"] ?? null;
 
   return (
     <>
@@ -69,17 +78,24 @@ export default async function ContactPage() {
 
       <section className="mx-auto max-w-4xl px-6 py-12 lg:px-8">
 
-        {page && page.content && (
+        {contactContent && (
           <div className="mb-12">
-            <MarkdownRenderer
-              content={page.content
-                .replace('(待建立金流）', '帳戶 台北富邦銀行 帳號 82120000204387')
-                .replace('（待建立金流）', '帳戶 台北富邦銀行 帳號 82120000204387')
-                .replace('(待建立金流)', '帳戶 台北富邦銀行 帳號 82120000204387')
-                .replace('（待建立金流)', '帳戶 台北富邦銀行 帳號 82120000204387')
-              }
-            />
+            <MarkdownRenderer content={contactContent} />
           </div>
+        )}
+
+        {donationPending && (
+          <section
+            className="mb-12 rounded-xl border border-white/10 bg-primary/40 p-6 shadow-sm"
+            aria-labelledby="donation-heading"
+          >
+            <h2 id="donation-heading" className="text-xl font-semibold text-white">
+              捐款管道
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-gray-300">
+              {formatDonationAccount(DONATION_INFO)}
+            </p>
+          </section>
         )}
 
         <div className="grid gap-8 sm:grid-cols-2">
@@ -222,6 +238,7 @@ export default async function ContactPage() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`${link.name}：${link.description}（在新視窗開啟）`}
                     className="group flex items-start gap-4 rounded-lg p-3 transition-colors hover:bg-white/5"
                   >
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-primary-dark transition-colors group-hover:bg-white group-hover:text-accent">

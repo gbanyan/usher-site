@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/api";
 import { buildPageMetadata } from "@/lib/metadata";
-import ArticleCard from "@/components/ArticleCard";
+import ArticleListing from "@/components/ArticleListing";
 import PageHeader from "@/components/PageHeader";
+import { ARTICLE_SECTION_CONFIG } from "@/lib/article-sections";
+
+const config = ARTICLE_SECTION_CONFIG.blog;
 
 export const metadata: Metadata = buildPageMetadata(
-  "部落格",
-  "協會成員分享的生活經驗與心得",
-  "/blog"
+  config.label,
+  config.fallbackDescription,
+  config.path
 );
 
 export default async function BlogListingPage() {
@@ -18,32 +21,30 @@ export default async function BlogListingPage() {
     articles = null;
   }
 
+  // The blog listing excludes articles curated into the story/guides sections.
   const regularBlogArticles = (articles?.data ?? []).filter((article) => {
-    const categorySlugs = article.categories?.map((category) => category.slug) ?? [];
-    return !categorySlugs.includes("guides") && !categorySlugs.includes("story");
+    const categorySlugs =
+      article.categories?.map((category) => category.slug) ?? [];
+    return (
+      !categorySlugs.includes("guides") && !categorySlugs.includes("story")
+    );
   });
 
   return (
     <>
       <PageHeader
-        title="部落格"
-        description="協會成員分享的生活經驗與心得"
-        items={[
-          { label: "部落格" },
-        ]}
+        title={config.label}
+        description={config.fallbackDescription}
+        items={[{ label: config.label }]}
       />
 
       <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-
-        {articles && regularBlogArticles.length > 0 ? (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {regularBlogArticles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
-        ) : (
-          <p className="py-12 text-center text-gray-400">目前沒有文章</p>
-        )}
+        <ArticleListing
+          articles={regularBlogArticles}
+          emptyText="目前沒有文章"
+          isError={articles === null}
+          errorText="文章暫時無法載入"
+        />
       </section>
     </>
   );

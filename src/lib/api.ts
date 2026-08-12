@@ -8,11 +8,15 @@ import type {
   OrganizationProfile,
   ContentType,
   PublicDocumentSummary,
-  PublicDocument,
   PublicDocumentDetailResponse,
-  PublicDocumentVersion,
 } from "./types";
 import { FALLBACK_ORGANIZATION_PROFILE } from "./contact";
+import {
+  mapLegacyArticleSummaryToPublicDocument,
+  mapLegacyArticleDetailToPublicDocument,
+  normalizeArticleSummary,
+  normalizePaginatedArticles,
+} from "./transform";
 
 import "server-only";
 import path from "node:path";
@@ -26,146 +30,9 @@ const CONTENT_SOURCE: ContentSource =
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001/api/v1";
 
-const SNAPSHOT_DIR =
-  process.env.CONTENT_SNAPSHOT_DIR || path.join(process.cwd(), "content-snapshots");
-
-function normalizeFeaturedImageUrl(url: string | null): string | null {
-  if (!url) return null;
-
-  if (url.startsWith("/migrated-images/")) {
-    return `/images/${url.slice("/migrated-images/".length)}`;
-  }
-
-  if (url.startsWith("migrated-images/")) {
-    return `/images/${url.slice("migrated-images/".length)}`;
-  }
-
-  return url;
-}
-
-function normalizeArticleSummary<T extends { featured_image_url: string | null }>(
-  article: T
-): T {
-  return {
-    ...article,
-    featured_image_url: normalizeFeaturedImageUrl(article.featured_image_url),
-  };
-}
-
-function normalizePaginatedArticles<T extends { featured_image_url: string | null }>(
-  res: PaginatedResponse<T>
-): PaginatedResponse<T> {
-  return {
-    ...res,
-    data: res.data.map(normalizeArticleSummary),
-  };
-}
-
-function mapLegacyArticleSummaryToPublicDocument(
-  article: ArticleSummary
-): PublicDocumentSummary {
-  return {
-    id: article.id,
-    slug: article.slug,
-    public_uuid: article.slug,
-    title: article.title,
-    document_number: null,
-    summary: article.summary ?? article.excerpt,
-    description: article.summary ?? article.excerpt,
-    status: "active",
-    status_label: "啟用",
-    access_level: "public",
-    access_level_label: "公開",
-    published_at: article.published_at,
-    updated_at: article.published_at,
-    expires_at: null,
-    version_count: 1,
-    category: article.categories?.[0]
-      ? {
-          id: article.categories[0].id,
-          name: article.categories[0].name,
-          slug: article.categories[0].slug,
-          icon: null,
-        }
-      : null,
-    current_version: null,
-    links: {
-      api_url: `${API_URL}/articles/${article.slug}`,
-      detail_url: `/document/${article.slug}`,
-      web_url: `/document/${article.slug}`,
-      download_url: null,
-    },
-    metadata: {
-      document_type: article.categories?.[0]?.name ?? null,
-      expiration_status: null,
-      auto_archive_on_expiry: false,
-      expiry_notice: null,
-    },
-  };
-}
-
-function mapLegacyAttachmentToVersion(
-  articleSlug: string,
-  attachment: {
-    id: number;
-    original_filename: string;
-    mime_type: string;
-    file_size: number;
-    description: string | null;
-  },
-  index: number
-): PublicDocumentVersion {
-  const extension = attachment.original_filename.includes(".")
-    ? attachment.original_filename.split(".").pop() ?? ""
-    : "";
-
-  return {
-    id: attachment.id,
-    version_number: `${index + 1}.0`,
-    version_notes: attachment.description,
-    is_current: index === 0,
-    original_filename: attachment.original_filename,
-    mime_type: attachment.mime_type,
-    file_extension: extension.toLowerCase(),
-    file_size: attachment.file_size,
-    file_size_human: `${(attachment.file_size / 1024).toFixed(1)} KB`,
-    file_hash: null,
-    uploaded_by: null,
-    uploaded_at: null,
-    download_url: getAttachmentDownloadUrl(
-      articleSlug,
-      attachment.id,
-      attachment.original_filename
-    ),
-  };
-}
-
-function mapLegacyArticleDetailToPublicDocument(
-  response: ArticleDetailResponse
-): PublicDocumentDetailResponse {
-  const article = response.data;
-  const versions = (article.attachments ?? []).map((attachment, index) =>
-    mapLegacyAttachmentToVersion(article.slug, attachment, index)
-  );
-
-  const mapped: PublicDocument = {
-    ...mapLegacyArticleSummaryToPublicDocument(article),
-    current_version: versions[0] ?? null,
-    version_count: versions.length > 0 ? versions.length : 1,
-    versions,
-    links: {
-      api_url: `${API_URL}/articles/${article.slug}`,
-      detail_url: `/document/${article.slug}`,
-      web_url: `/document/${article.slug}`,
-      download_url: versions[0]?.download_url ?? null,
-    },
-  };
-
-  return {
-    data: mapped,
-    related: (response.related ?? []).map(mapLegacyArticleSummaryToPublicDocument),
-  };
-}
+// Statically scoped so Turbopack does not trace the whole project into the
+// output (the snapshot generator script keeps its own --out override).
+const SNAPSHOT_DIR = path.join(process.cwd(), "content-snapshots");
 
 async function readSnapshot<T>(relativePath: string): Promise<T> {
   const fullPath = path.join(SNAPSHOT_DIR, relativePath);
@@ -409,7 +276,9 @@ export async function getPublicDocuments(params?: {
 
     return {
       ...legacy,
-      data: legacy.data.map(mapLegacyArticleSummaryToPublicDocument),
+      data: legacy.data.map((article) =>
+        mapLegacyArticleSummaryToPublicDocument(article, API_URL)
+      ),
     };
   }
 
@@ -438,7 +307,9 @@ export async function getPublicDocuments(params?: {
 
     return {
       ...legacy,
-      data: legacy.data.map(mapLegacyArticleSummaryToPublicDocument),
+      data: legacy.data.map((article) =>
+        mapLegacyArticleSummaryToPublicDocument(article, API_URL)
+      ),
     };
   }
 }
@@ -448,7 +319,10 @@ export async function getPublicDocument(
 ): Promise<PublicDocumentDetailResponse> {
   if (CONTENT_SOURCE === "snapshot") {
     const legacy = await getArticle(slug);
-    return mapLegacyArticleDetailToPublicDocument(legacy);
+    return mapLegacyArticleDetailToPublicDocument(legacy, {
+      apiUrl: API_URL,
+      resolveDownloadUrl: getAttachmentDownloadUrl,
+    });
   }
 
   try {
@@ -458,7 +332,10 @@ export async function getPublicDocument(
     );
   } catch {
     const legacy = await getArticle(slug);
-    return mapLegacyArticleDetailToPublicDocument(legacy);
+    return mapLegacyArticleDetailToPublicDocument(legacy, {
+      apiUrl: API_URL,
+      resolveDownloadUrl: getAttachmentDownloadUrl,
+    });
   }
 }
 

@@ -89,6 +89,13 @@ npm run snapshot         # writes content-snapshots/
 Commit `content-snapshots/`, then set `CONTENT_SOURCE=snapshot` for that
 deployment.
 
+If snapshot builds must also serve file attachments, commit
+`public/attachments/` (plural) as well: `snapshot-content.mjs` downloads
+attachments there by default and snapshot-mode download URLs point at
+`/attachments/…`. This is separate from the legacy `public/attachment/`
+(singular) directory migrated from Hugo. Use
+`npm run snapshot -- --skip-attachments` to skip the download.
+
 ### API shapes
 
 Single resources come back wrapped by Laravel's `JsonResource`:

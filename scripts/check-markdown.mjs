@@ -51,9 +51,8 @@ function extractContent(obj, filePath) {
   return results;
 }
 
-function checkMarkdown(content, source) {
+function checkMarkdown(content) {
   const issues = [];
-  const lines = content.split("\n");
 
   // 1. ** ** or **  ** - empty bold on SAME LINE (space/tab between, not newline)
   const emptyBold = /\*\*[ \t]+\*\*/g;
@@ -156,7 +155,7 @@ async function main() {
         }
         const items = extractContent(data, `${prefix}${e.name}`);
         for (const { path, content, title, slug } of items) {
-          const issues = checkMarkdown(content, path);
+          const issues = checkMarkdown(content);
           if (issues.length > 0) {
             allIssues.push({
               file: path,

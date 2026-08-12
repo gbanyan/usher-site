@@ -56,7 +56,13 @@ Only use snapshot mode when the Laravel API cannot be reached during build.
 
 1. With Laravel running locally on `http://localhost:8001`, generate snapshots:
    - `npm run snapshot`
-2. Commit `content-snapshots/` and (optionally) `public/attachments/`
+2. Commit `content-snapshots/` and — only if snapshot builds must serve file
+   attachments — also `public/attachments/` (plural: the folder `npm run
+   snapshot` downloads attachments into, and the prefix snapshot-mode download
+   URLs use). This is different from the legacy `public/attachment/`
+   (singular) directory migrated from Hugo, which holds old PDFs that CMS
+   content links to. To skip the attachment download use
+   `npm run snapshot -- --skip-attachments`.
 3. Set `CONTENT_SOURCE=snapshot` only for fallback deployments
 
 ### Content Source — Laravel API

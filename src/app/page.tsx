@@ -334,7 +334,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============ 相關報導 + 最新消息（事務公告 + 部落格） ============ */}
-      {data && (
+      {data ? (
         <div className="flex flex-col">
           {/* 相關報導 — 較淺背景 */}
           <section className="bg-primary-light py-16 sm:py-24">
@@ -355,6 +355,23 @@ export default async function HomePage() {
             />
           </section>
         </div>
+      ) : (
+        <section
+          className="bg-primary-light py-16 sm:py-24"
+          aria-labelledby="latest-content-unavailable-heading"
+        >
+          <div className="mx-auto max-w-3xl px-6 text-center lg:px-8">
+            <h2
+              id="latest-content-unavailable-heading"
+              className="text-heading-2 text-white"
+            >
+              最新內容暫時無法載入
+            </h2>
+            <p className="mt-3 text-body text-muted">
+              請稍後重新整理頁面，或從上方導覽前往各內容分類。
+            </p>
+          </div>
+        </section>
       )}
 
       {/* ============ CTA Section ============ */}

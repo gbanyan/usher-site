@@ -22,8 +22,16 @@ export function getPhoneHref(phone: string): string {
   return `tel:${phone.replace(/[^\d+]/g, "")}`;
 }
 
-// Kept for callers that only need the official fallback phone.
-export const OFFICIAL_CONTACT_PHONE = FALLBACK_ORGANIZATION_PROFILE.phone;
-export const OFFICIAL_CONTACT_PHONE_DISPLAY = formatPhoneForDisplay(
-  OFFICIAL_CONTACT_PHONE
-);
+/**
+ * Donation channel shown on /contact until the CMS copy carries real
+ * donation instructions (it currently only has a “待建立金流” placeholder).
+ * Public bank details: safe to keep in source, but they must stay in one place.
+ */
+export const DONATION_INFO = {
+  bank: "台北富邦銀行",
+  accountNumber: "82120000204387",
+} as const;
+
+export function formatDonationAccount(info: typeof DONATION_INFO): string {
+  return `帳戶 ${info.bank} 帳號 ${info.accountNumber}`;
+}

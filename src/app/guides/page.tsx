@@ -1,19 +1,26 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/api";
 import { buildPageMetadata } from "@/lib/metadata";
-import ArticleCard from "@/components/ArticleCard";
+import ArticleListing from "@/components/ArticleListing";
 import PageHeader from "@/components/PageHeader";
+import { ARTICLE_SECTION_CONFIG } from "@/lib/article-sections";
+
+const config = ARTICLE_SECTION_CONFIG.guides;
 
 export const metadata: Metadata = buildPageMetadata(
-  "建議與指引",
-  "尤塞氏症相關照護、資源與實務建議",
-  "/guides"
+  config.label,
+  config.fallbackDescription,
+  config.path
 );
 
 export default async function GuidesListingPage() {
   let articles;
   try {
-    articles = await getArticles({ type: "blog", category: "guides", per_page: 100 });
+    articles = await getArticles({
+      type: "blog",
+      category: config.categorySlug,
+      per_page: 100,
+    });
   } catch {
     articles = null;
   }
@@ -21,21 +28,19 @@ export default async function GuidesListingPage() {
   return (
     <>
       <PageHeader
-        title="建議與指引"
-        description="尤塞氏症相關照護、資源與實務建議"
-        items={[{ label: "建議與指引" }]}
+        title={config.label}
+        description={config.fallbackDescription}
+        items={[{ label: config.label }]}
       />
 
       <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        {articles && articles.data.length > 0 ? (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {articles.data.map((article) => (
-              <ArticleCard key={article.id} article={article} basePath="/guides" />
-            ))}
-          </div>
-        ) : (
-          <p className="py-12 text-center text-gray-400">目前沒有建議與指引文章</p>
-        )}
+        <ArticleListing
+          articles={articles?.data ?? []}
+          emptyText="目前沒有建議與指引文章"
+          isError={articles === null}
+          errorText="建議與指引暫時無法載入"
+          basePath={config.path}
+        />
       </section>
     </>
   );

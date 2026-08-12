@@ -41,7 +41,7 @@ export default function PageHeader({
             <div className="absolute inset-0">
                 <Image
                     src={bgImage}
-                    alt={title}
+                    alt=""
                     fill
                     className="object-cover"
                     sizes="100vw"
@@ -54,7 +54,7 @@ export default function PageHeader({
             <div className="relative z-10 flex h-full items-center justify-center text-center">
                 <div className="container mx-auto px-6 lg:px-8">
                     {/* Breadcrumb List */}
-                    <nav aria-label="breadcrumb">
+                    <nav aria-label="麵包屑導覽">
                         <script
                             type="application/ld+json"
                             dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
@@ -65,7 +65,7 @@ export default function PageHeader({
                                 return (
                                     <li key={index} className="flex items-center text-white/80">
                                         {index > 0 && (
-                                            <span className="mx-2 text-white/50">/</span>
+                                            <span className="mx-2 text-white/50" aria-hidden="true">/</span>
                                         )}
                                         {isLast || !item.href ? (
                                             <span className="font-medium text-white" aria-current="page">

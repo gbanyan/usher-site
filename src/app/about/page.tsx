@@ -7,29 +7,7 @@ import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import type { PublicDocumentSummary } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
-
-const GOVERNANCE_DOCUMENTS = [
-  {
-    key: "license",
-    title: "內政部立案證書",
-    purpose: "證明本會依法完成立案",
-  },
-  {
-    key: "registration",
-    title: "法人登記證書",
-    purpose: "證明法人主體登記狀態",
-  },
-  {
-    key: "letter",
-    title: "內政部立案函",
-    purpose: "主管機關核准立案公函",
-  },
-  {
-    key: "charter",
-    title: "台灣尤塞氏症暨視聽弱協會章程（2024-01-27）",
-    purpose: "組織治理與會員權責規範",
-  },
-] as const;
+import { GOVERNANCE_DOCUMENTS, findGovernanceDocuments } from "@/lib/governance";
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
@@ -66,17 +44,15 @@ export default async function AboutPage() {
     documents = [];
   }
 
+  const governanceDocuments = findGovernanceDocuments(documents);
   const governanceRows = GOVERNANCE_DOCUMENTS.map((item) => ({
     ...item,
-    document: documents.find((doc) => doc.title === item.title) ?? null,
+    document: governanceDocuments[item.key] ?? null,
   }));
 
-  const incorporationLetter = governanceRows.find(
-    (row) => row.key === "letter"
-  )?.document;
-  const registrationCertificate = governanceRows.find(
-    (row) => row.key === "registration"
-  )?.document;
+  const incorporationLetter = governanceDocuments["letter"] ?? null;
+  const registrationCertificate =
+    governanceDocuments["registration"] ?? null;
 
   return (
     <>
@@ -183,6 +159,7 @@ export default async function AboutPage() {
                         {document?.links.download_url ? (
                           <a
                             href={document.links.download_url}
+                            aria-label={`下載「${document.title}」`}
                             className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
                           >
                             下載
@@ -249,6 +226,7 @@ export default async function AboutPage() {
                     {document?.links.download_url ? (
                       <a
                         href={document.links.download_url}
+                        aria-label={`下載「${document.title}」`}
                         className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
                       >
                         下載

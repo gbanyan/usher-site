@@ -1,4 +1,5 @@
 import { revalidateTag } from "next/cache";
+import { timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 
 interface RevalidateBody {
@@ -6,10 +7,18 @@ interface RevalidateBody {
   slug?: string;
 }
 
+function secureEqual(a: string, b: string): boolean {
+  const aBuf = Buffer.from(a);
+  const bBuf = Buffer.from(b);
+  if (aBuf.length !== bBuf.length) return false;
+  return timingSafeEqual(aBuf, bBuf);
+}
+
 export async function POST(request: NextRequest) {
   const token = request.headers.get("x-revalidate-token");
+  const expectedToken = process.env.REVALIDATE_TOKEN;
 
-  if (!token || token !== process.env.REVALIDATE_TOKEN) {
+  if (!expectedToken || !token || !secureEqual(token, expectedToken)) {
     return NextResponse.json(
       { error: "Invalid revalidation token" },
       { status: 401 }

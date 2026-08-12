@@ -171,6 +171,7 @@ export default async function DocumentListingPage() {
                             {document.links.download_url && (
                               <a
                                 href={document.links.download_url}
+                                aria-label={`下載「${document.title}」`}
                                 className="inline-flex shrink-0 items-center whitespace-nowrap rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
                               >
                                 下載
@@ -229,6 +230,7 @@ export default async function DocumentListingPage() {
                       {document.links.download_url && (
                         <a
                           href={document.links.download_url}
+                          aria-label={`下載「${document.title}」`}
                           className="inline-flex shrink-0 items-center whitespace-nowrap rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
                         >
                           下載
@@ -240,13 +242,36 @@ export default async function DocumentListingPage() {
               })}
             </ul>
           </>
-        ) : (
-          <div className="rounded-xl border border-dashed border-white/20 bg-primary/40 px-6 py-12 text-center">
+        ) : response ? (
+          <div
+            className="rounded-xl border border-dashed border-white/20 bg-primary/40 px-6 py-12 text-center"
+            role="status"
+          >
             <p className="text-base font-medium text-white">
               目前尚無可顯示的協會文件
             </p>
             <p className="mt-2 text-sm text-gray-300">
               可稍後再查看，或直接聯絡協會索取所需資源。
+            </p>
+            <div className="mt-4">
+              <Link
+                href="/contact"
+                className="inline-flex items-center rounded-md bg-accent px-4 py-2 text-sm font-medium text-primary-dark hover:bg-accent-light"
+              >
+                聯絡協會
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div
+            className="rounded-xl border border-dashed border-white/20 bg-primary/40 px-6 py-12 text-center"
+            role="alert"
+          >
+            <p className="text-base font-medium text-white">
+              協會文件暫時無法載入
+            </p>
+            <p className="mt-2 text-sm text-gray-300">
+              請稍後重新整理頁面；若問題持續，請聯絡協會。
             </p>
             <div className="mt-4">
               <Link

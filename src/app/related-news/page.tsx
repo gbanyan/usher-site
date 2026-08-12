@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/api";
 import { buildPageMetadata } from "@/lib/metadata";
-import ArticleCard from "@/components/ArticleCard";
+import ArticleListing from "@/components/ArticleListing";
 import PageHeader from "@/components/PageHeader";
+import { ARTICLE_SECTION_CONFIG } from "@/lib/article-sections";
+
+const config = ARTICLE_SECTION_CONFIG.related_news;
 
 export const metadata: Metadata = buildPageMetadata(
-  "相關報導",
-  "與尤塞氏症相關的新聞報導與媒體報導",
-  "/related-news"
+  config.label,
+  config.fallbackDescription,
+  config.path
 );
 
 export default async function RelatedNewsListingPage() {
@@ -21,24 +24,18 @@ export default async function RelatedNewsListingPage() {
   return (
     <>
       <PageHeader
-        title="相關報導"
-        description="與尤塞氏症相關的新聞報導與媒體報導"
-        items={[
-          { label: "相關報導" },
-        ]}
+        title={config.label}
+        description={config.fallbackDescription}
+        items={[{ label: config.label }]}
       />
 
       <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-
-        {articles && articles.data.length > 0 ? (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {articles.data.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
-        ) : (
-          <p className="py-12 text-center text-gray-400">目前沒有相關報導</p>
-        )}
+        <ArticleListing
+          articles={articles?.data ?? []}
+          emptyText="目前沒有相關報導"
+          isError={articles === null}
+          errorText="相關報導暫時無法載入"
+        />
       </section>
     </>
   );

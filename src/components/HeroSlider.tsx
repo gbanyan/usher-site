@@ -105,12 +105,21 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
             <div className="relative z-10 flex h-full items-center">
               <div className="container mx-auto px-6 lg:px-8">
                 <div className="max-w-3xl text-left pt-10 sm:pt-0">
-                  <h1
-                    className="text-display text-white animate-in fade-in slide-in-from-bottom-4 duration-1000"
-                    style={{ animationDelay: '200ms' }}
-                  >
-                    {slide.title}
-                  </h1>
+                  {index === 0 ? (
+                    <h1
+                      className="text-display text-white animate-in fade-in slide-in-from-bottom-4 duration-1000"
+                      style={{ animationDelay: '200ms' }}
+                    >
+                      {slide.title}
+                    </h1>
+                  ) : (
+                    <p
+                      className="text-display text-white animate-in fade-in slide-in-from-bottom-4 duration-1000"
+                      style={{ animationDelay: '200ms' }}
+                    >
+                      {slide.title}
+                    </p>
+                  )}
                   <p
                     className="mt-4 sm:mt-6 text-lead animate-in fade-in slide-in-from-bottom-4 duration-1000"
                     style={{ animationDelay: '400ms' }}

@@ -27,7 +27,7 @@ const SOCIAL_LINKS = [
   },
   {
     label: "Facebook 臉書社團",
-    href: "http://facebook.com/groups/ushersyndrometw",
+    href: "https://www.facebook.com/groups/ushersyndrometw",
     icon: (
       <svg
         className="h-5 w-5"

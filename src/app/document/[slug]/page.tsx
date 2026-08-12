@@ -129,6 +129,7 @@ export default async function DocumentDetailPage({
             {document.current_version?.download_url && (
               <a
                 href={document.current_version.download_url}
+                aria-label={`下載「${document.title}」目前版本：${document.current_version.original_filename}`}
                 className="inline-flex items-center rounded-md bg-accent px-4 py-2 text-sm font-medium text-primary-dark hover:bg-accent-light"
               >
                 下載目前版本
@@ -199,6 +200,7 @@ export default async function DocumentDetailPage({
                         <td className="px-4 py-3 text-right">
                           <a
                             href={version.download_url}
+                            aria-label={`下載版本 ${version.version_number}：${version.original_filename}`}
                             className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
                           >
                             下載
@@ -254,6 +256,7 @@ export default async function DocumentDetailPage({
                     <div className="mt-3">
                       <a
                         href={version.download_url}
+                        aria-label={`下載版本 ${version.version_number}：${version.original_filename}`}
                         className="inline-flex items-center rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
                       >
                         下載

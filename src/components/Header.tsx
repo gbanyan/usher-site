@@ -142,6 +142,7 @@ function DesktopDropdown({
         type="button"
         aria-expanded={open}
         aria-haspopup="true"
+        aria-controls={`dropdown-${item.label}`}
         aria-label={`${item.label}，${open ? "關閉" : "開啟"}子選單`}
         className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-light/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent ${isActive ? "text-accent" : "text-white"
           }`}
@@ -168,15 +169,14 @@ function DesktopDropdown({
       </button>
       {open && item.children && (
         <ul
-          role="menu"
+          id={`dropdown-${item.label}`}
           aria-label={`${item.label} 子選單`}
           className="absolute left-0 z-50 mt-1 min-w-[180px] rounded-lg border border-white/10 bg-primary-dark py-1 shadow-xl"
         >
           {item.children.map((child) => (
-            <li key={child.href} role="none">
+            <li key={child.href}>
               <Link
                 href={child.href}
-                role="menuitem"
                 aria-current={pathname.startsWith(child.href) ? "page" : undefined}
                 className={`block px-4 py-2.5 text-sm transition-colors hover:bg-primary-light/20 hover:text-accent ${pathname.startsWith(child.href) ? "text-accent" : "text-white"
                   }`}

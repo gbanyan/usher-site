@@ -1,5 +1,14 @@
 import Link from "next/link";
 
+const QUICK_LINKS = [
+  { label: "首頁", href: "/" },
+  { label: "事務公告", href: "/notice" },
+  { label: "部落格", href: "/blog" },
+  { label: "協會文件", href: "/document" },
+  { label: "相關報導", href: "/related-news" },
+  { label: "聯繫資訊", href: "/contact" },
+];
+
 export default function NotFound() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 text-center">
@@ -15,6 +24,21 @@ export default function NotFound() {
       >
         返回首頁
       </Link>
+      <nav aria-label="常用頁面" className="mt-10">
+        <h2 className="text-sm font-medium text-white/70">常用頁面</h2>
+        <ul className="mt-4 flex flex-wrap items-center justify-center gap-3">
+          {QUICK_LINKS.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className="inline-block rounded-md border border-white/20 px-4 py-2 text-sm text-white/80 transition-colors hover:border-accent hover:text-accent"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
   );
 }

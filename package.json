@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=24.0.0"
   },
   "scripts": {
     "dev": "next dev",
     "build": "next build && npx pagefind --site .next && rm -rf public/_pagefind && cp -r .next/pagefind public/_pagefind",
     "start": "next start",
+    "test": "vitest run",
     "lint": "eslint",
     "snapshot": "node scripts/snapshot-content.mjs",
     "subset-logo-font": "node scripts/subset-logo-font.mjs",
@@ -36,6 +37,7 @@
     "pagefind": "1.5.2",
     "sharp": "^0.35.3",
     "tailwindcss": "4.3.3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.10"
   }
 }

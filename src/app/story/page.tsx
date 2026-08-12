@@ -1,19 +1,26 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/api";
 import { buildPageMetadata } from "@/lib/metadata";
-import ArticleCard from "@/components/ArticleCard";
+import ArticleListing from "@/components/ArticleListing";
 import PageHeader from "@/components/PageHeader";
+import { ARTICLE_SECTION_CONFIG } from "@/lib/article-sections";
+
+const config = ARTICLE_SECTION_CONFIG.story;
 
 export const metadata: Metadata = buildPageMetadata(
-  "病友故事",
-  "病友與家屬的真實經驗分享",
-  "/story"
+  config.label,
+  config.fallbackDescription,
+  config.path
 );
 
 export default async function StoryListingPage() {
   let articles;
   try {
-    articles = await getArticles({ type: "blog", category: "story", per_page: 100 });
+    articles = await getArticles({
+      type: "blog",
+      category: config.categorySlug,
+      per_page: 100,
+    });
   } catch {
     articles = null;
   }
@@ -21,21 +28,19 @@ export default async function StoryListingPage() {
   return (
     <>
       <PageHeader
-        title="病友故事"
-        description="病友與家屬的真實經驗分享"
-        items={[{ label: "病友故事" }]}
+        title={config.label}
+        description={config.fallbackDescription}
+        items={[{ label: config.label }]}
       />
 
       <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        {articles && articles.data.length > 0 ? (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {articles.data.map((article) => (
-              <ArticleCard key={article.id} article={article} basePath="/story" />
-            ))}
-          </div>
-        ) : (
-          <p className="py-12 text-center text-gray-400">目前沒有故事文章</p>
-        )}
+        <ArticleListing
+          articles={articles?.data ?? []}
+          emptyText="目前沒有故事文章"
+          isError={articles === null}
+          errorText="病友故事暫時無法載入"
+          basePath={config.path}
+        />
       </section>
     </>
   );

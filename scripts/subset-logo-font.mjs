@@ -44,7 +44,7 @@ async function main() {
   try {
     execSync(cmd, { stdio: "inherit" });
     console.log(`Generated ${OUT_FILE}`);
-  } catch (e) {
+  } catch {
     console.error(
       "pyftsubset failed. Install fonttools: pip install fonttools brotli"
     );

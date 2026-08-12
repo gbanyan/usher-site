@@ -17,8 +17,6 @@ const eslintConfig = defineConfig([
     "content-snapshots/**",
     "public/attachments/**",
     "public/_pagefind/**",
-    "public/pagefind/**",
-    "pagefind/**",
   ]),
 ]);
 
