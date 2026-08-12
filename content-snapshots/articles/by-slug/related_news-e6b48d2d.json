@@ -13,13 +13,13 @@
     "meta_description": "不知道身邊的朋友是否遇過，因為自己身障狀況不被了解，在報名活動時被拒絕的經驗嗎？遇到這個狀況時，會積極向主辦單位爭取還是就此放棄呢？我來分享一些經驗，記錄最近遇到的事情及處理過程，希望能對同樣身為身障者的朋友或是其他社會大眾有所啟發。",
     "meta_keywords": null,
     "is_pinned": false,
-    "view_count": 9,
+    "view_count": 104,
     "published_at": "2019-07-06T17:27:17+08:00",
     "categories": [
       {
         "id": 16,
         "name": "相關報導",
-        "slug": "category-972",
+        "slug": "category-995",
         "description": null
       }
     ],
@@ -44,7 +44,7 @@
         {
           "id": 13,
           "name": "相關報導",
-          "slug": "category-724",
+          "slug": "category-612",
           "description": null
         }
       ]
@@ -66,7 +66,7 @@
         {
           "id": 15,
           "name": "相關報導",
-          "slug": "category-547",
+          "slug": "category-211",
           "description": null
         }
       ]
@@ -88,7 +88,7 @@
         {
           "id": 17,
           "name": "相關報導",
-          "slug": "category-797",
+          "slug": "category-334",
           "description": null
         }
       ]
@@ -110,7 +110,7 @@
         {
           "id": 14,
           "name": "相關報導",
-          "slug": "category-324",
+          "slug": "category-532",
           "description": null
         }
       ]

@@ -2,6 +2,72 @@
   "featured": [],
   "latest_blog": [
     {
+      "id": 31,
+      "title": "2026-02-01 心理講座活動｜會後回顧",
+      "slug": "20260201-psychology-talk-review",
+      "summary": "江佳蓉心理師主講之心理講座會後回顧，含活動重點與無障礙參與資訊。",
+      "excerpt": "江佳蓉心理師主講之心理講座會後回顧，含活動重點與無障礙參與資訊。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/uploads/articles/images/c7156398-2a4a-4f2b-9486-8c85e0917efe.JPG",
+      "featured_image_alt": "2026-02-01 心理講座活動現場照片",
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2026-02-02T09:00:00+08:00",
+      "categories": [
+        {
+          "id": 6,
+          "name": "協會活動",
+          "slug": "category-306",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "title": "2025-08-16 第二次會員大會｜會後摘要",
+      "slug": "20250816-second-general-assembly-review",
+      "summary": "第二次會員大會會後摘要，含會員權益、財務報告與章程修正提案重點。",
+      "excerpt": "第二次會員大會會後摘要，含會員權益、財務報告與章程修正提案重點。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/uploads/articles/images/22079d1c-ccb3-49a0-9da9-f4568e0ac182.jpeg",
+      "featured_image_alt": "2025-08-16 第二次會員大會活動照片",
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2025-08-17T09:00:00+08:00",
+      "categories": [
+        {
+          "id": 6,
+          "name": "協會活動",
+          "slug": "category-306",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "title": "2024-12-07 協會講座活動｜會後回顧",
+      "slug": "20241207-lecture-review",
+      "summary": "2024 年 12 月 7 日，協會於台北南港辦理講座活動，分享 USH Connections Conference 重點與尤塞氏症遺傳研究近況，並提供手語與聽打等無障礙支持。",
+      "excerpt": "2024 年 12 月 7 日，協會於台北南港辦理講座活動，分享 USH Connections Conference 重點與尤塞氏症遺傳研究近況，並提供手語與聽打等無障礙支持。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/uploads/articles/images/5a516d42-1ebf-426b-9e4e-9a12c0aee0a3.jpeg",
+      "featured_image_alt": "2024-12-07 協會講座活動現場照片",
+      "author_name": "台灣尤塞氏症暨視聽弱協會",
+      "is_pinned": false,
+      "published_at": "2024-12-08T09:00:00+08:00",
+      "categories": [
+        {
+          "id": 6,
+          "name": "協會活動",
+          "slug": "category-306",
+          "description": null
+        }
+      ]
+    },
+    {
       "id": 6,
       "title": "2024-12-07 協會講座活動開放報名",
       "slug": "20241121-short-lecture-open-for-registeration",
@@ -66,75 +132,53 @@
           "description": null
         }
       ]
-    },
-    {
-      "id": 3,
-      "title": "第一屆第一次會員代表大會會議後現況報告",
-      "slug": "20240130-current-condition",
-      "summary": "所有涉及到協會正式名義的事務，如對外募款、建立帳戶建立匯款管道、招收更多會員、以及會址租約等 都要等內政部收到，我們於第一次會員代表大會收齊的所有資料後，通過並核發社團法人統一編號。",
-      "excerpt": "所有涉及到協會正式名義的事務，如對外募款、建立帳戶建立匯款管道、招收更多會員、以及會址租約等 都要等內政部收到，我們於第一次會員代表大會收齊的所有資料後，通過並核發社團法人統一編號。",
-      "content_type": "blog",
-      "content_type_label": "部落格",
-      "featured_image_url": "/images/blog/Notify.jpg",
-      "featured_image_alt": null,
-      "author_name": "黃俊榕",
-      "is_pinned": false,
-      "published_at": "2024-01-30T17:27:17+08:00",
-      "categories": [
-        {
-          "id": 3,
-          "name": "協會事務",
-          "slug": "category-271",
-          "description": null
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "title": "第一屆第一次會員代表大會會議 新聞稿",
-      "slug": "20240128-first-committee-formal-literature",
-      "summary": "由籌備委員會主持，會員代表出席踴躍，會中順利完成初步工作事項報告、未來工作計畫及初步財務計畫、理監事選舉，大會圓滿閉幕。",
-      "excerpt": "由籌備委員會主持，會員代表出席踴躍，會中順利完成初步工作事項報告、未來工作計畫及初步財務計畫、理監事選舉，大會圓滿閉幕。",
-      "content_type": "blog",
-      "content_type_label": "部落格",
-      "featured_image_url": "/images/blog/1st-commiittee-cover-image.jpg",
-      "featured_image_alt": null,
-      "author_name": "黃俊榕",
-      "is_pinned": false,
-      "published_at": "2024-01-27T17:27:17+08:00",
-      "categories": [
-        {
-          "id": 2,
-          "name": "協會事務",
-          "slug": "category-248",
-          "description": null
-        }
-      ]
-    },
-    {
-      "id": 1,
-      "title": "2023/10/26 近期會務更新",
-      "slug": "20231026-recentupdate",
-      "summary": "近期會務報告： 由於統籌正式簽名會員過程有所等待，十月中才送出至內政部申請",
-      "excerpt": "近期會務報告： 由於統籌正式簽名會員過程有所等待，十月中才送出至內政部申請",
-      "content_type": "blog",
-      "content_type_label": "部落格",
-      "featured_image_url": "/images/blog/Update.jpg",
-      "featured_image_alt": null,
-      "author_name": "黃俊榕",
-      "is_pinned": false,
-      "published_at": "2023-10-26T17:27:17+08:00",
-      "categories": [
-        {
-          "id": 1,
-          "name": "協會事務",
-          "slug": "category-423",
-          "description": null
-        }
-      ]
     }
   ],
   "latest_notice": [
+    {
+      "id": 33,
+      "title": "【活動宣傳】《在未命名的邊境散步》視障者藝術共創計畫合作啟動",
+      "slug": "20250625-art-co-creation-collaboration-summary",
+      "summary": "本會正式啟動《在未命名的邊境散步》合作推進，將協力招募視障者參與多感官藝術共創、無障礙展覽與成果交流，邀請關注文化平權的夥伴持續關注後續公告。",
+      "excerpt": "本會正式啟動《在未命名的邊境散步》合作推進，將協力招募視障者參與多感官藝術共創、無障礙展覽與成果交流，邀請關注文化平權的夥伴持續關注後續公告。",
+      "content_type": "notice",
+      "content_type_label": "公告",
+      "featured_image_url": "/uploads/articles/images/8a29df56-1c59-44bd-a48d-f528740a3945.jpg",
+      "featured_image_alt": "雙手共同塑形陶土的藝術創作情境",
+      "author_name": "台灣尤塞氏症暨視聽弱協會",
+      "is_pinned": false,
+      "published_at": "2026-02-11T14:06:54+08:00",
+      "categories": [
+        {
+          "id": 9,
+          "name": "協會事務",
+          "slug": "category-148",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "title": "【倡議】將智慧眼鏡與點字觸摸顯示器納入更可近用的輔具補助",
+      "slug": "20260204-mohw-assistive-device-proposal-summary",
+      "summary": "本會倡議以制度回應視障與視聽雙障者的真實需求，推動智慧眼鏡納入補助、並調整點字觸摸顯示器補助上限，讓輔具不只是技術存在，而是可被實際使用。",
+      "excerpt": "本會倡議以制度回應視障與視聽雙障者的真實需求，推動智慧眼鏡納入補助、並調整點字觸摸顯示器補助上限，讓輔具不只是技術存在，而是可被實際使用。",
+      "content_type": "notice",
+      "content_type_label": "公告",
+      "featured_image_url": "/uploads/articles/images/206c52a3-c4e7-4a0a-b53f-96b96d095eb4.jpg",
+      "featured_image_alt": "文件討論與簽署作業示意照",
+      "author_name": "台灣尤塞氏症暨視聽弱協會",
+      "is_pinned": false,
+      "published_at": "2026-02-11T12:21:01+08:00",
+      "categories": [
+        {
+          "id": 9,
+          "name": "協會事務",
+          "slug": "category-148",
+          "description": null
+        }
+      ]
+    },
     {
       "id": 9,
       "title": "第一屆第一次會員代表大會會議通知",
@@ -180,96 +224,7 @@
       ]
     }
   ],
-  "latest_document": [
-    {
-      "id": 10,
-      "title": "Whisper Colab 影片語音轉文字工具",
-      "slug": "whisper-colab",
-      "summary": null,
-      "excerpt": "由於部分視聽弱朋友，對於影片或聲音檔，需仰賴文字稿吸收訊息\n而最新科技的發展與進步， Whisper 語音辨識模型的開放，使得辨識率提高\n影片或語音轉成文字檔的正確性與速度都有所提高。\n\n有人提議是否可以把 Whispe...",
-      "content_type": "document",
-      "content_type_label": "文件",
-      "featured_image_url": "/images/documents/peace.jpg",
-      "featured_image_alt": null,
-      "author_name": null,
-      "is_pinned": false,
-      "published_at": "2024-08-16T15:27:17+08:00",
-      "categories": [
-        {
-          "id": 10,
-          "name": "document",
-          "slug": "document",
-          "description": null
-        }
-      ]
-    },
-    {
-      "id": 12,
-      "title": "媒體宣傳資源",
-      "slug": "document-ef6231ce",
-      "summary": null,
-      "excerpt": "## Logo 原始檔下載連結\n\n- [純 Logo 圖檔黑白底色 AI 檔](/materiel/LOGO_final.ai)\n- [長條協會名稱文字Logo PS 檔](/materiel/Logo_long.psb)\n- [正方協會名稱文字Logo PS 檔](/materiel/Logo_square.psb)",
-      "content_type": "document",
-      "content_type_label": "文件",
-      "featured_image_url": null,
-      "featured_image_alt": null,
-      "author_name": null,
-      "is_pinned": false,
-      "published_at": "2024-05-01T15:27:17+08:00",
-      "categories": [
-        {
-          "id": 10,
-          "name": "document",
-          "slug": "document",
-          "description": null
-        }
-      ]
-    },
-    {
-      "id": 22,
-      "title": "社會福利資源",
-      "slug": "document-d34b35ab",
-      "summary": null,
-      "excerpt": "## 社會福利資源\n\n### 法規篇\n\n- [身心障礙者權益保障法](https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=D0050046)\n\n- [身心障礙者權益保障法施行細則](https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=D0...",
-      "content_type": "document",
-      "content_type_label": "文件",
-      "featured_image_url": null,
-      "featured_image_alt": null,
-      "author_name": null,
-      "is_pinned": false,
-      "published_at": "2024-04-26T15:27:17+08:00",
-      "categories": [
-        {
-          "id": 10,
-          "name": "document",
-          "slug": "document",
-          "description": null
-        }
-      ]
-    },
-    {
-      "id": 21,
-      "title": "眼科醫師觀點",
-      "slug": "document-b81734e3",
-      "summary": null,
-      "excerpt": "## 1. 什麼是尤塞氏綜合症\n\n尤塞氏綜合症（Usher syndrome）是一種遺傳性疾病，主要症狀為聽力受損及漸進性的視力喪失，可能也會影響平衡。視力缺損是由視網膜色素變性（Retinitis Pigmentosa）引起，是一種視網膜的...",
-      "content_type": "document",
-      "content_type_label": "文件",
-      "featured_image_url": "/images/documents/medicine.jpg",
-      "featured_image_alt": null,
-      "author_name": null,
-      "is_pinned": false,
-      "published_at": "2024-03-21T15:27:17+08:00",
-      "categories": [
-        {
-          "id": 10,
-          "name": "document",
-          "slug": "document",
-          "description": null
-        }
-      ]
-    }
-  ],
+  "latest_document": [],
   "latest_related_news": [
     {
       "id": 23,
@@ -364,7 +319,7 @@
     "id": 1,
     "title": "關於我們",
     "slug": "about",
-    "content": "我們是一群因為先天性遺傳疾病（大多為 Usher Syndrome, 尤賽氏症），而導致同時有視網膜色素病變、視力障礙及聽力障礙的病友。\n\n病友中，包含了患者、父母，以及研究這些疾病的醫療人員、教授、和其他關懷這些疾病的社會人士。在2023七月初，我們決定匯集這些力量，向政府申請成立協會。\n\n由於這些病友視聽雙弱的特殊境遇，未來協會的目標將包含向外、對大眾述說，提供特殊教育、醫療遺傳等資源，以及連結更多同樣境遇的病友，關懷鼓勵，讓彼此知道你絕對不是孤單一個人。\n\n### 協會宗旨\n\n推動台灣罹患尤塞氏症，及其他疑似先天遺傳因素致視力及聽力同受影響之患者、家屬，獲得妥善醫療、遺傳、學術諮詢、及其他社會關懷資源，並協助相同境遇患者，共同面對生活中的挑戰與課題。\n\n### 協會任務\n\n一、維護與增進本會病友公共權益\n\n二、促進本會病友身體、心理健康與福祉\n\n三、協助本會病友與其家庭尋求支援和社會資源\n\n四、提升公眾對尤塞氏症及其他視聽同受影響遺傳性疾病的認識與理解\n\n五、追蹤並更新國內外相關遺傳疾病之研究、醫療進展\n\n六、促進國內外相關病友或團體之聯繫與交流合作\n\n七、政府機關團體或會員之委託服務與諮詢\n\n八、其他依法令規定應辦理之事項\n\n###",
+    "content": "我們是一群因為先天性遺傳疾病（大多為 Usher Syndrome, 尤塞氏症），而導致同時有視網膜色素病變、視力障礙及聽力障礙的病友。\n\n病友中，包含了患者、父母，以及研究這些疾病的醫療人員、教授、和其他關懷這些疾病的社會人士。在2023七月初，我們決定匯集這些力量，向政府申請成立協會。\n\n由於這些病友視聽雙弱的特殊境遇，未來協會的目標將包含向外、對大眾述說，提供特殊教育、醫療遺傳等資源，以及連結更多同樣境遇的病友，關懷鼓勵，讓彼此知道你絕對不是孤單一個人。\n\n### 協會宗旨\n\n推動台灣罹患尤塞氏症，及其他疑似先天遺傳因素致視力及聽力同受影響之患者、家屬，獲得妥善醫療、遺傳、學術諮詢、及其他社會關懷資源，並協助相同境遇患者，共同面對生活中的挑戰與課題。\n\n### 協會任務\n\n一、維護與增進本會病友公共權益\n\n二、促進本會病友身體、心理健康與福祉\n\n三、協助本會病友與其家庭尋求支援和社會資源\n\n四、提升公眾對尤塞氏症及其他視聽同受影響遺傳性疾病的認識與理解\n\n五、追蹤並更新國內外相關遺傳疾病之研究、醫療進展\n\n六、促進國內外相關病友或團體之聯繫與交流合作\n\n七、政府機關團體或會員之委託服務與諮詢\n\n八、其他依法令規定應辦理之事項\n\n###",
     "template": null,
     "custom_fields": null,
     "meta_description": "尤塞氏症以及視聽雙弱者之病友團體",
@@ -412,7 +367,7 @@
       "name": "協會活動",
       "slug": "category-306",
       "description": null,
-      "articles_count": 1
+      "articles_count": 4
     },
     {
       "id": 7,
@@ -433,28 +388,28 @@
       "name": "協會事務",
       "slug": "category-148",
       "description": null,
-      "articles_count": 1
+      "articles_count": 3
     },
     {
       "id": 10,
       "name": "document",
       "slug": "document",
       "description": null,
-      "articles_count": 11
+      "articles_count": 0
     },
     {
       "id": 11,
       "name": "相關報導",
       "slug": "category-497",
       "description": null,
-      "articles_count": 1
+      "articles_count": 0
     },
     {
       "id": 12,
       "name": "相關報導",
       "slug": "category-949",
       "description": null,
-      "articles_count": 1
+      "articles_count": 0
     },
     {
       "id": 13,
@@ -490,6 +445,20 @@
       "slug": "category-334",
       "description": null,
       "articles_count": 1
+    },
+    {
+      "id": 19,
+      "name": "建議與指引",
+      "slug": "guides",
+      "description": null,
+      "articles_count": 2
+    },
+    {
+      "id": 18,
+      "name": "故事",
+      "slug": "story",
+      "description": null,
+      "articles_count": 8
     }
   ]
 }

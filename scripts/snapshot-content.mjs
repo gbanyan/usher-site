@@ -3,12 +3,15 @@ import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";
 
 const CONTENT_TYPES = ["blog", "notice", "document", "related_news"];
-const PAGE_SLUGS = [
-  "about",
-  "contact",
-  "structure",
-  "message",
-  "logo-represent",
+// File names follow the app-facing page routes in src/app/[pageSlug]/page.tsx;
+// requests use the CMS API slugs, which may differ (logo-represent routes to
+// the CMS page logo_represent).
+const PAGE_ROUTES = [
+  { file: "about", apiSlug: "about" },
+  { file: "contact", apiSlug: "contact" },
+  { file: "structure", apiSlug: "structure" },
+  { file: "message", apiSlug: "message" },
+  { file: "logo-represent", apiSlug: "logo_represent" },
 ];
 
 function sanitizeFilename(filename) {
@@ -80,9 +83,9 @@ async function main() {
   await writeJson("categories.json", categories);
 
   // Pages.
-  for (const slug of PAGE_SLUGS) {
-    const page = await fetchJson(`${apiBase}/pages/${slug}`);
-    await writeJson(path.join("pages", `${slug}.json`), page);
+  for (const { file, apiSlug } of PAGE_ROUTES) {
+    const page = await fetchJson(`${apiBase}/pages/${apiSlug}`);
+    await writeJson(path.join("pages", `${file}.json`), page);
   }
 
   // Article lists + details (and optionally attachment downloads).

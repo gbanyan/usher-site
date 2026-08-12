@@ -13,13 +13,13 @@
     "meta_description": "尤塞氏症是一種罕見的遺傳性疾病，患者常常同時出現聽力障礙和視網膜色素病變，而且無法治療，只能及早發現，提前做好準備；根據統計，全球平均每10萬人約有2~4人罹患這種疾病。",
     "meta_keywords": null,
     "is_pinned": false,
-    "view_count": 9,
+    "view_count": 93,
     "published_at": "2024-03-20T15:27:17+08:00",
     "categories": [
       {
         "id": 13,
         "name": "相關報導",
-        "slug": "category-724",
+        "slug": "category-612",
         "description": null
       }
     ],
@@ -44,7 +44,7 @@
         {
           "id": 15,
           "name": "相關報導",
-          "slug": "category-547",
+          "slug": "category-211",
           "description": null
         }
       ]
@@ -66,7 +66,7 @@
         {
           "id": 17,
           "name": "相關報導",
-          "slug": "category-797",
+          "slug": "category-334",
           "description": null
         }
       ]
@@ -88,7 +88,7 @@
         {
           "id": 16,
           "name": "相關報導",
-          "slug": "category-972",
+          "slug": "category-995",
           "description": null
         }
       ]
@@ -110,7 +110,7 @@
         {
           "id": 14,
           "name": "相關報導",
-          "slug": "category-324",
+          "slug": "category-532",
           "description": null
         }
       ]

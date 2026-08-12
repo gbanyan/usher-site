@@ -13,13 +13,13 @@
     "meta_description": "熟悉的人都知道，我還能聽見聲音，但卻距離語言非常遙遠。對我來說，聽見的彷彿是一個個或大或小的問號。",
     "meta_keywords": null,
     "is_pinned": false,
-    "view_count": 9,
+    "view_count": 104,
     "published_at": "2024-01-28T15:27:17+08:00",
     "categories": [
       {
         "id": 15,
         "name": "相關報導",
-        "slug": "category-547",
+        "slug": "category-211",
         "description": null
       }
     ],
@@ -44,7 +44,7 @@
         {
           "id": 13,
           "name": "相關報導",
-          "slug": "category-724",
+          "slug": "category-612",
           "description": null
         }
       ]
@@ -66,7 +66,7 @@
         {
           "id": 17,
           "name": "相關報導",
-          "slug": "category-797",
+          "slug": "category-334",
           "description": null
         }
       ]
@@ -88,7 +88,7 @@
         {
           "id": 16,
           "name": "相關報導",
-          "slug": "category-972",
+          "slug": "category-995",
           "description": null
         }
       ]
@@ -110,7 +110,7 @@
         {
           "id": 14,
           "name": "相關報導",
-          "slug": "category-324",
+          "slug": "category-532",
           "description": null
         }
       ]

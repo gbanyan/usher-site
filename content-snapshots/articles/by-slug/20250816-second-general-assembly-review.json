@@ -1,0 +1,141 @@
+{
+  "data": {
+    "id": 30,
+    "title": "2025-08-16 第二次會員大會｜會後摘要",
+    "slug": "20250816-second-general-assembly-review",
+    "summary": "第二次會員大會會後摘要，含會員權益、財務報告與章程修正提案重點。",
+    "content": "2025 年 8 月 16 日，台灣尤塞氏症暨視聽雙障協會舉辦第二次會員大會，採實體與線上並行方式進行，並提供手語與聽打支援，讓不同需求的會員都能參與會務。\n\n本次會議重點如下：\n\n1. 會員權益與服務\n- 協會持續規劃會員活動、病友經驗分享與研究新知內容。\n- 會員可使用協會提供之專業諮詢資源（如財務諮詢、遺傳衛教等）。\n\n2. 財務與會務現況報告\n- 會中報告協會成立以來之收入與支出摘要。\n- 截至會議當日報告數據：總收入 80,000 元、總支出 13,015 元、結餘 66,985 元。\n- 會員人數持續成長，並持續邀請病友加入。\n\n3. 章程修正提案\n- 提案一：會員大會開放視訊參與（章程第 28 條修正）。\n- 提案二：理監事會議開放視訊參與（章程第 31 條修正）。\n- 相關提案內容已整理為附件供會員查閱。\n\n4. 下半年工作規劃\n- 持續推動病友支持、活動辦理與公共倡議事項。\n- 持續優化無障礙參與機制，包含手語與聽打等會議支持服務。\n\n感謝所有出席會員、工作夥伴與支援單位共同完成本次會員大會。\n\n---\n\n## 會後資料\n- 會員大會簡報\n- 章程修正提案一（第 28 條）\n- 章程修正提案二（第 31 條）\n- 會議直播影片：https://www.youtube.com/live/Hk81j5Ps4Fw\n",
+    "content_type": "blog",
+    "content_type_label": "部落格",
+    "featured_image_url": "/uploads/articles/images/22079d1c-ccb3-49a0-9da9-f4568e0ac182.jpeg",
+    "featured_image_alt": "2025-08-16 第二次會員大會活動照片",
+    "author_name": null,
+    "meta_description": null,
+    "meta_keywords": null,
+    "is_pinned": false,
+    "view_count": 86,
+    "published_at": "2025-08-17T09:00:00+08:00",
+    "categories": [
+      {
+        "id": 6,
+        "name": "協會活動",
+        "slug": "category-306",
+        "description": null
+      }
+    ],
+    "tags": [],
+    "attachments": [
+      {
+        "id": 4,
+        "original_filename": "會員大會報告.pptx",
+        "mime_type": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        "file_size": 10954391,
+        "description": null
+      },
+      {
+        "id": 5,
+        "original_filename": "提案1協會章程28條會員大會.docx",
+        "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "file_size": 17146,
+        "description": null
+      },
+      {
+        "id": 6,
+        "original_filename": "提案2修改協會章程31條理監事會議.docx",
+        "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "file_size": 16899,
+        "description": null
+      }
+    ]
+  },
+  "related": [
+    {
+      "id": 31,
+      "title": "2026-02-01 心理講座活動｜會後回顧",
+      "slug": "20260201-psychology-talk-review",
+      "summary": "江佳蓉心理師主講之心理講座會後回顧，含活動重點與無障礙參與資訊。",
+      "excerpt": "江佳蓉心理師主講之心理講座會後回顧，含活動重點與無障礙參與資訊。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/uploads/articles/images/c7156398-2a4a-4f2b-9486-8c85e0917efe.JPG",
+      "featured_image_alt": "2026-02-01 心理講座活動現場照片",
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2026-02-02T09:00:00+08:00",
+      "categories": [
+        {
+          "id": 6,
+          "name": "協會活動",
+          "slug": "category-306",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "title": "2024-12-07 協會講座活動｜會後回顧",
+      "slug": "20241207-lecture-review",
+      "summary": "2024 年 12 月 7 日，協會於台北南港辦理講座活動，分享 USH Connections Conference 重點與尤塞氏症遺傳研究近況，並提供手語與聽打等無障礙支持。",
+      "excerpt": "2024 年 12 月 7 日，協會於台北南港辦理講座活動，分享 USH Connections Conference 重點與尤塞氏症遺傳研究近況，並提供手語與聽打等無障礙支持。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/uploads/articles/images/5a516d42-1ebf-426b-9e4e-9a12c0aee0a3.jpeg",
+      "featured_image_alt": "2024-12-07 協會講座活動現場照片",
+      "author_name": "台灣尤塞氏症暨視聽弱協會",
+      "is_pinned": false,
+      "published_at": "2024-12-08T09:00:00+08:00",
+      "categories": [
+        {
+          "id": 6,
+          "name": "協會活動",
+          "slug": "category-306",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "2024-12-07 協會講座活動開放報名",
+      "slug": "20241121-short-lecture-open-for-registeration",
+      "summary": "於 2024 暑假美國舉辦的USH大會，內容經過簡短整理後，由協會舉辦小型講座分享內容，即日起開放報名",
+      "excerpt": "於 2024 暑假美國舉辦的USH大會，內容經過簡短整理後，由協會舉辦小型講座分享內容，即日起開放報名",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/images/blog/2024-lecture.jpg",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2024-11-21T00:27:17+08:00",
+      "categories": [
+        {
+          "id": 6,
+          "name": "協會活動",
+          "slug": "category-306",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "USH Connections Conference 2024 大會簡述",
+      "slug": "20240720-usher-connection-conference-report",
+      "summary": "2024 年 7 月 19-20 日，於美國羅徹斯特 (Rochester)舉辦的 USH Connections Conference 已經順利落幕。",
+      "excerpt": "2024 年 7 月 19-20 日，於美國羅徹斯特 (Rochester)舉辦的 USH Connections Conference 已經順利落幕。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": "/images/blog/USH2024.png.webp",
+      "featured_image_alt": null,
+      "author_name": "黃俊榕",
+      "is_pinned": false,
+      "published_at": "2024-07-20T00:27:17+08:00",
+      "categories": [
+        {
+          "id": 5,
+          "name": "協會事務",
+          "slug": "category-785",
+          "description": null
+        }
+      ]
+    }
+  ]
+}

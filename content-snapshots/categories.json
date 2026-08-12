@@ -40,7 +40,7 @@
       "name": "協會活動",
       "slug": "category-306",
       "description": null,
-      "articles_count": 1
+      "articles_count": 4
     },
     {
       "id": 7,
@@ -61,28 +61,28 @@
       "name": "協會事務",
       "slug": "category-148",
       "description": null,
-      "articles_count": 1
+      "articles_count": 3
     },
     {
       "id": 10,
       "name": "document",
       "slug": "document",
       "description": null,
-      "articles_count": 11
+      "articles_count": 0
     },
     {
       "id": 11,
       "name": "相關報導",
       "slug": "category-497",
       "description": null,
-      "articles_count": 1
+      "articles_count": 0
     },
     {
       "id": 12,
       "name": "相關報導",
       "slug": "category-949",
       "description": null,
-      "articles_count": 1
+      "articles_count": 0
     },
     {
       "id": 13,
@@ -118,6 +118,20 @@
       "slug": "category-334",
       "description": null,
       "articles_count": 1
+    },
+    {
+      "id": 19,
+      "name": "建議與指引",
+      "slug": "guides",
+      "description": null,
+      "articles_count": 2
+    },
+    {
+      "id": 18,
+      "name": "故事",
+      "slug": "story",
+      "description": null,
+      "articles_count": 8
     }
   ]
 }

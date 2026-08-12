@@ -13,26 +13,70 @@
     "meta_description": null,
     "meta_keywords": null,
     "is_pinned": false,
-    "view_count": 9,
+    "view_count": 92,
     "published_at": "2024-01-11T17:27:17+08:00",
     "categories": [
       {
         "id": 9,
         "name": "協會事務",
-        "slug": "category-821",
+        "slug": "category-148",
         "description": null
       }
     ],
     "tags": [
       {
-        "id": 11,
+        "id": 10,
         "name": "協會事務",
-        "slug": "tag-746"
+        "slug": "tag-214"
       }
     ],
     "attachments": []
   },
   "related": [
+    {
+      "id": 33,
+      "title": "【活動宣傳】《在未命名的邊境散步》視障者藝術共創計畫合作啟動",
+      "slug": "20250625-art-co-creation-collaboration-summary",
+      "summary": "本會正式啟動《在未命名的邊境散步》合作推進，將協力招募視障者參與多感官藝術共創、無障礙展覽與成果交流，邀請關注文化平權的夥伴持續關注後續公告。",
+      "excerpt": "本會正式啟動《在未命名的邊境散步》合作推進，將協力招募視障者參與多感官藝術共創、無障礙展覽與成果交流，邀請關注文化平權的夥伴持續關注後續公告。",
+      "content_type": "notice",
+      "content_type_label": "公告",
+      "featured_image_url": "/uploads/articles/images/8a29df56-1c59-44bd-a48d-f528740a3945.jpg",
+      "featured_image_alt": "雙手共同塑形陶土的藝術創作情境",
+      "author_name": "台灣尤塞氏症暨視聽弱協會",
+      "is_pinned": false,
+      "published_at": "2026-02-11T14:06:54+08:00",
+      "categories": [
+        {
+          "id": 9,
+          "name": "協會事務",
+          "slug": "category-148",
+          "description": null
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "title": "【倡議】將智慧眼鏡與點字觸摸顯示器納入更可近用的輔具補助",
+      "slug": "20260204-mohw-assistive-device-proposal-summary",
+      "summary": "本會倡議以制度回應視障與視聽雙障者的真實需求，推動智慧眼鏡納入補助、並調整點字觸摸顯示器補助上限，讓輔具不只是技術存在，而是可被實際使用。",
+      "excerpt": "本會倡議以制度回應視障與視聽雙障者的真實需求，推動智慧眼鏡納入補助、並調整點字觸摸顯示器補助上限，讓輔具不只是技術存在，而是可被實際使用。",
+      "content_type": "notice",
+      "content_type_label": "公告",
+      "featured_image_url": "/uploads/articles/images/206c52a3-c4e7-4a0a-b53f-96b96d095eb4.jpg",
+      "featured_image_alt": "文件討論與簽署作業示意照",
+      "author_name": "台灣尤塞氏症暨視聽弱協會",
+      "is_pinned": false,
+      "published_at": "2026-02-11T12:21:01+08:00",
+      "categories": [
+        {
+          "id": 9,
+          "name": "協會事務",
+          "slug": "category-148",
+          "description": null
+        }
+      ]
+    },
     {
       "id": 8,
       "title": "2023/09/16 創立前初步討論會議資訊",
@@ -50,7 +94,7 @@
         {
           "id": 8,
           "name": "協會事務",
-          "slug": "category-180",
+          "slug": "category-336",
           "description": null
         }
       ]
