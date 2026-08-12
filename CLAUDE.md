@@ -9,11 +9,15 @@ All UI text is in Traditional Chinese. This is a small NPO site.
 ## Commands
 
 ```bash
-npm run dev          # Dev server with hot reload (needs Laravel API running on port 8001)
-npm run build        # Production build — generates static HTML (needs Laravel API once)
-npm run start        # Serve pre-built static site (NO Laravel needed)
-npm run lint         # ESLint
-npm run snapshot     # Generate local content snapshots from Laravel (for building without a live API)
+npm run dev              # Dev server with hot reload (needs Laravel API running on port 8001)
+npm run build            # Production build — generates static HTML (needs Laravel API once)
+npm run start            # Serve pre-built static site (NO Laravel needed)
+npm run test             # Vitest unit suite
+npm run lint             # ESLint
+npm run snapshot         # Generate local content snapshots from Laravel (for building without a live API)
+npm run check:content    # Validate snapshot Markdown formatting
+npm run check:assets     # Verify every content reference resolves to a real file in public/
+npm run refresh:content  # snapshot + both checks in one command (honours SNAPSHOT_API_URL)
 ```
 
 ## Development Workflow

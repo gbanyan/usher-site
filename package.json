@@ -11,8 +11,10 @@
     "start": "next start",
     "test": "vitest run",
     "check:content": "node scripts/check-markdown.mjs",
+    "check:assets": "node scripts/check-content-assets.mjs",
     "lint": "eslint",
     "snapshot": "node scripts/snapshot-content.mjs",
+    "refresh:content": "npm run snapshot && npm run check:content && npm run check:assets",
     "subset-logo-font": "node scripts/subset-logo-font.mjs",
     "extract-logo-icon": "node scripts/extract-logo-icon.mjs"
   },

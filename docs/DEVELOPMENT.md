@@ -52,8 +52,10 @@ production actually serves, use `build` + `start` instead.
 | `npm run start` | Serves the pre-built static site. No CMS needed. |
 | `npm run test` | Runs the vitest unit suite. |
 | `npm run check:content` | Validates snapshot Markdown for formatting errors (run before committing a snapshot refresh). |
+| `npm run check:assets` | Verifies every content reference resolves to a real file under `public/`. Exits 1 on missing references. |
 | `npm run lint` | ESLint. |
 | `npm run snapshot` | Writes local content snapshots from the CMS into `content-snapshots/`. |
+| `npm run refresh:content` | One-command content refresh: `snapshot`, then both checks. Honours `SNAPSHOT_API_URL`. |
 | `npm run subset-logo-font` | Regenerates the subset logo webfont (`public/fonts/iansui-logo.woff2`). |
 | `npm run extract-logo-icon` | Extracts the logo icon asset. |
 
@@ -71,6 +73,7 @@ CONTENT_SOURCE=api                                # "api" (default) or "snapshot
 NEXT_PUBLIC_API_URL=http://localhost:8001/api/v1  # CMS API base
 NEXT_PUBLIC_SITE_URL=https://www.usher.org.tw     # canonical URLs, OG tags, sitemap, JSON-LD
 REVALIDATE_TOKEN=your-secret-token-here           # shared secret for the webhook
+SNAPSHOT_API_URL=https://member.usher.org.tw/api/v1 # optional; target for `npm run snapshot` / `refresh:content`
 ```
 
 Copy `.env.example` to `.env.local` to get started. Production values are
@@ -102,7 +105,27 @@ If snapshot builds must also serve file attachments, commit
 attachments there by default and snapshot-mode download URLs point at
 `/attachments/…`. This is separate from the legacy `public/attachment/`
 (singular) directory migrated from Hugo. Use
-`npm run snapshot -- --skip-attachments` to skip the download.
+Use `npm run snapshot -- --skip-attachments` to skip the download.
+
+### Refreshing committed content
+
+After CMS content changes, refresh the committed snapshot mirror and run the
+checks that guard the build:
+
+```bash
+# local CMS on port 8001
+npm run refresh:content
+
+# against the production CMS
+SNAPSHOT_API_URL=https://member.usher.org.tw/api/v1 npm run refresh:content
+```
+
+`refresh:content` chains `snapshot` → `check:content` → `check:assets`. The
+final step is the safety net for asset deletions: it fails (exit 1) if any
+content references a path under `public/` that does not exist, and prints the
+`git checkout` command to restore each missing file from history. Commit the
+regenerated snapshots, attachment downloads and any restored assets before
+deploying.
 
 ### API shapes
 
