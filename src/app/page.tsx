@@ -124,6 +124,15 @@ const PARTNERS = [
     logoSize: "h-12 w-40 sm:h-14 sm:w-48", // SVG 寬版 216×59
   },
   {
+    name: "Geneyx",
+    description: "贊助協會每年 10 個家族的分析",
+    logo: "/images/partners/geneyx-logo.png",
+    logoAlt: "Geneyx Logo",
+    website: "https://geneyx.com/",
+    logoOnLightBg: true,
+    logoSize: "h-20 w-40 sm:h-24 sm:w-48",
+  },
+  {
     name: "許豐明影像創意工作室",
     description: "感謝許豐明導演與工作室製作紀錄片《聽・見幸福的樂章》",
     logo: "/images/partners/hsu-fengming-studio-logo.svg",
