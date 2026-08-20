@@ -1,5 +1,6 @@
 import { getSiteUrl } from "./site";
 import { FALLBACK_ORGANIZATION_PROFILE } from "./contact";
+import { stripMarkdown } from "./utils";
 import type { OrganizationProfile } from "./types";
 
 const ORG_NAME = "台灣尤塞氏症暨視聽弱協會";
@@ -50,8 +51,9 @@ export function getArticleSchema(
 ): Record<string, unknown> {
   const siteUrl = getSiteUrl();
   const url = `${siteUrl}${pathname}`;
-  const description =
-    article.meta_description || article.excerpt || fallbackDescription;
+  const description = stripMarkdown(
+    article.meta_description || article.excerpt || fallbackDescription
+  );
   const image = article.featured_image_url
     ? (article.featured_image_url.startsWith("http")
         ? article.featured_image_url

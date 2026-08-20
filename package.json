@@ -20,6 +20,7 @@
     "extract-logo-icon": "node scripts/extract-logo-icon.mjs"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "1.1.15",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "next": "16.3.0",
@@ -33,15 +34,15 @@
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",
     "@tailwindcss/typography": "0.5.20",
-    "@types/node": "^20",
+    "@types/node": "^20.19.43",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
-    "eslint": "^9",
+    "eslint": "^9.39.5",
     "eslint-config-next": "16.3.0",
     "pagefind": "1.5.2",
     "sharp": "^0.35.3",
     "tailwindcss": "4.3.3",
-    "typescript": "^5",
-    "vitest": "^4.1.10"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
   }
 }

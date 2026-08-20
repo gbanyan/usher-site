@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ArticleDetail from "@/components/ArticleDetail";
-import { getArticle, getArticles } from "@/lib/api";
+import { getAllArticles, getArticle } from "@/lib/api";
 import { buildArticleMetadata } from "@/lib/metadata";
 import { ARTICLE_SECTION_CONFIG } from "@/lib/article-sections";
 
@@ -9,12 +9,11 @@ const GUIDES_CATEGORY_SLUG = ARTICLE_SECTION_CONFIG.guides.categorySlug!;
 
 export async function generateStaticParams() {
   try {
-    const res = await getArticles({
+    const articles = await getAllArticles({
       type: "blog",
       category: GUIDES_CATEGORY_SLUG,
-      per_page: 500,
     });
-    return res.data.map((article) => ({ slug: article.slug }));
+    return articles.map((article) => ({ slug: article.slug }));
   } catch {
     return [];
   }

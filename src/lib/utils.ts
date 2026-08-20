@@ -21,7 +21,9 @@ export function stripMarkdown(markdown: string): string {
     .replace(/&nbsp;/g, " ") // Remove non-breaking spaces
     .replace(/&[a-z0-9]+;/gi, "") // Remove other HTML entities
     .replace(/!\[.*?\]\(.*?\)/g, "") // Remove images
-    .replace(/\[(.*?)\]\(.*?\)/g, "$1") // Remove links but keep text
+    // Excerpts can be truncated before the closing parenthesis or contain a
+    // line break between the label and URL. Keep the label readable either way.
+    .replace(/\[([^\]]+)\]\(\s*[^\s)]*(?:\))?/g, "$1")
     .replace(/([*_~`]{1,3})(.*?)\1/g, "$2") // Remove formatting
     .replace(/^#+\s+/gm, "") // Remove headers
     .replace(/^\s*>\s+/gm, "") // Remove blockquotes

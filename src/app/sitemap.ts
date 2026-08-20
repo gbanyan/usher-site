@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import {
+  getAllArticles,
+  getAllPublicDocuments,
   getAllPublicDocumentSlugs,
-  getArticles,
-  getPublicDocuments,
 } from "@/lib/api";
 import { getSiteUrl } from "@/lib/site";
 
@@ -34,8 +34,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Blog articles
   try {
-    const blogRes = await getArticles({ type: "blog", per_page: 500 });
-    for (const a of blogRes.data) {
+    const articles = await getAllArticles({ type: "blog" });
+    for (const a of articles) {
+      const isCurated = a.categories?.some((category) =>
+        ["guides", "story"].includes(category.slug)
+      );
+      if (isCurated) continue;
+
       entries.push({
         url: `${baseUrl}/blog/${a.slug}`,
         lastModified: a.published_at ? new Date(a.published_at) : now,
@@ -49,8 +54,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Notice articles
   try {
-    const noticeRes = await getArticles({ type: "notice", per_page: 500 });
-    for (const a of noticeRes.data) {
+    const articles = await getAllArticles({ type: "notice" });
+    for (const a of articles) {
       entries.push({
         url: `${baseUrl}/notice/${a.slug}`,
         lastModified: a.published_at ? new Date(a.published_at) : now,
@@ -64,8 +69,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Related news
   try {
-    const newsRes = await getArticles({ type: "related_news", per_page: 500 });
-    for (const a of newsRes.data) {
+    const articles = await getAllArticles({ type: "related_news" });
+    for (const a of articles) {
       entries.push({
         url: `${baseUrl}/related-news/${a.slug}`,
         lastModified: a.published_at ? new Date(a.published_at) : now,
@@ -79,12 +84,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Guides (blog with category)
   try {
-    const guidesRes = await getArticles({
+    const articles = await getAllArticles({
       type: "blog",
       category: "guides",
-      per_page: 500,
     });
-    for (const a of guidesRes.data) {
+    for (const a of articles) {
       entries.push({
         url: `${baseUrl}/guides/${a.slug}`,
         lastModified: a.published_at ? new Date(a.published_at) : now,
@@ -98,12 +102,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Story (blog with category)
   try {
-    const storyRes = await getArticles({
+    const articles = await getAllArticles({
       type: "blog",
       category: "story",
-      per_page: 500,
     });
-    for (const a of storyRes.data) {
+    for (const a of articles) {
       entries.push({
         url: `${baseUrl}/story/${a.slug}`,
         lastModified: a.published_at ? new Date(a.published_at) : now,
@@ -117,8 +120,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Documents
   try {
-    const docsRes = await getPublicDocuments({ per_page: 500 });
-    for (const d of docsRes.data) {
+    const documents = await getAllPublicDocuments();
+    for (const d of documents) {
       const updated = d.updated_at || d.published_at;
       entries.push({
         url: `${baseUrl}/document/${d.slug}`,

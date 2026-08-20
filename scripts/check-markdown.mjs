@@ -52,6 +52,13 @@ function extractContent(obj, filePath) {
 }
 
 function checkMarkdown(content) {
+  // CMS exports occasionally wrap a valid external link over multiple lines.
+  // Normalize that representation before checking the remaining syntax so the
+  // guard reports genuinely broken links instead of formatting-only wraps.
+  content = content.replace(
+    /\[([^\]]+)\]\(\s*(https?:\/\/[^\s)]+)\s*\)/g,
+    "[$1]($2)"
+  );
   const issues = [];
 
   // 1. ** ** or **  ** - empty bold on SAME LINE (space/tab between, not newline)

@@ -30,6 +30,11 @@ describe("stripMarkdown", () => {
     expect(result).toBe("查看公告");
   });
 
+  it("keeps link text when an excerpt truncates the URL", () => {
+    expect(stripMarkdown("> 原始公視新聞[連結](https://news.example/..."))
+      .toBe("原始公視新聞連結");
+  });
+
   it("removes images, headers and collapses whitespace", () => {
     const result = stripMarkdown(
       "# 標題\n\n![圖](image.jpg)\n\n第一段。\n\n第二段。"

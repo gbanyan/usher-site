@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Command } from "cmdk";
+import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { cn } from "@/lib/utils";
+import { SearchIcon } from "./SearchButton";
 
 interface PagefindResult {
   url: string;
@@ -21,25 +23,6 @@ interface QuickAction {
 interface SearchModalProps {
   isOpen: boolean;
   onClose: () => void;
-}
-
-function SearchIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      aria-hidden="true"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-      />
-    </svg>
-  );
 }
 
 function NavIcon({ type }: { type: string }) {
@@ -150,20 +133,33 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     setLoading(true);
     pagefindRef.current.preload(query);
 
-    const timer = setTimeout(async () => {
+    let cancelled = false;
+
+    const runSearch = async () => {
       const pf = pagefindRef.current;
       if (!pf) return;
 
       const searchResult = await pf.debouncedSearch(query, {}, 300);
-      if (searchResult === null) return;
+      if (cancelled) return;
+
+      if (searchResult === null) {
+        setResults([]);
+        setLoading(false);
+        return;
+      }
 
       const dataPromises = searchResult.results.slice(0, 10).map((r) => r.data());
       const items = await Promise.all(dataPromises);
+      if (cancelled) return;
       setResults(items);
       setLoading(false);
-    }, 300);
+    };
 
-    return () => clearTimeout(timer);
+    void runSearch();
+
+    return () => {
+      cancelled = true;
+    };
   }, [search, pagefindReady]);
 
   const handleSelect = useCallback(
@@ -192,6 +188,10 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
       shouldFilter={false}
       className="search-modal fixed left-1/2 top-[20%] z-[9999] w-full max-w-2xl -translate-x-1/2 rounded-2xl border border-white/20 bg-primary-dark shadow-2xl backdrop-blur-md"
     >
+      <DialogTitle className="sr-only">全站搜尋</DialogTitle>
+      <DialogDescription className="sr-only">
+        搜尋網站文章，或選擇快速導覽項目。
+      </DialogDescription>
       <div className="flex items-center gap-3 border-b border-white/10 px-5 py-1">
         <SearchIcon className="h-5 w-5 shrink-0 text-white/50" />
         <Command.Input
@@ -273,34 +273,5 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
         <span className="ml-4 hidden sm:inline">以空格分隔詞彙可提升中文搜尋</span>
       </div>
     </Command.Dialog>
-  );
-}
-
-export function SearchButton({ onClick }: { onClick: () => void }) {
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        onClick();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [onClick]);
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="inline-flex h-9 shrink-0 items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-sm text-white transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-      aria-label="搜尋 (⌘K)"
-    >
-      <SearchIcon className="h-4 w-4 shrink-0" />
-      <span className="hidden shrink-0 whitespace-nowrap sm:inline">搜尋</span>
-      <kbd className="hidden rounded bg-black/20 px-1.5 py-0.5 text-xs font-semibold text-white/70 sm:inline-block">
-        ⌘K
-      </kbd>
-    </button>
   );
 }

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { getSiteUrl } from "@/lib/site";
 
 interface BreadcrumbItem {
     label: string;
@@ -22,6 +23,7 @@ export default function PageHeader({
     bgImage = "/images/banner/banner.jpg",
 }: PageHeaderProps) {
     const allItems: BreadcrumbItem[] = [{ label: "首頁", href: "/" }, ...items];
+    const siteUrl = getSiteUrl();
 
     // Schema.org structured data for BreadcrumbList
     const structuredData = {
@@ -31,7 +33,13 @@ export default function PageHeader({
             "@type": "ListItem",
             position: index + 1,
             name: item.label,
-            ...(item.href ? { item: item.href } : {}),
+            ...(item.href
+                ? {
+                    item: item.href.startsWith("http")
+                        ? item.href
+                        : `${siteUrl}${item.href.startsWith("/") ? item.href : `/${item.href}`}`,
+                  }
+                : {}),
         })),
     };
 

@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { getOrganizationProfile, getPage, getPublicDocuments } from "@/lib/api";
+import {
+  getAllPublicDocuments,
+  getOrganizationProfile,
+  getPage,
+} from "@/lib/api";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import type { Page, PublicDocumentSummary } from "@/lib/types";
@@ -45,8 +49,7 @@ async function fetchContactPage(): Promise<Page | null> {
 
 async function fetchLegalDocuments(): Promise<PublicDocumentSummary[]> {
   try {
-    const response = await getPublicDocuments({ per_page: 500 });
-    return response.data;
+    return await getAllPublicDocuments();
   } catch {
     return [];
   }

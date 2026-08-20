@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ArticleCard from "@/components/ArticleCard";
+import PaginatedArticleGrid from "@/components/PaginatedArticleGrid";
 import type { ArticleSummary } from "@/lib/types";
 
 interface ArticleListingProps {
@@ -68,11 +68,5 @@ export default function ArticleListing({
     );
   }
 
-  return (
-    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      {articles.map((article) => (
-        <ArticleCard key={article.id} article={article} basePath={basePath} />
-      ))}
-    </div>
-  );
+  return <PaginatedArticleGrid articles={articles} basePath={basePath} />;
 }

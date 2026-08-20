@@ -33,6 +33,7 @@ const API_URL =
 // Statically scoped so Turbopack does not trace the whole project into the
 // output (the snapshot generator script keeps its own --out override).
 const SNAPSHOT_DIR = path.join(process.cwd(), "content-snapshots");
+const API_PAGE_SIZE = 100;
 
 async function readSnapshot<T>(relativePath: string): Promise<T> {
   const fullPath = path.join(SNAPSHOT_DIR, relativePath);
@@ -62,6 +63,75 @@ async function fetchAPI<T>(
   }
 
   return res.json();
+}
+
+async function getAllPaginatedItems<T>(
+  fetchPage: (page: number) => Promise<PaginatedResponse<T>>
+): Promise<T[]> {
+  const firstPage = await fetchPage(1);
+  const items = [...firstPage.data];
+  const pageSize = Math.max(1, firstPage.meta?.per_page ?? API_PAGE_SIZE);
+  const totalPages = Math.max(
+    1,
+    firstPage.meta?.last_page ??
+      Math.ceil((firstPage.meta?.total ?? items.length) / pageSize)
+  );
+
+  for (let page = 2; page <= totalPages; page += 1) {
+    const response = await fetchPage(page);
+    items.push(...response.data);
+  }
+
+  return items;
+}
+
+function paginatePublicDocuments(
+  response: PaginatedResponse<PublicDocumentSummary>,
+  params?: { search?: string; category?: string; page?: number; per_page?: number }
+): PaginatedResponse<PublicDocumentSummary> {
+  let filtered = response.data;
+
+  if (params?.search) {
+    const query = params.search.toLowerCase();
+    filtered = filtered.filter((document) =>
+      [document.title, document.summary, document.description]
+        .filter(Boolean)
+        .some((value) => value!.toLowerCase().includes(query))
+    );
+  }
+
+  if (params?.category) {
+    filtered = filtered.filter(
+      (document) => document.category?.slug === params.category
+    );
+  }
+
+  const perPage = Math.max(1, params?.per_page ?? response.meta?.per_page ?? 100);
+  const currentPage = Math.max(1, params?.page ?? 1);
+  const total = filtered.length;
+  const lastPage = Math.max(1, Math.ceil(total / perPage));
+  const start = (currentPage - 1) * perPage;
+  const pageItems = filtered.slice(start, start + perPage);
+
+  return {
+    ...response,
+    data: pageItems,
+    meta: {
+      ...response.meta,
+      current_page: currentPage,
+      last_page: lastPage,
+      per_page: perPage,
+      total,
+      from: pageItems.length ? start + 1 : null,
+      to: pageItems.length ? start + pageItems.length : null,
+    },
+    links: {
+      first: null,
+      last: null,
+      prev: null,
+      next: null,
+    },
+  };
 }
 
 export async function getArticles(params?: {
@@ -141,6 +211,21 @@ export async function getArticles(params?: {
   );
 
   return normalizePaginatedArticles(res);
+}
+
+export async function getAllArticles(params?: {
+  type?: ContentType;
+  category?: string;
+  tag?: string;
+  search?: string;
+}): Promise<ArticleSummary[]> {
+  return getAllPaginatedItems((page) =>
+    getArticles({
+      ...params,
+      page,
+      per_page: API_PAGE_SIZE,
+    })
+  );
 }
 
 export async function getArticle(slug: string): Promise<ArticleDetailResponse> {
@@ -240,23 +325,9 @@ export async function getOrganizationProfile(): Promise<OrganizationProfile> {
 export async function getAllArticleSlugs(
   type: ContentType
 ): Promise<string[]> {
-  if (CONTENT_SOURCE === "snapshot") {
-    try {
-      const res = await readSnapshot<PaginatedResponse<ArticleSummary>>(
-        path.join("articles", `list-${type}.json`)
-      );
-      return res.data.map((a) => a.slug);
-    } catch {
-      return [];
-    }
-  }
-
   try {
-    const res = await fetchAPI<PaginatedResponse<ArticleSummary>>(
-      `/articles?type=${type}&per_page=500`,
-      { tags: ["articles"] }
-    );
-    return res.data.map((a) => a.slug);
+    const articles = await getAllArticles({ type });
+    return articles.map((article) => article.slug);
   } catch {
     return [];
   }
@@ -269,6 +340,15 @@ export async function getPublicDocuments(params?: {
   per_page?: number;
 }): Promise<PaginatedResponse<PublicDocumentSummary>> {
   if (CONTENT_SOURCE === "snapshot") {
+    try {
+      const response = await readSnapshot<PaginatedResponse<PublicDocumentSummary>>(
+        path.join("public-documents", "list.json")
+      );
+      return paginatePublicDocuments(response, params);
+    } catch {
+      // Older snapshots contain document articles only; keep the fallback below.
+    }
+
     const legacy = await getArticles({
       type: "document",
       per_page: params?.per_page ?? 500,
@@ -314,10 +394,31 @@ export async function getPublicDocuments(params?: {
   }
 }
 
+export async function getAllPublicDocuments(params?: {
+  search?: string;
+  category?: string;
+}): Promise<PublicDocumentSummary[]> {
+  return getAllPaginatedItems((page) =>
+    getPublicDocuments({
+      ...params,
+      page,
+      per_page: API_PAGE_SIZE,
+    })
+  );
+}
+
 export async function getPublicDocument(
   slug: string
 ): Promise<PublicDocumentDetailResponse> {
   if (CONTENT_SOURCE === "snapshot") {
+    try {
+      return await readSnapshot<PublicDocumentDetailResponse>(
+        path.join("public-documents", "by-slug", `${slug}.json`)
+      );
+    } catch {
+      // Older snapshots contain legacy article details only.
+    }
+
     const legacy = await getArticle(slug);
     return mapLegacyArticleDetailToPublicDocument(legacy, {
       apiUrl: API_URL,
@@ -340,16 +441,9 @@ export async function getPublicDocument(
 }
 
 export async function getAllPublicDocumentSlugs(): Promise<string[]> {
-  if (CONTENT_SOURCE === "snapshot") {
-    return getAllArticleSlugs("document");
-  }
-
   try {
-    const res = await fetchAPI<PaginatedResponse<PublicDocumentSummary>>(
-      "/public-documents?per_page=500",
-      { tags: ["documents"] }
-    );
-    return res.data.map((document) => document.slug);
+    const documents = await getAllPublicDocuments();
+    return documents.map((document) => document.slug);
   } catch {
     return getAllArticleSlugs("document");
   }

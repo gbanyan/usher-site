@@ -54,7 +54,7 @@ export default function Logo({ variant = "header", href = "/", className = "" }:
       <Link
         href={href}
         className="transition-opacity hover:opacity-90"
-        aria-label={`${ORG_NAME} - 回到首頁`}
+        aria-label={variant === "footer" ? undefined : `${ORG_NAME} - 回到首頁`}
       >
         {content}
       </Link>

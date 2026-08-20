@@ -22,7 +22,13 @@ const ROOT = process.cwd();
 const HTML_DIR = path.join(ROOT, ".next", "server", "app");
 const CSS_DIR = path.join(ROOT, ".next", "static", "chunks");
 
-const EXEMPT_PAGES = new Set(["research.html", "_global-error.html"]);
+// These generated support documents are not rendered through the root layout,
+// so they do not expose the site's navigation or skip link.
+const EXEMPT_PAGES = new Set([
+  "research.html",
+  "_global-error.html",
+  "llms.txt.html",
+]);
 
 async function walk(dir) {
   const out = [];

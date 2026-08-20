@@ -10,6 +10,13 @@ interface MarkdownRendererProps {
   className?: string;
 }
 
+function normalizeMultilineLinks(markdown: string): string {
+  return markdown.replace(
+    /\[([^\]]+)\]\(\s*(https?:\/\/[^\s)]+)\s*\)/g,
+    "[$1]($2)"
+  );
+}
+
 const DEMOTED_HEADINGS = {
   h1: "h2",
   h2: "h3",
@@ -115,7 +122,7 @@ export default function MarkdownRenderer({
       className={`prose prose-invert prose-dark prose-lg max-w-none prose-headings:text-white prose-a:text-accent hover:prose-a:text-accent-light prose-img:rounded-lg ${className}`}
     >
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
-        {content}
+        {normalizeMultilineLinks(content)}
       </ReactMarkdown>
     </div>
   );

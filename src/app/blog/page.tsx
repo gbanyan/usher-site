@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getArticles } from "@/lib/api";
+import { getAllArticles } from "@/lib/api";
 import { buildPageMetadata } from "@/lib/metadata";
 import ArticleListing from "@/components/ArticleListing";
 import PageHeader from "@/components/PageHeader";
@@ -16,13 +16,13 @@ export const metadata: Metadata = buildPageMetadata(
 export default async function BlogListingPage() {
   let articles;
   try {
-    articles = await getArticles({ type: "blog", per_page: 100 });
+    articles = await getAllArticles({ type: "blog" });
   } catch {
     articles = null;
   }
 
   // The blog listing excludes articles curated into the story/guides sections.
-  const regularBlogArticles = (articles?.data ?? []).filter((article) => {
+  const regularBlogArticles = (articles ?? []).filter((article) => {
     const categorySlugs =
       article.categories?.map((category) => category.slug) ?? [];
     return (

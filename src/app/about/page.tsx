@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getOrganizationProfile, getPage, getPublicDocuments } from "@/lib/api";
+import {
+  getAllPublicDocuments,
+  getOrganizationProfile,
+  getPage,
+} from "@/lib/api";
 import { buildPageMetadata } from "@/lib/metadata";
 import PageHeader from "@/components/PageHeader";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
@@ -38,8 +42,7 @@ export default async function AboutPage() {
   }
 
   try {
-    const response = await getPublicDocuments({ per_page: 500 });
-    documents = response.data;
+    documents = await getAllPublicDocuments();
   } catch {
     documents = [];
   }

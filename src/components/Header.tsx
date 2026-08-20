@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
-import { SearchButton } from "./SearchModal";
+import { SearchButton } from "./SearchButton";
 
 const SearchModal = dynamic(
   () => import("./SearchModal").then((mod) => ({ default: mod.SearchModal })),
@@ -200,12 +200,16 @@ export default function Header() {
   );
   const pathname = usePathname();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuToggleRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuWasOpenRef = useRef(false);
+  const restoreMobileMenuFocusRef = useRef(true);
 
   // Close mobile menu on route change
   const prevPathname = useRef(pathname);
   useEffect(() => {
     if (prevPathname.current !== pathname) {
       prevPathname.current = pathname;
+      restoreMobileMenuFocusRef.current = false;
       // Defer state updates to avoid sync setState inside an effect body.
       queueMicrotask(() => {
         setMobileMenuOpen(false);
@@ -214,14 +218,69 @@ export default function Header() {
     }
   }, [pathname]);
 
-  // Trap focus and prevent body scroll when mobile menu is open
+  // Treat the expanded mobile navigation as a keyboard-contained drawer.
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
+    const menu = mobileMenuRef.current;
+
+    if (!mobileMenuOpen || !menu) {
       document.body.style.overflow = "";
+      if (
+        mobileMenuWasOpenRef.current &&
+        restoreMobileMenuFocusRef.current
+      ) {
+        mobileMenuToggleRef.current?.focus();
+      }
+      mobileMenuWasOpenRef.current = false;
+      return;
     }
+
+    mobileMenuWasOpenRef.current = true;
+    document.body.style.overflow = "hidden";
+
+    const getFocusableElements = () =>
+      Array.from(
+        menu.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      );
+
+    const focusFirstItem = () => getFocusableElements()[0]?.focus();
+    const frame = window.requestAnimationFrame(focusFirstItem);
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        restoreMobileMenuFocusRef.current = true;
+        setMobileMenuOpen(false);
+        setMobileOpenSubmenus(new Set());
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusableElements = getFocusableElements();
+      if (focusableElements.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      const first = focusableElements[0];
+      const last = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
     return () => {
+      window.cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
   }, [mobileMenuOpen]);
@@ -280,6 +339,7 @@ export default function Header() {
             <SearchButton onClick={() => setIsSearchOpen(true)} />
             <button
               type="button"
+              ref={mobileMenuToggleRef}
               className="inline-flex items-center justify-center rounded-md p-2 text-white transition-colors hover:bg-primary-light/20 lg:hidden"
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
@@ -329,6 +389,7 @@ export default function Header() {
             className="border-t border-white/10 bg-primary-dark lg:hidden"
             role="navigation"
             aria-label="行動版導覽"
+            tabIndex={-1}
           >
             <ul className="space-y-1 px-4 py-4">
               {NAV_ITEMS.map((item) => (

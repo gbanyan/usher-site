@@ -45,17 +45,18 @@ function usePrefersReducedMotion() {
 export default function HeroSlider({ slides }: HeroSliderProps) {
   const prefersReducedMotion = usePrefersReducedMotion();
   const swiperRef = useRef<SwiperInstance | null>(null);
+  const [autoplayPaused, setAutoplayPaused] = useState(false);
 
   useEffect(() => {
     const swiper = swiperRef.current;
     if (!swiper?.autoplay) return;
 
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion || autoplayPaused) {
       swiper.autoplay.stop();
     } else {
       swiper.autoplay.start();
     }
-  }, [prefersReducedMotion]);
+  }, [autoplayPaused, prefersReducedMotion]);
 
   return (
     <section aria-label="首頁橫幅輪播" aria-roledescription="輪播" role="region" className="relative h-[550px] sm:h-[650px] lg:h-[800px]">
@@ -98,7 +99,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                 fill
                 className="object-cover"
                 sizes="100vw"
-                priority={index < 2}
+                priority={index === 0}
               />
               <div className="absolute inset-0 bg-primary/60 sm:bg-primary/50" />
             </div>
@@ -165,6 +166,33 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
             </button>
 
             <div className="hero-pagination flex items-center gap-0.5 sm:gap-1" />
+
+            <button
+              type="button"
+              onClick={() => {
+                if (!prefersReducedMotion) setAutoplayPaused((paused) => !paused);
+              }}
+              className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-white/50 bg-primary-dark/60 text-white/90 shadow-md transition-colors hover:border-white/80 hover:bg-primary-dark/80 hover:text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark disabled:cursor-not-allowed disabled:opacity-70 sm:size-10"
+              aria-label={
+                prefersReducedMotion
+                  ? "輪播已依裝置設定停止"
+                  : autoplayPaused
+                    ? "播放輪播"
+                    : "暫停輪播"
+              }
+              aria-pressed={prefersReducedMotion || autoplayPaused}
+              disabled={prefersReducedMotion}
+            >
+              {prefersReducedMotion || autoplayPaused ? (
+                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              ) : (
+                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h3v14H7zM14 5h3v14h-3z" />
+                </svg>
+              )}
+            </button>
 
             <button
               type="button"
