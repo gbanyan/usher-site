@@ -1,4 +1,9 @@
 @import "tailwindcss";
+
+html[lang="en"] .locale-zh,
+html:not([lang="en"]) .locale-en {
+  display: none;
+}
 @plugin "@tailwindcss/typography";
 
 /* Logo subset: 台灣尤塞氏症暨視聽弱協會 (Iansui, ~6KB) */

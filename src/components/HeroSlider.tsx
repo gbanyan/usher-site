@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import "swiper/css";
 import "swiper/css/pagination";
+import { EN_COPY } from "@/lib/i18n";
 
 // Define the interface for a single slide item
 // This should match the structure used in page.tsx
@@ -23,6 +24,7 @@ interface SliderItem {
 
 interface HeroSliderProps {
   slides: SliderItem[];
+  locale?: "zh-TW" | "en";
 }
 
 function usePrefersReducedMotion() {
@@ -42,7 +44,8 @@ function usePrefersReducedMotion() {
   return prefersReducedMotion;
 }
 
-export default function HeroSlider({ slides }: HeroSliderProps) {
+export default function HeroSlider({ slides, locale = "zh-TW" }: HeroSliderProps) {
+  const isEnglish = locale === "en";
   const prefersReducedMotion = usePrefersReducedMotion();
   const swiperRef = useRef<SwiperInstance | null>(null);
   const [autoplayPaused, setAutoplayPaused] = useState(false);
@@ -59,7 +62,12 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
   }, [autoplayPaused, prefersReducedMotion]);
 
   return (
-    <section aria-label="首頁橫幅輪播" aria-roledescription="輪播" role="region" className="relative h-[550px] sm:h-[650px] lg:h-[800px]">
+    <section
+      aria-label={isEnglish ? EN_COPY.accessibility.hero : "首頁橫幅輪播"}
+      aria-roledescription={isEnglish ? "carousel" : "輪播"}
+      role="region"
+      className="relative h-[550px] sm:h-[650px] lg:h-[800px]"
+    >
       <Swiper
         modules={[Autoplay, Pagination, A11y]}
         onSwiper={(swiper) => {
@@ -69,11 +77,11 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
         speed={prefersReducedMotion ? 0 : 1000}
         a11y={{
           enabled: true,
-          prevSlideMessage: "上一張投影片",
-          nextSlideMessage: "下一張投影片",
-          firstSlideMessage: "第一張投影片",
-          lastSlideMessage: "最後一張投影片",
-          paginationBulletMessage: "前往投影片 {{index}}",
+          prevSlideMessage: isEnglish ? "Previous slide" : "上一張投影片",
+          nextSlideMessage: isEnglish ? "Next slide" : "下一張投影片",
+          firstSlideMessage: isEnglish ? "First slide" : "第一張投影片",
+          lastSlideMessage: isEnglish ? "Last slide" : "最後一張投影片",
+          paginationBulletMessage: isEnglish ? "Go to slide {{index}}" : "前往投影片 {{index}}",
         }}
         autoplay={prefersReducedMotion ? false : {
           delay: 5000,
@@ -83,7 +91,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
           clickable: true,
           el: ".hero-pagination",
           renderBullet: function (index, className) {
-            return '<button type="button" class="' + className + '" aria-label="前往投影片 ' + (index + 1) + '"></button>';
+            return '<button type="button" class="' + className + '" aria-label="' + (isEnglish ? 'Go to slide ' : '前往投影片 ') + (index + 1) + '"></button>';
           },
         }}
         loop={true}
@@ -152,13 +160,13 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
             className="hero-controls flex flex-nowrap items-center justify-center gap-1.5 pointer-events-auto animate-in fade-in slide-in-from-bottom-4 duration-1000 sm:gap-2"
             style={{ animationDelay: '500ms' }}
             role="group"
-            aria-label="輪播控制"
+            aria-label={isEnglish ? "Carousel controls" : "輪播控制"}
           >
             <button
               type="button"
               onClick={() => swiperRef.current?.slidePrev()}
               className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-white/50 bg-primary-dark/60 text-white/90 shadow-md transition-colors hover:border-white/80 hover:bg-primary-dark/80 hover:text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark sm:size-10"
-              aria-label="上一張投影片"
+              aria-label={isEnglish ? "Previous slide" : "上一張投影片"}
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -175,10 +183,16 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
               className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-white/50 bg-primary-dark/60 text-white/90 shadow-md transition-colors hover:border-white/80 hover:bg-primary-dark/80 hover:text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark disabled:cursor-not-allowed disabled:opacity-70 sm:size-10"
               aria-label={
                 prefersReducedMotion
-                  ? "輪播已依裝置設定停止"
+                  ? isEnglish
+                    ? "Carousel stopped by device preference"
+                    : "輪播已依裝置設定停止"
                   : autoplayPaused
-                    ? "播放輪播"
-                    : "暫停輪播"
+                    ? isEnglish
+                      ? "Play carousel"
+                      : "播放輪播"
+                    : isEnglish
+                      ? "Pause carousel"
+                      : "暫停輪播"
               }
               aria-pressed={prefersReducedMotion || autoplayPaused}
               disabled={prefersReducedMotion}
@@ -198,7 +212,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
               type="button"
               onClick={() => swiperRef.current?.slideNext()}
               className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-white/50 bg-primary-dark/60 text-white/90 shadow-md transition-colors hover:border-white/80 hover:bg-primary-dark/80 hover:text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark sm:size-10"
-              aria-label="下一張投影片"
+              aria-label={isEnglish ? "Next slide" : "下一張投影片"}
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

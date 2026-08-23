@@ -6,6 +6,7 @@ import Link from "next/link";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
 import { SearchButton } from "./SearchButton";
+import { EN_COPY } from "@/lib/i18n";
 
 const SearchModal = dynamic(
   () => import("./SearchModal").then((mod) => ({ default: mod.SearchModal })),
@@ -56,6 +57,13 @@ const NAV_ITEMS: NavItem[] = [
     ],
   },
   { label: "聯繫資訊", href: "/contact", icon: "contact" },
+];
+
+const EN_NAV_ITEMS: NavItem[] = [
+  { label: EN_COPY.nav.about, href: "/en#about", icon: "about" },
+  { label: EN_COPY.home.featureHeading, href: "/en#usher-syndrome", icon: "resources" },
+  { label: EN_COPY.nav.stories, href: "/en#stories", icon: "related-news" },
+  { label: EN_COPY.nav.contact, href: "/en#contact", icon: "contact" },
 ];
 
 function NavIcon({ type, className }: { type: NavIconType; className: string }) {
@@ -199,6 +207,8 @@ export default function Header() {
     new Set()
   );
   const pathname = usePathname();
+  const isEnglish = pathname.startsWith("/en");
+  const navItems = isEnglish ? EN_NAV_ITEMS : NAV_ITEMS;
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const mobileMenuToggleRef = useRef<HTMLButtonElement>(null);
   const mobileMenuWasOpenRef = useRef(false);
@@ -305,15 +315,20 @@ export default function Header() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 lg:px-8">
           {/* Logo / Association name */}
-          <Logo variant="header" href="/" className="shrink-0" />
+          <Logo
+            variant="header"
+            locale={isEnglish ? "en" : "zh-TW"}
+            href={isEnglish ? "/en" : "/"}
+            className="shrink-0"
+          />
 
           {/* Desktop navigation + Search */}
           <div className="flex items-center gap-2">
             <nav
-              aria-label="主要導覽"
+              aria-label={isEnglish ? "Main navigation" : "主要導覽"}
               className="hidden items-center gap-1 lg:flex"
             >
-              {NAV_ITEMS.map((item) =>
+              {navItems.map((item) =>
               item.children ? (
                 <DesktopDropdown
                   key={item.label}
@@ -336,14 +351,29 @@ export default function Header() {
               )
               )}
             </nav>
-            <SearchButton onClick={() => setIsSearchOpen(true)} />
+            {!isEnglish && <SearchButton onClick={() => setIsSearchOpen(true)} />}
+            <Link
+              href={isEnglish ? "/" : "/en"}
+              className="rounded-md px-2 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-light/10 hover:text-accent"
+              aria-label={isEnglish ? "切換至繁體中文" : "Switch to English"}
+            >
+              {isEnglish ? EN_COPY.languageSwitchLabel : "English"}
+            </Link>
             <button
               type="button"
               ref={mobileMenuToggleRef}
               className="inline-flex items-center justify-center rounded-md p-2 text-white transition-colors hover:bg-primary-light/20 lg:hidden"
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
-              aria-label={mobileMenuOpen ? "關閉選單" : "開啟選單"}
+              aria-label={
+                mobileMenuOpen
+                  ? isEnglish
+                    ? "Close menu"
+                    : "關閉選單"
+                  : isEnglish
+                    ? "Open menu"
+                    : "開啟選單"
+              }
               onClick={() => setMobileMenuOpen((prev) => !prev)}
             >
             {mobileMenuOpen ? (
@@ -388,11 +418,11 @@ export default function Header() {
             ref={mobileMenuRef}
             className="border-t border-white/10 bg-primary-dark lg:hidden"
             role="navigation"
-            aria-label="行動版導覽"
+            aria-label={isEnglish ? "Mobile navigation" : "行動版導覽"}
             tabIndex={-1}
           >
             <ul className="space-y-1 px-4 py-4">
-              {NAV_ITEMS.map((item) => (
+              {navItems.map((item) => (
                 <li key={item.label}>
                   {item.children ? (
                     <>
@@ -400,7 +430,11 @@ export default function Header() {
                         type="button"
                         aria-expanded={mobileOpenSubmenus.has(item.label)}
                         aria-controls={`mobile-submenu-${item.label}`}
-                        aria-label={`${item.label}，${mobileOpenSubmenus.has(item.label) ? "收合" : "展開"}子選單`}
+                        aria-label={
+                          isEnglish
+                            ? `${item.label}, ${mobileOpenSubmenus.has(item.label) ? "collapse" : "expand"} submenu`
+                            : `${item.label}，${mobileOpenSubmenus.has(item.label) ? "收合" : "展開"}子選單`
+                        }
                         className={`flex w-full items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 ${item.children.some((child) =>
                           pathname.startsWith(child.href)
                         )

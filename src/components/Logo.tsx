@@ -8,13 +8,20 @@ interface LogoProps {
   variant?: "header" | "footer";
   href?: string;
   className?: string;
+  locale?: "zh-TW" | "en";
 }
 
 /**
  * Split logo: icon + text with Iansui font.
  * Original Logo_long: 台灣、暨、協會 (white), 尤塞氏症、視聽弱 (accent).
  */
-export default function Logo({ variant = "header", href = "/", className = "" }: LogoProps) {
+export default function Logo({
+  variant = "header",
+  href = "/",
+  className = "",
+  locale = "zh-TW",
+}: LogoProps) {
+  const isEnglish = locale === "en";
   const content = (
     <span
       className={`inline-flex items-center gap-2 sm:gap-3 ${className}`}
@@ -31,18 +38,26 @@ export default function Logo({ variant = "header", href = "/", className = "" }:
         aria-hidden
       />
       <span className="flex flex-col justify-center">
-        <span
-          className={`leading-tight text-white ${variant === "header" ? "text-base sm:text-xl" : "text-sm"}`}
-        >
-          <span>台灣</span>
-          <span className="text-accent">尤塞氏症</span>
-          <span>暨</span>
-          <span className="text-accent">視聽弱</span>
-          <span>協會</span>
-        </span>
+        {isEnglish ? (
+          <span
+            className={`max-w-[15rem] leading-tight text-white ${variant === "header" ? "text-sm sm:text-base" : "text-sm"}`}
+          >
+            Taiwan Usher Syndrome and Deafblind Association
+          </span>
+        ) : (
+          <span
+            className={`leading-tight text-white ${variant === "header" ? "text-base sm:text-xl" : "text-sm"}`}
+          >
+            <span>台灣</span>
+            <span className="text-accent">尤塞氏症</span>
+            <span>暨</span>
+            <span className="text-accent">視聽弱</span>
+            <span>協會</span>
+          </span>
+        )}
         {variant === "footer" && (
           <span className="mt-0.5 text-xs font-sans text-white/90 leading-tight">
-            {ORG_NAME_EN}
+            {isEnglish ? "Taiwan Usher Syndrome and Deafblind Association" : ORG_NAME_EN}
           </span>
         )}
       </span>
@@ -54,7 +69,13 @@ export default function Logo({ variant = "header", href = "/", className = "" }:
       <Link
         href={href}
         className="transition-opacity hover:opacity-90"
-        aria-label={variant === "footer" ? undefined : `${ORG_NAME} - 回到首頁`}
+        aria-label={
+          variant === "footer"
+            ? undefined
+            : isEnglish
+              ? "Taiwan Usher Syndrome and Deafblind Association - Home"
+              : `${ORG_NAME} - 回到首頁`
+        }
       >
         {content}
       </Link>

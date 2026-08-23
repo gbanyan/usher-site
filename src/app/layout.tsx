@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
+import LocaleDocument from "@/components/LocaleDocument";
 import JsonLd from "@/components/JsonLd";
 import { getOrganizationProfile } from "@/lib/api";
 import { getOrganizationSchema } from "@/lib/jsonld";
@@ -33,6 +34,10 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
+    languages: {
+      "zh-TW": "/",
+      en: "/en",
+    },
   },
   other: {
     "geo.region": "TW",
@@ -50,9 +55,15 @@ export default async function RootLayout({
   return (
     <html lang="zh-TW">
       <body className="min-h-screen bg-black font-sans text-white antialiased">
+        <LocaleDocument />
         <JsonLd data={getOrganizationSchema(organizationProfile)} />
-        <a href="#main-content" className="skip-to-content" aria-label="跳過導覽，直接前往主要內容">
-          跳至主要內容
+        <a
+          href="#main-content"
+          className="skip-to-content"
+          aria-label="Skip navigation and go to main content / 跳過導覽，直接前往主要內容"
+        >
+          <span className="locale-zh">跳至主要內容</span>
+          <span className="locale-en">Skip to main content</span>
         </a>
 
         <Header />

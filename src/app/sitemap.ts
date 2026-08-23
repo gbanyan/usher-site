@@ -8,6 +8,7 @@ import { getSiteUrl } from "@/lib/site";
 
 const STATIC_ROUTES: { path: string; priority: number; changeFrequency: "yearly" | "monthly" | "weekly" }[] = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
+  { path: "/en", priority: 0.9, changeFrequency: "monthly" },
   { path: "/about", priority: 0.9, changeFrequency: "monthly" },
   { path: "/contact", priority: 0.9, changeFrequency: "monthly" },
   { path: "/blog", priority: 0.8, changeFrequency: "weekly" },
@@ -30,6 +31,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: now,
     changeFrequency: route.changeFrequency,
     priority: route.priority,
+    ...(route.path === "/"
+      ? { alternates: { languages: { en: `${baseUrl}/en` } } }
+      : route.path === "/en"
+        ? { alternates: { languages: { "zh-TW": `${baseUrl}/` } } }
+        : {}),
   }));
 
   // Blog articles

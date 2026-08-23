@@ -228,6 +228,28 @@ export async function getAllArticles(params?: {
   );
 }
 
+/**
+ * Read the public Chinese story collection for locale fallback. This is kept
+ * separate from getAllArticles so an English CMS translation can take
+ * precedence later without changing the existing Chinese API contract.
+ */
+export async function getChineseStoryFallbackArticles(): Promise<ArticleSummary[]> {
+  try {
+    const snapshot = await readSnapshot<PaginatedResponse<ArticleSummary>>(
+      path.join("articles", "list-blog.json")
+    );
+
+    return normalizePaginatedArticles({
+      ...snapshot,
+      data: snapshot.data.filter((article) =>
+        (article.categories ?? []).some((category) => category.slug === "story")
+      ),
+    }).data;
+  } catch {
+    return [];
+  }
+}
+
 export async function getArticle(slug: string): Promise<ArticleDetailResponse> {
   if (CONTENT_SOURCE === "snapshot") {
     const res = await readSnapshot<ArticleDetailResponse>(

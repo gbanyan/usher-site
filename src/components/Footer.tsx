@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import Logo from "./Logo";
 import { formatPhoneForDisplay, getPhoneHref } from "@/lib/contact";
 import type { OrganizationProfile } from "@/lib/types";
+import { usePathname } from "next/navigation";
+import { EN_COPY } from "@/lib/i18n";
 
 const QUICK_LINKS = [
   { label: "事務公告", href: "/notice", icon: "notice" },
@@ -41,11 +45,19 @@ const SOCIAL_LINKS = [
   },
 ] as const;
 
+const EN_QUICK_LINKS = [
+  { label: EN_COPY.nav.about, href: "/en#about", icon: "about" },
+  { label: EN_COPY.home.featureHeading, href: "/en#usher-syndrome", icon: "research" },
+  { label: EN_COPY.nav.contact, href: "/en#contact", icon: "contact" },
+] as const;
+
 type FooterIconType =
   | "notice"
   | "research"
   | "document"
   | "blog"
+  | "about"
+  | "contact"
   | "address"
   | "business-id"
   | "email"
@@ -86,6 +98,20 @@ function FooterIcon({
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 3.75l4.5 4.5M18 6l-9.75 9.75L6 20.25l4.5-2.25L20.25 8.25a1.591 1.591 0 000-2.25l-1.5-1.5a1.591 1.591 0 00-2.25 0z" />
         </svg>
       );
+    case "about":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3.75a8.25 8.25 0 100 16.5 8.25 8.25 0 000-16.5z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10.5v5.25m0-8.25h.008" />
+        </svg>
+      );
+    case "contact":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 6.75h16.5a1.5 1.5 0 011.5 1.5v7.5a1.5 1.5 0 01-1.5 1.5H3.75a1.5 1.5 0 01-1.5-1.5v-7.5a1.5 1.5 0 011.5-1.5z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7.5l9 6 9-6" />
+        </svg>
+      );
     case "address":
       return (
         <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -120,6 +146,15 @@ function FooterIcon({
 
 export default function Footer({ profile }: { profile: OrganizationProfile }) {
   const currentYear = new Date().getFullYear();
+  const pathname = usePathname();
+  const isEnglish = pathname.startsWith("/en");
+  const quickLinks = isEnglish ? EN_QUICK_LINKS : QUICK_LINKS;
+  const socialLinks = isEnglish
+    ? SOCIAL_LINKS.map((link) => ({
+        ...link,
+        label: link.label.startsWith("Line") ? EN_COPY.contact.line : EN_COPY.contact.facebook,
+      }))
+    : SOCIAL_LINKS;
 
   return (
     <footer
@@ -130,20 +165,27 @@ export default function Footer({ profile }: { profile: OrganizationProfile }) {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-12">
           {/* Association info */}
           <div className="lg:col-span-4" role="group" aria-labelledby="footer-association">
-            <Logo variant="footer" href="/" />
-            <span id="footer-association" className="sr-only">協會簡介</span>
+            <Logo variant="footer" locale={isEnglish ? "en" : "zh-TW"} href={isEnglish ? "/en" : "/"} />
+            <span id="footer-association" className="sr-only">
+              {isEnglish ? EN_COPY.nav.about : "協會簡介"}
+            </span>
             <p className="mt-3 text-sm leading-relaxed text-white/70">
-              致力於推動尤塞氏症相關研究、支持病友與家屬，促進社會對視聽障礙的認識與理解。
+              {isEnglish
+                ? EN_COPY.footer.summary
+                : "致力於推動尤塞氏症相關研究、支持病友與家屬，促進社會對視聽障礙的認識與理解。"}
             </p>
           </div>
 
           {/* Quick links */}
-          <nav className="lg:col-span-2" aria-label="頁尾快速連結">
+          <nav
+            className="lg:col-span-2"
+            aria-label={isEnglish ? EN_COPY.footer.quickLinks : "頁尾快速連結"}
+          >
             <h2 className="text-sm font-semibold uppercase tracking-wider text-white/90 text-balance">
-              快速連結
+              {isEnglish ? EN_COPY.footer.quickLinks : "快速連結"}
             </h2>
             <ul className="mt-4 space-y-2" role="list">
-              {QUICK_LINKS.map((link) => (
+              {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -163,17 +205,17 @@ export default function Footer({ profile }: { profile: OrganizationProfile }) {
           {/* Social links */}
           <div className="lg:col-span-3">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-white/90 text-balance">
-              社群連結
+              {isEnglish ? EN_COPY.footer.social : "社群連結"}
             </h2>
             <ul className="mt-4 space-y-3" role="list">
-              {SOCIAL_LINKS.map((link) => (
+              {socialLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-sm text-white/70 transition-colors duration-200 hover:text-accent-light"
-                    aria-label={`${link.label} (在新視窗開啟)`}
+                    aria-label={`${link.label} ${isEnglish ? EN_COPY.footer.external : "(在新視窗開啟)"}`}
                   >
                     {link.icon}
                     {link.label}
@@ -200,7 +242,7 @@ export default function Footer({ profile }: { profile: OrganizationProfile }) {
           {/* Contact Info */}
           <div className="lg:col-span-3" role="group" aria-labelledby="footer-contact-heading">
             <h2 id="footer-contact-heading" className="text-sm font-semibold uppercase tracking-wider text-white/90 text-balance">
-              聯繫資訊
+              {isEnglish ? EN_COPY.footer.contact : "聯繫資訊"}
             </h2>
             <ul className="mt-4 space-y-3 text-sm text-white/70" role="list">
               <li className="flex items-start gap-2">
@@ -209,7 +251,9 @@ export default function Footer({ profile }: { profile: OrganizationProfile }) {
                   className="mt-0.5 h-4 w-4 shrink-0 text-accent"
                 />
                 <div>
-                  <span className="block font-medium text-white/90">地址</span>
+                  <span className="block font-medium text-white/90">
+                    {isEnglish ? EN_COPY.footer.address : "地址"}
+                  </span>
                   <span className="whitespace-pre-line">{profile.address}</span>
                 </div>
               </li>
@@ -219,7 +263,9 @@ export default function Footer({ profile }: { profile: OrganizationProfile }) {
                   className="mt-0.5 h-4 w-4 shrink-0 text-accent"
                 />
                 <div>
-                  <span className="block font-medium text-white/90">統一編號</span>
+                  <span className="block font-medium text-white/90">
+                    {isEnglish ? EN_COPY.footer.taxId : "統一編號"}
+                  </span>
                   {profile.tax_id}
                 </div>
               </li>
@@ -229,11 +275,13 @@ export default function Footer({ profile }: { profile: OrganizationProfile }) {
                   className="mt-0.5 h-4 w-4 shrink-0 text-accent"
                 />
                 <div>
-                  <span className="block font-medium text-white/90">電子信箱</span>
+                  <span className="block font-medium text-white/90">
+                    {isEnglish ? EN_COPY.footer.email : "電子信箱"}
+                  </span>
                   <a
                     href={`mailto:${profile.email}`}
                     className="transition-colors duration-200 hover:text-accent-light"
-                    aria-label={`寄信至 ${profile.email}`}
+                    aria-label={isEnglish ? `Email ${profile.email}` : `寄信至 ${profile.email}`}
                   >
                     {profile.email}
                   </a>
@@ -245,7 +293,9 @@ export default function Footer({ profile }: { profile: OrganizationProfile }) {
                   className="mt-0.5 h-4 w-4 shrink-0 text-accent"
                 />
                 <div>
-                  <span className="block font-medium text-white/90">聯絡電話</span>
+                  <span className="block font-medium text-white/90">
+                    {isEnglish ? EN_COPY.footer.phone : "聯絡電話"}
+                  </span>
                   <a
                     href={getPhoneHref(profile.phone)}
                     className="transition-colors duration-200 hover:text-accent-light"

@@ -144,6 +144,7 @@ and hosting costs that stay near zero.
 | Route | Description |
 |---|---|
 | `/` | Homepage |
+| `/en` | First-stage English association entry point; core informational content only |
 | `/about` | About the association (創立目的) |
 | `/contact` | Contact and community channels (聯繫資訊) |
 | `/story`, `/story/[slug]` | Patient and family stories (病友故事) |
@@ -161,9 +162,14 @@ and JSON-LD structured data for the organisation, articles and pages.
 
 ## Content and privacy
 
-All content is written in Traditional Chinese by association staff through the
-CMS, and the site declares `lang="zh-TW"`. This README is in English for the
-benefit of people outside Taiwan; the site itself is not translated.
+Most editorial content is written in Traditional Chinese by association staff
+through the CMS. The `/en` entry point currently provides an independently
+reviewable English introduction and contact path. When an English translation
+is unavailable, the public page keeps the content visible in its original
+Chinese instead of hiding it; the UI may identify that the content is
+currently available in Chinese. Patient and family stories can therefore
+remain accessible in Chinese while any future English translation follows the
+separate editorial and author-consent process.
 
 The public site sets no analytics, no third-party trackers and no advertising
 scripts. The only external references in the source are outbound links to the
