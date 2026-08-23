@@ -25,7 +25,7 @@ const SLIDES = [
   {
     image: "/images/banner/hero-support.jpg",
     ...EN_COPY.home.slides[0],
-    button: { label: EN_COPY.home.slides[0].button, link: "/en#about" },
+    button: { label: "About", link: "/en#about" },
   },
   {
     image: "/images/banner/hero-sign-language.jpg",
@@ -35,7 +35,7 @@ const SLIDES = [
   {
     image: "/images/banner/hero-founding.jpg",
     ...EN_COPY.home.slides[2],
-    button: { label: EN_COPY.home.slides[2].button, link: "/en#contact" },
+    button: { label: "Contact", link: "/en#contact" },
   },
 ];
 
@@ -147,7 +147,7 @@ export default async function EnglishHomePage() {
         <div className="mx-auto grid max-w-6xl items-center gap-8 px-6 md:grid-cols-2 lg:px-8">
           <div>
             <p className="text-sm font-medium uppercase tracking-wider text-accent">
-              About Us
+              About
             </p>
             <h2 id="about-heading-en" className="mt-3 text-heading-2 text-accent">
               {EN_COPY.home.communityTitle}

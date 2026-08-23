@@ -61,7 +61,7 @@ const NAV_ITEMS: NavItem[] = [
 
 const EN_NAV_ITEMS: NavItem[] = [
   { label: EN_COPY.nav.about, href: "/en#about", icon: "about" },
-  { label: EN_COPY.home.featureHeading, href: "/en#usher-syndrome", icon: "resources" },
+  { label: EN_COPY.nav.usherSyndrome, href: "/en#usher-syndrome", icon: "resources" },
   { label: EN_COPY.nav.stories, href: "/en#stories", icon: "related-news" },
   { label: EN_COPY.nav.contact, href: "/en#contact", icon: "contact" },
 ];

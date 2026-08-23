@@ -47,7 +47,7 @@ const SOCIAL_LINKS = [
 
 const EN_QUICK_LINKS = [
   { label: EN_COPY.nav.about, href: "/en#about", icon: "about" },
-  { label: EN_COPY.home.featureHeading, href: "/en#usher-syndrome", icon: "research" },
+  { label: EN_COPY.nav.usherSyndrome, href: "/en#usher-syndrome", icon: "research" },
   { label: EN_COPY.nav.contact, href: "/en#contact", icon: "contact" },
 ] as const;
 
