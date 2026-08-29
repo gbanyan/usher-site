@@ -152,7 +152,7 @@ Production values configured in Vercel (or hosting platform).
 | `/document/[slug]` | SSG | Document detail |
 | `/related-news` | Static | 相關報導 listing |
 | `/related-news/[slug]` | SSG | Related news detail |
-| `/research` | Static | English-first research and open-science collaboration profile |
+| `/research` | Static | Permanent redirect to `/document` |
 | `/[pageSlug]` | SSG | Static pages: structure, message, logo-represent |
 | `/api/revalidate` | Dynamic | Webhook for on-demand cache invalidation |
 

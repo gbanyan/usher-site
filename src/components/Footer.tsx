@@ -5,11 +5,11 @@ import Logo from "./Logo";
 import { formatPhoneForDisplay, getPhoneHref } from "@/lib/contact";
 import type { OrganizationProfile } from "@/lib/types";
 import { usePathname } from "next/navigation";
-import { EN_COPY, isEnglishPath } from "@/lib/i18n";
+import { EN_COPY } from "@/lib/i18n";
 
 const QUICK_LINKS = [
   { label: "事務公告", href: "/notice", icon: "notice" },
-  { label: "研究合作", href: "/research", icon: "research" },
+  { label: "研究資源", href: "/research", icon: "research" },
   { label: "協會文件", href: "/document", icon: "document" },
   { label: "部落格", href: "/blog", icon: "blog" },
 ] as const;
@@ -47,7 +47,6 @@ const SOCIAL_LINKS = [
 
 const EN_QUICK_LINKS = [
   { label: EN_COPY.nav.about, href: "/en#about", icon: "about" },
-  { label: EN_COPY.nav.research, href: "/research", icon: "research" },
   { label: EN_COPY.nav.usherSyndrome, href: "/en#usher-syndrome", icon: "research" },
   { label: EN_COPY.nav.contact, href: "/en#contact", icon: "contact" },
 ] as const;
@@ -148,7 +147,7 @@ function FooterIcon({
 export default function Footer({ profile }: { profile: OrganizationProfile }) {
   const currentYear = new Date().getFullYear();
   const pathname = usePathname();
-  const isEnglish = isEnglishPath(pathname);
+  const isEnglish = pathname.startsWith("/en");
   const quickLinks = isEnglish ? EN_QUICK_LINKS : QUICK_LINKS;
   const socialLinks = isEnglish
     ? SOCIAL_LINKS.map((link) => ({

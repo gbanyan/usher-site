@@ -1,15 +1,6 @@
 export type SiteLocale = "zh-TW" | "en";
 
 /**
- * The research page is an English-first public profile used for international
- * research and grant enquiries, so it shares the English shell without living
- * under the existing /en landing-page route.
- */
-export function isEnglishPath(pathname: string): boolean {
-  return pathname === "/en" || pathname.startsWith("/en/") || pathname === "/research";
-}
-
-/**
  * First-stage English copy is intentionally kept in one place while the CMS
  * translation model is being designed. Editorial content from the CMS should
  * move here only when it has an approved English translation.
@@ -34,7 +25,6 @@ export const EN_COPY = {
     updates: "Updates",
     notices: "Notices",
     blog: "Blog",
-    research: "Research",
     contact: "Contact",
   },
   home: {
@@ -98,7 +88,6 @@ export const EN_COPY = {
     supportEyebrow: "Volunteer · Donate · Partner",
     supportTitle: "All forms of support and sponsorship are welcome!",
     contactButton: "Contact Us",
-    researchButton: "Research & Open Science",
     documentaryTitle: "Hearing and Seeing the Melody of Happiness",
     documentaryContent:
       "Director: Feng-Ming Hsu\n\nAfter a year of preparation and more than three years of filming, this documentary follows an Indigenous family living deep in the mountains of Nan'ao. All three children were born with hearing loss, and upon entering adolescence they faced the additional challenge of impending vision loss. Through three years of long-term observation, accompanied by molecular genetics and modern technology, the film documents their intertwined lives and choices—and how technology and family love help them navigate the valleys and shadows of life.",
