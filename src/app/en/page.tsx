@@ -214,12 +214,20 @@ export default async function EnglishHomePage() {
           <h2 id="support-heading-en" className="mt-3 text-heading-2">
             {EN_COPY.home.supportTitle}
           </h2>
-          <Link
-            href="/en#contact"
-            className="mt-8 inline-flex items-center justify-center rounded-lg bg-primary-dark px-8 py-3 font-semibold text-white transition-colors duration-200 hover:bg-primary"
-          >
-            {EN_COPY.home.contactButton}
-          </Link>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/en#contact"
+              className="inline-flex items-center justify-center rounded-lg bg-primary-dark px-8 py-3 font-semibold text-white transition-colors duration-200 hover:bg-primary active:scale-[0.98]"
+            >
+              {EN_COPY.home.contactButton}
+            </Link>
+            <Link
+              href="/research"
+              className="inline-flex items-center justify-center rounded-lg border border-primary-dark/40 px-6 py-3 font-semibold text-primary-dark transition-colors duration-200 hover:bg-white/30 active:scale-[0.98]"
+            >
+              {EN_COPY.home.researchButton}
+            </Link>
+          </div>
         </div>
       </section>
 

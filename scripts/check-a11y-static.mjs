@@ -10,9 +10,8 @@
  *   2. Every page expose a skip-to-content link targeting #main-content.
  *   3. The global 4px high-contrast focus ring is present in the compiled CSS.
  *
- * Scope: `next build` output under .next. Redirect stubs (research) and the
- * global error boundary (_global-error) render outside the root layout and
- * are exempt.
+ * Scope: `next build` output under .next. The global error boundary and
+ * generated support documents render outside the root layout and are exempt.
  */
 
 import { readFile, readdir, stat } from "node:fs/promises";
@@ -25,7 +24,6 @@ const CSS_DIR = path.join(ROOT, ".next", "static", "chunks");
 // These generated support documents are not rendered through the root layout,
 // so they do not expose the site's navigation or skip link.
 const EXEMPT_PAGES = new Set([
-  "research.html",
   "_global-error.html",
   "llms.txt.html",
 ]);

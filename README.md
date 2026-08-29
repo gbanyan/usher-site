@@ -154,7 +154,7 @@ and hosting costs that stay near zero.
 | `/document`, `/document/[slug]` | Resource centre, with document version history (協會文件) |
 | `/related-news`, `/related-news/[slug]` | Related news coverage (相關報導) |
 | `/[pageSlug]` | Static pages (structure, message, logo-represent) |
-| `/research` | Permanent redirect to `/document` |
+| `/research` | English-first research and open-science collaboration profile |
 | `/api/revalidate` | Webhook for on-demand cache invalidation |
 
 The site carries `sitemap.xml`, `robots.txt`, Open Graph and Twitter metadata,

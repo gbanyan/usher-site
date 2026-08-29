@@ -6,7 +6,7 @@ import Link from "next/link";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
 import { SearchButton } from "./SearchButton";
-import { EN_COPY } from "@/lib/i18n";
+import { EN_COPY, isEnglishPath } from "@/lib/i18n";
 
 const SearchModal = dynamic(
   () => import("./SearchModal").then((mod) => ({ default: mod.SearchModal })),
@@ -39,6 +39,7 @@ const NAV_ITEMS: NavItem[] = [
     ],
   },
   { label: "相關報導", href: "/related-news", icon: "related-news" },
+  { label: "研究合作", href: "/research", icon: "resources" },
   {
     label: "資源中心",
     icon: "resources",
@@ -61,6 +62,7 @@ const NAV_ITEMS: NavItem[] = [
 
 const EN_NAV_ITEMS: NavItem[] = [
   { label: EN_COPY.nav.about, href: "/en#about", icon: "about" },
+  { label: EN_COPY.nav.research, href: "/research", icon: "resources" },
   { label: EN_COPY.nav.usherSyndrome, href: "/en#usher-syndrome", icon: "resources" },
   { label: EN_COPY.nav.stories, href: "/en#stories", icon: "related-news" },
   { label: EN_COPY.nav.contact, href: "/en#contact", icon: "contact" },
@@ -207,7 +209,7 @@ export default function Header() {
     new Set()
   );
   const pathname = usePathname();
-  const isEnglish = pathname.startsWith("/en");
+  const isEnglish = isEnglishPath(pathname);
   const navItems = isEnglish ? EN_NAV_ITEMS : NAV_ITEMS;
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const mobileMenuToggleRef = useRef<HTMLButtonElement>(null);
