@@ -29,7 +29,28 @@ function toText(html: string): string {
     .trim();
 }
 
-export function extractPageFacts(html: string): PageFacts {
+/** Decode a Cloudflare data-cfemail hex string: first byte is the XOR key. Returns undefined if malformed. */
+export function decodeCfEmail(hex: string): string | undefined {
+  if (!/^(?:[0-9a-f]{2}){2,}$/i.test(hex)) return undefined;
+  const bytes = hex.match(/../g)!.map((h) => parseInt(h, 16));
+  const key = bytes[0];
+  return Buffer.from(bytes.slice(1).map((b) => b ^ key)).toString("utf8");
+}
+
+const PLACEHOLDER_ONE = /\[email(?:[\s\u00a0]|&#160;|&nbsp;)*protected\]/i;
+
+/** Replace Cloudflare-obfuscated addresses with the real ones; undecodable ones keep the placeholder. */
+export function decodeCfEmails(html: string): string {
+  return html
+    .replace(/<(\w+)\b[^>]*\bdata-cfemail="([0-9a-f]+)"[^>]*>[\s\S]*?<\/\1>/gi, (m, _t, hex) => decodeCfEmail(hex) ?? m)
+    .replace(/<a\b[^>]*email-protection#([0-9a-f]+)[^>]*>([\s\S]*?)<\/a>/gi, (m, hex, inner) => {
+      const addr = decodeCfEmail(hex);
+      return addr && PLACEHOLDER_ONE.test(inner.replace(/<[^>]*>/g, "")) ? addr : m;
+    });
+}
+
+export function extractPageFacts(rawHtml: string): PageFacts {
+  const html = decodeCfEmails(rawHtml);
   const title = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "";
   const mainHtml = /<main\b[^>]*>([\s\S]*)<\/main>/i.exec(html)?.[1] ?? "";
   const h1 = /<h1\b[^>]*>([\s\S]*?)<\/h1>/i.exec(mainHtml || html)?.[1] ?? "";
@@ -94,6 +115,12 @@ export const EXPECTED_404 = new Set([
   "/blog/20240406-usher-working-group.html",
 ]);
 
+/** URLs listed in the old sitemap must answer 200 on both sides (except verified-404 probes). */
+export function sitemapProblem(path: string, status: number): string | undefined {
+  if (status === 200 || (status === 404 && EXPECTED_404.has(path))) return undefined;
+  return `sitemap URL answered ${status}, expected 200`;
+}
+
 /** Hard problem for a response status on one side (404, 5xx, network failure), if any. */
 export function unexpectedStatus(path: string, status: number): string | undefined {
   if (status === 404 && EXPECTED_404.has(path)) return undefined;
@@ -110,7 +137,8 @@ export function pageProblems(html: string): string[] {
 export interface EmailFacts { real: string[]; placeholders: number }
 
 /** Real (clear-text) addresses, sorted and de-duplicated, plus the count of Cloudflare placeholders. */
-export function extractEmails(html: string): EmailFacts {
+export function extractEmails(rawHtml: string): EmailFacts {
+  const html = decodeCfEmails(rawHtml);
   const mainHtml = /<main\b[^>]*>([\s\S]*)<\/main>/i.exec(html)?.[1] ?? "";
   const raw = decodeEntities(mainHtml.replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, " ").replace(/<[^>]*>/g, " "));
   const placeholders = (raw.match(/\[email[\s ]*protected\]/gi) ?? []).length;

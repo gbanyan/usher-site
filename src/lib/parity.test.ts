@@ -113,3 +113,36 @@ it("compares media types without parameters", () => {
   expect(mediaType("Application/PDF; charset=x")).toBe("application/pdf");
   expect(mediaType(null)).toBe("");
 });
+
+import { decodeCfEmail, decodeCfEmails, sitemapProblem } from "./parity";
+
+const encodeCf = (addr: string, key: number) =>
+  [key, ...Buffer.from(addr).map((b) => b ^ key)].map((b) => b.toString(16).padStart(2, "0")).join("");
+
+describe("Cloudflare email decoding", () => {
+  it("round-trips an encoded address", () => {
+    expect(decodeCfEmail(encodeCf("info@usher.org.tw", 0x5a))).toBe("info@usher.org.tw");
+    expect(decodeCfEmail("zz")).toBeUndefined();
+  });
+  it("decodes span and anchor forms in place", () => {
+    const hex = encodeCf("info@usher.org.tw", 0x21);
+    expect(decodeCfEmails(`<a href="/cdn-cgi/l/email-protection#${hex}"><span class="__cf_email__" data-cfemail="${hex}">[email&#160;protected]</span></a>`))
+      .toContain("info@usher.org.tw");
+    expect(decodeCfEmails(`<a href="/cdn-cgi/l/email-protection#${hex}">[email protected]</a>`)).toBe("info@usher.org.tw");
+  });
+  it("compares real addresses literally across an obfuscated old page", () => {
+    const hex = encodeCf("info@usher.org.tw", 0x33);
+    const oldHtml = `<main>mail <a href="/cdn-cgi/l/email-protection#${hex}">[email&#160;protected]</a></main>`;
+    expect(compareEmails(extractEmails(oldHtml), extractEmails("<main>mail info@usher.org.tw</main>"))).toEqual([]);
+    expect(compareEmails(extractEmails(oldHtml), extractEmails("<main>mail other@usher.org.tw</main>")).length).toBe(2);
+    expect(compareFacts(extractPageFacts(oldHtml), extractPageFacts("<main>mail info@usher.org.tw</main>"))).toEqual([]);
+  });
+});
+
+describe("sitemapProblem", () => {
+  it("requires 200 except for expected 404s", () => {
+    expect(sitemapProblem("/faq", 200)).toBeUndefined();
+    for (const st of [301, 308, 401, 403, 410, 404]) expect(sitemapProblem("/faq", st)).toMatch(String(st));
+    expect(sitemapProblem("/About", 404)).toBeUndefined();
+  });
+});

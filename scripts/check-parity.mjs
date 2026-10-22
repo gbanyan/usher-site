@@ -9,7 +9,7 @@
 import { readFileSync } from "node:fs";
 import {
   compareEmails, compareFacts, extractEmails, extractPageFacts, fieldOf, isAllowed, mediaType, normalizeLocation,
-  pageProblems, statusEquivalent, unexpectedStatus,
+  pageProblems, sitemapProblem, statusEquivalent, unexpectedStatus,
 } from "../src/lib/parity.ts";
 
 const [oldBase, newBase] = process.argv.slice(2).map((s) => s?.replace(/\/+$/, ""));
@@ -43,11 +43,13 @@ async function get(base, path, isNew) {
   }
 }
 
+const sitemapPaths = new Set();
 async function urlList() {
   const res = await fetch(`${oldBase}/sitemap.xml`, { signal: AbortSignal.timeout(TIMEOUT_MS) });
   if (!res.ok) throw new Error(`old sitemap.xml: HTTP ${res.status}`);
   const fromSitemap = [...(await res.text()).matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/g)]
     .map((m) => normalizeLocation(m[1].replace(/&amp;/g, "&")));
+  for (const p of fromSitemap) sitemapPaths.add(p);
   const extra = [
     "/blog", "/notice", "/message", "/research", "/logo_represent",
     "/news/", "/About", "/blog/20240406-usher-working-group.html", "/blog/document-694e4dd6",
@@ -65,6 +67,8 @@ async function checkOne(path) {
   for (const [side, r] of [["old", o], ["new", n]]) {
     const u = unexpectedStatus(path, r.status);
     if (u) hard.push(`${side}: ${u}`);
+    const sp = sitemapPaths.has(path) ? sitemapProblem(path, r.status) : undefined;
+    if (sp && !u) hard.push(`${side}: ${sp}`);
     for (const p of r.problems) hard.push(`${side}: 200 HTML page has ${p}`);
   }
   if (o.status === 200 && n.status === 200 && o.type !== n.type) hard.push(`content-type "${o.type}" vs "${n.type}"`);
