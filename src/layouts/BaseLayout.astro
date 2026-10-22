@@ -2,6 +2,7 @@
 import Head from "../components/Head.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import SearchDialog from "../components/SearchDialog.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
 import JsonLd from "../components/JsonLd.astro";
 import { getOrganizationProfile } from "../lib/api";
@@ -46,6 +47,7 @@ const extraJsonLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     </main>
 
     <Footer lang={lang} profile={profile} />
+    <SearchDialog />
     <ScrollToTop />
   </body>
 </html>

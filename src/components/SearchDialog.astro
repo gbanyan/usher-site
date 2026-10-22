@@ -1,0 +1,308 @@
+---
+// Site search: native <dialog> + Pagefind. Opened by the "open-search" event
+// that Header dispatches (button click and Cmd/Ctrl+K), so this component adds
+// no keyboard shortcut of its own.
+const navActions = [
+  { id: "home", title: "首頁", url: "/", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
+  { id: "news", title: "活動與公告", url: "/news", icon: "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" },
+  { id: "document", title: "協會文件", url: "/document", icon: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" },
+  { id: "related-news", title: "相關報導", url: "/related-news", icon: "M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" },
+  { id: "faq", title: "常見問題", url: "/faq", icon: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" },
+  { id: "about", title: "創立目的", url: "/about", icon: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
+  { id: "contact", title: "聯繫資訊", url: "/contact", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+];
+---
+
+<dialog
+  id="search-dialog"
+  aria-labelledby="search-title"
+  aria-describedby="search-desc"
+  class="search-modal fixed left-1/2 top-[20%] m-0 w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 overflow-hidden rounded-2xl border border-white/20 bg-primary-dark p-0 text-white shadow-2xl backdrop:bg-black/60"
+>
+  <h2 id="search-title" class="sr-only">全站搜尋</h2>
+  <p id="search-desc" class="sr-only">搜尋網站文章，或選擇快速導覽項目。</p>
+
+  <div class="flex items-center gap-3 border-b border-white/10 px-5 py-1">
+    <svg class="h-5 w-5 shrink-0 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+    </svg>
+    <input
+      id="search-input"
+      type="text"
+      role="combobox"
+      aria-expanded="true"
+      aria-controls="search-listbox"
+      aria-autocomplete="list"
+      aria-label="全站搜尋"
+      autocomplete="off"
+      autocapitalize="off"
+      spellcheck="false"
+      placeholder="搜尋文章或快速導航…"
+      class="flex h-14 w-full min-w-0 rounded-md bg-transparent pl-0 pr-4 text-base text-white placeholder:text-white/50"
+    />
+  </div>
+
+  <div class="max-h-[min(60vh,400px)] overflow-y-auto px-3 py-2">
+    <div id="search-listbox" role="listbox" aria-label="搜尋結果與快速導覽">
+      <div id="search-nav" role="group" aria-labelledby="search-nav-heading">
+        <div id="search-nav-heading" class="px-3 py-1.5 text-xs font-medium text-white/50">導航</div>
+        {
+          navActions.map((action) => (
+            <div
+              id={`search-opt-nav-${action.id}`}
+              role="option"
+              aria-selected="false"
+              data-url={action.url}
+              class="search-option flex cursor-pointer items-center gap-3 rounded-lg px-4 py-2.5 text-sm text-white transition-colors"
+            >
+              <span class="flex size-8 shrink-0 items-center justify-center rounded-md bg-white/10 text-white/80">
+                <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={action.icon} />
+                </svg>
+              </span>
+              <span class="truncate">{action.title}</span>
+            </div>
+          ))
+        }
+      </div>
+      <div id="search-results" role="group" aria-labelledby="search-results-heading" hidden>
+        <div id="search-results-heading" class="px-3 py-1.5 text-xs font-medium text-white/50">搜尋結果</div>
+      </div>
+    </div>
+    <div id="search-status" role="status" aria-live="polite" class="py-8 text-center text-sm text-white/60" hidden></div>
+  </div>
+
+  <div class="border-t border-white/10 px-5 py-3 text-xs text-white/50">
+    <span>ESC 關閉</span>
+    <span class="ml-4">⌘K 開啟</span>
+    <span class="ml-4 hidden sm:inline">以空格分隔詞彙可提升中文搜尋</span>
+  </div>
+</dialog>
+
+<style is:global>
+  #search-dialog .search-option[aria-selected="true"] {
+    background-color: color-mix(in srgb, var(--color-primary-light) 30%, transparent);
+    color: var(--color-accent);
+  }
+  #search-dialog mark {
+    background-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+    color: white;
+    font-weight: 600;
+  }
+</style>
+
+<script>
+  interface PagefindResult {
+    url: string;
+    meta?: { title?: string };
+    excerpt?: string;
+  }
+  interface Pagefind {
+    init: () => void;
+    options: (opts: { bundlePath: string }) => Promise<void>;
+    preload: (query: string) => void;
+    debouncedSearch: (
+      query: string,
+      opts: object,
+      debounceMs: number
+    ) => Promise<{ results: { data: () => Promise<PagefindResult> }[] } | null>;
+  }
+
+  const dialog = document.getElementById("search-dialog") as HTMLDialogElement;
+  const input = document.getElementById("search-input") as HTMLInputElement;
+  const navGroup = document.getElementById("search-nav") as HTMLElement;
+  const resultsGroup = document.getElementById("search-results") as HTMLElement;
+  const status = document.getElementById("search-status") as HTMLElement;
+
+  let pagefind: Pagefind | null = null;
+  let loadPromise: Promise<Pagefind | null> | null = null;
+  let opener: HTMLElement | null = null;
+  let searchToken = 0;
+  let activeIndex = -1;
+
+  function loadPagefind(): Promise<Pagefind | null> {
+    loadPromise ??= (async () => {
+      try {
+        const pf = (await import(
+          /* @vite-ignore */ `${location.origin}/_pagefind/pagefind.js`
+        )) as Pagefind;
+        await pf.options({ bundlePath: "/_pagefind/" });
+        pf.init();
+        pagefind = pf;
+        return pf;
+      } catch (error) {
+        console.error("Failed to load Pagefind:", error);
+        loadPromise = null;
+        return null;
+      }
+    })();
+    return loadPromise;
+  }
+
+  function visibleOptions(): HTMLElement[] {
+    return Array.from(
+      dialog.querySelectorAll<HTMLElement>('[role="group"]:not([hidden]) [role="option"]')
+    );
+  }
+
+  function setActive(index: number) {
+    const options = visibleOptions();
+    options.forEach((o) => o.setAttribute("aria-selected", "false"));
+    if (options.length === 0) {
+      activeIndex = -1;
+      input.removeAttribute("aria-activedescendant");
+      return;
+    }
+    activeIndex = (index + options.length) % options.length;
+    const current = options[activeIndex];
+    current.setAttribute("aria-selected", "true");
+    input.setAttribute("aria-activedescendant", current.id);
+    current.scrollIntoView({ block: "nearest" });
+  }
+
+  function showStatus(text: string | null) {
+    status.hidden = text === null;
+    status.textContent = text ?? "";
+  }
+
+  function showNav() {
+    searchToken++;
+    navGroup.hidden = false;
+    resultsGroup.hidden = true;
+    showStatus(null);
+    setActive(0);
+  }
+
+  function toPath(url: string): string {
+    // build.format "file" emits /about.html; the public URL has no extension.
+    const stripped = url.replace(/\.html(?=$|[?#])/, "");
+    return stripped.replace(/\/index(?=$|[?#])/, "/") || "/";
+  }
+
+  function navigate(url: string) {
+    dialog.close();
+    location.assign(url);
+  }
+
+  function renderResults(items: PagefindResult[]) {
+    resultsGroup.querySelectorAll('[role="option"]').forEach((el) => el.remove());
+    items.forEach((item, i) => {
+      const url = toPath(item.url);
+      const option = document.createElement("div");
+      option.id = `search-opt-result-${i}`;
+      option.setAttribute("role", "option");
+      option.setAttribute("aria-selected", "false");
+      option.dataset.url = url;
+      option.className =
+        "search-option flex cursor-pointer flex-col gap-0.5 rounded-lg px-4 py-2.5 transition-colors";
+      const title = document.createElement("span");
+      title.className = "truncate text-sm font-medium text-white";
+      title.textContent = item.meta?.title ?? url;
+      option.append(title);
+      if (item.excerpt) {
+        const excerpt = document.createElement("span");
+        excerpt.className = "line-clamp-2 text-xs text-white/60";
+        // Pagefind returns escaped text with <mark> highlights only.
+        excerpt.innerHTML = item.excerpt;
+        option.append(excerpt);
+      }
+      resultsGroup.append(option);
+    });
+  }
+
+  async function runSearch() {
+    const query = input.value.trim();
+    if (!query) {
+      showNav();
+      return;
+    }
+    const token = ++searchToken;
+    navGroup.hidden = true;
+    resultsGroup.hidden = true;
+    setActive(-1);
+    showStatus("搜尋中…");
+
+    const pf = pagefind ?? (await loadPagefind());
+    if (token !== searchToken) return;
+    if (!pf) {
+      showStatus("找不到結果");
+      return;
+    }
+    pf.preload(query);
+    const found = await pf.debouncedSearch(query, {}, 300);
+    // null means a newer search superseded this one.
+    if (found === null || token !== searchToken) return;
+    const items = await Promise.all(found.results.slice(0, 10).map((r) => r.data()));
+    if (token !== searchToken) return;
+
+    if (items.length === 0) {
+      showStatus("找不到結果");
+      return;
+    }
+    renderResults(items);
+    showStatus(null);
+    resultsGroup.hidden = false;
+    setActive(0);
+  }
+
+  function openDialog() {
+    if (dialog.open) return;
+    opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    input.value = "";
+    showNav();
+    dialog.showModal();
+    input.focus();
+    void loadPagefind();
+  }
+
+  document.addEventListener("open-search", openDialog);
+
+  dialog.addEventListener("close", () => {
+    searchToken++;
+    input.value = "";
+    const target = opener;
+    opener = null;
+    if (target && target.isConnected && target !== document.body) target.focus();
+    else input.blur();
+  });
+
+  // A click on the ::backdrop targets the dialog element itself.
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+
+  input.addEventListener("input", () => void runSearch());
+
+  input.addEventListener("keydown", (event) => {
+    if (event.isComposing) return;
+    switch (event.key) {
+      case "ArrowDown":
+        event.preventDefault();
+        setActive(activeIndex + 1);
+        break;
+      case "ArrowUp":
+        event.preventDefault();
+        setActive(activeIndex - 1);
+        break;
+      case "Enter": {
+        const url = visibleOptions()[activeIndex]?.dataset.url;
+        if (url) {
+          event.preventDefault();
+          navigate(url);
+        }
+        break;
+      }
+    }
+  });
+
+  dialog.querySelector('[role="listbox"]')?.addEventListener("click", (event) => {
+    const option = (event.target as HTMLElement).closest<HTMLElement>('[role="option"]');
+    if (option?.dataset.url) navigate(option.dataset.url);
+  });
+  dialog.querySelector('[role="listbox"]')?.addEventListener("mousemove", (event) => {
+    const option = (event.target as HTMLElement).closest<HTMLElement>('[role="option"]');
+    if (!option) return;
+    const index = visibleOptions().indexOf(option);
+    if (index >= 0 && index !== activeIndex) setActive(index);
+  });
+</script>
