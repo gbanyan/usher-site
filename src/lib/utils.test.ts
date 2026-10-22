@@ -14,6 +14,11 @@ describe("formatDate", () => {
     expect(formatDate("2026-08-09T12:00:00+08:00")).toBe("2026年8月9日");
   });
 
+  it("shows the Taiwan day regardless of the process timezone", () => {
+    expect(formatDate("2024-11-20T16:30:00Z")).toBe("2024年11月21日");
+    expect(formatDate("2024-11-20T15:59:00Z")).toBe("2024年11月20日");
+  });
+
   it("returns an empty string for null", () => {
     expect(formatDate(null)).toBe("");
   });

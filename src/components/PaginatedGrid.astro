@@ -37,23 +37,23 @@ const { articles, basePath } = Astro.props;
 
     let current = 1;
 
-    function render() {
+    const status = nav.querySelector<HTMLElement>("[data-pagination-status]");
+    const controls = nav.querySelector<HTMLElement>("[data-pagination-controls]");
+    if (!status || !controls) return;
+
+    // focusKey: "prev" | "next" | "page:<n>" - the control to keep focused
+    // after a click (the old React component kept focus on the clicked button).
+    function render(focusKey?: string) {
       items.forEach((item, index) => {
         item.hidden = Math.floor(index / pageSize) + 1 !== current;
       });
 
       const from = (current - 1) * pageSize + 1;
       const to = Math.min(current * pageSize, items.length);
+      status!.textContent = `顯示第 ${from}–${to} 筆，共 ${items.length} 筆`;
 
-      const status = document.createElement("p");
-      status.className = "text-sm text-gray-300";
-      status.setAttribute("aria-live", "polite");
-      status.textContent = `顯示第 ${from}–${to} 筆，共 ${items.length} 筆`;
-
-      const controls = document.createElement("div");
-      controls.className = "flex flex-wrap items-center gap-1.5";
-
-      const addButton = (text: string, className: string, label: string, page: number, disabled = false, isCurrent = false) => {
+      const nodes: Node[] = [];
+      const addButton = (key: string, text: string, className: string, label: string, page: number, disabled = false, isCurrent = false) => {
         const button = document.createElement("button");
         button.type = "button";
         button.className = className;
@@ -61,17 +61,15 @@ const { articles, basePath } = Astro.props;
         button.setAttribute("aria-label", label);
         if (isCurrent) button.setAttribute("aria-current", "page");
         button.disabled = disabled;
+        button.dataset.key = key;
         button.addEventListener("click", () => {
           current = page;
-          render();
-          const target = controls.querySelector<HTMLElement>(`[data-page="${page}"]`) ?? controls.querySelector<HTMLElement>("button:not([disabled])");
-          target?.focus();
+          render(key);
         });
-        button.dataset.page = String(page);
-        controls.append(button);
+        nodes.push(button);
       };
 
-      addButton("上一頁", BTN_BASE, `上一頁，共 ${totalPages} 頁`, current - 1, current === 1);
+      addButton("prev", "上一頁", BTN_BASE, `上一頁，共 ${totalPages} 頁`, current - 1, current === 1);
 
       for (const page of getPaginationPages(current, totalPages)) {
         if (typeof page !== "number") {
@@ -79,11 +77,12 @@ const { articles, basePath } = Astro.props;
           gap.setAttribute("aria-hidden", "true");
           gap.className = "px-1 text-gray-400";
           gap.textContent = "…";
-          controls.append(gap);
+          nodes.push(gap);
           continue;
         }
         const isCurrent = page === current;
         addButton(
+          `page:${page}`,
           String(page),
           isCurrent
             ? "min-w-9 rounded-md bg-accent px-2.5 py-1.5 text-sm font-semibold text-primary-dark"
@@ -95,10 +94,18 @@ const { articles, basePath } = Astro.props;
         );
       }
 
-      addButton("下一頁", BTN_BASE, `下一頁，共 ${totalPages} 頁`, current + 1, current === totalPages);
+      addButton("next", "下一頁", BTN_BASE, `下一頁，共 ${totalPages} 頁`, current + 1, current === totalPages);
 
-      nav!.replaceChildren(status, controls);
+      controls!.replaceChildren(...nodes);
       nav!.hidden = false;
+
+      if (focusKey) {
+        const target = controls!.querySelector<HTMLButtonElement>(`[data-key="${focusKey}"]`);
+        // A control that just became disabled cannot hold focus; fall back to
+        // the opposite step button so keyboard users stay in the control group.
+        const fallback = focusKey === "prev" ? "next" : focusKey === "next" ? "prev" : `page:${current}`;
+        (target && !target.disabled ? target : controls!.querySelector<HTMLButtonElement>(`[data-key="${fallback}"]`))?.focus();
+      }
     }
 
     render();

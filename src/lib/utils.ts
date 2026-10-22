@@ -12,6 +12,8 @@ export function formatDate(dateString: string | null): string {
     year: "numeric",
     month: "long",
     day: "numeric",
+    // Pinned so builds are identical on any machine and show the Taiwan day.
+    timeZone: "Asia/Taipei",
   });
 }
 
