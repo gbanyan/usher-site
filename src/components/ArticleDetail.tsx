@@ -9,6 +9,7 @@ import ArticleCard from "@/components/ArticleCard";
 import ArticleAttachments from "@/components/ArticleAttachments";
 import {
   ARTICLE_SECTION_CONFIG,
+  getListingLink,
   type ArticleSectionType,
 } from "@/lib/article-sections";
 import type { Article, ArticleSummary } from "@/lib/types";
@@ -32,6 +33,7 @@ export default function ArticleDetail({
   related,
 }: ArticleDetailProps) {
   const config = ARTICLE_SECTION_CONFIG[type];
+  const listing = getListingLink(config);
 
   // story/guides only link to articles in the same category; the other
   // sections keep the API-provided related set (which can span content types,
@@ -57,7 +59,7 @@ export default function ArticleDetail({
         <PageHeader
           title={article.title}
           items={[
-            { label: config.label, href: config.path },
+            { label: listing.label, href: listing.path },
             { label: article.title },
           ]}
           description={
@@ -151,11 +153,11 @@ export default function ArticleDetail({
 
         <nav className="mx-auto max-w-4xl px-6 pb-12 lg:px-8" data-pagefind-ignore>
           <Link
-            href={config.path}
+            href={listing.path}
             className="inline-flex items-center text-sm font-medium text-accent transition-colors hover:text-accent-light"
           >
             <span aria-hidden="true">&larr;</span>
-            <span className="ml-2">返回{config.label}列表</span>
+            <span className="ml-2">返回{listing.label}列表</span>
           </Link>
         </nav>
       </div>
