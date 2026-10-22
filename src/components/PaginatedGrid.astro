@@ -1,0 +1,108 @@
+---
+import type { ArticleSummary } from "../lib/types";
+import ArticleCard from "./ArticleCard.astro";
+import PaginationControls from "./PaginationControls.astro";
+
+interface Props {
+  articles: ArticleSummary[];
+  basePath?: string;
+}
+
+const PAGE_SIZE = 12;
+const { articles, basePath } = Astro.props;
+---
+
+<div data-paginated data-page-size={PAGE_SIZE}>
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3" data-paginated-items>
+    {articles.map((article) => <ArticleCard article={article} basePath={basePath} />)}
+  </div>
+
+  <PaginationControls label="文章列表分頁" />
+</div>
+
+<script>
+  import { getPaginationPages } from "../lib/pagination";
+
+  const BTN_BASE = "rounded-md border border-white/20 px-3 py-1.5 text-sm text-gray-200 transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40";
+
+  function init(root: HTMLElement) {
+    const grid = root.querySelector<HTMLElement>("[data-paginated-items]");
+    const nav = root.querySelector<HTMLElement>("[data-pagination-nav]");
+    if (!grid || !nav) return;
+
+    const items = Array.from(grid.children) as HTMLElement[];
+    const pageSize = Math.max(1, Number(root.dataset.pageSize) || 12);
+    const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
+    if (totalPages <= 1) return;
+
+    let current = 1;
+
+    function render() {
+      items.forEach((item, index) => {
+        item.hidden = Math.floor(index / pageSize) + 1 !== current;
+      });
+
+      const from = (current - 1) * pageSize + 1;
+      const to = Math.min(current * pageSize, items.length);
+
+      const status = document.createElement("p");
+      status.className = "text-sm text-gray-300";
+      status.setAttribute("aria-live", "polite");
+      status.textContent = `顯示第 ${from}–${to} 筆，共 ${items.length} 筆`;
+
+      const controls = document.createElement("div");
+      controls.className = "flex flex-wrap items-center gap-1.5";
+
+      const addButton = (text: string, className: string, label: string, page: number, disabled = false, isCurrent = false) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = className;
+        button.textContent = text;
+        button.setAttribute("aria-label", label);
+        if (isCurrent) button.setAttribute("aria-current", "page");
+        button.disabled = disabled;
+        button.addEventListener("click", () => {
+          current = page;
+          render();
+          const target = controls.querySelector<HTMLElement>(`[data-page="${page}"]`) ?? controls.querySelector<HTMLElement>("button:not([disabled])");
+          target?.focus();
+        });
+        button.dataset.page = String(page);
+        controls.append(button);
+      };
+
+      addButton("上一頁", BTN_BASE, `上一頁，共 ${totalPages} 頁`, current - 1, current === 1);
+
+      for (const page of getPaginationPages(current, totalPages)) {
+        if (typeof page !== "number") {
+          const gap = document.createElement("span");
+          gap.setAttribute("aria-hidden", "true");
+          gap.className = "px-1 text-gray-400";
+          gap.textContent = "…";
+          controls.append(gap);
+          continue;
+        }
+        const isCurrent = page === current;
+        addButton(
+          String(page),
+          isCurrent
+            ? "min-w-9 rounded-md bg-accent px-2.5 py-1.5 text-sm font-semibold text-primary-dark"
+            : "min-w-9 rounded-md border border-white/20 px-2.5 py-1.5 text-sm text-gray-200 transition-colors hover:bg-white/10",
+          `第 ${page} 頁`,
+          page,
+          false,
+          isCurrent
+        );
+      }
+
+      addButton("下一頁", BTN_BASE, `下一頁，共 ${totalPages} 頁`, current + 1, current === totalPages);
+
+      nav!.replaceChildren(status, controls);
+      nav!.hidden = false;
+    }
+
+    render();
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-paginated]").forEach(init);
+</script>

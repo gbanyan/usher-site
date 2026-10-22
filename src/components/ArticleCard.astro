@@ -1,0 +1,155 @@
+---
+import type { ArticleSummary } from "../lib/types";
+import { CONTENT_TYPE_PATHS } from "../lib/types";
+import { formatDate, stripMarkdown } from "../lib/utils";
+
+interface Props {
+  article: ArticleSummary;
+  showType?: boolean;
+  basePath?: string;
+}
+
+const { article, showType = false, basePath } = Astro.props;
+
+const categorySlugs = article.categories?.map((c) => c.slug) ?? [];
+
+function resolveBasePath(): string {
+  if (basePath) return basePath;
+  if (article.content_type === "blog") {
+    if (categorySlugs.includes("guides")) return "/guides";
+    if (categorySlugs.includes("story")) return "/story";
+  }
+  return CONTENT_TYPE_PATHS[article.content_type];
+}
+
+function placeholderPaths(): string[] {
+  if (article.content_type === "notice") {
+    return [
+      "M3.75 11.25l9-3.75v9l-9-3.75v-1.5z",
+      "M6.75 13.125V16.5A1.5 1.5 0 008.25 18h1.5",
+      "M12.75 9a3.75 3.75 0 013.75 3.75 3.75 3.75 0 01-3.75 3.75",
+    ];
+  }
+  if (article.content_type === "related_news") {
+    return [
+      "M4.5 5.25h15v13.5a1.5 1.5 0 01-1.5 1.5H6a1.5 1.5 0 01-1.5-1.5V5.25z",
+      "M7.5 8.25h3v3h-3v-3zM12.75 8.25h3.75M12.75 10.5h3.75M7.5 13.5h9M7.5 15.75h9",
+    ];
+  }
+  if (article.content_type === "document") {
+    return [
+      "M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z",
+    ];
+  }
+  if (categorySlugs.includes("guides")) {
+    return [
+      "M4.5 5.25A2.25 2.25 0 016.75 3h11.25v15.75H6.75A2.25 2.25 0 004.5 21V5.25z",
+      "M8.25 7.5h6.75M8.25 10.5h6.75M8.25 13.5h4.5",
+    ];
+  }
+  if (categorySlugs.includes("story")) {
+    return [
+      "M15.75 7.875a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z",
+      "M4.875 19.125a7.125 7.125 0 0114.25 0",
+    ];
+  }
+  return [
+    "M15.75 3.75l4.5 4.5M18 6l-9.75 9.75L6 20.25l4.5-2.25L20.25 8.25a1.591 1.591 0 000-2.25l-1.5-1.5a1.591 1.591 0 00-2.25 0z",
+  ];
+}
+
+const articleUrl = `${resolveBasePath()}/${article.slug}`;
+---
+
+<article
+  class="group relative flex flex-col overflow-hidden rounded-xl border border-white/10 bg-primary/40 shadow-sm transition-shadow duration-200 hover:shadow-md hover:shadow-accent/20"
+  aria-labelledby={`article-title-${article.id}`}
+>
+  {
+    article.is_pinned && (
+      <div class="absolute left-3 top-3 z-10 flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-xs font-medium text-primary-dark shadow">
+        <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <path
+            fill-rule="evenodd"
+            d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span>置頂</span>
+      </div>
+    )
+  }
+
+  <a href={articleUrl} tabindex="-1" aria-hidden="true">
+    <div class="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-primary/80 to-primary-light/60">
+      {
+        article.featured_image_url ? (
+          <img
+            src={article.featured_image_url}
+            alt={article.featured_image_alt || article.title}
+            width="640"
+            height="360"
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <div class="flex h-full items-center justify-center">
+            <svg class="h-12 w-12 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              {placeholderPaths().map((d) => (
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={d} />
+              ))}
+            </svg>
+          </div>
+        )
+      }
+    </div>
+  </a>
+
+  <div class="flex flex-1 flex-col p-4 bg-primary-dark/80 backdrop-blur-sm">
+    <div class="mb-2 flex flex-wrap items-center gap-2">
+      {
+        showType && (
+          <span class="inline-block rounded bg-accent/20 px-2 py-0.5 text-xs font-medium text-accent">
+            {article.content_type_label}
+          </span>
+        )
+      }
+      {
+        article.published_at && (
+          <time
+            datetime={article.published_at}
+            class="text-xs text-muted"
+            aria-label={`發佈日期：${formatDate(article.published_at)}`}
+          >
+            {formatDate(article.published_at)}
+          </time>
+        )
+      }
+    </div>
+
+    <h3 id={`article-title-${article.id}`} class="mb-2 text-base font-semibold leading-snug text-white">
+      <a href={articleUrl} class="after:absolute after:inset-0 hover:text-accent transition-colors">
+        {article.title}
+      </a>
+    </h3>
+
+    {
+      article.excerpt && (
+        <p class="mb-3 line-clamp-2 flex-1 text-sm leading-relaxed text-muted">{stripMarkdown(article.excerpt)}</p>
+      )
+    }
+
+    {
+      article.categories?.length > 0 && (
+        <div class="mt-auto flex flex-wrap gap-1.5 pt-2">
+          {article.categories.map((category) => (
+            <span class="inline-block rounded-full border border-white/20 px-2 py-0.5 text-xs text-muted">
+              {category.name}
+            </span>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</article>

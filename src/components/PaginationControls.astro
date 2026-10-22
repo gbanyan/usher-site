@@ -1,0 +1,11 @@
+---
+// Server-rendered empty shell; PaginatedGrid's script fills it in with the
+// same markup as the old React PaginationControls. Without JavaScript it stays
+// empty and every card is visible.
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+
+<nav aria-label={label} data-pagination-nav hidden class="mt-8 flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between"></nav>
