@@ -1,0 +1,51 @@
+---
+import Head from "../components/Head.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ScrollToTop from "../components/ScrollToTop.astro";
+import JsonLd from "../components/JsonLd.astro";
+import { getOrganizationProfile } from "../lib/api";
+import { getOrganizationSchema } from "../lib/jsonld";
+import type { PageMeta } from "../lib/metadata";
+import { toRoutePath } from "../lib/nav";
+
+interface Props {
+  meta: PageMeta;
+  lang?: "zh-TW" | "en";
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { meta, lang = "zh-TW", jsonLd } = Astro.props;
+// build.format "file" makes Astro.url.pathname "/about.html"; normalise it.
+const routePath = toRoutePath(Astro.url.pathname);
+// api mode: failures propagate so the build fails; snapshot mode falls back inside api.ts.
+const profile = await getOrganizationProfile();
+const extraJsonLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+
+<html lang={lang}>
+  <head>
+    <Head meta={meta} />
+    <JsonLd data={getOrganizationSchema(profile)} />
+    {extraJsonLd.length > 0 && <JsonLd data={extraJsonLd} />}
+  </head>
+  <body class="min-h-screen bg-black font-sans text-white antialiased">
+    <a
+      href="#main-content"
+      class="skip-to-content"
+      aria-label="Skip navigation and go to main content / 跳過導覽，直接前往主要內容"
+    >
+      <span class="locale-zh">跳至主要內容</span>
+      <span class="locale-en">Skip to main content</span>
+    </a>
+
+    <Header lang={lang} routePath={routePath} />
+
+    <main id="main-content" class="relative w-full" tabindex="-1" role="main">
+      <slot />
+    </main>
+
+    <Footer lang={lang} profile={profile} />
+    <ScrollToTop />
+  </body>
+</html>

@@ -1,0 +1,172 @@
+---
+import Logo from "./Logo.astro";
+import Icon from "./Icon.astro";
+import { formatPhoneForDisplay, getPhoneHref } from "../lib/contact";
+import { EN_COPY } from "../lib/i18n";
+import type { OrganizationProfile } from "../lib/types";
+import type { IconName } from "../lib/icons";
+
+interface Props {
+  lang?: "zh-TW" | "en";
+  profile: OrganizationProfile;
+}
+
+const { lang = "zh-TW", profile } = Astro.props;
+const isEnglish = lang === "en";
+const currentYear = new Date().getFullYear();
+
+const QUICK_LINKS: { label: string; href: string; icon: IconName }[] = [
+  { label: "活動與公告", href: "/news", icon: "notice" },
+  { label: "研究資源", href: "/research", icon: "research" },
+  { label: "協會文件", href: "/document", icon: "document" },
+  { label: "常見問題", href: "/faq", icon: "document" },
+];
+const EN_QUICK_LINKS: { label: string; href: string; icon: IconName }[] = [
+  { label: EN_COPY.nav.about, href: "/en#about", icon: "info" },
+  { label: EN_COPY.nav.usherSyndrome, href: "/en#usher-syndrome", icon: "research" },
+  { label: EN_COPY.nav.contact, href: "/en#contact", icon: "contact" },
+];
+const quickLinks = isEnglish ? EN_QUICK_LINKS : QUICK_LINKS;
+
+const SOCIAL_LINKS = [
+  {
+    id: "line",
+    label: "Line 社群",
+    href: "https://line.me/ti/g2/53ghCyQ0KSgYg4vKqt3GT19pWRe0PKydKIrGUQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default",
+    path: "M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386a.63.63 0 01-.63-.629V8.108a.63.63 0 01.63-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016a.63.63 0 01-.63.629.626.626 0 01-.51-.262l-2.417-3.296v2.929a.63.63 0 01-1.26 0V8.108a.63.63 0 01.63-.63c.2 0 .385.096.51.262l2.417 3.296V8.108a.63.63 0 011.26 0v4.771zm-5.741 0a.63.63 0 01-1.26 0V8.108a.63.63 0 011.26 0v4.771zm-2.466.629H4.917a.63.63 0 01-.63-.629V8.108a.63.63 0 011.26 0v4.141h1.756c.349 0 .63.283.63.63 0 .344-.282.629-.63.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314",
+  },
+  {
+    id: "facebook",
+    label: "Facebook 臉書社團",
+    href: "https://www.facebook.com/groups/ushersyndrometw",
+    path: "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z",
+  },
+].map((link) => ({
+  ...link,
+  label: isEnglish ? (link.id === "line" ? EN_COPY.contact.line : EN_COPY.contact.facebook) : link.label,
+}));
+---
+
+<footer role="contentinfo" class="border-t border-primary/10 bg-primary text-white" data-pagefind-ignore>
+  <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-12">
+      <div class="lg:col-span-4" role="group" aria-labelledby="footer-association">
+        <Logo variant="footer" locale={lang} href={isEnglish ? "/en" : "/"} />
+        <span id="footer-association" class="sr-only">{isEnglish ? EN_COPY.nav.about : "協會簡介"}</span>
+        <p class="mt-3 text-sm leading-relaxed text-white/70">
+          {
+            isEnglish
+              ? EN_COPY.footer.summary
+              : "致力於推動尤塞氏症相關研究、支持病友與家屬，促進社會對視聽障礙的認識與理解。"
+          }
+        </p>
+      </div>
+
+      <nav class="lg:col-span-2" aria-label={isEnglish ? EN_COPY.footer.quickLinks : "頁尾快速連結"}>
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-white/90 text-balance">
+          {isEnglish ? EN_COPY.footer.quickLinks : "快速連結"}
+        </h2>
+        <ul class="mt-4 space-y-2" role="list">
+          {
+            quickLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="inline-flex items-center gap-2 text-sm text-white/70 transition-colors duration-200 hover:text-accent-light"
+                >
+                  <Icon name={link.icon} class="h-4 w-4 text-accent" />
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="lg:col-span-3">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-white/90 text-balance">
+          {isEnglish ? EN_COPY.footer.social : "社群連結"}
+        </h2>
+        <ul class="mt-4 space-y-3" role="list">
+          {
+            SOCIAL_LINKS.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 text-sm text-white/70 transition-colors duration-200 hover:text-accent-light"
+                  aria-label={`${link.label} ${isEnglish ? EN_COPY.footer.external : "(在新視窗開啟)"}`}
+                >
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d={link.path} />
+                  </svg>
+                  {link.label}
+                  <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    />
+                  </svg>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="lg:col-span-3" role="group" aria-labelledby="footer-contact-heading">
+        <h2
+          id="footer-contact-heading"
+          class="text-sm font-semibold uppercase tracking-wider text-white/90 text-balance"
+        >
+          {isEnglish ? EN_COPY.footer.contact : "聯繫資訊"}
+        </h2>
+        <ul class="mt-4 space-y-3 text-sm text-white/70" role="list">
+          <li class="flex items-start gap-2">
+            <Icon name="address" class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+            <div>
+              <span class="block font-medium text-white/90">{isEnglish ? EN_COPY.footer.address : "地址"}</span>
+              <span class="whitespace-pre-line">{profile.address}</span>
+            </div>
+          </li>
+          <li class="flex items-start gap-2">
+            <Icon name="business-id" class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+            <div>
+              <span class="block font-medium text-white/90">{isEnglish ? EN_COPY.footer.taxId : "統一編號"}</span>
+              {profile.tax_id}
+            </div>
+          </li>
+          <li class="flex items-start gap-2">
+            <Icon name="email" class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+            <div>
+              <span class="block font-medium text-white/90">{isEnglish ? EN_COPY.footer.email : "電子信箱"}</span>
+              <a
+                href={`mailto:${profile.email}`}
+                class="transition-colors duration-200 hover:text-accent-light"
+                aria-label={isEnglish ? `Email ${profile.email}` : `寄信至 ${profile.email}`}
+              >
+                {profile.email}
+              </a>
+            </div>
+          </li>
+          <li class="flex items-start gap-2">
+            <Icon name="phone" class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+            <div>
+              <span class="block font-medium text-white/90">{isEnglish ? EN_COPY.footer.phone : "聯絡電話"}</span>
+              <a href={getPhoneHref(profile.phone)} class="transition-colors duration-200 hover:text-accent-light">
+                {formatPhoneForDisplay(profile.phone)}
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-10 border-t border-white/10 pt-6 text-center">
+      <p class="text-sm text-white/50">&copy; {currentYear} {profile.name}</p>
+    </div>
+  </div>
+</footer>
