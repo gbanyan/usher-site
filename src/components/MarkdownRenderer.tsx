@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Image from "next/image";
 import type { Components, ExtraProps } from "react-markdown";
-import { getYouTubeVideoId } from "@/lib/utils";
+import { getEmbeddableYouTubeId, getYouTubeVideoId } from "@/lib/utils";
 
 interface MarkdownRendererProps {
   content: string;
@@ -60,7 +60,8 @@ const demotedHeadingComponents: Pick<
 type ParagraphProps = React.HTMLAttributes<HTMLParagraphElement> & ExtraProps;
 
 /**
- * A paragraph holding nothing but one YouTube link becomes an embedded player.
+ * A paragraph holding nothing but one bare YouTube URL becomes an embedded
+ * player.
  * The link stays underneath so the video can still be opened on YouTube.
  */
 function standaloneYouTubeLink(node: ParagraphProps["node"]): string | null {
@@ -71,7 +72,12 @@ function standaloneYouTubeLink(node: ParagraphProps["node"]): string | null {
   const [only] = children;
   if (only.type !== "element" || only.tagName !== "a") return null;
   const href = only.properties?.href;
-  return typeof href === "string" && getYouTubeVideoId(href) ? href : null;
+  const text = only.children
+    .map((child) => (child.type === "text" ? child.value : ""))
+    .join("");
+  return typeof href === "string" && getEmbeddableYouTubeId(href, text)
+    ? href
+    : null;
 }
 
 function YouTubeEmbed({ href }: { href: string }) {

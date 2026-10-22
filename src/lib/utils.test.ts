@@ -3,6 +3,7 @@ import {
   cn,
   formatDate,
   formatFileSize,
+  getEmbeddableYouTubeId,
   getYouTubeVideoId,
   stripMarkdown,
 } from "./utils";
@@ -72,5 +73,32 @@ describe("getYouTubeVideoId", () => {
     "not a url",
   ])("returns null for %s", (href) => {
     expect(getYouTubeVideoId(href)).toBeNull();
+  });
+});
+
+describe("getEmbeddableYouTubeId", () => {
+  const href = "https://www.youtube.com/watch?v=2A1ATKD-KBc";
+
+  it("embeds a bare YouTube URL", () => {
+    expect(getEmbeddableYouTubeId(href, href)).toBe("2A1ATKD-KBc");
+  });
+
+  it("embeds when surrounding whitespace differs", () => {
+    expect(getEmbeddableYouTubeId(href, `  ${href}\n`)).toBe("2A1ATKD-KBc");
+  });
+
+  it("keeps a descriptive YouTube link as a normal link", () => {
+    expect(
+      getEmbeddableYouTubeId(
+        "https://youtube.com/live/xAfbQIu2cT8",
+        "線上直播報名頁（12/7 開播）"
+      )
+    ).toBeNull();
+  });
+
+  it("ignores non-YouTube URLs", () => {
+    expect(
+      getEmbeddableYouTubeId("https://example.com/", "https://example.com/")
+    ).toBeNull();
   });
 });

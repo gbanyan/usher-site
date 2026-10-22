@@ -67,3 +67,14 @@ export function getYouTubeVideoId(href: string): string | null {
 
   return id && YOUTUBE_ID.test(id) ? id : null;
 }
+
+/**
+ * A link is embedded as a player only when its visible text is the URL itself
+ * (a pasted or autolinked URL). Descriptive link text stays a normal link.
+ */
+export function getEmbeddableYouTubeId(
+  href: string,
+  text: string
+): string | null {
+  return text.trim() === href ? getYouTubeVideoId(href) : null;
+}
