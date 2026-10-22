@@ -16,7 +16,7 @@ env:
   # Snapshot mode builds without a live CMS: committed content-snapshots are
   # the content source, so CI needs no CMS access and no secrets.
   CONTENT_SOURCE: snapshot
-  NEXT_PUBLIC_SITE_URL: https://www.usher.org.tw
+  SITE_URL: https://www.usher.org.tw
 
 jobs:
   check:

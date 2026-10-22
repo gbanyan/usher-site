@@ -6,4 +6,5 @@ it.each(REDIRECTS)("permanently redirects %s to %s", (s, d) => {
 });
 it("serves clean URLs without trailing slashes", () => {
   expect(config.cleanUrls).toBe(true); expect(config.trailingSlash).toBe(false); expect(config.outputDirectory).toBe("dist");
+  expect(config.framework).toBe("astro"); expect(config.buildCommand).toBe("npm run build");
 });

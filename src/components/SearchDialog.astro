@@ -222,27 +222,32 @@ const navActions = [
     setActive(-1);
     showStatus("搜尋中…");
 
-    const pf = pagefind ?? (await loadPagefind());
-    if (token !== searchToken) return;
-    if (!pf) {
-      showStatus("找不到結果");
-      return;
-    }
-    pf.preload(query);
-    const found = await pf.debouncedSearch(query, {}, 300);
-    // null means a newer search superseded this one.
-    if (found === null || token !== searchToken) return;
-    const items = await Promise.all(found.results.slice(0, 10).map((r) => r.data()));
-    if (token !== searchToken) return;
+    try {
+      const pf = pagefind ?? (await loadPagefind());
+      if (token !== searchToken) return;
+      if (!pf) {
+        showStatus("搜尋暫時無法使用");
+        return;
+      }
+      pf.preload(query);
+      const found = await pf.debouncedSearch(query, {}, 300);
+      // null means a newer search superseded this one.
+      if (found === null || token !== searchToken) return;
+      const items = await Promise.all(found.results.slice(0, 10).map((r) => r.data()));
+      if (token !== searchToken) return;
 
-    if (items.length === 0) {
-      showStatus("找不到結果");
-      return;
+      if (items.length === 0) {
+        showStatus("找不到結果");
+        return;
+      }
+      renderResults(items);
+      showStatus(null);
+      resultsGroup.hidden = false;
+      setActive(0);
+    } catch (error) {
+      console.error("Search failed:", error);
+      if (token === searchToken) showStatus("搜尋暫時無法使用");
     }
-    renderResults(items);
-    showStatus(null);
-    resultsGroup.hidden = false;
-    setActive(0);
   }
 
   function openDialog() {
