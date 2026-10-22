@@ -1,0 +1,304 @@
+---
+import { EN_COPY } from "../lib/i18n";
+
+interface SliderItem {
+  image: string;
+  width: number;
+  height: number;
+  title: string;
+  content: string;
+  button?: { label: string; link: string };
+}
+
+interface Props {
+  slides: SliderItem[];
+  locale?: "zh-TW" | "en";
+}
+
+const { slides, locale = "zh-TW" } = Astro.props;
+const en = locale === "en";
+
+const labels = en
+  ? {
+      region: EN_COPY.accessibility.hero,
+      roledescription: "carousel",
+      slide: "slide",
+      controls: "Carousel controls",
+      prev: "Previous slide",
+      next: "Next slide",
+      goTo: "Go to slide",
+      pause: "Pause carousel",
+      play: "Play carousel",
+      stopped: "Carousel stopped by device preference",
+    }
+  : {
+      region: "首頁橫幅輪播",
+      roledescription: "輪播",
+      slide: "投影片",
+      controls: "輪播控制",
+      prev: "上一張投影片",
+      next: "下一張投影片",
+      goTo: "前往投影片",
+      pause: "暫停輪播",
+      play: "播放輪播",
+      stopped: "輪播已依裝置設定停止",
+    };
+
+const controlClass =
+  "inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-white/50 bg-primary-dark/60 text-white/90 shadow-md transition-colors hover:border-white/80 hover:bg-primary-dark/80 hover:text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark disabled:cursor-not-allowed disabled:opacity-70 sm:size-10";
+const titleClass = "text-display text-white";
+---
+
+<section
+  data-hero-slider
+  data-labels={JSON.stringify(labels)}
+  role="region"
+  aria-label={labels.region}
+  aria-roledescription={labels.roledescription}
+  class="relative h-[550px] sm:h-[650px] lg:h-[800px]"
+>
+  <div data-track class="hero-track relative z-10 flex h-full w-full snap-x snap-mandatory overflow-x-auto" aria-live="off">
+    {
+      slides.map((slide, index) => (
+        <div
+          data-slide
+          role="group"
+          aria-roledescription={labels.slide}
+          aria-label={`${index + 1} / ${slides.length}`}
+          class="relative h-full w-full shrink-0 snap-start"
+        >
+          <div class="absolute inset-0 z-0">
+            <img
+              src={slide.image}
+              alt=""
+              width={slide.width}
+              height={slide.height}
+              decoding="async"
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchpriority={index === 0 ? "high" : undefined}
+              class="h-full w-full object-cover"
+            />
+            <div class="absolute inset-0 bg-primary/60 sm:bg-primary/50" />
+          </div>
+          <div class="relative z-10 flex h-full items-center">
+            <div class="container mx-auto px-6 lg:px-8">
+              <div class="max-w-3xl pt-10 text-left sm:pt-0">
+                {index === 0 ? <h1 class={titleClass}>{slide.title}</h1> : <h2 class={titleClass}>{slide.title}</h2>}
+                <p class="mt-4 text-lead sm:mt-6">{slide.content}</p>
+                {slide.button?.label && (
+                  <a
+                    href={slide.button.link}
+                    class="mt-2 inline-block rounded-lg bg-accent px-8 py-3 text-sm font-semibold text-primary-dark transition-colors duration-200 hover:bg-accent-light sm:mt-4 sm:px-10 sm:py-4 sm:text-base"
+                    aria-label={`${slide.button.label}：${slide.title}`}
+                  >
+                    {slide.button.label}
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="pointer-events-none absolute inset-x-0 bottom-20 z-20 sm:bottom-24">
+    <div class="container mx-auto flex justify-center px-4 sm:px-6 lg:px-8">
+      <div
+        data-controls
+        hidden
+        class="pointer-events-auto flex flex-nowrap items-center justify-center gap-1.5 sm:gap-2"
+        role="group"
+        aria-label={labels.controls}
+      >
+        <button type="button" data-prev class={controlClass} aria-label={labels.prev}>
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+
+        <div class="flex items-center gap-0.5 sm:gap-1">
+          {
+            slides.map((_, index) => (
+              <button
+                type="button"
+                data-dot
+                class="hero-dot"
+                aria-label={`${labels.goTo} ${index + 1}`}
+                aria-current={index === 0 ? "true" : undefined}
+              />
+            ))
+          }
+        </div>
+
+        <button type="button" data-toggle class={controlClass} aria-label={labels.pause} aria-pressed="false">
+          <svg data-icon-pause class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 5h3v14H7zM14 5h3v14h-3z"></path>
+          </svg>
+          <svg data-icon-play class="hidden h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5v14l11-7z"></path>
+          </svg>
+        </button>
+
+        <button type="button" data-next class={controlClass} aria-label={labels.next}>
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-track {
+    scrollbar-width: none;
+  }
+  .hero-track::-webkit-scrollbar {
+    display: none;
+  }
+  .hero-dot {
+    position: relative;
+    display: inline-flex;
+    width: 2.75rem;
+    height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 9999px;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+  }
+  .hero-dot::after {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.7);
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease;
+  }
+  .hero-dot:hover::after {
+    background: var(--color-accent-light);
+    transform: scale(1.2);
+  }
+  .hero-dot[aria-current="true"]::after {
+    width: 0.75rem;
+    height: 0.75rem;
+    background: var(--color-accent);
+  }
+  .hero-dot:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+  }
+</style>
+
+<script>
+  const AUTOPLAY_MS = 5000;
+
+  function init(root: HTMLElement) {
+    const track = root.querySelector<HTMLElement>("[data-track]");
+    const controls = root.querySelector<HTMLElement>("[data-controls]");
+    const toggle = root.querySelector<HTMLButtonElement>("[data-toggle]");
+    const prev = root.querySelector<HTMLButtonElement>("[data-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-next]");
+    const iconPause = root.querySelector<SVGElement>("[data-icon-pause]");
+    const iconPlay = root.querySelector<SVGElement>("[data-icon-play]");
+    const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-slide]"));
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-dot]"));
+    if (!track || !controls || !toggle || !prev || !next || slides.length === 0) return;
+
+    const labels = JSON.parse(root.dataset.labels ?? "{}") as Record<string, string>;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let current = 0;
+    let paused = false;
+    let timer: number | undefined;
+
+    controls.hidden = false;
+
+    const autoplayOn = () => !motion.matches && !paused;
+
+    const goTo = (index: number) => {
+      const target = (index + slides.length) % slides.length;
+      track.scrollTo({ left: target * track.clientWidth, behavior: motion.matches ? "auto" : "smooth" });
+    };
+
+    const render = () => {
+      slides.forEach((slide, i) => {
+        slide.inert = i !== current;
+      });
+      dots.forEach((dot, i) => {
+        if (i === current) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+    };
+
+    const schedule = () => {
+      window.clearInterval(timer);
+      timer = undefined;
+      track.setAttribute("aria-live", autoplayOn() ? "off" : "polite");
+      if (autoplayOn()) timer = window.setInterval(() => goTo(current + 1), AUTOPLAY_MS);
+    };
+
+    const renderToggle = () => {
+      const stopped = motion.matches;
+      const showPlay = stopped || paused;
+      toggle.disabled = stopped;
+      toggle.setAttribute("aria-pressed", String(showPlay));
+      toggle.setAttribute("aria-label", stopped ? labels.stopped : paused ? labels.play : labels.pause);
+      if (iconPause) iconPause.classList.toggle("hidden", showPlay);
+      if (iconPlay) iconPlay.classList.toggle("hidden", !showPlay);
+    };
+
+    let frame = 0;
+    track.addEventListener(
+      "scroll",
+      () => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          const width = track.clientWidth || 1;
+          const index = Math.min(slides.length - 1, Math.max(0, Math.round(track.scrollLeft / width)));
+          if (index !== current) {
+            current = index;
+            render();
+          }
+        });
+      },
+      { passive: true }
+    );
+
+    prev.addEventListener("click", () => {
+      goTo(current - 1);
+      schedule();
+    });
+    next.addEventListener("click", () => {
+      goTo(current + 1);
+      schedule();
+    });
+    dots.forEach((dot, i) =>
+      dot.addEventListener("click", () => {
+        goTo(i);
+        schedule();
+      })
+    );
+    toggle.addEventListener("click", () => {
+      if (motion.matches) return;
+      paused = !paused;
+      renderToggle();
+      schedule();
+    });
+    motion.addEventListener("change", () => {
+      renderToggle();
+      schedule();
+    });
+    window.addEventListener("resize", () => goTo(current));
+
+    render();
+    renderToggle();
+    schedule();
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-hero-slider]").forEach(init);
+</script>
