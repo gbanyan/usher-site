@@ -379,9 +379,9 @@
       "published_at": "2024-03-20T20:53:00+08:00",
       "categories": [
         {
-          "id": 19,
-          "name": "建議與指引",
-          "slug": "guides",
+          "id": 18,
+          "name": "故事",
+          "slug": "story",
           "description": null
         }
       ],
