@@ -41,7 +41,7 @@ npm run refresh:content  # snapshot + both checks in one command (honours SNAPSH
 - **Framework**: Next.js 16.3.0 (App Router, React 19)
 - **Styling**: Tailwind CSS 4 with `@tailwindcss/typography`
 - **Font**: System font stack (PingFang TC, Heiti TC, Microsoft JhengHei, Noto Sans CJK TC, etc.); the logo wordmark uses a subset webfont (`/fonts/iansui-logo.woff2`) rendered by `Logo.tsx`
-- **Markdown**: `react-markdown` + `remark-gfm` + `rehype-raw`
+- **Markdown**: `react-markdown` + `remark-gfm` (no `rehype-raw`: raw HTML in CMS content is not rendered). A paragraph containing only a YouTube link renders as an embedded `youtube-nocookie` player (`MarkdownRenderer.tsx`)
 
 ## Architecture
 
@@ -142,18 +142,19 @@ Production values configured in Vercel (or hosting platform).
 | `/` | Static | Homepage — static layout from Hugo `homepage.yml` + dynamic article lists |
 | `/about` | Static | 創立目的 — content from Laravel `pages/about` |
 | `/contact` | Static | 聯繫資訊 — organization profile from CMS with local fallbacks |
-| `/blog` | Static | 部落格 listing — all blog articles |
+| `/news` | Static | 活動與公告 — all notices plus blog articles outside `story`/`guides`, newest first |
+| `/blog` | Redirect | Permanent redirect to `/news` (detail pages unchanged) |
 | `/blog/[slug]` | SSG | Blog article detail |
 | `/story`, `/story/[slug]` | Static/SSG | 病友故事 — blog articles in the `story` category |
 | `/guides`, `/guides/[slug]` | Static/SSG | 建議與指引 — blog articles in the `guides` category |
-| `/notice` | Static | 事務公告 listing |
+| `/notice` | Redirect | Permanent redirect to `/news` (detail pages unchanged) |
 | `/notice/[slug]` | SSG | Notice detail |
 | `/document` | Static | 協會文件 listing |
 | `/document/[slug]` | SSG | Document detail |
 | `/related-news` | Static | 相關報導 listing |
 | `/related-news/[slug]` | SSG | Related news detail |
 | `/research` | Static | Permanent redirect to `/document` |
-| `/[pageSlug]` | SSG | Static pages: structure, message, logo-represent |
+| `/[pageSlug]` | SSG | CMS pages: structure, logo-represent, faq (常見問題); `/message` permanently redirects to `/about` |
 | `/api/revalidate` | Dynamic | Webhook for on-demand cache invalidation |
 
 ## Key Files
@@ -208,8 +209,9 @@ mapping is `CONTENT_TYPE_PATHS` in `src/lib/types.ts`.
 
 | Section | Path | Source | Chinese Label |
 |---|---|---|---|
-| `blog` | `/blog` | CMS type `blog` | 部落格 |
-| `notice` | `/notice` | CMS type `notice` | 事務公告 |
+| `news` | `/news` | notice + blog (excl. story/guides) | 活動與公告 |
+| `blog` | `/blog` | CMS type `blog` | 部落格 (detail pages only) |
+| `notice` | `/notice` | CMS type `notice` | 事務公告 (detail pages only) |
 | `document` | `/document` | CMS type `document` | 協會文件 |
 | `related_news` | `/related-news` | CMS type `related_news` | 相關報導 |
 | `story` | `/story` | blog + category `story` | 病友故事 |

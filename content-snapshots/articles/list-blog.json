@@ -1,6 +1,29 @@
 {
   "data": [
     {
+      "id": 35,
+      "title": "2026-08-22 會員大會暨理財講座｜活動紀錄",
+      "slug": "20260822-general-assembly-and-finance-lecture",
+      "summary": "2026 年會員大會暨理財講座活動紀錄與完整直播影片。",
+      "excerpt": "2026 年會員大會暨理財講座活動紀錄與完整直播影片。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": null,
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2026-08-22T18:00:00+08:00",
+      "categories": [
+        {
+          "id": 6,
+          "name": "協會活動",
+          "slug": "category-306",
+          "description": null
+        }
+      ],
+      "tags": []
+    },
+    {
       "id": 31,
       "title": "2026-02-01 心理講座活動｜會後回顧",
       "slug": "20260201-psychology-talk-review",
@@ -116,9 +139,9 @@
       "published_at": "2024-07-20T00:27:17+08:00",
       "categories": [
         {
-          "id": 5,
+          "id": 1,
           "name": "協會事務",
-          "slug": "category-785",
+          "slug": "association-affairs",
           "description": null
         }
       ],
@@ -144,9 +167,9 @@
       "published_at": "2024-04-06T09:27:17+08:00",
       "categories": [
         {
-          "id": 4,
+          "id": 1,
           "name": "協會事務",
-          "slug": "category-205",
+          "slug": "association-affairs",
           "description": null
         }
       ],
@@ -402,9 +425,9 @@
       "published_at": "2024-01-30T17:27:17+08:00",
       "categories": [
         {
-          "id": 3,
+          "id": 1,
           "name": "協會事務",
-          "slug": "category-271",
+          "slug": "association-affairs",
           "description": null
         }
       ],
@@ -430,9 +453,9 @@
       "published_at": "2024-01-27T17:27:17+08:00",
       "categories": [
         {
-          "id": 2,
+          "id": 1,
           "name": "協會事務",
-          "slug": "category-248",
+          "slug": "association-affairs",
           "description": null
         }
       ],
@@ -460,7 +483,7 @@
         {
           "id": 1,
           "name": "協會事務",
-          "slug": "category-423",
+          "slug": "association-affairs",
           "description": null
         }
       ],
@@ -486,9 +509,9 @@
       "published_at": "2023-07-30T17:27:17+08:00",
       "categories": [
         {
-          "id": 7,
+          "id": 1,
           "name": "協會事務",
-          "slug": "category-943",
+          "slug": "association-affairs",
           "description": null
         }
       ],
@@ -505,8 +528,8 @@
     }
   ],
   "links": {
-    "first": "https://member.usher.org.tw/api/v1/articles?page=1",
-    "last": "https://member.usher.org.tw/api/v1/articles?page=1",
+    "first": null,
+    "last": null,
     "prev": null,
     "next": null
   },
@@ -535,8 +558,8 @@
       }
     ],
     "path": "https://member.usher.org.tw/api/v1/articles",
-    "per_page": 500,
-    "to": 20,
-    "total": 20
+    "per_page": 21,
+    "to": 21,
+    "total": 21
   }
 }

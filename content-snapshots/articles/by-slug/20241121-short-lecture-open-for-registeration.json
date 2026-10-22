@@ -13,7 +13,7 @@
     "meta_description": null,
     "meta_keywords": null,
     "is_pinned": false,
-    "view_count": 99,
+    "view_count": 114,
     "published_at": "2024-11-21T00:27:17+08:00",
     "categories": [
       {
@@ -38,6 +38,28 @@
     "attachments": []
   },
   "related": [
+    {
+      "id": 35,
+      "title": "2026-08-22 會員大會暨理財講座｜活動紀錄",
+      "slug": "20260822-general-assembly-and-finance-lecture",
+      "summary": "2026 年會員大會暨理財講座活動紀錄與完整直播影片。",
+      "excerpt": "2026 年會員大會暨理財講座活動紀錄與完整直播影片。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": null,
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2026-08-22T18:00:00+08:00",
+      "categories": [
+        {
+          "id": 6,
+          "name": "協會活動",
+          "slug": "category-306",
+          "description": null
+        }
+      ]
+    },
     {
       "id": 31,
       "title": "2026-02-01 心理講座活動｜會後回顧",
@@ -100,28 +122,6 @@
           "id": 6,
           "name": "協會活動",
           "slug": "category-306",
-          "description": null
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "title": "USH Connections Conference 2024 大會簡述",
-      "slug": "20240720-usher-connection-conference-report",
-      "summary": "2024 年 7 月 19-20 日，於美國羅徹斯特 (Rochester)舉辦的 USH Connections Conference 已經順利落幕。",
-      "excerpt": "2024 年 7 月 19-20 日，於美國羅徹斯特 (Rochester)舉辦的 USH Connections Conference 已經順利落幕。",
-      "content_type": "blog",
-      "content_type_label": "部落格",
-      "featured_image_url": "/images/blog/USH2024.png.webp",
-      "featured_image_alt": null,
-      "author_name": "黃俊榕",
-      "is_pinned": false,
-      "published_at": "2024-07-20T00:27:17+08:00",
-      "categories": [
-        {
-          "id": 5,
-          "name": "協會事務",
-          "slug": "category-785",
           "description": null
         }
       ]

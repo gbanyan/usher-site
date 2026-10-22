@@ -19,13 +19,13 @@
       "協會事務"
     ],
     "is_pinned": false,
-    "view_count": 83,
+    "view_count": 94,
     "published_at": "2026-02-11T14:06:54+08:00",
     "categories": [
       {
-        "id": 9,
+        "id": 1,
         "name": "協會事務",
-        "slug": "category-148",
+        "slug": "association-affairs",
         "description": null
       }
     ],
@@ -48,9 +48,9 @@
       "published_at": "2026-02-11T12:21:01+08:00",
       "categories": [
         {
-          "id": 9,
+          "id": 1,
           "name": "協會事務",
-          "slug": "category-148",
+          "slug": "association-affairs",
           "description": null
         }
       ]
@@ -70,9 +70,9 @@
       "published_at": "2024-01-11T17:27:17+08:00",
       "categories": [
         {
-          "id": 9,
+          "id": 1,
           "name": "協會事務",
-          "slug": "category-148",
+          "slug": "association-affairs",
           "description": null
         }
       ]
@@ -92,9 +92,9 @@
       "published_at": "2023-09-16T17:27:17+08:00",
       "categories": [
         {
-          "id": 8,
+          "id": 1,
           "name": "協會事務",
-          "slug": "category-336",
+          "slug": "association-affairs",
           "description": null
         }
       ]

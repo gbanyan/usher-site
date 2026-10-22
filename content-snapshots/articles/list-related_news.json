@@ -15,9 +15,9 @@
       "published_at": "2024-03-20T15:27:17+08:00",
       "categories": [
         {
-          "id": 13,
+          "id": 11,
           "name": "相關報導",
-          "slug": "category-612",
+          "slug": "related-news",
           "description": null
         }
       ],
@@ -38,9 +38,9 @@
       "published_at": "2024-01-28T15:27:17+08:00",
       "categories": [
         {
-          "id": 15,
+          "id": 11,
           "name": "相關報導",
-          "slug": "category-211",
+          "slug": "related-news",
           "description": null
         }
       ],
@@ -61,9 +61,9 @@
       "published_at": "2019-07-06T17:27:17+08:00",
       "categories": [
         {
-          "id": 14,
+          "id": 11,
           "name": "相關報導",
-          "slug": "category-532",
+          "slug": "related-news",
           "description": null
         }
       ],
@@ -84,9 +84,9 @@
       "published_at": "2019-07-06T17:27:17+08:00",
       "categories": [
         {
-          "id": 16,
+          "id": 11,
           "name": "相關報導",
-          "slug": "category-995",
+          "slug": "related-news",
           "description": null
         }
       ],
@@ -107,9 +107,9 @@
       "published_at": "2019-07-06T17:27:17+08:00",
       "categories": [
         {
-          "id": 17,
+          "id": 11,
           "name": "相關報導",
-          "slug": "category-334",
+          "slug": "related-news",
           "description": null
         }
       ],
@@ -117,8 +117,8 @@
     }
   ],
   "links": {
-    "first": "https://member.usher.org.tw/api/v1/articles?page=1",
-    "last": "https://member.usher.org.tw/api/v1/articles?page=1",
+    "first": null,
+    "last": null,
     "prev": null,
     "next": null
   },
@@ -147,7 +147,7 @@
       }
     ],
     "path": "https://member.usher.org.tw/api/v1/articles",
-    "per_page": 500,
+    "per_page": 5,
     "to": 5,
     "total": 5
   }

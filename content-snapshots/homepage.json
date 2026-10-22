@@ -2,6 +2,28 @@
   "featured": [],
   "latest_blog": [
     {
+      "id": 35,
+      "title": "2026-08-22 會員大會暨理財講座｜活動紀錄",
+      "slug": "20260822-general-assembly-and-finance-lecture",
+      "summary": "2026 年會員大會暨理財講座活動紀錄與完整直播影片。",
+      "excerpt": "2026 年會員大會暨理財講座活動紀錄與完整直播影片。",
+      "content_type": "blog",
+      "content_type_label": "部落格",
+      "featured_image_url": null,
+      "featured_image_alt": null,
+      "author_name": null,
+      "is_pinned": false,
+      "published_at": "2026-08-22T18:00:00+08:00",
+      "categories": [
+        {
+          "id": 6,
+          "name": "協會活動",
+          "slug": "category-306",
+          "description": null
+        }
+      ]
+    },
+    {
       "id": 31,
       "title": "2026-02-01 心理講座活動｜會後回顧",
       "slug": "20260201-psychology-talk-review",
@@ -104,31 +126,9 @@
       "published_at": "2024-07-20T00:27:17+08:00",
       "categories": [
         {
-          "id": 5,
+          "id": 1,
           "name": "協會事務",
-          "slug": "category-785",
-          "description": null
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "title": "Usher Working Group 工作小組",
-      "slug": "20240406-usher-working-group",
-      "summary": "由於視聽弱族群的需求有許多尚未檢視的細節，可能需要更進一步的資源募集、工程上的設計協助等等，於是透過一位熱心社會人士的召集，初步組成了這個工作小組。",
-      "excerpt": "由於視聽弱族群的需求有許多尚未檢視的細節，可能需要更進一步的資源募集、工程上的設計協助等等，於是透過一位熱心社會人士的召集，初步組成了這個工作小組。",
-      "content_type": "blog",
-      "content_type_label": "部落格",
-      "featured_image_url": "/images/blog/digital.jpg",
-      "featured_image_alt": null,
-      "author_name": "黃俊榕",
-      "is_pinned": false,
-      "published_at": "2024-04-06T09:27:17+08:00",
-      "categories": [
-        {
-          "id": 4,
-          "name": "協會事務",
-          "slug": "category-205",
+          "slug": "association-affairs",
           "description": null
         }
       ]
@@ -150,9 +150,9 @@
       "published_at": "2026-02-11T14:06:54+08:00",
       "categories": [
         {
-          "id": 9,
+          "id": 1,
           "name": "協會事務",
-          "slug": "category-148",
+          "slug": "association-affairs",
           "description": null
         }
       ]
@@ -172,9 +172,9 @@
       "published_at": "2026-02-11T12:21:01+08:00",
       "categories": [
         {
-          "id": 9,
+          "id": 1,
           "name": "協會事務",
-          "slug": "category-148",
+          "slug": "association-affairs",
           "description": null
         }
       ]
@@ -194,9 +194,9 @@
       "published_at": "2024-01-11T17:27:17+08:00",
       "categories": [
         {
-          "id": 9,
+          "id": 1,
           "name": "協會事務",
-          "slug": "category-148",
+          "slug": "association-affairs",
           "description": null
         }
       ]
@@ -216,9 +216,9 @@
       "published_at": "2023-09-16T17:27:17+08:00",
       "categories": [
         {
-          "id": 8,
+          "id": 1,
           "name": "協會事務",
-          "slug": "category-336",
+          "slug": "association-affairs",
           "description": null
         }
       ]
@@ -241,9 +241,9 @@
       "published_at": "2024-03-20T15:27:17+08:00",
       "categories": [
         {
-          "id": 13,
+          "id": 11,
           "name": "相關報導",
-          "slug": "category-612",
+          "slug": "related-news",
           "description": null
         }
       ]
@@ -263,9 +263,9 @@
       "published_at": "2024-01-28T15:27:17+08:00",
       "categories": [
         {
-          "id": 15,
+          "id": 11,
           "name": "相關報導",
-          "slug": "category-211",
+          "slug": "related-news",
           "description": null
         }
       ]
@@ -285,9 +285,9 @@
       "published_at": "2019-07-06T17:27:17+08:00",
       "categories": [
         {
-          "id": 17,
+          "id": 11,
           "name": "相關報導",
-          "slug": "category-334",
+          "slug": "related-news",
           "description": null
         }
       ]
@@ -307,9 +307,9 @@
       "published_at": "2019-07-06T17:27:17+08:00",
       "categories": [
         {
-          "id": 16,
+          "id": 11,
           "name": "相關報導",
-          "slug": "category-995",
+          "slug": "related-news",
           "description": null
         }
       ]
@@ -330,65 +330,16 @@
     {
       "id": 1,
       "name": "協會事務",
-      "slug": "category-423",
+      "slug": "association-affairs",
       "description": null,
-      "articles_count": 1
-    },
-    {
-      "id": 2,
-      "name": "協會事務",
-      "slug": "category-248",
-      "description": null,
-      "articles_count": 1
-    },
-    {
-      "id": 3,
-      "name": "協會事務",
-      "slug": "category-271",
-      "description": null,
-      "articles_count": 1
-    },
-    {
-      "id": 4,
-      "name": "協會事務",
-      "slug": "category-205",
-      "description": null,
-      "articles_count": 1
-    },
-    {
-      "id": 5,
-      "name": "協會事務",
-      "slug": "category-785",
-      "description": null,
-      "articles_count": 1
+      "articles_count": 10
     },
     {
       "id": 6,
       "name": "協會活動",
       "slug": "category-306",
       "description": null,
-      "articles_count": 4
-    },
-    {
-      "id": 7,
-      "name": "協會事務",
-      "slug": "category-943",
-      "description": null,
-      "articles_count": 1
-    },
-    {
-      "id": 8,
-      "name": "協會事務",
-      "slug": "category-336",
-      "description": null,
-      "articles_count": 1
-    },
-    {
-      "id": 9,
-      "name": "協會事務",
-      "slug": "category-148",
-      "description": null,
-      "articles_count": 3
+      "articles_count": 5
     },
     {
       "id": 10,
@@ -400,51 +351,9 @@
     {
       "id": 11,
       "name": "相關報導",
-      "slug": "category-497",
+      "slug": "related-news",
       "description": null,
-      "articles_count": 0
-    },
-    {
-      "id": 12,
-      "name": "相關報導",
-      "slug": "category-949",
-      "description": null,
-      "articles_count": 0
-    },
-    {
-      "id": 13,
-      "name": "相關報導",
-      "slug": "category-612",
-      "description": null,
-      "articles_count": 1
-    },
-    {
-      "id": 14,
-      "name": "相關報導",
-      "slug": "category-532",
-      "description": null,
-      "articles_count": 1
-    },
-    {
-      "id": 15,
-      "name": "相關報導",
-      "slug": "category-211",
-      "description": null,
-      "articles_count": 1
-    },
-    {
-      "id": 16,
-      "name": "相關報導",
-      "slug": "category-995",
-      "description": null,
-      "articles_count": 1
-    },
-    {
-      "id": 17,
-      "name": "相關報導",
-      "slug": "category-334",
-      "description": null,
-      "articles_count": 1
+      "articles_count": 5
     },
     {
       "id": 19,
