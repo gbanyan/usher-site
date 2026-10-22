@@ -49,6 +49,19 @@ async function readSnapshot<T>(relativePath: string): Promise<T> {
   return JSON.parse(raw) as T;
 }
 
+export class ApiError extends Error {
+  readonly status: number;
+  constructor(status: number, message: string) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+  }
+}
+
+function isNotFound(error: unknown): boolean {
+  return error instanceof ApiError && error.status === 404;
+}
+
 // Identical requests within one build share a single in-flight/settled promise.
 const requestCache = new Map<string, Promise<unknown>>();
 
@@ -73,7 +86,10 @@ export function fetchAPI<T>(endpoint: string): Promise<T> {
   const request = (async () => {
     const res = await fetch(url, { headers });
     if (!res.ok) {
-      throw new Error(`API error: ${res.status} ${res.statusText} (${url})`);
+      throw new ApiError(
+        res.status,
+        `API error: ${res.status} ${res.statusText} (${url})`
+      );
     }
     return (await res.json()) as T;
   })();
@@ -252,6 +268,11 @@ export async function getAllArticles(params?: {
  * precedence later without changing the existing Chinese API contract.
  */
 export async function getChineseStoryFallbackArticles(): Promise<ArticleSummary[]> {
+  if (!isSnapshotMode()) {
+    // api mode: live data, errors propagate so the build fails all-or-nothing.
+    return getAllArticles({ type: "blog", category: "story" });
+  }
+
   try {
     const snapshot = await readSnapshot<PaginatedResponse<ArticleSummary>>(
       path.join("articles", "list-blog.json")
@@ -397,7 +418,10 @@ export async function getPublicDocuments(params?: {
     return await fetchAPI<PaginatedResponse<PublicDocumentSummary>>(
       `/public-documents${query ? `?${query}` : ""}`
     );
-  } catch {
+  } catch (error) {
+    // Only an absent endpoint (404) means an old deployment; anything else
+    // must fail the build rather than silently change the content.
+    if (!isNotFound(error)) throw error;
     // Backward-compatible fallback while older deployments still expose document articles only.
     const legacy = await getArticles({
       type: "document",
@@ -452,7 +476,8 @@ export async function getPublicDocument(
     return await fetchAPI<PublicDocumentDetailResponse>(
       `/public-documents/${slug}`
     );
-  } catch {
+  } catch (error) {
+    if (!isNotFound(error)) throw error;
     const legacy = await getArticle(slug);
     return mapLegacyArticleDetailToPublicDocument(legacy, {
       apiUrl: getApiUrl(),

@@ -95,3 +95,68 @@ describe("api mode error propagation", () => {
     await expect(getOrganizationProfile()).rejects.toThrow(/500/);
   });
 });
+
+describe("public documents legacy fallback (api mode)", () => {
+  const emptyList = { data: [], meta: { current_page: 1, last_page: 1, per_page: 100, total: 0 } };
+  const legacyDetail = {
+    data: { id: 1, slug: "s", title: "T", content: "c", type: "document", attachments: [] },
+    related: [],
+  };
+
+  function route(publicStatus: number) {
+    return vi.fn(async (url: string) => {
+      if (url.includes("/public-documents")) return jsonResponse({}, publicStatus);
+      if (url.includes("/articles/s")) return jsonResponse(legacyDetail);
+      if (url.includes("/articles")) return jsonResponse(emptyList);
+      return jsonResponse({}, 500);
+    });
+  }
+
+  it("getPublicDocuments rejects when /public-documents returns 503", async () => {
+    vi.stubGlobal("fetch", route(503));
+    const { getPublicDocuments } = await loadApi();
+    await expect(getPublicDocuments()).rejects.toThrow(/503/);
+  });
+
+  it("getPublicDocument rejects when /public-documents/:slug returns 503", async () => {
+    vi.stubGlobal("fetch", route(503));
+    const { getPublicDocument } = await loadApi();
+    await expect(getPublicDocument("s")).rejects.toThrow(/503/);
+  });
+
+  it("getPublicDocuments falls back to legacy articles on 404", async () => {
+    const fetchMock = route(404);
+    vi.stubGlobal("fetch", fetchMock);
+    const { getPublicDocuments } = await loadApi();
+    await expect(getPublicDocuments()).resolves.toMatchObject({ data: [] });
+    expect(fetchMock.mock.calls.some((c) => String(c[0]).includes("/articles?"))).toBe(true);
+  });
+
+  it("getPublicDocument falls back to legacy article on 404", async () => {
+    const fetchMock = route(404);
+    vi.stubGlobal("fetch", fetchMock);
+    const { getPublicDocument } = await loadApi();
+    await expect(getPublicDocument("s")).resolves.toBeDefined();
+    expect(fetchMock.mock.calls.some((c) => String(c[0]).endsWith("/articles/s"))).toBe(true);
+  });
+});
+
+describe("getChineseStoryFallbackArticles", () => {
+  it("fetches live blog story articles in api mode", async () => {
+    const fetchMock = vi.fn(async () =>
+      jsonResponse({ data: [], meta: { current_page: 1, last_page: 1, per_page: 100, total: 0 } })
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    const { getChineseStoryFallbackArticles } = await loadApi();
+    await expect(getChineseStoryFallbackArticles()).resolves.toEqual([]);
+    const url = String((fetchMock.mock.calls[0] as unknown[])[0]);
+    expect(url).toContain("type=blog");
+    expect(url).toContain("category=story");
+  });
+
+  it("rethrows on failure in api mode", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => jsonResponse({}, 503)));
+    const { getChineseStoryFallbackArticles } = await loadApi();
+    await expect(getChineseStoryFallbackArticles()).rejects.toThrow(/503/);
+  });
+});
