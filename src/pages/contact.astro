@@ -1,0 +1,176 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import Markdown from "../components/Markdown.astro";
+import Icon from "../components/Icon.astro";
+import { getAllPublicDocuments, getOrganizationProfile, getPage } from "../lib/api";
+import { buildPageMetadata } from "../lib/metadata";
+import { DONATION_INFO, formatDonationAccount, formatPhoneForDisplay, getPhoneHref } from "../lib/contact";
+import { extractContactContent } from "../lib/transform";
+import { findGovernanceDocuments } from "../lib/governance";
+
+const [page, documents, organization] = await Promise.all([
+  getPage("contact"),
+  getAllPublicDocuments(),
+  getOrganizationProfile(),
+]);
+
+const { content: contactContent, donationPending } = extractContactContent(page.content ?? "");
+
+const governanceDocuments = findGovernanceDocuments(documents);
+const incorporationLicense = governanceDocuments["license"] ?? null;
+const incorporationLetter = governanceDocuments["letter"] ?? null;
+const registrationCertificate = governanceDocuments["registration"] ?? null;
+
+const SOCIAL_LINKS = [
+  {
+    name: "LINE 群組",
+    href: "https://line.me/ti/g2/53ghCyQ0KSgYg4vKqt3GT19pWRe0PKydKIrGUQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default",
+    iconPath: "M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314",
+    description: "加入協會 LINE 群組，與病友即時交流",
+  },
+  {
+    name: "Facebook 社團",
+    href: "https://www.facebook.com/groups/ushersyndrometw",
+    iconPath: "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z",
+    description: "追蹤協會最新動態與活動資訊",
+  },
+];
+
+const ICON = "mt-0.5 h-5 w-5 shrink-0 text-accent";
+---
+
+<BaseLayout meta={buildPageMetadata("聯繫資訊", "台灣尤塞氏症暨視聽弱協會的聯繫方式與社群連結", "/contact")}>
+  <PageHeader title="聯繫資訊" description="歡迎與我們聯繫，我們將竭誠為您服務" items={[{ label: "聯繫資訊" }]} />
+
+  <section class="mx-auto max-w-4xl px-6 py-12 lg:px-8">
+    {
+      contactContent && (
+        <div class="mb-12">
+          <Markdown content={contactContent} />
+        </div>
+      )
+    }
+
+    {
+      donationPending && (
+        <section class="mb-12 rounded-xl border border-white/10 bg-primary/40 p-6 shadow-sm" aria-labelledby="donation-heading">
+          <h2 id="donation-heading" class="text-xl font-semibold text-white">捐款管道</h2>
+          <p class="mt-3 text-sm leading-relaxed text-gray-300">{formatDonationAccount(DONATION_INFO)}</p>
+        </section>
+      )
+    }
+
+    <div class="grid gap-8 sm:grid-cols-2">
+      <div class="rounded-xl border border-white/10 bg-primary/40 p-6 shadow-sm">
+        <h2 class="mb-6 text-xl font-semibold text-white">協會資訊</h2>
+        <dl class="space-y-5">
+          <div class="flex items-start gap-3">
+            <Icon name="about" class={ICON} />
+            <div>
+              <dt class="text-sm font-medium text-gray-400">協會名稱</dt>
+              <dd class="mt-1 text-white">{organization.name}</dd>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <Icon name="address" class={ICON} />
+            <div>
+              <dt class="text-sm font-medium text-gray-400">地址</dt>
+              <dd class="mt-1 whitespace-pre-line text-white">{organization.address}</dd>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <Icon name="business-id" class={ICON} />
+            <div>
+              <dt class="text-sm font-medium text-gray-400">統一編號</dt>
+              <dd class="mt-1 text-white">{organization.tax_id}</dd>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <Icon name="email" class={ICON} />
+            <div>
+              <dt class="text-sm font-medium text-gray-400">電子信箱</dt>
+              <dd class="mt-1">
+                <a href={`mailto:${organization.email}`} class="text-accent transition-colors hover:text-accent-light">{organization.email}</a>
+              </dd>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <Icon name="phone" class={ICON} />
+            <div>
+              <dt class="text-sm font-medium text-gray-400">聯絡電話</dt>
+              <dd class="mt-1">
+                <a href={getPhoneHref(organization.phone)} class="text-accent transition-colors hover:text-accent-light">{formatPhoneForDisplay(organization.phone)}</a>
+              </dd>
+            </div>
+          </div>
+        </dl>
+
+        <div class="mt-6 border-t border-white/10 pt-6">
+          <h3 class="text-base font-semibold text-white">立案與法人資訊</h3>
+          <dl class="mt-4 space-y-3">
+            <div class="flex items-start gap-3">
+              <Icon name="authority" class={ICON} />
+              <div>
+                <dt class="text-sm font-medium text-gray-400">立案機關</dt>
+                <dd class="mt-1 text-white">內政部</dd>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <Icon name="incorporation-letter" class={ICON} />
+              <div>
+                <dt class="text-sm font-medium text-gray-400">立案函文號</dt>
+                <dd class="mt-1 text-white">{incorporationLetter?.document_number ?? "請參考下列公開文件"}</dd>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <Icon name="registration" class={ICON} />
+              <div>
+                <dt class="text-sm font-medium text-gray-400">法人登記文號</dt>
+                <dd class="mt-1 text-white">{registrationCertificate?.document_number ?? "請參考下列公開文件"}</dd>
+              </div>
+            </div>
+          </dl>
+
+          {
+            incorporationLicense && (
+              <div class="mt-4 flex items-start gap-2 text-xs leading-relaxed text-gray-400">
+                <Icon name="certificate" class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                <p>立案證明文件已公開：{incorporationLicense.title}</p>
+              </div>
+            )
+          }
+        </div>
+      </div>
+
+      <div class="rounded-xl border border-white/10 bg-primary/40 p-6 shadow-sm">
+        <h2 class="mb-6 text-xl font-semibold text-white">社群連結</h2>
+        <ul class="space-y-4">
+          {
+            SOCIAL_LINKS.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${link.name}：${link.description}（在新視窗開啟）`}
+                  class="group flex items-start gap-4 rounded-lg p-3 transition-colors hover:bg-white/5"
+                >
+                  <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-primary-dark transition-colors group-hover:bg-white group-hover:text-accent">
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d={link.iconPath} />
+                    </svg>
+                  </span>
+                  <div>
+                    <span class="font-medium text-white group-hover:text-accent">{link.name}</span>
+                    <p class="mt-0.5 text-sm text-gray-400">{link.description}</p>
+                  </div>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

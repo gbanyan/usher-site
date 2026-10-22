@@ -1,0 +1,69 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import DocumentList from "../components/DocumentList.astro";
+import { getAllPublicDocuments } from "../lib/api";
+import { buildPageMetadata } from "../lib/metadata";
+import { getDocumentUpdatedAt } from "../lib/transform";
+import { formatDate } from "../lib/utils";
+
+const documents = await getAllPublicDocuments();
+
+const categoryCount = new Set(
+  documents.map((document) => document.category?.slug).filter((slug): slug is string => Boolean(slug))
+).size;
+
+const latestUpdatedDate = documents
+  .map((document) => getDocumentUpdatedAt(document))
+  .filter((value): value is string => Boolean(value))
+  .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())[0];
+
+const stats = [
+  { label: "公開文件總數", value: String(documents.length), tabular: true },
+  { label: "分類數量", value: String(categoryCount), tabular: true },
+  { label: "已索引狀態", value: "公開中", tabular: false },
+  { label: "最近更新日", value: latestUpdatedDate ? formatDate(latestUpdatedDate) : "尚無資料", tabular: true },
+];
+---
+
+<BaseLayout meta={buildPageMetadata("協會文件", "協會公開文件、版本資訊與下載列表", "/document")}>
+  <PageHeader title="協會文件" description="公開文件、版本資訊與下載入口" items={[{ label: "協會文件" }]} />
+
+  <section class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+    <header class="mb-8 rounded-xl border border-white/15 bg-primary/40 p-6 shadow-sm shadow-black/20">
+      <h2 class="text-balance text-2xl font-semibold text-white">公開文件列表</h2>
+      <p class="mt-2 max-w-3xl text-pretty text-sm text-gray-300">
+        本頁資料由 member 文件庫同步。每筆文件保留版本資訊、更新日期與下載連結。
+      </p>
+      <dl class="mt-5 grid grid-cols-1 gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
+        {
+          stats.map((stat) => (
+            <div class="rounded-lg border border-white/10 bg-primary-dark/70 px-4 py-3">
+              <dt class="text-gray-300">{stat.label}</dt>
+              <dd class:list={["mt-1 text-lg font-semibold text-white", { "tabular-nums": stat.tabular }]}>{stat.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </header>
+
+    {
+      documents.length > 0 ? (
+        <DocumentList documents={documents} />
+      ) : (
+        <div class="rounded-xl border border-dashed border-white/20 bg-primary/40 px-6 py-12 text-center" role="status">
+          <p class="text-base font-medium text-white">目前尚無可顯示的協會文件</p>
+          <p class="mt-2 text-sm text-gray-300">可稍後再查看，或直接聯絡協會索取所需資源。</p>
+          <div class="mt-4">
+            <a
+              href="/contact"
+              class="inline-flex items-center rounded-md bg-accent px-4 py-2 text-sm font-medium text-primary-dark hover:bg-accent-light"
+            >
+              聯絡協會
+            </a>
+          </div>
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

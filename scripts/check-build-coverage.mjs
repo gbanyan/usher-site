@@ -11,9 +11,11 @@ import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 
 const DIST = path.join(process.cwd(), "dist");
-// TODO(Task 6): add "document" once /document/[slug] detail pages are built.
-const LINK_SECTIONS = ["blog", "notice", "story", "guides", "related-news"];
+const LINK_SECTIONS = ["blog", "notice", "story", "guides", "related-news", "document"];
 const REQUIRED_SECTIONS = ["blog", "notice", "story", "guides", "related-news"];
+// Dead links authored inside CMS content that also 404 on production. Fix them
+// in the CMS (pages/logo_represent), then remove the entry.
+const KNOWN_DEAD_LINKS = new Set(["/document/媒體宣傳資源"]);
 const DETAIL_HREF = new RegExp(`href="(/(?:${LINK_SECTIONS.join("|")})/[^"#?]+)`, "g");
 
 async function exists(p) {
@@ -83,7 +85,7 @@ async function main() {
   for (const file of htmlFiles) {
     const html = await readFile(file, "utf8");
     for (const [, href] of html.matchAll(DETAIL_HREF)) {
-      if (!(await resolves(href))) {
+      if (!(await resolves(href)) && !KNOWN_DEAD_LINKS.has(decodeURIComponent(href))) {
         const pages = missing.get(href) ?? new Set();
         pages.add(path.relative(DIST, file));
         missing.set(href, pages);

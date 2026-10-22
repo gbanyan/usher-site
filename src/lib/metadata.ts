@@ -31,6 +31,8 @@ export interface PageMeta {
   locale?: "zh_TW" | "en_US";
   siteName?: string;
   alternates?: { "zh-TW": string; en: string };
+  /** Emits <meta name="robots" content="noindex"> (production does this on its 404 page). */
+  noindex?: boolean;
 }
 
 /**

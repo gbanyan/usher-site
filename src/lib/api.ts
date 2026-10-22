@@ -323,10 +323,15 @@ export async function getCategories(): Promise<Category[]> {
 
 export async function getPage(slug: string): Promise<Page> {
   if (isSnapshotMode()) {
-    const res = await readSnapshot<{ data: Page }>(
-      path.join("pages", `${slug}.json`)
-    );
-    return res.data;
+    // Older snapshots store pages under hyphenated slugs (logo-represent).
+    const read = (name: string) =>
+      readSnapshot<{ data: Page }>(path.join("pages", `${name}.json`));
+    try {
+      return (await read(slug)).data;
+    } catch (error) {
+      if (!slug.includes("_")) throw error;
+      return (await read(slug.replaceAll("_", "-"))).data;
+    }
   }
 
   const res = await fetchAPI<{ data: Page }>(`/pages/${slug}`);

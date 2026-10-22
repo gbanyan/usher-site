@@ -24,6 +24,7 @@ const imageUrl = /^https?:\/\//.test(meta.image)
 <meta name="description" content={meta.description} />
 {meta.keywords && <meta name="keywords" content={meta.keywords} />}
 <link rel="canonical" href={meta.canonical} />
+{meta.noindex && <meta name="robots" content="noindex" />}
 {
   meta.alternates && (
     <>
