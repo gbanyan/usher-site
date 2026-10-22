@@ -45,4 +45,33 @@ describe("renderMarkdown", () => {
   it("joins links split across lines", async () => {
     expect(await renderMarkdown("[a](\n  https://example.com\n)")).toContain('href="https://example.com"');
   });
+
+  describe("url safety", () => {
+    it("blanks javascript: links in any case", async () => {
+      for (const u of ["javascript:alert(1)", "JaVaScRiPt:alert(1)"]) {
+        const html = await renderMarkdown(`[x](${u})`);
+        expect(html.toLowerCase()).not.toContain("javascript:");
+        expect(html).not.toContain("href");
+      }
+    });
+    it("blanks vbscript: and data: links", async () => {
+      expect(await renderMarkdown("[x](vbscript:msgbox)")).not.toContain("href");
+      expect(await renderMarkdown("[x](data:text/html,hi)")).not.toContain("href");
+    });
+    it("drops javascript: and data: images", async () => {
+      expect(await renderMarkdown("![a](javascript:alert(1))")).not.toContain("<img");
+      expect(await renderMarkdown("![a](data:image/png;base64,AAAA)")).not.toContain("<img");
+    });
+    it("keeps mailto and relative links", async () => {
+      expect(await renderMarkdown("[m](mailto:a@b.co)")).toContain('href="mailto:a@b.co"');
+      expect(await renderMarkdown("[r](/faq?x=a:b)")).toContain('href="/faq?x=a:b"');
+      expect(await renderMarkdown("[h](#top)")).toContain('href="#top"');
+    });
+  });
+
+  it("wraps images in the old spacing span", async () => {
+    expect(await renderMarkdown("![alt](/images/x.png)")).toContain(
+      '<span class="my-4 block overflow-hidden rounded-lg"><img'
+    );
+  });
 });

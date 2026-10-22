@@ -80,8 +80,46 @@ function youTubeFigure(href: string): Element | null {
   ]);
 }
 
+const SAFE_PROTOCOL = /^(https?|ircs?|mailto|xmpp)$/i;
+
+/** Mirrors react-markdown's defaultUrlTransform. */
+function safeUrl(url: string): string {
+  const colon = url.indexOf(":");
+  const question = url.indexOf("?");
+  const hash = url.indexOf("#");
+  const slash = url.indexOf("/");
+  if (
+    colon < 0 ||
+    (slash > -1 && colon > slash) ||
+    (question > -1 && colon > question) ||
+    (hash > -1 && colon > hash) ||
+    SAFE_PROTOCOL.test(url.slice(0, colon))
+  ) {
+    return url;
+  }
+  return "";
+}
+
+function sanitizeUrls(tree: Root) {
+  visit(tree, "element", (node, index, parent) => {
+    if (node.tagName === "a" && typeof node.properties?.href === "string") {
+      const href = safeUrl(node.properties.href);
+      if (href) node.properties.href = href;
+      else delete node.properties.href;
+    } else if (node.tagName === "img") {
+      const src = typeof node.properties?.src === "string" ? safeUrl(node.properties.src) : "";
+      if (!src && parent && typeof index === "number") {
+        parent.children.splice(index, 1);
+        return index;
+      }
+      node.properties.src = src;
+    }
+  });
+}
+
 function rehypeSiteBehaviours() {
   return (tree: Root) => {
+    sanitizeUrls(tree);
     visit(tree, "element", (node, index, parent) => {
       if (node.tagName in DEMOTED) {
         node.tagName = DEMOTED[node.tagName];
@@ -104,6 +142,14 @@ function rehypeSiteBehaviours() {
           decoding: "async",
           className: ["h-auto", "w-full"],
         };
+        if (parent && typeof index === "number") {
+          parent.children[index] = el(
+            "span",
+            { className: ["my-4", "block", "overflow-hidden", "rounded-lg"] },
+            [node]
+          );
+          return "skip";
+        }
         return;
       }
       if (node.tagName === "p" && parent && typeof index === "number") {
