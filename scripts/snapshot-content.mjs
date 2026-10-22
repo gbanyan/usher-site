@@ -34,8 +34,14 @@ function hasFlag(flag) {
 const apiBase =
   getArg("--api") ||
   process.env.SNAPSHOT_API_URL ||
+  process.env.CMS_API_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
   "http://localhost:8001/api/v1";
+
+function cmsHeaders(extra = {}) {
+  const token = process.env.SITE_BUILD_TOKEN;
+  return token ? { ...extra, "X-Site-Build-Token": token } : extra;
+}
 
 const snapshotDir =
   getArg("--out") ||
@@ -45,7 +51,7 @@ const snapshotDir =
 const downloadAttachments = !hasFlag("--skip-attachments");
 
 async function fetchJson(url) {
-  const res = await fetch(url, { headers: { Accept: "application/json" } });
+  const res = await fetch(url, { headers: cmsHeaders({ Accept: "application/json" }) });
   if (!res.ok) {
     throw new Error(`Fetch failed: ${res.status} ${res.statusText} (${url})`);
   }
@@ -97,7 +103,7 @@ async function writeJson(rel, data) {
 }
 
 async function downloadFile(url, destAbsPath) {
-  const res = await fetch(url);
+  const res = await fetch(url, { headers: cmsHeaders() });
   if (!res.ok) {
     throw new Error(`Download failed: ${res.status} ${res.statusText} (${url})`);
   }

@@ -18,20 +18,28 @@ import {
   normalizePaginatedArticles,
 } from "./transform";
 
-import "server-only";
 import path from "node:path";
 import { readFile } from "node:fs/promises";
 
 type ContentSource = "api" | "snapshot";
 
-const CONTENT_SOURCE: ContentSource =
-  (process.env.CONTENT_SOURCE as ContentSource | undefined) ?? "api";
+// Read env lazily so tests (and build-time overrides) can change it.
+function getContentSource(): ContentSource {
+  return (process.env.CONTENT_SOURCE as ContentSource | undefined) || "api";
+}
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001/api/v1";
+function isSnapshotMode(): boolean {
+  return getContentSource() === "snapshot";
+}
 
-// Statically scoped so Turbopack does not trace the whole project into the
-// output (the snapshot generator script keeps its own --out override).
+function getApiUrl(): string {
+  return (
+    process.env.CMS_API_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    "http://localhost:8001/api/v1"
+  );
+}
+
 const SNAPSHOT_DIR = path.join(process.cwd(), "content-snapshots");
 const API_PAGE_SIZE = 100;
 
@@ -41,28 +49,39 @@ async function readSnapshot<T>(relativePath: string): Promise<T> {
   return JSON.parse(raw) as T;
 }
 
-async function fetchAPI<T>(
-  path: string,
-  options?: { revalidate?: number | false; tags?: string[] }
-): Promise<T> {
-  if (CONTENT_SOURCE === "snapshot") {
-    throw new Error(
-      `Network fetch blocked (CONTENT_SOURCE=snapshot). Missing snapshot for: ${path}`
+// Identical requests within one build share a single in-flight/settled promise.
+const requestCache = new Map<string, Promise<unknown>>();
+
+export function fetchAPI<T>(endpoint: string): Promise<T> {
+  if (isSnapshotMode()) {
+    return Promise.reject(
+      new Error(
+        `Network fetch blocked (CONTENT_SOURCE=snapshot). Missing snapshot for: ${endpoint}`
+      )
     );
   }
 
-  const res = await fetch(`${API_URL}${path}`, {
-    next: {
-      revalidate: options?.revalidate ?? false,
-      tags: options?.tags,
-    },
-  });
+  const url = `${getApiUrl()}${endpoint}`;
+  const token = process.env.SITE_BUILD_TOKEN;
+  const key = `${token ? "t:" : ""}${url}`;
+  const cached = requestCache.get(key);
+  if (cached) return cached as Promise<T>;
 
-  if (!res.ok) {
-    throw new Error(`API error: ${res.status} ${res.statusText}`);
-  }
+  const headers: Record<string, string> = { Accept: "application/json" };
+  if (token) headers["X-Site-Build-Token"] = token;
 
-  return res.json();
+  const request = (async () => {
+    const res = await fetch(url, { headers });
+    if (!res.ok) {
+      throw new Error(`API error: ${res.status} ${res.statusText} (${url})`);
+    }
+    return (await res.json()) as T;
+  })();
+
+  requestCache.set(key, request);
+  // Do not cache failures: a retry in the same process may succeed.
+  request.catch(() => requestCache.delete(key));
+  return request;
 }
 
 async function getAllPaginatedItems<T>(
@@ -142,7 +161,7 @@ export async function getArticles(params?: {
   page?: number;
   per_page?: number;
 }): Promise<PaginatedResponse<ArticleSummary>> {
-  if (CONTENT_SOURCE === "snapshot") {
+  if (isSnapshotMode()) {
     const type = params?.type;
     if (!type) {
       throw new Error("Snapshot mode requires params.type for getArticles().");
@@ -206,8 +225,7 @@ export async function getArticles(params?: {
 
   const query = searchParams.toString();
   const res = await fetchAPI<PaginatedResponse<ArticleSummary>>(
-    `/articles${query ? `?${query}` : ""}`,
-    { tags: ["articles"] }
+    `/articles${query ? `?${query}` : ""}`
   );
 
   return normalizePaginatedArticles(res);
@@ -251,7 +269,7 @@ export async function getChineseStoryFallbackArticles(): Promise<ArticleSummary[
 }
 
 export async function getArticle(slug: string): Promise<ArticleDetailResponse> {
-  if (CONTENT_SOURCE === "snapshot") {
+  if (isSnapshotMode()) {
     const res = await readSnapshot<ArticleDetailResponse>(
       path.join("articles", "by-slug", `${slug}.json`)
     );
@@ -263,9 +281,7 @@ export async function getArticle(slug: string): Promise<ArticleDetailResponse> {
     };
   }
 
-  const res = await fetchAPI<ArticleDetailResponse>(`/articles/${slug}`, {
-    tags: ["articles", `article-${slug}`],
-  });
+  const res = await fetchAPI<ArticleDetailResponse>(`/articles/${slug}`);
 
   return {
     ...res,
@@ -275,33 +291,29 @@ export async function getArticle(slug: string): Promise<ArticleDetailResponse> {
 }
 
 export async function getCategories(): Promise<Category[]> {
-  if (CONTENT_SOURCE === "snapshot") {
+  if (isSnapshotMode()) {
     const res = await readSnapshot<{ data: Category[] }>("categories.json");
     return res.data;
   }
 
-  const res = await fetchAPI<{ data: Category[] }>("/categories", {
-    tags: ["categories"],
-  });
+  const res = await fetchAPI<{ data: Category[] }>("/categories");
   return res.data;
 }
 
 export async function getPage(slug: string): Promise<Page> {
-  if (CONTENT_SOURCE === "snapshot") {
+  if (isSnapshotMode()) {
     const res = await readSnapshot<{ data: Page }>(
       path.join("pages", `${slug}.json`)
     );
     return res.data;
   }
 
-  const res = await fetchAPI<{ data: Page }>(`/pages/${slug}`, {
-    tags: ["pages", `page-${slug}`],
-  });
+  const res = await fetchAPI<{ data: Page }>(`/pages/${slug}`);
   return res.data;
 }
 
 export async function getHomepage(): Promise<HomepageData> {
-  if (CONTENT_SOURCE === "snapshot") {
+  if (isSnapshotMode()) {
     const data = await readSnapshot<HomepageData>("homepage.json");
     return {
       ...data,
@@ -313,9 +325,7 @@ export async function getHomepage(): Promise<HomepageData> {
     };
   }
 
-  const data = await fetchAPI<HomepageData>("/homepage", {
-    tags: ["homepage"],
-  });
+  const data = await fetchAPI<HomepageData>("/homepage");
 
   return {
     ...data,
@@ -328,31 +338,22 @@ export async function getHomepage(): Promise<HomepageData> {
 }
 
 export async function getOrganizationProfile(): Promise<OrganizationProfile> {
-  if (CONTENT_SOURCE === "snapshot") {
+  if (isSnapshotMode()) {
     return FALLBACK_ORGANIZATION_PROFILE;
   }
 
-  try {
-    const response = await fetchAPI<{ data: OrganizationProfile }>(
-      "/organization-profile",
-      { tags: ["organization-profile"] }
-    );
-
-    return response.data;
-  } catch {
-    return FALLBACK_ORGANIZATION_PROFILE;
-  }
+  // api mode: let failures propagate so the build fails all-or-nothing.
+  const response = await fetchAPI<{ data: OrganizationProfile }>(
+    "/organization-profile"
+  );
+  return response.data;
 }
 
 export async function getAllArticleSlugs(
   type: ContentType
 ): Promise<string[]> {
-  try {
-    const articles = await getAllArticles({ type });
-    return articles.map((article) => article.slug);
-  } catch {
-    return [];
-  }
+  const articles = await getAllArticles({ type });
+  return articles.map((article) => article.slug);
 }
 
 export async function getPublicDocuments(params?: {
@@ -361,7 +362,7 @@ export async function getPublicDocuments(params?: {
   page?: number;
   per_page?: number;
 }): Promise<PaginatedResponse<PublicDocumentSummary>> {
-  if (CONTENT_SOURCE === "snapshot") {
+  if (isSnapshotMode()) {
     try {
       const response = await readSnapshot<PaginatedResponse<PublicDocumentSummary>>(
         path.join("public-documents", "list.json")
@@ -379,7 +380,7 @@ export async function getPublicDocuments(params?: {
     return {
       ...legacy,
       data: legacy.data.map((article) =>
-        mapLegacyArticleSummaryToPublicDocument(article, API_URL)
+        mapLegacyArticleSummaryToPublicDocument(article, getApiUrl())
       ),
     };
   }
@@ -394,8 +395,7 @@ export async function getPublicDocuments(params?: {
 
   try {
     return await fetchAPI<PaginatedResponse<PublicDocumentSummary>>(
-      `/public-documents${query ? `?${query}` : ""}`,
-      { tags: ["documents"] }
+      `/public-documents${query ? `?${query}` : ""}`
     );
   } catch {
     // Backward-compatible fallback while older deployments still expose document articles only.
@@ -410,7 +410,7 @@ export async function getPublicDocuments(params?: {
     return {
       ...legacy,
       data: legacy.data.map((article) =>
-        mapLegacyArticleSummaryToPublicDocument(article, API_URL)
+        mapLegacyArticleSummaryToPublicDocument(article, getApiUrl())
       ),
     };
   }
@@ -432,7 +432,7 @@ export async function getAllPublicDocuments(params?: {
 export async function getPublicDocument(
   slug: string
 ): Promise<PublicDocumentDetailResponse> {
-  if (CONTENT_SOURCE === "snapshot") {
+  if (isSnapshotMode()) {
     try {
       return await readSnapshot<PublicDocumentDetailResponse>(
         path.join("public-documents", "by-slug", `${slug}.json`)
@@ -443,32 +443,27 @@ export async function getPublicDocument(
 
     const legacy = await getArticle(slug);
     return mapLegacyArticleDetailToPublicDocument(legacy, {
-      apiUrl: API_URL,
+      apiUrl: getApiUrl(),
       resolveDownloadUrl: getAttachmentDownloadUrl,
     });
   }
 
   try {
     return await fetchAPI<PublicDocumentDetailResponse>(
-      `/public-documents/${slug}`,
-      { tags: ["documents", `document-${slug}`] }
+      `/public-documents/${slug}`
     );
   } catch {
     const legacy = await getArticle(slug);
     return mapLegacyArticleDetailToPublicDocument(legacy, {
-      apiUrl: API_URL,
+      apiUrl: getApiUrl(),
       resolveDownloadUrl: getAttachmentDownloadUrl,
     });
   }
 }
 
 export async function getAllPublicDocumentSlugs(): Promise<string[]> {
-  try {
-    const documents = await getAllPublicDocuments();
-    return documents.map((document) => document.slug);
-  } catch {
-    return getAllArticleSlugs("document");
-  }
+  const documents = await getAllPublicDocuments();
+  return documents.map((document) => document.slug);
 }
 
 function sanitizeFilename(filename: string): string {
@@ -481,10 +476,10 @@ export function getAttachmentDownloadUrl(
   attachmentId: number,
   originalFilename?: string
 ): string {
-  if (CONTENT_SOURCE === "snapshot") {
+  if (isSnapshotMode()) {
     const safeName = sanitizeFilename(originalFilename ?? "attachment");
     return `/attachments/${encodeURIComponent(articleSlug)}/${attachmentId}-${safeName}`;
   }
 
-  return `${API_URL}/articles/${articleSlug}/attachments/${attachmentId}/download`;
+  return `${getApiUrl()}/articles/${articleSlug}/attachments/${attachmentId}/download`;
 }

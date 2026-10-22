@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isNavHrefActive } from "./nav";
+import { isNavHrefActive, toRoutePath } from "./nav";
 
 describe("isNavHrefActive", () => {
   it("matches a section and its detail pages", () => {
@@ -19,4 +19,14 @@ describe("isNavHrefActive", () => {
     expect(isNavHrefActive("/news", "/blogroll")).toBe(false);
     expect(isNavHrefActive("/related-news", "/news")).toBe(false);
   });
+});
+
+describe("toRoutePath", () => {
+  it.each([
+    ["/about.html", "/about"],
+    ["/index.html", "/"],
+    ["/blog/x.html", "/blog/x"],
+    ["/news", "/news"],
+    ["/", "/"],
+  ])("toRoutePath(%s) = %s", (a, b) => expect(toRoutePath(a)).toBe(b));
 });
