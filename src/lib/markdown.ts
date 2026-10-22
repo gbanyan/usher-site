@@ -39,7 +39,7 @@ function externalAttrs(node: Element) {
   node.properties = {
     ...node.properties,
     target: "_blank",
-    rel: "noopener noreferrer",
+    rel: ["noopener", "noreferrer"],
   };
   node.children.push(srHint());
 }
@@ -62,7 +62,7 @@ function youTubeFigure(href: string): Element | null {
   if (!id || !src) return null;
   const link = el(
     "a",
-    { href, target: "_blank", rel: "noopener noreferrer" },
+    { href, target: "_blank", rel: ["noopener", "noreferrer"] },
     [{ type: "text", value: "在 YouTube 觀看" }, srHint()]
   );
   return el("figure", { className: ["my-6"] }, [
