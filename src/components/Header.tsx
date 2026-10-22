@@ -6,6 +6,7 @@ import Link from "next/link";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
 import { SearchButton } from "./SearchButton";
+import { isNavHrefActive } from "@/lib/nav";
 import { EN_COPY } from "@/lib/i18n";
 
 const SearchModal = dynamic(
@@ -120,7 +121,7 @@ function DesktopDropdown({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const isActive =
-    item.children?.some((child) => pathname.startsWith(child.href)) ?? false;
+    item.children?.some((child) => isNavHrefActive(child.href, pathname)) ?? false;
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -184,8 +185,8 @@ function DesktopDropdown({
             <li key={child.href}>
               <Link
                 href={child.href}
-                aria-current={pathname.startsWith(child.href) ? "page" : undefined}
-                className={`block px-4 py-2.5 text-sm transition-colors hover:bg-primary-light/20 hover:text-accent ${pathname.startsWith(child.href) ? "text-accent" : "text-white"
+                aria-current={isNavHrefActive(child.href, pathname) ? "page" : undefined}
+                className={`block px-4 py-2.5 text-sm transition-colors hover:bg-primary-light/20 hover:text-accent ${isNavHrefActive(child.href, pathname) ? "text-accent" : "text-white"
                   }`}
                 onClick={() => setOpen(false)}
               >
@@ -338,8 +339,8 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href!}
-                  aria-current={pathname.startsWith(item.href!) ? "page" : undefined}
-                  className={`inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-light/10 hover:text-accent ${pathname.startsWith(item.href!)
+                  aria-current={isNavHrefActive(item.href!, pathname) ? "page" : undefined}
+                  className={`inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-light/10 hover:text-accent ${isNavHrefActive(item.href!, pathname)
                     ? "text-accent"
                     : "text-white"
                     }`}
@@ -435,7 +436,7 @@ export default function Header() {
                             : `${item.label}，${mobileOpenSubmenus.has(item.label) ? "收合" : "展開"}子選單`
                         }
                         className={`flex w-full items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 ${item.children.some((child) =>
-                          pathname.startsWith(child.href)
+                          isNavHrefActive(child.href, pathname)
                         )
                           ? "text-accent"
                           : "text-white"
@@ -470,8 +471,8 @@ export default function Header() {
                             <li key={child.href}>
                               <Link
                                 href={child.href}
-                                aria-current={pathname.startsWith(child.href) ? "page" : undefined}
-                                className={`block rounded-md px-3 py-2 text-sm transition-colors hover:bg-primary-light/20 hover:text-accent ${pathname.startsWith(child.href)
+                                aria-current={isNavHrefActive(child.href, pathname) ? "page" : undefined}
+                                className={`block rounded-md px-3 py-2 text-sm transition-colors hover:bg-primary-light/20 hover:text-accent ${isNavHrefActive(child.href, pathname)
                                   ? "text-accent"
                                   : "text-white/80"
                                   }`}
@@ -486,8 +487,8 @@ export default function Header() {
                   ) : (
                     <Link
                       href={item.href!}
-                      aria-current={pathname.startsWith(item.href!) ? "page" : undefined}
-                      className={`inline-flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 hover:text-accent ${pathname.startsWith(item.href!)
+                      aria-current={isNavHrefActive(item.href!, pathname) ? "page" : undefined}
+                      className={`inline-flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 hover:text-accent ${isNavHrefActive(item.href!, pathname)
                         ? "text-accent"
                         : "text-white"
                         }`}

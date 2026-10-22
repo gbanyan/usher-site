@@ -4,6 +4,7 @@ import {
   formatDate,
   formatFileSize,
   getEmbeddableYouTubeId,
+  getYouTubeEmbedUrl,
   getYouTubeVideoId,
   stripMarkdown,
 } from "./utils";
@@ -100,5 +101,31 @@ describe("getEmbeddableYouTubeId", () => {
     expect(
       getEmbeddableYouTubeId("https://example.com/", "https://example.com/")
     ).toBeNull();
+  });
+});
+
+describe("getYouTubeEmbedUrl", () => {
+  const embed = "https://www.youtube-nocookie.com/embed/2A1ATKD-KBc";
+
+  it("builds a privacy-enhanced embed URL", () => {
+    expect(getYouTubeEmbedUrl("https://www.youtube.com/watch?v=2A1ATKD-KBc")).toBe(embed);
+  });
+
+  it.each([
+    ["https://www.youtube.com/watch?v=2A1ATKD-KBc&t=90", 90],
+    ["https://www.youtube.com/watch?v=2A1ATKD-KBc&t=90s", 90],
+    ["https://youtu.be/2A1ATKD-KBc?t=1m30s", 90],
+    ["https://www.youtube.com/watch?v=2A1ATKD-KBc&t=1h2m3s", 3723],
+    ["https://www.youtube.com/live/2A1ATKD-KBc?start=45", 45],
+  ])("keeps the start time from %s", (href, seconds) => {
+    expect(getYouTubeEmbedUrl(href)).toBe(`${embed}?start=${seconds}`);
+  });
+
+  it("ignores an unreadable start time", () => {
+    expect(getYouTubeEmbedUrl("https://www.youtube.com/watch?v=2A1ATKD-KBc&t=soon")).toBe(embed);
+  });
+
+  it("returns null for non-video links", () => {
+    expect(getYouTubeEmbedUrl("https://example.com/")).toBeNull();
   });
 });

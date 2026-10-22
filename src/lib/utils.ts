@@ -78,3 +78,25 @@ export function getEmbeddableYouTubeId(
 ): string | null {
   return text.trim() === href ? getYouTubeVideoId(href) : null;
 }
+
+function parseYouTubeStart(value: string | null): number | null {
+  if (!value) return null;
+  if (/^\d+$/.test(value)) return Number(value);
+  const match = value.match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/);
+  if (!match || !match[0]) return null;
+  const [, h = "0", m = "0", s = "0"] = match;
+  return Number(h) * 3600 + Number(m) * 60 + Number(s);
+}
+
+/**
+ * Privacy-enhanced embed URL for a YouTube link, keeping its start time
+ * (`t=90`, `t=1m30s` or `start=90`). Null for anything that is not a video.
+ */
+export function getYouTubeEmbedUrl(href: string): string | null {
+  const id = getYouTubeVideoId(href);
+  if (!id) return null;
+  const params = new URL(href).searchParams;
+  const start = parseYouTubeStart(params.get("t") ?? params.get("start"));
+  const embed = `https://www.youtube-nocookie.com/embed/${id}`;
+  return start ? `${embed}?start=${start}` : embed;
+}

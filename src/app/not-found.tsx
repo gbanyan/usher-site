@@ -2,8 +2,8 @@ import Link from "next/link";
 
 const QUICK_LINKS = [
   { label: "首頁", href: "/" },
-  { label: "事務公告", href: "/notice" },
-  { label: "部落格", href: "/blog" },
+  { label: "活動與公告", href: "/news" },
+  { label: "常見問題", href: "/faq" },
   { label: "協會文件", href: "/document" },
   { label: "相關報導", href: "/related-news" },
   { label: "聯繫資訊", href: "/contact" },

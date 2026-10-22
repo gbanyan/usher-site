@@ -4,7 +4,11 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Image from "next/image";
 import type { Components, ExtraProps } from "react-markdown";
-import { getEmbeddableYouTubeId, getYouTubeVideoId } from "@/lib/utils";
+import {
+  getEmbeddableYouTubeId,
+  getYouTubeEmbedUrl,
+  getYouTubeVideoId,
+} from "@/lib/utils";
 
 interface MarkdownRendererProps {
   content: string;
@@ -82,12 +86,14 @@ function standaloneYouTubeLink(node: ParagraphProps["node"]): string | null {
 
 function YouTubeEmbed({ href }: { href: string }) {
   const id = getYouTubeVideoId(href);
+  const src = getYouTubeEmbedUrl(href);
+  if (!id || !src) return null;
   return (
     <figure className="my-6">
       <div className="aspect-video w-full overflow-hidden rounded-lg">
         <iframe
-          src={`https://www.youtube-nocookie.com/embed/${id}`}
-          title="YouTube 影片播放器"
+          src={src}
+          title={`YouTube 影片播放器（影片 ${id}）`}
           loading="lazy"
           allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
