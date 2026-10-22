@@ -1,0 +1,8 @@
+[
+  { "path": "/news", "field": "text", "reason": "listing shows all cards server-side (no client pagination)" },
+  { "path": "/story", "field": "text", "reason": "listing shows all cards server-side (no client pagination)" },
+  { "path": "/guides", "field": "text", "reason": "listing shows all cards server-side (no client pagination)" },
+  { "path": "/related-news", "field": "text", "reason": "listing shows all cards server-side (no client pagination)" },
+  { "path": "/document", "field": "text", "reason": "listing shows all cards server-side (no client pagination)" },
+  { "path": "/logo-represent", "field": "text", "reason": "literal \"<br/>\" no longer rendered" }
+]
