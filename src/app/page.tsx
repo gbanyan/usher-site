@@ -358,7 +358,7 @@ export default async function HomePage() {
           <section className="bg-primary-dark py-16 sm:py-24">
             <ArticleList
               articles={mergeAndSortLatestNews(data)}
-              href="/blog"
+              href="/news"
               title="最新消息"
               showType
             />

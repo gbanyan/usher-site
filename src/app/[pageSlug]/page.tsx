@@ -9,11 +9,13 @@ const PAGE_ROUTES: Record<string, { title: string; apiSlug: string }> = {
   structure: { title: "組織架構", apiSlug: "structure" },
   message: { title: "理事長的話", apiSlug: "message" },
   "logo-represent": { title: "Logo象徵", apiSlug: "logo_represent" },
+  faq: { title: "常見問題", apiSlug: "faq" },
   logo_represent: { title: "Logo象徵", apiSlug: "logo_represent" },
 };
 
 export function generateStaticParams() {
-  return ["structure", "message", "logo-represent"].map((pageSlug) => ({
+  // message is kept only so its permanent redirect to /about is generated.
+  return ["structure", "message", "logo-represent", "faq"].map((pageSlug) => ({
     pageSlug,
   }));
 }
@@ -30,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { pageSlug } = await params;
   const route = PAGE_ROUTES[pageSlug];
 
-  if (!route) {
+  if (!route || pageSlug === "message") {
     return {};
   }
 
@@ -71,6 +73,11 @@ export default async function StaticPage({ params }: PageProps) {
 
   if (pageSlug === "logo_represent") {
     permanentRedirect("/logo-represent");
+  }
+
+  // 理事長的話 duplicated the about page word for word; keep old links alive.
+  if (pageSlug === "message") {
+    permanentRedirect("/about");
   }
 
   let page;

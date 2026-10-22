@@ -11,7 +11,7 @@ const PAGE_ROUTES = [
   { file: "about", apiSlug: "about" },
   { file: "contact", apiSlug: "contact" },
   { file: "structure", apiSlug: "structure" },
-  { file: "message", apiSlug: "message" },
+  { file: "faq", apiSlug: "faq" },
   { file: "logo-represent", apiSlug: "logo_represent" },
 ];
 

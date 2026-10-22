@@ -22,10 +22,14 @@ const ROOT = process.cwd();
 const HTML_DIR = path.join(ROOT, ".next", "server", "app");
 const CSS_DIR = path.join(ROOT, ".next", "static", "chunks");
 
-// These generated support documents are not rendered through the root layout,
-// so they do not expose the site's navigation or skip link.
+// These generated support documents (and permanent-redirect stubs) are not
+// rendered through the root layout, so they do not expose the site's
+// navigation or skip link.
 const EXEMPT_PAGES = new Set([
   "research.html",
+  "blog.html",
+  "notice.html",
+  "message.html",
   "_global-error.html",
   "llms.txt.html",
 ]);

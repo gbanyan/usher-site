@@ -8,10 +8,10 @@ import { usePathname } from "next/navigation";
 import { EN_COPY } from "@/lib/i18n";
 
 const QUICK_LINKS = [
-  { label: "事務公告", href: "/notice", icon: "notice" },
+  { label: "活動與公告", href: "/news", icon: "notice" },
   { label: "研究資源", href: "/research", icon: "research" },
   { label: "協會文件", href: "/document", icon: "document" },
-  { label: "部落格", href: "/blog", icon: "blog" },
+  { label: "常見問題", href: "/faq", icon: "document" },
 ] as const;
 
 const SOCIAL_LINKS = [

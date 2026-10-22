@@ -172,10 +172,10 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
   const navActions: QuickAction[] = [
     { id: "home", title: "首頁", url: "/", icon: <NavIcon type="home" /> },
-    { id: "blog", title: "部落格", url: "/blog", icon: <NavIcon type="blog" /> },
-    { id: "notice", title: "事務公告", url: "/notice", icon: <NavIcon type="notice" /> },
+    { id: "news", title: "活動與公告", url: "/news", icon: <NavIcon type="notice" /> },
     { id: "document", title: "協會文件", url: "/document", icon: <NavIcon type="document" /> },
     { id: "related-news", title: "相關報導", url: "/related-news", icon: <NavIcon type="news" /> },
+    { id: "faq", title: "常見問題", url: "/faq", icon: <NavIcon type="document" /> },
     { id: "about", title: "創立目的", url: "/about", icon: <NavIcon type="about" /> },
     { id: "contact", title: "聯繫資訊", url: "/contact", icon: <NavIcon type="contact" /> },
   ];

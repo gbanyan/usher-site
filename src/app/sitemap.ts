@@ -11,14 +11,13 @@ const STATIC_ROUTES: { path: string; priority: number; changeFrequency: "yearly"
   { path: "/en", priority: 0.9, changeFrequency: "monthly" },
   { path: "/about", priority: 0.9, changeFrequency: "monthly" },
   { path: "/contact", priority: 0.9, changeFrequency: "monthly" },
-  { path: "/blog", priority: 0.8, changeFrequency: "weekly" },
-  { path: "/notice", priority: 0.8, changeFrequency: "weekly" },
+  { path: "/news", priority: 0.8, changeFrequency: "weekly" },
   { path: "/document", priority: 0.8, changeFrequency: "weekly" },
   { path: "/related-news", priority: 0.8, changeFrequency: "weekly" },
   { path: "/guides", priority: 0.8, changeFrequency: "weekly" },
   { path: "/story", priority: 0.8, changeFrequency: "weekly" },
   { path: "/structure", priority: 0.7, changeFrequency: "yearly" },
-  { path: "/message", priority: 0.7, changeFrequency: "yearly" },
+  { path: "/faq", priority: 0.7, changeFrequency: "monthly" },
   { path: "/logo-represent", priority: 0.7, changeFrequency: "yearly" },
 ];
 

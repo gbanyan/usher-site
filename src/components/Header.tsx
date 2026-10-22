@@ -34,11 +34,9 @@ const NAV_ITEMS: NavItem[] = [
     children: [
       { label: "創立目的", href: "/about" },
       { label: "組織架構", href: "/structure" },
-      { label: "理事長的話", href: "/message" },
       { label: "Logo象徵", href: "/logo-represent" },
     ],
   },
-  { label: "相關報導", href: "/related-news", icon: "related-news" },
   {
     label: "資源中心",
     icon: "resources",
@@ -46,14 +44,15 @@ const NAV_ITEMS: NavItem[] = [
       { label: "協會文件", href: "/document" },
       { label: "建議與指引", href: "/guides" },
       { label: "病友故事", href: "/story" },
+      { label: "常見問題", href: "/faq" },
     ],
   },
   {
     label: "最新消息",
     icon: "updates",
     children: [
-      { label: "事務公告", href: "/notice" },
-      { label: "部落格", href: "/blog" },
+      { label: "活動與公告", href: "/news" },
+      { label: "相關報導", href: "/related-news" },
     ],
   },
   { label: "聯繫資訊", href: "/contact", icon: "contact" },
