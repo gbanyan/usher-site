@@ -66,3 +66,50 @@ describe("isAllowed", () => {
 it("ignores whitespace-only text differences", () => {
   expect(compareFacts(f, { ...f, text: "常見問題a b " })).toEqual([]);
 });
+
+import { EXPECTED_404, compareEmails, extractEmails, mediaType, pageProblems, unexpectedStatus } from "./parity";
+
+describe("pageProblems", () => {
+  it("flags missing or empty main", () => {
+    expect(pageProblems("<title>x</title><p>hi</p>")).toEqual(["no <main> element"]);
+    expect(pageProblems("<main> <script>x</script> </main>")).toEqual(["empty <main> text"]);
+    expect(pageProblems("<main>hi</main>")).toEqual([]);
+  });
+});
+
+describe("unexpectedStatus", () => {
+  it("allows 404 only for the expected probe URLs", () => {
+    expect(unexpectedStatus("/About", 404)).toBeUndefined();
+    expect(EXPECTED_404.has("/faq")).toBe(false);
+    expect(unexpectedStatus("/faq", 404)).toMatch(/404/);
+    expect(unexpectedStatus("/faq", 503)).toMatch(/503/);
+    expect(unexpectedStatus("/faq", 0)).toMatch(/0/);
+    expect(unexpectedStatus("/faq", 200)).toBeUndefined();
+    expect(unexpectedStatus("/blog", 308)).toBeUndefined();
+  });
+});
+
+describe("emails", () => {
+  const page = (b: string) => `<main>${b}</main>`;
+  it("detects a changed address", () => {
+    const o = extractEmails(page("mail info@usher.org.tw"));
+    const n = extractEmails(page("mail other@usher.org.tw"));
+    expect(compareEmails(o, n).length).toBe(2);
+  });
+  it("treats placeholder vs real address as equal", () => {
+    const o = extractEmails(page("mail [email&#160;protected]"));
+    const n = extractEmails(page("mail info@usher.org.tw"));
+    expect(compareEmails(o, n)).toEqual([]);
+  });
+  it("flags a missing address when old placeholder count is not met", () => {
+    expect(compareEmails(extractEmails(page("[email protected]")), extractEmails(page("none"))).length).toBe(1);
+  });
+  it("flags clear-text old address missing on new", () => {
+    expect(compareEmails(extractEmails(page("a@b.org")), extractEmails(page("x")))[0]).toMatch(/missing/);
+  });
+});
+
+it("compares media types without parameters", () => {
+  expect(mediaType("Application/PDF; charset=x")).toBe("application/pdf");
+  expect(mediaType(null)).toBe("");
+});

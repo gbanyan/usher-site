@@ -85,3 +85,53 @@ export function isAllowed(allow: AllowEntry[], path: string, field: ParityField)
   }
   return undefined;
 }
+
+/** URLs that are verified to be 404 on production; a 404 is acceptable only for these. */
+export const EXPECTED_404 = new Set([
+  "/this-page-does-not-exist-parity-check",
+  "/About",
+  "/blog/document-694e4dd6",
+  "/blog/20240406-usher-working-group.html",
+]);
+
+/** Hard problem for a response status on one side (404, 5xx, network failure), if any. */
+export function unexpectedStatus(path: string, status: number): string | undefined {
+  if (status === 404 && EXPECTED_404.has(path)) return undefined;
+  if (status === 0 || status === 404 || status >= 500) return `unexpected status ${status}`;
+  return undefined;
+}
+
+/** Problems that make a 200 HTML page's comparison meaningless (no <main>, empty text). */
+export function pageProblems(html: string): string[] {
+  if (!/<main\b[^>]*>[\s\S]*<\/main>/i.test(html)) return ["no <main> element"];
+  return extractPageFacts(html).text === "" ? ["empty <main> text"] : [];
+}
+
+export interface EmailFacts { real: string[]; placeholders: number }
+
+/** Real (clear-text) addresses, sorted and de-duplicated, plus the count of Cloudflare placeholders. */
+export function extractEmails(html: string): EmailFacts {
+  const mainHtml = /<main\b[^>]*>([\s\S]*)<\/main>/i.exec(html)?.[1] ?? "";
+  const raw = decodeEntities(mainHtml.replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, " ").replace(/<[^>]*>/g, " "));
+  const placeholders = (raw.match(/\[email[\s ]*protected\]/gi) ?? []).length;
+  const clear = raw.replace(/\[email[\s ]*protected\]/gi, " ");
+  const real = [...new Set((clear.match(/[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g) ?? []).map((e) => e.toLowerCase()))].sort();
+  return { real, placeholders };
+}
+
+/** Hard differences in contact addresses; Cloudflare placeholders on the old side hide addresses, not a diff. */
+export function compareEmails(oldE: EmailFacts, newE: EmailFacts): string[] {
+  const out: string[] = [];
+  for (const e of oldE.real) if (!newE.real.includes(e)) out.push(`email ${e} on old is missing on new`);
+  if (oldE.placeholders === 0) {
+    for (const e of newE.real) if (!oldE.real.includes(e)) out.push(`email ${e} on new does not appear on old`);
+  } else if (newE.real.length + oldE.real.length < oldE.placeholders) {
+    out.push(`old has ${oldE.placeholders} obfuscated address(es) but new shows only ${newE.real.length}`);
+  }
+  return out;
+}
+
+/** Media type of a content-type header, without parameters. */
+export function mediaType(ct: string | null | undefined): string {
+  return (ct ?? "").split(";")[0].trim().toLowerCase();
+}
