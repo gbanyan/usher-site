@@ -119,7 +119,7 @@ Next.js 在這個網站帶來、但實際用不到的複雜度：
 - **切換前要做逐頁比對**：以現在正式站的 sitemap 和 §4.2 的路由清單為準，逐一比對新舊兩邊的 HTTP 狀態碼、轉址目標、`<title>`、h1、canonical，以及主要內容文字。全部一致，或差異符合 §4.1 的允許範圍，才能切換。
 - 切換步驟：合併到 `main` → Vercel 正式部署 → 在後台改成呼叫 Deploy Hook → 發布一則測試修改，確認一到兩分鐘內上線 → 移除舊的 revalidate 設定。
 - **回滾**（實作者的判斷）：分成兩層。
-  - **立即止血（幾分鐘到幾小時）**：在 Vercel 用 Instant Rollback 切回上一個 Next.js 部署，後台 `SITE_UPDATE_MODE` 改回 `revalidate`。限制是這段期間新上傳的圖片不會出現，因為被回滾的部署裡的 `public/` 是固定的。
+  - **立即止血（幾分鐘到幾小時）**：在 Vercel 用 Instant Rollback 切回上一個 Next.js 部署，後台 `SITE_UPDATE_MODE` 改回 `revalidate`，**同時把後台的 `NEXTJS_AUTOPUSH_ASSETS` 設為 `false`**；否則一有圖片上傳，後台就會推到 `main`，觸發新的正式部署，把 Astro 版本又放回正式站。限制是這段期間新上傳的圖片不會出現，因為被回滾的部署裡的 `public/` 是固定的。做完正式回滾之後，再把自動推送打開。
   - **正式回滾（問題無法在當天修好時）**：在 `main` 上用 `git revert` 撤銷合併，保留後台自動推送的資產 commit，讓 Vercel 從 `main` 重新部署 Next.js 版本。
   - 舊的 webhook 設定要等新架構穩定後才移除。
 

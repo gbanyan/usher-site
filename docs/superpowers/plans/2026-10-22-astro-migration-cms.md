@@ -47,14 +47,14 @@
 - Produces:
   - `config('services.site.update_mode')`: `'revalidate'|'deploy_hook'`（env `SITE_UPDATE_MODE`，預設 `revalidate`）
   - `config('services.site.deploy_hook_url')`（env `SITE_DEPLOY_HOOK_URL`）
-  - `config('services.site.rebuild_delay')`: int 秒（env `SITE_REBUILD_DELAY_SECONDS`，預設 `60`）
+  - `config('services.site.rebuild_delay')`: int 秒（env `SITE_REBUILD_DELAY_SECONDS`，預設 `30`；30 秒延遲加上約 90 秒的 Vercel 建置，總共約兩分鐘，符合秘書長同意的「一到兩分鐘」）
   - `config('services.site.build_token')`（env `SITE_BUILD_TOKEN`）
   - `config('services.site.rebuild_in_tests')`: 預設 `false`
-  - `App\Jobs\TriggerSiteRebuildJob`：`ShouldQueue` + `ShouldBeUniqueUntilProcessing`，`uniqueId(): 'site-rebuild'`，`uniqueFor = 600`，`tries = 3`，`afterCommit()`；`handle()` 對 hook URL 發 `POST`（timeout 10 秒）
+  - `App\Jobs\TriggerSiteRebuildJob`：`ShouldQueue` + `ShouldBeUniqueUntilProcessing`，`uniqueId(): 'site-rebuild'`，`uniqueFor = 600`，`tries = 3`，`afterCommit()`；`handle()` 先呼叫 `PublicApiCache::flush()`（避免建置讀到交易提交前就被重新填入的快取，也涵蓋 03:00 排程重建），再對 hook URL 發 `POST`（timeout 10 秒）
   - `SiteRevalidationService::requestSiteRebuild(): void`（public）
   - `SiteRevalidationService::siteDataChanged(): void`（public；清快取，並在 `deploy_hook` 模式下要求重建）
 
-- [ ] **Step 1: Write the failing tests** in `SiteRebuildTriggerTest`. `setUp` sets `services.site.rebuild_in_tests=true`, `update_mode=deploy_hook`, `deploy_hook_url=https://api.vercel.test/hook`, `rebuild_delay=60`.
+- [ ] **Step 1: Write the failing tests** in `SiteRebuildTriggerTest`. `setUp` sets `services.site.rebuild_in_tests=true`, `update_mode=deploy_hook`, `deploy_hook_url=https://api.vercel.test/hook`, `rebuild_delay=30`. Each test gets a fresh array cache, so the `site-rebuild` unique lock never leaks between tests.
 
 ```php
 public function test_deploy_hook_mode_queues_one_delayed_rebuild_instead_of_revalidate(): void
@@ -100,19 +100,45 @@ public function test_job_posts_to_the_deploy_hook(): void
     Http::assertSent(fn ($r) => $r->method() === 'POST' && $r->url() === 'https://api.vercel.test/hook');
 }
 
-public function test_failed_trigger_retries_then_logs_error(): void
+public function test_failed_trigger_without_retries_left_logs_error(): void
 {
     Http::fake(['api.vercel.test/*' => Http::response('down', 503)]);
     Log::spy();
-    (new TriggerSiteRebuildJob)->handle();   // sync / no queue job → no retry path, logs
+    (new TriggerSiteRebuildJob)->handle();   // no queue job attached → no retry path
     Log::shouldHaveReceived('error')->once();
 }
 
-public function test_site_data_changed_requests_rebuild_only_in_deploy_hook_mode(): void
+public function test_failed_trigger_is_released_for_retry_while_attempts_remain(): void
+{
+    Http::fake(['api.vercel.test/*' => Http::response('down', 503)]);
+    $queueJob = Mockery::mock(\Illuminate\Contracts\Queue\Job::class);
+    $queueJob->shouldReceive('getConnectionName')->andReturn('database');
+    $queueJob->shouldReceive('attempts')->andReturn(1);
+    $queueJob->shouldReceive('release')->once()->with(30);
+    $job = new TriggerSiteRebuildJob; $job->setJob($queueJob);
+    $job->handle();
+}
+
+public function test_job_flushes_public_api_cache_before_posting(): void
+{
+    Http::fake(); Cache::put(/* a PublicApiCache key, see PublicApiCacheTest */ 'public-api:homepage', 'stale');
+    (new TriggerSiteRebuildJob)->handle();
+    $this->assertFalse(Cache::has('public-api:homepage'));   // use the real key/helper from PublicApiCache
+}
+
+public function test_site_data_changed_requests_rebuild_in_deploy_hook_mode(): void
 {
     Queue::fake();
     SiteRevalidationService::siteDataChanged();
     Queue::assertPushed(TriggerSiteRebuildJob::class, 1);
+}
+
+public function test_site_data_changed_only_flushes_cache_in_revalidate_mode(): void
+{
+    config(['services.site.update_mode' => 'revalidate']);
+    Queue::fake();
+    SiteRevalidationService::siteDataChanged();
+    Queue::assertNothingPushed();
 }
 ```
 
@@ -152,12 +178,16 @@ git commit -m "feat(site): add deploy-hook rebuild mode alongside revalidate"
 **Interfaces:**
 - Consumes: Task 1 `SiteRevalidationService::siteDataChanged()`, `TriggerSiteRebuildJob`.
 
-- [ ] **Step 1: Write the failing tests**：以 admin 身分打既有路由，參考 `tests/Feature/Cms/OrganizationProfileTest.php`、`CmsTaxonomyAuditLogTest.php` 的寫法，包括 CSRF middleware 的處理方式。
+- [ ] **Step 1: Write the failing tests**：以 admin 身分打既有路由，參考 `tests/Feature/Cms/OrganizationProfileTest.php`、`CmsTaxonomyAuditLogTest.php` 的寫法，包括 CSRF middleware 的處理方式。組織資料的路由是 `PATCH` `admin.organization.profile.update`（`routes/web.php:154`）。**每個動作各寫一個測試**：`ShouldBeUniqueUntilProcessing` 的鎖在 `Queue::fake()` 下不會釋放，所以同一個測試裡連續 create、update、delete，只會看到第一次 push。
 
 ```php
 public function test_organization_profile_update_requests_rebuild(): void   // PATCH/PUT admin.organization-profile.update with valid payload
-public function test_category_create_update_delete_request_rebuild(): void  // each action → Queue::assertPushed(TriggerSiteRebuildJob::class) after Queue::fake() reset per action
-public function test_tag_create_update_delete_request_rebuild(): void
+public function test_category_create_requests_rebuild(): void
+public function test_category_update_requests_rebuild(): void
+public function test_category_delete_requests_rebuild(): void
+public function test_tag_create_requests_rebuild(): void
+public function test_tag_update_requests_rebuild(): void
+public function test_tag_delete_requests_rebuild(): void   // each: Queue::fake(); act; Queue::assertPushed(TriggerSiteRebuildJob::class, 1)
 ```
 
 - [ ] **Step 2: Run to verify they fail**
