@@ -47,18 +47,18 @@
       "tags": []
     },
     {
-      "id": 24,
-      "title": "康健雜誌國衛院採訪文章-花20多年卻診罕病　基因檢測他規劃職涯",
-      "slug": "20",
+      "id": 27,
+      "title": "讓障礙者獲得資訊平權，這件事為什麼這麼難？",
+      "slug": "related_news-fcb30692",
       "summary": null,
-      "excerpt": "> 經康健雜誌出版社同意刊載 原文連結：https://www.commonhealth.com.tw/article/80091\n\n## 基因檢測患罕病，27歲的黃俊榕自嘲像中了樂透。\n\n黃俊榕剛結束醫師實習，即將開始擔任住院醫師的同時，今年6月，他透過基...",
+      "excerpt": "> 本文經原作者 黃靖騰同意轉載自 [天下獨立評論投書](https://opinion.cw.com.tw/blog/profile/52/article/13042)\n\n今年9月23到25日，我參加了一場同儕支持員的培訓。\n\n衛福部辦理這個課程，是讓我們更了解各障別身...",
       "content_type": "related_news",
       "content_type_label": "相關新聞",
-      "featured_image_url": "/images/related_news/Jing-Rung.jpg",
+      "featured_image_url": "/images/related_news/keyboard.jpg",
       "featured_image_alt": null,
       "author_name": null,
       "is_pinned": false,
-      "published_at": "2019-07-06T17:27:17+08:00",
+      "published_at": "2022-12-08T12:00:00+08:00",
       "categories": [
         {
           "id": 11,
@@ -81,7 +81,7 @@
       "featured_image_alt": null,
       "author_name": null,
       "is_pinned": false,
-      "published_at": "2019-07-06T17:27:17+08:00",
+      "published_at": "2022-12-05T12:00:00+08:00",
       "categories": [
         {
           "id": 11,
@@ -93,14 +93,14 @@
       "tags": []
     },
     {
-      "id": 27,
-      "title": "讓障礙者獲得資訊平權，這件事為什麼這麼難？",
-      "slug": "related_news-fcb30692",
+      "id": 24,
+      "title": "康健雜誌國衛院採訪文章-花20多年卻診罕病　基因檢測他規劃職涯",
+      "slug": "20",
       "summary": null,
-      "excerpt": "> 本文經原作者 黃靖騰同意轉載自 [天下獨立評論投書](https://opinion.cw.com.tw/blog/profile/52/article/13042)\n\n今年9月23到25日，我參加了一場同儕支持員的培訓。\n\n衛福部辦理這個課程，是讓我們更了解各障別身...",
+      "excerpt": "> 經康健雜誌出版社同意刊載 原文連結：https://www.commonhealth.com.tw/article/80091\n\n## 基因檢測患罕病，27歲的黃俊榕自嘲像中了樂透。\n\n黃俊榕剛結束醫師實習，即將開始擔任住院醫師的同時，今年6月，他透過基...",
       "content_type": "related_news",
       "content_type_label": "相關新聞",
-      "featured_image_url": "/images/related_news/keyboard.jpg",
+      "featured_image_url": "/images/related_news/Jing-Rung.jpg",
       "featured_image_alt": null,
       "author_name": null,
       "is_pinned": false,

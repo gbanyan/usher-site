@@ -12,14 +12,14 @@
     "access_level": "public",
     "access_level_label": "公開",
     "published_at": "2024-04-26T15:27:17+08:00",
-    "updated_at": "2026-10-22T23:26:44+08:00",
+    "updated_at": "2026-10-22T23:36:01+08:00",
     "expires_at": null,
     "version_count": 3,
     "category": {
-      "id": 1,
-      "name": "組織公開資訊",
-      "slug": "organization-public-disclosure",
-      "icon": "📄"
+      "id": 2,
+      "name": "資源與講義",
+      "slug": "resources-and-handouts",
+      "icon": "📚"
     },
     "current_version": {
       "id": 11,
@@ -43,7 +43,7 @@
       "download_url": "https://member.usher.org.tw/documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782/download"
     },
     "metadata": {
-      "document_type": "組織公開資訊",
+      "document_type": "資源與講義",
       "expiration_status": null,
       "auto_archive_on_expiry": false,
       "expiry_notice": null
@@ -104,150 +104,100 @@
   },
   "related": [
     {
-      "id": 7,
-      "slug": "fe8658b7-c35a-54c2-82e7-63a8313ae607",
-      "public_uuid": "fe8658b7-c35a-54c2-82e7-63a8313ae607",
-      "title": "台灣尤塞氏症暨視聽弱協會章程（2024-01-27）",
+      "id": 4,
+      "slug": "1d6ac71a-f656-5ad1-ab04-8624fbcac9e9",
+      "public_uuid": "1d6ac71a-f656-5ad1-ab04-8624fbcac9e9",
+      "title": "Whisper Colab 影片語音轉文字工具",
       "document_number": null,
-      "summary": "協會章程（113年1月27日會員大會通過）最新版 PDF。",
-      "description": "協會章程（113年1月27日會員大會通過）最新版 PDF。",
+      "summary": "有熱心朋友建置了 Whisper 工具，使用 Google 的 Colab 線上 GPU 運算資源",
+      "description": "有熱心朋友建置了 Whisper 工具，使用 Google 的 Colab 線上 GPU 運算資源",
       "status": "active",
       "status_label": "啟用",
       "access_level": "public",
       "access_level_label": "公開",
-      "published_at": "2026-02-10T23:34:04+08:00",
-      "updated_at": "2026-10-22T23:02:43+08:00",
+      "published_at": "2024-08-16T15:27:17+08:00",
+      "updated_at": "2026-10-22T23:36:01+08:00",
       "expires_at": null,
       "version_count": 1,
       "category": {
-        "id": 1,
-        "name": "組織公開資訊",
-        "slug": "organization-public-disclosure",
-        "icon": "📄"
-      },
-      "current_version": {
-        "id": 7,
-        "version_number": "1.0",
-        "version_notes": "協會章程 v2.0.0（2024-01-27 通過）",
-        "is_current": true,
-        "original_filename": "usher-charter_v2.0.0_20240127_zh-TW_d6153099.pdf",
-        "mime_type": "application/pdf",
-        "file_extension": "pdf",
-        "file_size": 91994,
-        "file_size_human": "89.84 KB",
-        "file_hash": "d6153099c0dec456494ce0337208587956289f18c78cfd7a5d93197fc3893228",
-        "uploaded_by": "黃俊榕",
-        "uploaded_at": "2026-02-10T23:34:04+08:00",
-        "download_url": "https://member.usher.org.tw/documents/fe8658b7-c35a-54c2-82e7-63a8313ae607/download"
-      },
-      "links": {
-        "api_url": "https://member.usher.org.tw/api/v1/public-documents/fe8658b7-c35a-54c2-82e7-63a8313ae607",
-        "detail_url": "https://member.usher.org.tw/documents/fe8658b7-c35a-54c2-82e7-63a8313ae607",
-        "web_url": "https://member.usher.org.tw/documents/fe8658b7-c35a-54c2-82e7-63a8313ae607",
-        "download_url": "https://member.usher.org.tw/documents/fe8658b7-c35a-54c2-82e7-63a8313ae607/download"
-      },
-      "metadata": {
-        "document_type": "組織公開資訊",
-        "expiration_status": null,
-        "auto_archive_on_expiry": false,
-        "expiry_notice": null
-      }
-    },
-    {
-      "id": 1,
-      "slug": "b92dd7aa-169e-4d92-8c5f-653ea2981954",
-      "public_uuid": "b92dd7aa-169e-4d92-8c5f-653ea2981954",
-      "title": "內政部立案證書",
-      "document_number": "ORG-LICENSE-2024-08",
-      "summary": "社團法人立案證書（公開版）",
-      "description": "社團法人立案證書（公開版）",
-      "status": "active",
-      "status_label": "啟用",
-      "access_level": "public",
-      "access_level_label": "公開",
-      "published_at": "2026-02-11T07:25:15+08:00",
-      "updated_at": "2026-10-22T23:02:42+08:00",
-      "expires_at": null,
-      "version_count": 1,
-      "category": {
-        "id": 1,
-        "name": "組織公開資訊",
-        "slug": "organization-public-disclosure",
-        "icon": "📄"
-      },
-      "current_version": {
-        "id": 1,
-        "version_number": "1.0",
-        "version_notes": "初始公開版本",
-        "is_current": true,
-        "original_filename": "2024-08 台灣尤塞氐症暨視聽弱協會立案證書.pdf",
-        "mime_type": "application/pdf",
-        "file_extension": "pdf",
-        "file_size": 201498,
-        "file_size_human": "196.78 KB",
-        "file_hash": "1a826d05a83ae237490616851d5a5d07e0602749a63bc1c068942839a9ec30e2",
-        "uploaded_by": "黃俊榕",
-        "uploaded_at": "2026-02-11T07:25:15+08:00",
-        "download_url": "https://member.usher.org.tw/documents/b92dd7aa-169e-4d92-8c5f-653ea2981954/download"
-      },
-      "links": {
-        "api_url": "https://member.usher.org.tw/api/v1/public-documents/b92dd7aa-169e-4d92-8c5f-653ea2981954",
-        "detail_url": "https://member.usher.org.tw/documents/b92dd7aa-169e-4d92-8c5f-653ea2981954",
-        "web_url": "https://member.usher.org.tw/documents/b92dd7aa-169e-4d92-8c5f-653ea2981954",
-        "download_url": "https://member.usher.org.tw/documents/b92dd7aa-169e-4d92-8c5f-653ea2981954/download"
-      },
-      "metadata": {
-        "document_type": "組織公開資訊",
-        "expiration_status": null,
-        "auto_archive_on_expiry": false,
-        "expiry_notice": null
-      }
-    },
-    {
-      "id": 2,
-      "slug": "a6e6f306-a529-4e21-8887-9864ee95efbb",
-      "public_uuid": "a6e6f306-a529-4e21-8887-9864ee95efbb",
-      "title": "法人登記證書",
-      "document_number": "登記簿第217冊第1頁第4525號",
-      "summary": "法人登記證書（公開版）",
-      "description": "法人登記證書（公開版）",
-      "status": "active",
-      "status_label": "啟用",
-      "access_level": "public",
-      "access_level_label": "公開",
-      "published_at": "2026-02-11T07:25:15+08:00",
-      "updated_at": "2026-10-22T23:02:41+08:00",
-      "expires_at": null,
-      "version_count": 1,
-      "category": {
-        "id": 1,
-        "name": "組織公開資訊",
-        "slug": "organization-public-disclosure",
-        "icon": "📄"
-      },
-      "current_version": {
         "id": 2,
+        "name": "資源與講義",
+        "slug": "resources-and-handouts",
+        "icon": "📚"
+      },
+      "current_version": {
+        "id": 4,
         "version_number": "1.0",
-        "version_notes": "初始公開版本",
+        "version_notes": "Imported from legacy article content (no file attachments)",
         "is_current": true,
-        "original_filename": "2025-04-17 法人登記證書.pdf",
-        "mime_type": "application/pdf",
-        "file_extension": "pdf",
-        "file_size": 820558,
-        "file_size_human": "801.33 KB",
-        "file_hash": "45880c9eef436711d32b3672da72dfd2505caee4e00e07e8219819decbb5db56",
-        "uploaded_by": "黃俊榕",
-        "uploaded_at": "2026-02-11T07:25:15+08:00",
-        "download_url": "https://member.usher.org.tw/documents/a6e6f306-a529-4e21-8887-9864ee95efbb/download"
+        "original_filename": "whisper-colab.md",
+        "mime_type": "text/markdown",
+        "file_extension": "md",
+        "file_size": 815,
+        "file_size_human": "815 B",
+        "file_hash": "7650a1f3885dd217a48fa329332f01cbab19d82f976a536c4e05b9365f9b1bc1",
+        "uploaded_by": "台灣尤塞氏症暨視聽弱協會",
+        "uploaded_at": "2026-02-10T23:55:52+08:00",
+        "download_url": "https://member.usher.org.tw/documents/1d6ac71a-f656-5ad1-ab04-8624fbcac9e9/download"
       },
       "links": {
-        "api_url": "https://member.usher.org.tw/api/v1/public-documents/a6e6f306-a529-4e21-8887-9864ee95efbb",
-        "detail_url": "https://member.usher.org.tw/documents/a6e6f306-a529-4e21-8887-9864ee95efbb",
-        "web_url": "https://member.usher.org.tw/documents/a6e6f306-a529-4e21-8887-9864ee95efbb",
-        "download_url": "https://member.usher.org.tw/documents/a6e6f306-a529-4e21-8887-9864ee95efbb/download"
+        "api_url": "https://member.usher.org.tw/api/v1/public-documents/1d6ac71a-f656-5ad1-ab04-8624fbcac9e9",
+        "detail_url": "https://member.usher.org.tw/documents/1d6ac71a-f656-5ad1-ab04-8624fbcac9e9",
+        "web_url": "https://member.usher.org.tw/documents/1d6ac71a-f656-5ad1-ab04-8624fbcac9e9",
+        "download_url": "https://member.usher.org.tw/documents/1d6ac71a-f656-5ad1-ab04-8624fbcac9e9/download"
       },
       "metadata": {
-        "document_type": "組織公開資訊",
+        "document_type": "資源與講義",
+        "expiration_status": null,
+        "auto_archive_on_expiry": false,
+        "expiry_notice": null
+      }
+    },
+    {
+      "id": 5,
+      "slug": "35c8a064-5656-5a86-9270-8b20b194013f",
+      "public_uuid": "35c8a064-5656-5a86-9270-8b20b194013f",
+      "title": "媒體宣傳資源",
+      "document_number": null,
+      "summary": "此處整理協會文宣相關檔案原始檔下載連結",
+      "description": "此處整理協會文宣相關檔案原始檔下載連結",
+      "status": "active",
+      "status_label": "啟用",
+      "access_level": "public",
+      "access_level_label": "公開",
+      "published_at": "2024-05-01T15:27:17+08:00",
+      "updated_at": "2026-10-22T23:36:01+08:00",
+      "expires_at": null,
+      "version_count": 1,
+      "category": {
+        "id": 2,
+        "name": "資源與講義",
+        "slug": "resources-and-handouts",
+        "icon": "📚"
+      },
+      "current_version": {
+        "id": 5,
+        "version_number": "1.0",
+        "version_notes": "Imported from legacy article content (no file attachments)",
+        "is_current": true,
+        "original_filename": "document-ef6231ce.md",
+        "mime_type": "text/markdown",
+        "file_extension": "md",
+        "file_size": 374,
+        "file_size_human": "374 B",
+        "file_hash": "3b3d7cd1e48258b8a82cab18b402da807a774f71fb57ba8f375c6ad08ebcf1aa",
+        "uploaded_by": "台灣尤塞氏症暨視聽弱協會",
+        "uploaded_at": "2026-02-10T23:55:50+08:00",
+        "download_url": "https://member.usher.org.tw/documents/35c8a064-5656-5a86-9270-8b20b194013f/download"
+      },
+      "links": {
+        "api_url": "https://member.usher.org.tw/api/v1/public-documents/35c8a064-5656-5a86-9270-8b20b194013f",
+        "detail_url": "https://member.usher.org.tw/documents/35c8a064-5656-5a86-9270-8b20b194013f",
+        "web_url": "https://member.usher.org.tw/documents/35c8a064-5656-5a86-9270-8b20b194013f",
+        "download_url": "https://member.usher.org.tw/documents/35c8a064-5656-5a86-9270-8b20b194013f/download"
+      },
+      "metadata": {
+        "document_type": "資源與講義",
         "expiration_status": null,
         "auto_archive_on_expiry": false,
         "expiry_notice": null
@@ -266,14 +216,14 @@
       "access_level": "public",
       "access_level_label": "公開",
       "published_at": "2026-02-11T18:37:22+08:00",
-      "updated_at": "2026-10-22T23:02:40+08:00",
+      "updated_at": "2026-10-22T23:36:01+08:00",
       "expires_at": null,
       "version_count": 1,
       "category": {
-        "id": 1,
-        "name": "組織公開資訊",
-        "slug": "organization-public-disclosure",
-        "icon": "📄"
+        "id": 2,
+        "name": "資源與講義",
+        "slug": "resources-and-handouts",
+        "icon": "📚"
       },
       "current_version": {
         "id": 9,
@@ -297,7 +247,7 @@
         "download_url": "https://member.usher.org.tw/documents/8c4f66e6-2dd2-4488-915f-d4302259312e/download"
       },
       "metadata": {
-        "document_type": "組織公開資訊",
+        "document_type": "資源與講義",
         "expiration_status": null,
         "auto_archive_on_expiry": false,
         "expiry_notice": null

@@ -17,7 +17,7 @@
     "version_count": 1,
     "category": {
       "id": 1,
-      "name": "組織公開資訊",
+      "name": "立案與治理",
       "slug": "organization-public-disclosure",
       "icon": "📄"
     },
@@ -43,7 +43,7 @@
       "download_url": "https://member.usher.org.tw/documents/fe8658b7-c35a-54c2-82e7-63a8313ae607/download"
     },
     "metadata": {
-      "document_type": "組織公開資訊",
+      "document_type": "立案與治理",
       "expiration_status": null,
       "auto_archive_on_expiry": false,
       "expiry_notice": null
@@ -74,56 +74,6 @@
   },
   "related": [
     {
-      "id": 6,
-      "slug": "eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
-      "public_uuid": "eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
-      "title": "社會福利資源",
-      "document_number": null,
-      "summary": "此處整理社會福利資源的連結列表",
-      "description": "此處整理社會福利資源的連結列表",
-      "status": "active",
-      "status_label": "啟用",
-      "access_level": "public",
-      "access_level_label": "公開",
-      "published_at": "2024-04-26T15:27:17+08:00",
-      "updated_at": "2026-10-22T23:26:44+08:00",
-      "expires_at": null,
-      "version_count": 3,
-      "category": {
-        "id": 1,
-        "name": "組織公開資訊",
-        "slug": "organization-public-disclosure",
-        "icon": "📄"
-      },
-      "current_version": {
-        "id": 11,
-        "version_number": "1.2",
-        "version_notes": "替換兩個失效連結：身心障礙福利簡介、輔具費用補助（社家署）",
-        "is_current": true,
-        "original_filename": "document-d34b35ab.md",
-        "mime_type": "text/markdown",
-        "file_extension": "md",
-        "file_size": 2730,
-        "file_size_human": "2.67 KB",
-        "file_hash": "2f17c6f6566b6fe6454f14e5c706d0d56041f9a6236325be555fc7aff9e2c7eb",
-        "uploaded_by": "台灣尤塞氏症暨視聽弱協會",
-        "uploaded_at": "2026-10-22T23:26:44+08:00",
-        "download_url": "https://member.usher.org.tw/documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782/download"
-      },
-      "links": {
-        "api_url": "https://member.usher.org.tw/api/v1/public-documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
-        "detail_url": "https://member.usher.org.tw/documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
-        "web_url": "https://member.usher.org.tw/documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
-        "download_url": "https://member.usher.org.tw/documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782/download"
-      },
-      "metadata": {
-        "document_type": "組織公開資訊",
-        "expiration_status": null,
-        "auto_archive_on_expiry": false,
-        "expiry_notice": null
-      }
-    },
-    {
       "id": 1,
       "slug": "b92dd7aa-169e-4d92-8c5f-653ea2981954",
       "public_uuid": "b92dd7aa-169e-4d92-8c5f-653ea2981954",
@@ -141,7 +91,7 @@
       "version_count": 1,
       "category": {
         "id": 1,
-        "name": "組織公開資訊",
+        "name": "立案與治理",
         "slug": "organization-public-disclosure",
         "icon": "📄"
       },
@@ -167,7 +117,7 @@
         "download_url": "https://member.usher.org.tw/documents/b92dd7aa-169e-4d92-8c5f-653ea2981954/download"
       },
       "metadata": {
-        "document_type": "組織公開資訊",
+        "document_type": "立案與治理",
         "expiration_status": null,
         "auto_archive_on_expiry": false,
         "expiry_notice": null
@@ -191,7 +141,7 @@
       "version_count": 1,
       "category": {
         "id": 1,
-        "name": "組織公開資訊",
+        "name": "立案與治理",
         "slug": "organization-public-disclosure",
         "icon": "📄"
       },
@@ -217,57 +167,107 @@
         "download_url": "https://member.usher.org.tw/documents/a6e6f306-a529-4e21-8887-9864ee95efbb/download"
       },
       "metadata": {
-        "document_type": "組織公開資訊",
+        "document_type": "立案與治理",
         "expiration_status": null,
         "auto_archive_on_expiry": false,
         "expiry_notice": null
       }
     },
     {
-      "id": 9,
-      "slug": "8c4f66e6-2dd2-4488-915f-d4302259312e",
-      "public_uuid": "8c4f66e6-2dd2-4488-915f-d4302259312e",
-      "title": "視聽障礙疾病之遺傳學（2024-02-25）",
-      "document_number": null,
-      "summary": "啟聰學校相關簡報：介紹視力與聽力同時受影響之遺傳疾病（含 USH2A 第13號外顯子變異討論）。作者：慈濟大學分子生物暨人類遺傳學系 靖永皓 副教授",
-      "description": "啟聰學校相關簡報：介紹視力與聽力同時受影響之遺傳疾病（含 USH2A 第13號外顯子變異討論）。作者：慈濟大學分子生物暨人類遺傳學系 靖永皓 副教授",
+      "id": 3,
+      "slug": "6f73d314-03a3-44b7-bcb0-114ec1941589",
+      "public_uuid": "6f73d314-03a3-44b7-bcb0-114ec1941589",
+      "title": "內政部立案函",
+      "document_number": "台內團字第1130032058號",
+      "summary": "主管機關核准立案公函（公開版）",
+      "description": "主管機關核准立案公函（公開版）",
       "status": "active",
       "status_label": "啟用",
       "access_level": "public",
       "access_level_label": "公開",
-      "published_at": "2026-02-11T18:37:22+08:00",
-      "updated_at": "2026-10-22T23:02:40+08:00",
+      "published_at": "2026-02-11T07:25:15+08:00",
+      "updated_at": "2026-10-22T23:02:39+08:00",
       "expires_at": null,
       "version_count": 1,
       "category": {
         "id": 1,
-        "name": "組織公開資訊",
+        "name": "立案與治理",
         "slug": "organization-public-disclosure",
         "icon": "📄"
       },
       "current_version": {
-        "id": 9,
+        "id": 3,
         "version_number": "1.0",
-        "version_notes": "初始發布版本",
+        "version_notes": "初始公開版本",
         "is_current": true,
-        "original_filename": "2024-02-25視聽障礙疾病之遺傳學.pdf",
+        "original_filename": "2024-08 台灣尤塞氏症暨視聽弱協會立案函.pdf",
         "mime_type": "application/pdf",
         "file_extension": "pdf",
-        "file_size": 6369641,
-        "file_size_human": "6.07 MB",
-        "file_hash": "568cca8cb9f7d35a1ed694734df52fe252d7d0e4e9bf916153f63557b82ef5e0",
+        "file_size": 174899,
+        "file_size_human": "170.8 KB",
+        "file_hash": "b86f0f13885f2a24bca710d453d92a9261c9c8bd4d560ae4cf634f3bc6452625",
         "uploaded_by": "黃俊榕",
-        "uploaded_at": "2026-02-11T18:37:23+08:00",
-        "download_url": "https://member.usher.org.tw/documents/8c4f66e6-2dd2-4488-915f-d4302259312e/download"
+        "uploaded_at": "2026-02-11T07:25:15+08:00",
+        "download_url": "https://member.usher.org.tw/documents/6f73d314-03a3-44b7-bcb0-114ec1941589/download"
       },
       "links": {
-        "api_url": "https://member.usher.org.tw/api/v1/public-documents/8c4f66e6-2dd2-4488-915f-d4302259312e",
-        "detail_url": "https://member.usher.org.tw/documents/8c4f66e6-2dd2-4488-915f-d4302259312e",
-        "web_url": "https://member.usher.org.tw/documents/8c4f66e6-2dd2-4488-915f-d4302259312e",
-        "download_url": "https://member.usher.org.tw/documents/8c4f66e6-2dd2-4488-915f-d4302259312e/download"
+        "api_url": "https://member.usher.org.tw/api/v1/public-documents/6f73d314-03a3-44b7-bcb0-114ec1941589",
+        "detail_url": "https://member.usher.org.tw/documents/6f73d314-03a3-44b7-bcb0-114ec1941589",
+        "web_url": "https://member.usher.org.tw/documents/6f73d314-03a3-44b7-bcb0-114ec1941589",
+        "download_url": "https://member.usher.org.tw/documents/6f73d314-03a3-44b7-bcb0-114ec1941589/download"
       },
       "metadata": {
-        "document_type": "組織公開資訊",
+        "document_type": "立案與治理",
+        "expiration_status": null,
+        "auto_archive_on_expiry": false,
+        "expiry_notice": null
+      }
+    },
+    {
+      "id": 8,
+      "slug": "72a00b77-4512-4af4-ad19-95295569b065",
+      "public_uuid": "72a00b77-4512-4af4-ad19-95295569b065",
+      "title": "第一屆理監事名單（公開版）",
+      "document_number": "ORG-BOARD-LIST-2024-01",
+      "summary": "協會第一屆理監事公開名單（職稱與姓名）。",
+      "description": "協會第一屆理監事公開名單（職稱與姓名）。",
+      "status": "active",
+      "status_label": "啟用",
+      "access_level": "public",
+      "access_level_label": "公開",
+      "published_at": "2026-02-11T10:38:09+08:00",
+      "updated_at": "2026-10-22T23:02:39+08:00",
+      "expires_at": null,
+      "version_count": 1,
+      "category": {
+        "id": 1,
+        "name": "立案與治理",
+        "slug": "organization-public-disclosure",
+        "icon": "📄"
+      },
+      "current_version": {
+        "id": 8,
+        "version_number": "1.0",
+        "version_notes": "初始版本：第一屆理監事公開版名單",
+        "is_current": true,
+        "original_filename": "usher-board-list_v1.0.0_20260211_zh-TW.md",
+        "mime_type": "text/markdown",
+        "file_extension": "md",
+        "file_size": 553,
+        "file_size_human": "553 B",
+        "file_hash": "e92cf3bb9640252875d19263bb8247cbf495f388b700fdbf28faf9cddba7162d",
+        "uploaded_by": "黃俊榕",
+        "uploaded_at": "2026-02-11T10:38:10+08:00",
+        "download_url": "https://member.usher.org.tw/documents/72a00b77-4512-4af4-ad19-95295569b065/download"
+      },
+      "links": {
+        "api_url": "https://member.usher.org.tw/api/v1/public-documents/72a00b77-4512-4af4-ad19-95295569b065",
+        "detail_url": "https://member.usher.org.tw/documents/72a00b77-4512-4af4-ad19-95295569b065",
+        "web_url": "https://member.usher.org.tw/documents/72a00b77-4512-4af4-ad19-95295569b065",
+        "download_url": "https://member.usher.org.tw/documents/72a00b77-4512-4af4-ad19-95295569b065/download"
+      },
+      "metadata": {
+        "document_type": "立案與治理",
         "expiration_status": null,
         "auto_archive_on_expiry": false,
         "expiry_notice": null
