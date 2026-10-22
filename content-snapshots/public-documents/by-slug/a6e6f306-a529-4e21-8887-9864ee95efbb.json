@@ -74,6 +74,56 @@
   },
   "related": [
     {
+      "id": 6,
+      "slug": "eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
+      "public_uuid": "eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
+      "title": "社會福利資源",
+      "document_number": null,
+      "summary": "此處整理社會福利資源的連結列表",
+      "description": "此處整理社會福利資源的連結列表",
+      "status": "active",
+      "status_label": "啟用",
+      "access_level": "public",
+      "access_level_label": "公開",
+      "published_at": "2024-04-26T15:27:17+08:00",
+      "updated_at": "2026-10-22T23:26:44+08:00",
+      "expires_at": null,
+      "version_count": 3,
+      "category": {
+        "id": 1,
+        "name": "組織公開資訊",
+        "slug": "organization-public-disclosure",
+        "icon": "📄"
+      },
+      "current_version": {
+        "id": 11,
+        "version_number": "1.2",
+        "version_notes": "替換兩個失效連結：身心障礙福利簡介、輔具費用補助（社家署）",
+        "is_current": true,
+        "original_filename": "document-d34b35ab.md",
+        "mime_type": "text/markdown",
+        "file_extension": "md",
+        "file_size": 2730,
+        "file_size_human": "2.67 KB",
+        "file_hash": "2f17c6f6566b6fe6454f14e5c706d0d56041f9a6236325be555fc7aff9e2c7eb",
+        "uploaded_by": "台灣尤塞氏症暨視聽弱協會",
+        "uploaded_at": "2026-10-22T23:26:44+08:00",
+        "download_url": "https://member.usher.org.tw/documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782/download"
+      },
+      "links": {
+        "api_url": "https://member.usher.org.tw/api/v1/public-documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
+        "detail_url": "https://member.usher.org.tw/documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
+        "web_url": "https://member.usher.org.tw/documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
+        "download_url": "https://member.usher.org.tw/documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782/download"
+      },
+      "metadata": {
+        "document_type": "組織公開資訊",
+        "expiration_status": null,
+        "auto_archive_on_expiry": false,
+        "expiry_notice": null
+      }
+    },
+    {
       "id": 7,
       "slug": "fe8658b7-c35a-54c2-82e7-63a8313ae607",
       "public_uuid": "fe8658b7-c35a-54c2-82e7-63a8313ae607",
@@ -165,56 +215,6 @@
         "detail_url": "https://member.usher.org.tw/documents/b92dd7aa-169e-4d92-8c5f-653ea2981954",
         "web_url": "https://member.usher.org.tw/documents/b92dd7aa-169e-4d92-8c5f-653ea2981954",
         "download_url": "https://member.usher.org.tw/documents/b92dd7aa-169e-4d92-8c5f-653ea2981954/download"
-      },
-      "metadata": {
-        "document_type": "組織公開資訊",
-        "expiration_status": null,
-        "auto_archive_on_expiry": false,
-        "expiry_notice": null
-      }
-    },
-    {
-      "id": 6,
-      "slug": "eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
-      "public_uuid": "eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
-      "title": "社會福利資源",
-      "document_number": null,
-      "summary": "此處整理社會福利資源的連結列表",
-      "description": "此處整理社會福利資源的連結列表",
-      "status": "active",
-      "status_label": "啟用",
-      "access_level": "public",
-      "access_level_label": "公開",
-      "published_at": "2024-04-26T15:27:17+08:00",
-      "updated_at": "2026-10-22T23:02:42+08:00",
-      "expires_at": null,
-      "version_count": 2,
-      "category": {
-        "id": 1,
-        "name": "組織公開資訊",
-        "slug": "organization-public-disclosure",
-        "icon": "📄"
-      },
-      "current_version": {
-        "id": 10,
-        "version_number": "1.1",
-        "version_notes": "修正三個政府網站連結；重大傷病卡申請加註並非所有尤塞氏症病友都符合資格",
-        "is_current": true,
-        "original_filename": "document-d34b35ab.md",
-        "mime_type": "text/markdown",
-        "file_extension": "md",
-        "file_size": 2974,
-        "file_size_human": "2.9 KB",
-        "file_hash": "e2d9b430e498c928c9ad9ea56e93cf7f3cd2b1b7afd04cc23b248ff715684cb9",
-        "uploaded_by": "台灣尤塞氏症暨視聽弱協會",
-        "uploaded_at": "2026-10-22T22:43:14+08:00",
-        "download_url": "https://member.usher.org.tw/documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782/download"
-      },
-      "links": {
-        "api_url": "https://member.usher.org.tw/api/v1/public-documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
-        "detail_url": "https://member.usher.org.tw/documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
-        "web_url": "https://member.usher.org.tw/documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782",
-        "download_url": "https://member.usher.org.tw/documents/eb26ba18-4cc5-524e-ba8e-98d6a4ee6782/download"
       },
       "metadata": {
         "document_type": "組織公開資訊",
