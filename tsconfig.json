@@ -4,6 +4,7 @@
   "exclude": ["dist", "node_modules", "content-snapshots", "hugo-archive"],
   "compilerOptions": {
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": { "@/*": ["./src/*"] }
   }
 }
