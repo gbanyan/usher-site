@@ -48,22 +48,40 @@ describe("buildArticleMetadata", () => {
 });
 
 describe("buildHomeMetadata", () => {
-  it("uses an absolute English title, en_US and alternates", () => {
+  it("en: absolute title, locale, site name, alternates, no og:url", () => {
     const meta = buildHomeMetadata("en");
     expect(meta.title).toBe("Taiwan Usher Syndrome and Deafblind Association");
     expect(meta.absoluteTitle).toBe(true);
     expect(meta.locale).toBe("en_US");
     expect(meta.siteName).toBe("Taiwan Usher Syndrome and Deafblind Association");
+    expect(meta.ogType).toBe("website");
+    expect(meta.ogUrl).toBeUndefined();
     expect(meta.canonical).toBe("https://www.usher.org.tw/en");
     expect(meta.alternates).toEqual({
-      "zh-TW": "https://www.usher.org.tw/",
+      "zh-TW": "https://www.usher.org.tw",
       en: "https://www.usher.org.tw/en",
     });
   });
-  it("zh-TW home uses default title and zh_TW", () => {
+  it("zh-TW: bare absolute title, no trailing slash, production-only tags", () => {
     const meta = buildHomeMetadata("zh-TW");
-    expect(meta.locale).toBe("zh_TW");
-    expect(meta.canonical).toBe("https://www.usher.org.tw/");
+    expect(meta.title).toBe("台灣尤塞氏症暨視聽弱協會");
     expect(meta.absoluteTitle).toBe(true);
+    expect(meta.canonical).toBe("https://www.usher.org.tw");
+    expect(meta.ogUrl).toBe("https://www.usher.org.tw");
+    expect(meta.description).toContain("（Usher Syndrome）");
+    expect(meta.ogDescription).toBeDefined();
+    expect(meta.ogDescription).not.toContain("Usher Syndrome");
+    expect(meta.ogType).toBeUndefined();
+    expect(meta.locale).toBeUndefined();
+    expect(meta.siteName).toBeUndefined();
+    expect(meta.alternates).toBeUndefined();
+  });
+  it("normal pages emit og:url and og:type but no locale/site name", () => {
+    const meta = buildPageMetadata("創立目的", "d", "/about");
+    expect(meta.ogUrl).toBe("https://www.usher.org.tw/about");
+    expect(meta.ogType).toBe("website");
+    expect(meta.locale).toBeUndefined();
+    expect(meta.siteName).toBeUndefined();
+    expect(meta.alternates).toBeUndefined();
   });
 });

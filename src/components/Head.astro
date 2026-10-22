@@ -12,6 +12,7 @@ const TITLE_SUFFIX = "台灣尤塞氏症暨視聽弱協會";
 const { meta } = Astro.props;
 const siteUrl = getSiteUrl();
 const fullTitle = meta.absoluteTitle ? meta.title : `${meta.title} | ${TITLE_SUFFIX}`;
+const ogDescription = meta.ogDescription ?? meta.description;
 const imageUrl = /^https?:\/\//.test(meta.image)
   ? meta.image
   : `${siteUrl}${meta.image.startsWith("/") ? "" : "/"}${meta.image}`;
@@ -37,16 +38,16 @@ const imageUrl = /^https?:\/\//.test(meta.image)
 <meta name="geo.region" content="TW" />
 <meta name="geo.placename" content="Taiwan" />
 
-<meta property="og:title" content={fullTitle} />
-<meta property="og:description" content={meta.description} />
-<meta property="og:url" content={meta.canonical} />
-<meta property="og:site_name" content={meta.siteName} />
-<meta property="og:locale" content={meta.locale} />
-<meta property="og:type" content={meta.ogType} />
+<meta property="og:title" content={meta.title} />
+<meta property="og:description" content={ogDescription} />
+{meta.ogUrl && <meta property="og:url" content={meta.ogUrl} />}
+{meta.siteName && <meta property="og:site_name" content={meta.siteName} />}
+{meta.locale && <meta property="og:locale" content={meta.locale} />}
 <meta property="og:image" content={imageUrl} />
+{meta.ogType && <meta property="og:type" content={meta.ogType} />}
 {meta.publishedTime && <meta property="article:published_time" content={meta.publishedTime} />}
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={fullTitle} />
-<meta name="twitter:description" content={meta.description} />
+<meta name="twitter:title" content={meta.title} />
+<meta name="twitter:description" content={ogDescription} />
 <meta name="twitter:image" content={imageUrl} />
