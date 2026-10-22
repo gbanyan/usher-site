@@ -6,6 +6,7 @@ import type {
 } from "./types";
 import {
   extractContactContent,
+  getDocumentUpdatedAt,
   mapLegacyArticleDetailToPublicDocument,
   mapLegacyArticleSummaryToPublicDocument,
   normalizeArticleSummary,
@@ -182,5 +183,35 @@ describe("extractContactContent", () => {
     const result = extractContactContent(content);
     expect(result.donationPending).toBe(false);
     expect(result.content).toBe(content);
+  });
+});
+
+describe("getDocumentUpdatedAt", () => {
+  const doc = (overrides: Record<string, unknown>) =>
+    ({
+      published_at: "2024-08-01T00:00:00+08:00",
+      updated_at: "2026-10-22T10:00:00+08:00",
+      current_version: { uploaded_at: "2026-02-11T09:15:49+08:00" },
+      ...overrides,
+    }) as Parameters<typeof getDocumentUpdatedAt>[0];
+
+  it("uses the current version's upload date, not the record's updated_at", () => {
+    expect(getDocumentUpdatedAt(doc({}))).toBe("2026-02-11T09:15:49+08:00");
+  });
+
+  it("falls back to published_at without a version upload date", () => {
+    expect(getDocumentUpdatedAt(doc({ current_version: null }))).toBe(
+      "2024-08-01T00:00:00+08:00"
+    );
+  });
+
+  it("falls back to updated_at as a last resort", () => {
+    expect(
+      getDocumentUpdatedAt(doc({ current_version: null, published_at: null }))
+    ).toBe("2026-10-22T10:00:00+08:00");
+  });
+
+  it("handles a missing document", () => {
+    expect(getDocumentUpdatedAt(undefined)).toBeNull();
   });
 });

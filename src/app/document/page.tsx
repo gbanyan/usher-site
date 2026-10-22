@@ -5,6 +5,7 @@ import { buildPageMetadata } from "@/lib/metadata";
 import PageHeader from "@/components/PageHeader";
 import PaginatedDocumentList from "@/components/PaginatedDocumentList";
 import { formatDate } from "@/lib/utils";
+import { getDocumentUpdatedAt } from "@/lib/transform";
 
 export const metadata: Metadata = buildPageMetadata(
   "協會文件",
@@ -34,7 +35,7 @@ export default async function DocumentListingPage() {
   ).sort((a, b) => a.name.localeCompare(b.name, "zh-Hant"));
 
   const latestUpdatedDate = (documents ?? [])
-    .map((document) => document.updated_at || document.published_at)
+    .map((document) => getDocumentUpdatedAt(document))
     .filter((value): value is string => Boolean(value))
     .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())[0];
 

@@ -6,6 +6,7 @@ import PaginationControls from "@/components/PaginationControls";
 import { paginateItems } from "@/lib/pagination";
 import { formatDate } from "@/lib/utils";
 import type { PublicDocumentSummary } from "@/lib/types";
+import { getDocumentUpdatedAt } from "@/lib/transform";
 
 const PAGE_SIZE = 10;
 
@@ -58,7 +59,7 @@ export default function PaginatedDocumentList({
           <tbody className="divide-y divide-white/10">
             {pagination.items.map((document) => {
               const detailUrl = `/document/${document.slug}`;
-              const updatedAt = document.updated_at || document.published_at;
+              const updatedAt = getDocumentUpdatedAt(document);
 
               return (
                 <tr key={document.slug} className="align-top hover:bg-white/5">
@@ -132,7 +133,7 @@ export default function PaginatedDocumentList({
       <ul className="space-y-4 md:hidden">
         {pagination.items.map((document) => {
           const detailUrl = `/document/${document.slug}`;
-          const updatedAt = document.updated_at || document.published_at;
+          const updatedAt = getDocumentUpdatedAt(document);
 
           return (
             <li

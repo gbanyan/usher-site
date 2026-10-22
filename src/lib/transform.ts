@@ -192,3 +192,23 @@ export function extractContactContent(content: string): {
     .trim();
   return { content: withoutDonationSection, donationPending: true };
 }
+
+/**
+ * When a document's content last changed. The record's own updated_at is not
+ * reliable (older CMS releases bumped it on every view/download), so prefer
+ * the current version's upload date.
+ */
+export function getDocumentUpdatedAt(
+  document:
+    | Pick<PublicDocumentSummary, "published_at" | "updated_at" | "current_version">
+    | null
+    | undefined
+): string | null {
+  if (!document) return null;
+  return (
+    document.current_version?.uploaded_at ||
+    document.published_at ||
+    document.updated_at ||
+    null
+  );
+}

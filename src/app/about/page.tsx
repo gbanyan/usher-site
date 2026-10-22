@@ -12,6 +12,7 @@ import MarkdownRenderer from "@/components/MarkdownRenderer";
 import type { PublicDocumentSummary } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 import { GOVERNANCE_DOCUMENTS, findGovernanceDocuments } from "@/lib/governance";
+import { getDocumentUpdatedAt } from "@/lib/transform";
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
@@ -132,7 +133,7 @@ export default async function AboutPage() {
                 {governanceRows.map((row) => {
                   const document = row.document;
                   const hash = document?.current_version?.file_hash;
-                  const updatedAt = document?.updated_at || document?.published_at;
+                  const updatedAt = getDocumentUpdatedAt(document);
 
                   return (
                     <tr key={row.key}>
@@ -185,7 +186,7 @@ export default async function AboutPage() {
             {governanceRows.map((row) => {
               const document = row.document;
               const hash = document?.current_version?.file_hash;
-              const updatedAt = document?.updated_at || document?.published_at;
+              const updatedAt = getDocumentUpdatedAt(document);
 
               return (
                 <li

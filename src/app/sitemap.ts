@@ -5,6 +5,7 @@ import {
   getAllPublicDocumentSlugs,
 } from "@/lib/api";
 import { getSiteUrl } from "@/lib/site";
+import { getDocumentUpdatedAt } from "@/lib/transform";
 
 const STATIC_ROUTES: { path: string; priority: number; changeFrequency: "yearly" | "monthly" | "weekly" }[] = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
@@ -127,7 +128,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const documents = await getAllPublicDocuments();
     for (const d of documents) {
-      const updated = d.updated_at || d.published_at;
+      const updated = getDocumentUpdatedAt(d);
       entries.push({
         url: `${baseUrl}/document/${d.slug}`,
         lastModified: updated ? new Date(updated) : now,

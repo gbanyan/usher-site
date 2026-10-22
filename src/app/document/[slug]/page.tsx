@@ -10,6 +10,7 @@ import { getWebPageSchema } from "@/lib/jsonld";
 import { formatDate } from "@/lib/utils";
 import JsonLd from "@/components/JsonLd";
 import PageHeader from "@/components/PageHeader";
+import { getDocumentUpdatedAt } from "@/lib/transform";
 
 interface DocumentDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -55,7 +56,7 @@ export default async function DocumentDetailPage({
     notFound();
   }
 
-  const updatedAt = document.updated_at || document.published_at;
+  const updatedAt = getDocumentUpdatedAt(document);
 
   return (
     <>
