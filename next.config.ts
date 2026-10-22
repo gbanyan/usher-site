@@ -1,6 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Articles moved between category sections keep their old links alive.
+  async redirects() {
+    return [
+      {
+        source: "/story/document-f68da0b8",
+        destination: "/guides/document-f68da0b8",
+        permanent: true,
+      },
+    ];
+  },
   experimental: {
     // Swiper exposes many modules; only bundle the modules imported by the app.
     optimizePackageImports: ["swiper"],

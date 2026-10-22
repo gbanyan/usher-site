@@ -360,14 +360,14 @@
       "name": "建議與指引",
       "slug": "guides",
       "description": null,
-      "articles_count": 2
+      "articles_count": 3
     },
     {
       "id": 18,
       "name": "故事",
       "slug": "story",
       "description": null,
-      "articles_count": 8
+      "articles_count": 7
     }
   ]
 }
