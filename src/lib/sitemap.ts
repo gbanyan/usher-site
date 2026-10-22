@@ -56,9 +56,9 @@ export function buildSitemapEntries(input: SitemapInput): SitemapEntry[] {
     changeFrequency: route.changeFrequency,
     priority: route.priority,
     ...(route.path === "/"
-      ? { alternates: { en: `${siteUrl}/en` } }
+      ? { alternates: { en: `${siteUrl}/en` } as Record<string, string> }
       : route.path === "/en"
-        ? { alternates: { "zh-TW": `${siteUrl}/` } }
+        ? { alternates: { "zh-TW": `${siteUrl}/` } as Record<string, string> }
         : {}),
   }));
 

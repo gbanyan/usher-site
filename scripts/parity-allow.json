@@ -4,5 +4,7 @@
   { "path": "/guides", "field": "text", "reason": "listing shows all cards server-side (no client pagination)" },
   { "path": "/related-news", "field": "text", "reason": "listing shows all cards server-side (no client pagination)" },
   { "path": "/document", "field": "text", "reason": "listing shows all cards server-side (no client pagination)" },
-  { "path": "/logo-represent", "field": "text", "reason": "literal \"<br/>\" no longer rendered" }
+  { "path": "/logo-represent", "field": "text", "reason": "literal \"<br/>\" no longer rendered" },
+  { "path": "/guides/document-b81734e3", "field": "text", "reason": "literal \"<br/>\" no longer rendered" },
+  { "path": "/guides/document-25e793fb", "field": "text", "reason": "literal \"<br/>\" no longer rendered" }
 ]

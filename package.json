@@ -13,7 +13,7 @@
     "check:content": "node scripts/check-markdown.mjs",
     "check:assets": "node scripts/check-content-assets.mjs",
     "check:a11y": "node scripts/check-a11y-static.mjs",
-    "check:parity": "node scripts/check-parity.mjs",
+    "check:parity": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-parity.mjs",
     "lint": "astro check && eslint .",
     "snapshot": "node scripts/snapshot-content.mjs",
     "refresh:content": "npm run snapshot && npm run check:content && npm run check:assets",
