@@ -3,6 +3,7 @@ import {
   cn,
   formatDate,
   formatFileSize,
+  getYouTubeVideoId,
   stripMarkdown,
 } from "./utils";
 
@@ -50,5 +51,26 @@ describe("stripMarkdown", () => {
 describe("cn", () => {
   it("merges and dedupes Tailwind classes", () => {
     expect(cn("px-2", "px-4 text-white")).toBe("px-4 text-white");
+  });
+});
+
+describe("getYouTubeVideoId", () => {
+  it.each([
+    ["https://www.youtube.com/watch?v=2A1ATKD-KBc", "2A1ATKD-KBc"],
+    ["https://youtube.com/watch?v=2A1ATKD-KBc&t=30s", "2A1ATKD-KBc"],
+    ["https://m.youtube.com/watch?v=2A1ATKD-KBc", "2A1ATKD-KBc"],
+    ["https://youtu.be/2A1ATKD-KBc", "2A1ATKD-KBc"],
+    ["https://www.youtube.com/live/2A1ATKD-KBc?si=x", "2A1ATKD-KBc"],
+  ])("extracts the id from %s", (href, id) => {
+    expect(getYouTubeVideoId(href)).toBe(id);
+  });
+
+  it.each([
+    "https://www.youtube.com/@台灣尤塞氏症暨視聽弱",
+    "https://www.youtube.com/watch?v=short",
+    "https://example.com/watch?v=2A1ATKD-KBc",
+    "not a url",
+  ])("returns null for %s", (href) => {
+    expect(getYouTubeVideoId(href)).toBeNull();
   });
 });

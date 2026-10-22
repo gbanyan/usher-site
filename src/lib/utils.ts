@@ -38,3 +38,32 @@ export function formatFileSize(bytes: number): string {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
+
+const YOUTUBE_ID = /^[\w-]{11}$/;
+
+/**
+ * Returns the video id for a YouTube watch, youtu.be or live URL, or null for
+ * anything else (channels, playlists, other hosts, malformed URLs).
+ */
+export function getYouTubeVideoId(href: string): string | null {
+  let url: URL;
+  try {
+    url = new URL(href);
+  } catch {
+    return null;
+  }
+
+  const host = url.hostname.replace(/^(www|m)\./, "");
+  let id: string | null = null;
+  if (host === "youtu.be") {
+    id = url.pathname.slice(1);
+  } else if (host === "youtube.com") {
+    if (url.pathname === "/watch") {
+      id = url.searchParams.get("v");
+    } else if (url.pathname.startsWith("/live/")) {
+      id = url.pathname.slice("/live/".length);
+    }
+  }
+
+  return id && YOUTUBE_ID.test(id) ? id : null;
+}

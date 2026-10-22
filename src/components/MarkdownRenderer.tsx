@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Image from "next/image";
 import type { Components, ExtraProps } from "react-markdown";
+import { getYouTubeVideoId } from "@/lib/utils";
 
 interface MarkdownRendererProps {
   content: string;
@@ -56,8 +57,54 @@ const demotedHeadingComponents: Pick<
   h6: ShiftedHeading({ level: "h6" }),
 };
 
+type ParagraphProps = React.HTMLAttributes<HTMLParagraphElement> & ExtraProps;
+
+/**
+ * A paragraph holding nothing but one YouTube link becomes an embedded player.
+ * The link stays underneath so the video can still be opened on YouTube.
+ */
+function standaloneYouTubeLink(node: ParagraphProps["node"]): string | null {
+  const children = (node?.children ?? []).filter(
+    (child) => !(child.type === "text" && child.value.trim() === "")
+  );
+  if (children.length !== 1) return null;
+  const [only] = children;
+  if (only.type !== "element" || only.tagName !== "a") return null;
+  const href = only.properties?.href;
+  return typeof href === "string" && getYouTubeVideoId(href) ? href : null;
+}
+
+function YouTubeEmbed({ href }: { href: string }) {
+  const id = getYouTubeVideoId(href);
+  return (
+    <figure className="my-6">
+      <div className="aspect-video w-full overflow-hidden rounded-lg">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${id}`}
+          title="YouTube 影片播放器"
+          loading="lazy"
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="h-full w-full"
+        />
+      </div>
+      <figcaption className="mt-2 text-sm">
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          在 YouTube 觀看
+          <span className="sr-only"> (在新視窗開啟)</span>
+        </a>
+      </figcaption>
+    </figure>
+  );
+}
+
 const components: Components = {
   ...demotedHeadingComponents,
+  p: ({ node, ...props }: ParagraphProps) => {
+    const youTubeHref = standaloneYouTubeLink(node);
+    if (youTubeHref) return <YouTubeEmbed href={youTubeHref} />;
+    return <p {...props} />;
+  },
   img: ({ src, alt }) => {
     if (!src || typeof src !== "string") return null;
 
