@@ -5,14 +5,16 @@
  *   a) every <loc> in dist/sitemap.xml has a matching dist file (skipped while
  *      the sitemap does not exist yet);
  *   b) every internal href to a detail route resolves to dist/<route>.html;
- *   c) each article section has at least one detail page.
+ *   c) each article section (including public documents) has at least one
+ *      detail page;
+ *   d) /about links to at least one /document/<slug> page.
  */
 import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 
 const DIST = path.join(process.cwd(), "dist");
 const LINK_SECTIONS = ["blog", "notice", "story", "guides", "related-news", "document"];
-const REQUIRED_SECTIONS = ["blog", "notice", "story", "guides", "related-news"];
+const REQUIRED_SECTIONS = ["blog", "notice", "story", "guides", "related-news", "document"];
 const DETAIL_HREF = new RegExp(`href="(/(?:${LINK_SECTIONS.join("|")})/[^"#?]+)`, "g");
 
 async function exists(p) {
@@ -104,6 +106,17 @@ async function main() {
       : 0;
     if (count === 0) failures.push(`no detail pages generated for /${section}/`);
     else console.log(`check-build-coverage: /${section}/ ${count} detail pages`);
+  }
+
+  // (d) /about links to governance documents
+  const aboutFile = path.join(DIST, "about.html");
+  if (!(await exists(aboutFile))) {
+    failures.push("dist/about.html is missing");
+  } else {
+    const about = await readFile(aboutFile, "utf8");
+    const links = [...about.matchAll(/href="(\/document\/[^"#?]+)/g)].map((m) => m[1]);
+    if (links.length === 0) failures.push("/about links to no /document/ pages");
+    else console.log(`check-build-coverage: /about links to ${links.length} document pages`);
   }
 
   if (failures.length > 0) {

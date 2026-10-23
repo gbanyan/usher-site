@@ -22,7 +22,7 @@ const HTML_DIR = path.join(ROOT, "dist");
 const CSS_DIR = path.join(ROOT, "dist", "_astro");
 
 // Generated support documents that are not rendered through the layout.
-// Redirects are defined in vercel.json, so no HTML stubs need exempting.
+// Redirects are defined in public/_redirects (Cloudflare), so no HTML stubs need exempting.
 const EXEMPT_PAGES = new Set(["404.html"]);
 
 async function walk(dir) {

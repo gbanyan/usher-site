@@ -170,7 +170,7 @@ Same public URLs as the former Next.js site. All pages are static.
 
 ## Theme Colors
 
-Defined in `globals.css` via `@theme inline`:
+Defined in `src/styles/global.css` via `@theme inline`:
 - `primary`: #1e3a5f (deep navy)
 - `primary-light`: #2a5a8f
 - `primary-dark`: #0f2440
