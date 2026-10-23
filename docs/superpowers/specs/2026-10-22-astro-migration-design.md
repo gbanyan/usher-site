@@ -197,3 +197,17 @@ Next.js 在這個網站帶來、但實際用不到的複雜度：
 - **Cloudflare**：在終端機執行 `npx wrangler login`，授權本機。實作者再用它建立一組只能部署 Workers 的 API token，存進 GitHub secret。
 - **GitHub**：建立後台要用的 fine-grained token（只限 usher-site、Contents: write）。可以由秘書長在 GitHub 網頁建立；如果 `gh` 的登入權限足夠，也可以由實作者代為處理。
 - **DNS**：`wrangler login` 和 Workers 部署權限都不包含刪改 DNS 記錄。切換時要刪除 `www` 指向 Vercel 的記錄，回滾時要把它重建回來，所以需要另一組只限 `usher.org.tw` 的 API token（DNS Edit、Zone Read、Workers Routes Edit）。這組 token 只在本機使用，不放進 GitHub。切換前先完整備份 DNS 記錄。
+
+## 8. 量測結果（2026-10-23，Lighthouse 12，手機模式）
+
+舊版是正式站 `https://www.usher.org.tw`（Next.js on Vercel）；新版是 `https://usher-site.gbanyan.workers.dev`（Astro on Cloudflare Workers，含建置時圖片優化）。
+
+| 頁面 | 效能分數 | LCP | CLS | JavaScript | 總下載量 |
+|---|---|---|---|---|---|
+| `/` | 80 → 98 | 4.0 → 1.4 秒 | 0 → 0 | 266 → 3 KB | 639 → 320 KB |
+| `/story/document-694e4dd6` | 88 → 100 | 3.3 → 1.3 秒 | 0.008 → 0 | 270 → 3 KB | 374 → 98 KB |
+| `/faq` | 89 → 98 | 3.2 → 1.4 秒 | 0 → 0 | 266 → 3 KB | 352 → 80 KB |
+
+逐頁比對（`check:parity`，61 個網址）的結果：43 頁完全相同，7 頁是預先核准的差異，11 頁只有兩種差異——Asia/Taipei 時區修正造成的日期變動，以及 `/en` 新增的螢幕閱讀器提示。把這兩種遮掉後，這 11 頁的標題、h1、canonical 與全文都完全一致。
+
+觀察：部署後短時間內，Cloudflare 邊緣節點可能還在提供舊版 HTML，或出現零星 404。第一次部署時這個現象持續了約一分鐘，之後就穩定了。
