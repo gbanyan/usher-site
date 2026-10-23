@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { renderMarkdown } from "./markdown";
+import type { ImageOptimizeFn } from "./images";
 
 describe("renderMarkdown", () => {
   it("demotes headings by one level", async () => {
@@ -73,5 +74,43 @@ describe("renderMarkdown", () => {
     expect(await renderMarkdown("![alt](/images/x.png)")).toContain(
       '<span class="my-4 block overflow-hidden rounded-lg"><img'
     );
+  });
+  describe("responsive images", () => {
+    const optimizeImage: ImageOptimizeFn = async (url) =>
+      url.startsWith("/images/")
+        ? { src: "/_img/x.h.1200.webp", srcset: "/_img/x.h.640.webp 640w, /_img/x.h.1200.webp 1200w", width: 1200, height: 900 }
+        : null;
+
+    it("uses the optimised variants, intrinsic size and the old sizes hint", async () => {
+      const html = await renderMarkdown("![alt](/images/x.png)", { optimizeImage });
+      expect(html).toContain('src="/_img/x.h.1200.webp"');
+      expect(html).toContain('srcset="/_img/x.h.640.webp 640w, /_img/x.h.1200.webp 1200w"');
+      expect(html).toContain('sizes="(max-width: 768px) 100vw, 800px"');
+      expect(html).toContain('width="1200"');
+      expect(html).toContain('height="900"');
+      expect(html).toContain('loading="lazy"');
+      expect(html).toContain('<span class="my-4 block overflow-hidden rounded-lg"><img');
+    });
+    it("leaves images the optimiser skips untouched", async () => {
+      const html = await renderMarkdown("![a](https://example.com/a.jpg)", { optimizeImage });
+      expect(html).toContain('src="https://example.com/a.jpg"');
+      expect(html).not.toContain("srcset");
+      expect(html).toContain('width="800"');
+    });
+    it("never hands unsafe URLs to the optimiser", async () => {
+      const seen: string[] = [];
+      const spy: ImageOptimizeFn = async (url) => {
+        seen.push(url);
+        return null;
+      };
+      await renderMarkdown("![a](javascript:alert(1))\n\n![b](/images/ok.png)", { optimizeImage: spy });
+      expect(seen).toEqual(["/images/ok.png"]);
+    });
+    it("propagates optimiser failures so the build fails", async () => {
+      const failing: ImageOptimizeFn = async () => {
+        throw new Error("boom");
+      };
+      await expect(renderMarkdown("![a](/images/x.png)", { optimizeImage: failing })).rejects.toThrow("boom");
+    });
   });
 });

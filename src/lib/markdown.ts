@@ -6,6 +6,7 @@ import rehypeStringify from "rehype-stringify";
 import { visit } from "unist-util-visit";
 import { toString } from "hast-util-to-string";
 import type { Element, ElementContent, Root } from "hast";
+import type { ImageOptimizeFn } from "./images";
 import {
   getEmbeddableYouTubeId,
   getYouTubeEmbedUrl,
@@ -182,6 +183,38 @@ function rehypeSiteBehaviours() {
   };
 }
 
+/** Same hint next/image used for Markdown images on the old site. */
+const MARKDOWN_IMAGE_SIZES = "(max-width: 768px) 100vw, 800px";
+
+/**
+ * Swap each (already sanitised) image for its build-time responsive variants
+ * when the caller supplies an optimiser. Failures propagate so the build fails.
+ */
+function rehypeResponsiveImages() {
+  return async (tree: Root, file: { data: Record<string, unknown> }) => {
+    const optimizeImage = file.data.optimizeImage as ImageOptimizeFn | undefined;
+    if (!optimizeImage) return;
+    const images: Element[] = [];
+    visit(tree, "element", (node) => {
+      if (node.tagName === "img" && typeof node.properties?.src === "string") images.push(node);
+    });
+    await Promise.all(
+      images.map(async (node) => {
+        const result = await optimizeImage(node.properties.src as string);
+        if (!result) return;
+        node.properties = {
+          ...node.properties,
+          src: result.src,
+          srcSet: result.srcset,
+          sizes: MARKDOWN_IMAGE_SIZES,
+          width: result.width,
+          height: result.height,
+        };
+      })
+    );
+  };
+}
+
 function normalizeMultilineLinks(markdown: string): string {
   return markdown.replace(
     /\[([^\]]+)\]\(\s*(https?:\/\/[^\s)]+)\s*\)/g,
@@ -194,9 +227,19 @@ const processor = unified()
   .use(remarkGfm)
   .use(remarkRehype)
   .use(rehypeSiteBehaviours)
+  .use(rehypeResponsiveImages)
   .use(rehypeStringify);
 
-export async function renderMarkdown(markdown: string): Promise<string> {
+export interface RenderMarkdownOptions {
+  /** Build-time image optimiser (see ./images); omitted in unit tests. */
+  optimizeImage?: ImageOptimizeFn;
+}
+
+export async function renderMarkdown(markdown: string, options: RenderMarkdownOptions = {}): Promise<string> {
   if (!markdown) return "";
-  return String(await processor.process(normalizeMultilineLinks(markdown)));
+  const file = await processor.process({
+    value: normalizeMultilineLinks(markdown),
+    data: { optimizeImage: options.optimizeImage },
+  });
+  return String(file);
 }

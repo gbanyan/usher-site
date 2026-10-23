@@ -1,0 +1,36 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { optimizeImage } from "../lib/images";
+
+/**
+ * <img> with build-time WebP variants (srcset/sizes) for local and CMS raster
+ * images; other URLs (SVG, third-party logos) render unchanged. Width/height
+ * are the source's intrinsic size when optimised, else the given fallback.
+ */
+interface Props extends Omit<HTMLAttributes<"img">, "src" | "srcset" | "sizes" | "width" | "height"> {
+  src: string;
+  alt: string;
+  sizes: string;
+  widths?: number[];
+  width?: number | string;
+  height?: number | string;
+}
+
+const { src, sizes, widths, width, height, ...attrs } = Astro.props;
+const optimized = await optimizeImage(src, { widths });
+---
+
+{
+  optimized ? (
+    <img
+      src={optimized.src}
+      srcset={optimized.srcset}
+      sizes={sizes}
+      width={optimized.width}
+      height={optimized.height}
+      {...attrs}
+    />
+  ) : (
+    <img src={src} width={width} height={height} {...attrs} />
+  )
+}
