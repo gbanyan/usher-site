@@ -1,4 +1,5 @@
 ---
+import { safeUrl } from "../lib/url";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import Markdown from "../components/Markdown.astro";
@@ -99,7 +100,7 @@ const DOWNLOAD_BTN = "inline-flex items-center rounded-md border border-white/20
                     <td class="px-4 py-3 text-xs text-gray-300">{row.hash ?? "未提供"}</td>
                     <td class="px-4 py-3 text-right">
                       {row.document?.links.download_url ? (
-                        <a href={row.document.links.download_url} aria-label={`下載「${row.document.title}」`} class={DOWNLOAD_BTN}>
+                        <a href={safeUrl(row.document.links.download_url) || undefined} aria-label={`下載「${row.document.title}」`} class={DOWNLOAD_BTN}>
                           下載
                         </a>
                       ) : (
@@ -145,7 +146,7 @@ const DOWNLOAD_BTN = "inline-flex items-center rounded-md border border-white/20
                 </dl>
                 <div class="mt-4">
                   {row.document?.links.download_url ? (
-                    <a href={row.document.links.download_url} aria-label={`下載「${row.document.title}」`} class={DOWNLOAD_BTN}>
+                    <a href={safeUrl(row.document.links.download_url) || undefined} aria-label={`下載「${row.document.title}」`} class={DOWNLOAD_BTN}>
                       下載
                     </a>
                   ) : (

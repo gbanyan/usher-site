@@ -1,4 +1,5 @@
 ---
+import { safeUrl } from "../lib/url";
 import PaginationControls from "./PaginationControls.astro";
 import { formatDate } from "../lib/utils";
 import { getDocumentUpdatedAt } from "../lib/transform";
@@ -71,7 +72,7 @@ const { documents } = Astro.props;
                     </a>
                     {document.links.download_url && (
                       <a
-                        href={document.links.download_url}
+                        href={safeUrl(document.links.download_url) || undefined}
                         aria-label={`下載「${document.title}」`}
                         class="inline-flex shrink-0 items-center whitespace-nowrap rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
                       >
@@ -126,7 +127,7 @@ const { documents } = Astro.props;
               </a>
               {document.links.download_url && (
                 <a
-                  href={document.links.download_url}
+                  href={safeUrl(document.links.download_url) || undefined}
                   aria-label={`下載「${document.title}」`}
                   class="inline-flex shrink-0 items-center whitespace-nowrap rounded-md border border-white/20 px-3 py-1.5 text-xs font-medium text-gray-200 hover:bg-white/10"
                 >

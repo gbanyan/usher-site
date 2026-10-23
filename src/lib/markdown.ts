@@ -7,6 +7,7 @@ import { visit } from "unist-util-visit";
 import { toString } from "hast-util-to-string";
 import type { Element, ElementContent, Root } from "hast";
 import type { ImageOptimizeFn } from "./images";
+import { safeUrl } from "./url";
 import {
   getEmbeddableYouTubeId,
   getYouTubeEmbedUrl,
@@ -79,26 +80,6 @@ function youTubeFigure(href: string): Element | null {
     ]),
     el("figcaption", { className: ["mt-2", "text-sm"] }, [link]),
   ]);
-}
-
-const SAFE_PROTOCOL = /^(https?|ircs?|mailto|xmpp)$/i;
-
-/** Mirrors react-markdown's defaultUrlTransform. */
-function safeUrl(url: string): string {
-  const colon = url.indexOf(":");
-  const question = url.indexOf("?");
-  const hash = url.indexOf("#");
-  const slash = url.indexOf("/");
-  if (
-    colon < 0 ||
-    (slash > -1 && colon > slash) ||
-    (question > -1 && colon > question) ||
-    (hash > -1 && colon > hash) ||
-    SAFE_PROTOCOL.test(url.slice(0, colon))
-  ) {
-    return url;
-  }
-  return "";
 }
 
 function sanitizeUrls(tree: Root) {

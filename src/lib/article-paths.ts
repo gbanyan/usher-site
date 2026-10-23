@@ -1,5 +1,6 @@
 import { getArticle, getAllArticles } from "./api";
-import type { ArticleDetailResponse, ContentType } from "./types";
+import { mapWithConcurrency } from "./concurrency";
+import type { ContentType } from "./types";
 
 const CONCURRENCY = 8;
 
@@ -13,19 +14,7 @@ export async function getArticlePaths(
   include: (article: { categories?: { slug: string }[] }) => boolean = () => true
 ) {
   const summaries = (await getAllArticles(params)).filter(include);
-  const results: ArticleDetailResponse[] = new Array(summaries.length);
-  let next = 0;
-
-  async function worker() {
-    while (next < summaries.length) {
-      const index = next++;
-      results[index] = await getArticle(summaries[index].slug);
-    }
-  }
-
-  await Promise.all(
-    Array.from({ length: Math.min(CONCURRENCY, summaries.length) }, worker)
-  );
+  const results = await mapWithConcurrency(summaries, CONCURRENCY, (summary) => getArticle(summary.slug));
 
   return summaries.map((summary, index) => ({
     params: { slug: summary.slug },

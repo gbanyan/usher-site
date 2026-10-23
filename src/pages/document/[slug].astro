@@ -1,4 +1,6 @@
 ---
+import { mapWithConcurrency } from "../../lib/concurrency";
+import { safeUrl } from "../../lib/url";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import { getAllPublicDocumentSlugs, getPublicDocument } from "../../lib/api";
@@ -11,12 +13,10 @@ import type { PublicDocumentDetailResponse } from "../../lib/types";
 
 export async function getStaticPaths() {
   const slugs = await getAllPublicDocumentSlugs();
-  return Promise.all(
-    slugs.map(async (slug) => {
-      const { data, related } = await getPublicDocument(slug);
-      return { params: { slug }, props: { document: data, related: related ?? [] } };
-    })
-  );
+  return mapWithConcurrency(slugs, 8, async (slug) => {
+    const { data, related } = await getPublicDocument(slug);
+    return { params: { slug }, props: { document: data, related: related ?? [] } };
+  });
 }
 
 interface Props {
@@ -82,7 +82,7 @@ const BTN = "inline-flex items-center rounded-md border border-white/20 px-3 py-
           {
             document.current_version?.download_url && (
               <a
-                href={document.current_version.download_url}
+                href={safeUrl(document.current_version.download_url) || undefined}
                 aria-label={`下載「${document.title}」目前版本：${document.current_version.original_filename}`}
                 class="inline-flex items-center rounded-md bg-accent px-4 py-2 text-sm font-medium text-primary-dark hover:bg-accent-light"
               >
@@ -130,7 +130,7 @@ const BTN = "inline-flex items-center rounded-md border border-white/20 px-3 py-
                         <td class="px-4 py-3 text-xs text-gray-300">{hashPreview(version.file_hash) ?? "-"}</td>
                         <td class="px-4 py-3 text-right">
                           <a
-                            href={version.download_url}
+                            href={safeUrl(version.download_url) || undefined}
                             aria-label={`下載版本 ${version.version_number}：${version.original_filename}`}
                             class={BTN}
                           >
@@ -171,7 +171,7 @@ const BTN = "inline-flex items-center rounded-md border border-white/20 px-3 py-
                     </dl>
                     <div class="mt-3">
                       <a
-                        href={version.download_url}
+                        href={safeUrl(version.download_url) || undefined}
                         aria-label={`下載版本 ${version.version_number}：${version.original_filename}`}
                         class={BTN}
                       >
