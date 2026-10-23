@@ -9,7 +9,7 @@
 // Do not over-allow with prefixes.
 import { readFileSync } from "node:fs";
 import {
-  compareEmails, compareFacts, extractEmails, extractPageFacts, fieldOf, isAllowed, isApprovedStatusDifference, mediaType, normalizeLocation,
+  compareEmails, compareFacts, extractEmails, extractPageFacts, approvedTargetProblem, fieldOf, isAllowed, isApprovedStatusDifference, mediaType, normalizeLocation,
   pageProblems, sitemapProblem, statusEquivalent, unexpectedStatus,
 } from "../src/lib/parity.ts";
 
@@ -64,6 +64,12 @@ async function checkOne(path) {
   const hard = []; // never allowable
   const diffs = []; // { field, text }
   const approvedStatus = isApprovedStatusDifference(path, o, n);
+  if (approvedStatus) {
+    // An approved 307 is only acceptable if its target really exists (200) on the NEW site.
+    const t = await get(newBase, n.location, true);
+    const problem = approvedTargetProblem(t.status, n.location);
+    if (problem) hard.push(problem);
+  }
   if (!approvedStatus) {
     if (!statusEquivalent(o.status, n.status)) hard.push(`status ${o.status} vs ${n.status}`);
     if (o.location !== n.location) hard.push(`location "${o.location}" vs "${n.location}"`);

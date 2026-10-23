@@ -116,6 +116,11 @@ export function isApprovedStatusDifference(path: string, old: Redirectish, neu: 
   return false;
 }
 
+/** Problem with the target of an approved redirect, given its status on the new site. */
+export function approvedTargetProblem(targetStatus: number, target = ""): string | null {
+  return targetStatus === 200 ? null : `approved redirect target ${target} returned ${targetStatus}`;
+}
+
 /** Returns the reason when (path, field) is allowlisted, otherwise undefined. */
 export function isAllowed(allow: AllowEntry[], path: string, field: ParityField): string | undefined {
   for (const e of allow) {

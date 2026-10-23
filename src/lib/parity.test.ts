@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
-  compareFacts, extractPageFacts, fieldOf, isAllowed, isApprovedStatusDifference, normalizeLocation, statusEquivalent,
+  compareFacts, extractPageFacts, fieldOf, isAllowed, approvedTargetProblem, isApprovedStatusDifference, normalizeLocation, statusEquivalent,
 } from "./parity";
 
 const f = { title: "常見問題 | 台灣尤塞氏症暨視聽弱協會", h1: "常見問題", canonical: "https://www.usher.org.tw/faq", text: "常見問題 a b" };
@@ -163,5 +163,25 @@ describe("isApprovedStatusDifference", () => {
     expect(isApprovedStatusDifference("/about", r(404), r(307, "/about"))).toBe(false);
     expect(isApprovedStatusDifference("/news/", r(200), r(307, "/news"))).toBe(false);
     expect(isApprovedStatusDifference("/news/", r(308, "/news"), r(302, "/news"))).toBe(false);
+  });
+});
+
+describe("isApprovedStatusDifference edge cases", () => {
+  const r = (status: number, location = "") => ({ status, location });
+  it("rejects the remaining edge cases", () => {
+    expect(isApprovedStatusDifference("/news/", r(404), r(307, "/news"))).toBe(false);
+    expect(isApprovedStatusDifference("/about.html", r(404), r(404))).toBe(false);
+    expect(isApprovedStatusDifference("/about.html", r(404), r(308, "/about"))).toBe(false);
+    expect(isApprovedStatusDifference("/", r(308, "/"), r(307, "/"))).toBe(false);
+    expect(isApprovedStatusDifference("/news/", r(307, "/news"), r(307, "/news"))).toBe(false);
+  });
+});
+
+describe("approvedTargetProblem", () => {
+  it("accepts only a 200 target", () => {
+    expect(approvedTargetProblem(200, "/nope")).toBeNull();
+    expect(approvedTargetProblem(404, "/nope")).toBe("approved redirect target /nope returned 404");
+    expect(approvedTargetProblem(307, "/x")).toBe("approved redirect target /x returned 307");
+    expect(approvedTargetProblem(0, "/x")).toBe("approved redirect target /x returned 0");
   });
 });
