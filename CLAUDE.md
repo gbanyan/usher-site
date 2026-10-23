@@ -113,6 +113,10 @@ The old `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_SITE_URL` are still read as fallb
 - **GEO**: `geo.region: TW`, `geo.placename: Taiwan` in root layout
 - **Helpers**: `src/lib/site.ts` (`getSiteUrl`), `src/lib/metadata.ts` (`buildArticleMetadata`, `buildPageMetadata`), `src/lib/jsonld.ts`
 
+### Bare domain redirect
+
+`usher.org.tw` (no www) is bound to a separate tiny Worker, `usher-apex-redirect` (source in `apex-redirect/`). It answers every request with a 308 to `https://www.usher.org.tw` plus the original path and query string. It is deployed manually with `cd apex-redirect && npx wrangler deploy`; the site's GitHub Actions workflow does not deploy it. It replaced Vercel's domain redirect on 2026-10-23.
+
 ## Route Structure
 
 Same public URLs as the former Next.js site. All pages are static.

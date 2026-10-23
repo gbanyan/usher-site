@@ -1,0 +1,7 @@
+{
+  // Bare-domain redirect for usher.org.tw → https://www.usher.org.tw (308, path + query kept).
+  "name": "usher-apex-redirect",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-23",
+  "workers_dev": true
+}
