@@ -135,8 +135,8 @@ the few interactive parts and Pagefind for search.
 
 Content is authored in a Laravel headless CMS and pulled in at build time. The
 deployed site is **entirely static**: there is no runtime dependency on the CMS.
-When an editor publishes, the CMS queues a Vercel Deploy Hook and the whole site
-rebuilds in about two minutes; a scheduled rebuild also runs daily at 03:00.
+When an editor publishes, the CMS triggers a rebuild and the whole site
+rebuilds in about two minutes (hosted on Cloudflare Workers Static Assets; GitHub Actions deploys on push to main, CMS repository_dispatch, or manual run); a scheduled rebuild also runs daily at 03:00.
 Builds are all-or-nothing, so a CMS outage fails the build and the previous
 deployment keeps serving.
 
@@ -157,7 +157,7 @@ and hosting costs that stay near zero.
 | `/document`, `/document/[slug]` | Resource centre, with document version history (協會文件) |
 | `/related-news`, `/related-news/[slug]` | Related news coverage (相關報導) |
 | `/faq`, `/logo-represent`, … | CMS-backed static pages |
-| `/blog`, `/notice`, `/message`, `/research`, `/logo_represent` | Permanent redirects (see `vercel.json`) |
+| `/blog`, `/notice`, `/message`, `/research`, `/logo_represent` | Permanent redirects (see `public/_redirects`) |
 
 The site carries `sitemap.xml`, `robots.txt`, Open Graph and Twitter metadata,
 and JSON-LD structured data for the organisation, articles and pages.

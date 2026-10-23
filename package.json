@@ -19,7 +19,9 @@
     "refresh:content": "npm run snapshot && npm run check:content && npm run check:assets",
     "subset-logo-font": "node scripts/subset-logo-font.mjs",
     "extract-logo-icon": "node scripts/extract-logo-icon.mjs",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "deploy": "wrangler deploy",
+    "preview:cf": "wrangler dev"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.12",
@@ -45,6 +47,7 @@
     "tailwindcss": "4.3.3",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.72.0",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.11",
+    "wrangler": "4.152.0"
   }
 }

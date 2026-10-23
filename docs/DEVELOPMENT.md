@@ -49,7 +49,7 @@ search only exists after a build, so test search with `build` + `preview`.
 | `npm run build` | `astro build`, then the Pagefind index (`dist/_pagefind`), then `check:build-coverage`. |
 | `npm run preview` | Serves the pre-built `dist/`. No CMS needed. |
 | `npm run check:build-coverage` | Sitemap entries, internal detail links and per-section pages all resolve in `dist/`. Runs inside `build`. |
-| `npm run check:parity <oldBase> <newBase>` | Compares status, redirects and page facts of two deployments, using `scripts/parity-allow.json`. Set `VERCEL_AUTOMATION_BYPASS_SECRET` for protected previews. |
+| `npm run check:parity <oldBase> <newBase>` | Compares status, redirects and page facts of two deployments, using `scripts/parity-allow.json`. Set `VERCEL_AUTOMATION_BYPASS_SECRET` only for protected Vercel previews. Trailing-slash (308 to 307) and `.html` (404 to 307) status differences are the only approved ones and are reported as allowed. |
 | `npm run test` | Runs the vitest unit suite. |
 | `npm run check:content` | Validates snapshot Markdown for formatting errors (run before committing a snapshot refresh). |
 | `npm run check:assets` | Verifies every content reference resolves to a real file under `public/`. Exits 1 on missing references. |
@@ -61,8 +61,10 @@ search only exists after a build, so test search with `build` + `preview`.
 | `npm run extract-logo-icon` | Extracts the logo icon asset. |
 
 The build uses `build.format: "file"` (so `/about` is emitted as `about.html`);
-`vercel.json` (`cleanUrls`, `trailingSlash: false`) serves it as `/about` and
-holds the permanent redirects.
+Cloudflare Workers Static Assets (`wrangler.jsonc`: `html_handling: "drop-trailing-slash"`,
+`not_found_handling: "404-page"`) serves it as `/about`, redirecting `/about/` and
+`/about.html` with 307; the permanent 308 redirects live in `public/_redirects`.
+`npm run preview:cf` (`wrangler dev`) reproduces this locally after a build.
 
 `node scripts/crop-tcu-logo.mjs` is a one-off logo-prep tool (not a package
 script); it is documented in `docs/assets/partner-logo-sources.md` and consumes
@@ -80,7 +82,7 @@ npm ci → lint → test → check:content → check:assets → build → check:
 
 `CONTENT_SOURCE=snapshot` makes `astro build` read the committed
 `content-snapshots/` instead of the CMS, so a fresh checkout is reproducible.
-Deployment stays on Vercel and is independent of this workflow.
+Hosting is Cloudflare Workers Static Assets; GitHub Actions deploys on push to main, CMS repository_dispatch, or manual run. The old Vercel project remains as a rollback target until removed.
 
 Adding a CI step: it must not require the CMS (use snapshot mode), must not
 need secrets that trip other contributors, and ideally must run in under a few
@@ -99,7 +101,7 @@ VERCEL_AUTOMATION_BYPASS_SECRET=...               # only for `npm run check:pari
 
 The old `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_SITE_URL` are still read as
 fallbacks. Copy `.env.example` to `.env.local` to get started. Production values
-are configured on Vercel. Never expose `SITE_BUILD_TOKEN` to client code.
+are configured as GitHub Actions secrets/variables. Never expose `SITE_BUILD_TOKEN` to client code.
 
 ## Content sources
 
@@ -173,7 +175,7 @@ Key endpoints:
 ## Publishing and rebuilds
 
 There is no runtime revalidation. When an editor creates, updates, publishes,
-archives or deletes content, the CMS queues a call to a **Vercel Deploy Hook**,
+archives or deletes content, the CMS triggers a GitHub Actions run (`repository_dispatch`),
 which rebuilds and redeploys the whole site in about two minutes. A scheduled
 rebuild also runs daily at 03:00. The build authenticates to the CMS with the
 `X-Site-Build-Token` header (`SITE_BUILD_TOKEN`), and a failed build leaves the
@@ -218,7 +220,8 @@ Two sources, handled differently:
 | `src/lib/markdown.ts`, `nav.ts` | Build-time markdown, navigation and `toRoutePath()` |
 | `content-snapshots/` | Committed content for snapshot mode |
 | `scripts/` | Snapshots, content/asset/a11y/coverage checks, parity checker, font subsetting, logo prep |
-| `vercel.json` | Build settings, clean URLs, redirects |
+| `wrangler.jsonc` | Cloudflare Workers Static Assets settings |
+| `public/_redirects` | Permanent redirects (308) |
 | `hugo-archive/` | The original Hugo site, kept for reference |
 
 `CLAUDE.md` in the repository root covers the same ground in a format aimed at

@@ -98,6 +98,24 @@ export function statusEquivalent(a: number, b: number): boolean {
   return a === b || (PERMANENT.has(a) && PERMANENT.has(b));
 }
 
+export interface Redirectish { status: number; location: string }
+
+/**
+ * The only status differences that may be approved (never via the allowlist file):
+ * a trailing-slash URL that moved from 301/308 to 307 with the same target, and a
+ * `.html` URL that moved from 404 to a 307 onto the extensionless path.
+ */
+export function isApprovedStatusDifference(path: string, old: Redirectish, neu: Redirectish): boolean {
+  if (neu.status !== 307) return false;
+  if (path.length > 1 && path.endsWith("/")) {
+    return PERMANENT.has(old.status) && old.location !== "" && old.location === neu.location;
+  }
+  if (path.endsWith(".html")) {
+    return old.status === 404 && neu.location === path.slice(0, -".html".length);
+  }
+  return false;
+}
+
 /** Returns the reason when (path, field) is allowlisted, otherwise undefined. */
 export function isAllowed(allow: AllowEntry[], path: string, field: ParityField): string | undefined {
   for (const e of allow) {

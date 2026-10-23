@@ -47,9 +47,9 @@ Without the CMS, use snapshot mode: `CONTENT_SOURCE=snapshot npm run build`.
 The site is **fully static**. There is no server, ISR or revalidation at runtime.
 
 - `astro build` fetches all content from the Laravel CMS and writes static HTML to `dist/`. Builds are **all-or-nothing**: a failed fetch fails the build (never catch-and-fallback), so a broken CMS can never publish a half-empty site.
-- When an editor publishes, the CMS queues a **Vercel Deploy Hook** call; the site rebuilds in about 2 minutes. A scheduled rebuild also runs daily at 03:00.
+- When an editor publishes, the CMS triggers a rebuild and the site redeploys in about 2 minutes. Hosting is **Cloudflare Workers Static Assets** (`wrangler.jsonc`, no Worker code); GitHub Actions deploys on push to main, CMS repository_dispatch, or manual run. The old Vercel project remains only as a rollback target until it is removed. A scheduled rebuild also runs daily at 03:00.
 - The build sends `X-Site-Build-Token` (`SITE_BUILD_TOKEN`) so the CMS allows the bulk fetch. The token must never appear in `dist/`.
-- URL shape: `build.format: "file"` emits `/about.html`; `vercel.json` (`cleanUrls: true`, `trailingSlash: false`) serves `/about`. `vercel.json` also holds the permanent redirects: `/blog` and `/notice` to `/news`, `/message` to `/about`, `/research` to `/document`, `/logo_represent` to `/logo-represent`.
+- URL shape: `build.format: "file"` emits `/about.html`; Cloudflare `assets.html_handling: "drop-trailing-slash"` serves `/about` (`/about/` and `/about.html` answer 307 to `/about`), and `assets.not_found_handling: "404-page"` serves the site 404 page. `public/_redirects` holds the five permanent (308) redirects: `/blog` and `/notice` to `/news`, `/message` to `/about`, `/research` to `/document`, `/logo_represent` to `/logo-represent`.
 - Use `toRoutePath(Astro.url.pathname)` (`src/lib/nav.ts`) to get the public route path (it strips `.html`); never build links from `Astro.url`.
 
 ### Snapshot Mode (Optional Fallback)
@@ -90,7 +90,7 @@ Two image sources:
    - Production: `https://member.usher.org.tw/storage/articles/images/...`
    - Remote images are plain `<img>` tags; no image optimiser configuration is needed
 
-**Case sensitivity**: macOS is case-insensitive; Vercel (Linux) is case-sensitive. Watch for case mismatches in image filenames (e.g., `Logo_long.png` vs `logo_long.png`).
+**Case sensitivity**: macOS is case-insensitive; Cloudflare (Linux) is case-sensitive. Watch for case mismatches in image filenames (e.g., `Logo_long.png` vs `logo_long.png`).
 
 ### Environment Variables
 
@@ -99,10 +99,10 @@ CONTENT_SOURCE=api                                   # "api" (default) or "snaps
 CMS_API_URL=http://localhost:8001/api/v1            # Laravel API base
 SITE_URL=https://www.usher.org.tw                   # Absolute site URL for canonical, OG, sitemap, JSON-LD
 SITE_BUILD_TOKEN=...                                 # Sent as X-Site-Build-Token during build
-VERCEL_AUTOMATION_BYPASS_SECRET=...                  # Only for check:parity against protected previews
+VERCEL_AUTOMATION_BYPASS_SECRET=...                  # Only for check:parity against a protected Vercel preview (legacy)
 ```
 
-The old `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_SITE_URL` are still read as fallbacks (kept for rollback). Production values are set in Vercel.
+The old `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_SITE_URL` are still read as fallbacks (kept for rollback). Production values are GitHub Actions secrets/variables.
 
 ### SEO / GEO
 
@@ -132,12 +132,12 @@ Same public URLs as the former Next.js site. All pages are static.
 | `/faq`, `/logo-represent`, … | CMS-backed static pages |
 | `/sitemap.xml`, `/robots.txt` | Generated at build |
 | `/_pagefind/*` | Search index (generated after build) |
-| `/blog`, `/notice`, `/message`, `/research`, `/logo_represent` | Redirects defined in `vercel.json` (no Astro page) |
+| `/blog`, `/notice`, `/message`, `/research`, `/logo_represent` | Redirects defined in `public/_redirects` (no Astro page) |
 
 ## Key Files
 
 - `astro.config.mjs` — static output, `build.format: "file"`, `trailingSlash: "never"`, Tailwind vite plugin
-- `vercel.json` — framework, build command, cleanUrls/trailingSlash, redirects
+- `wrangler.jsonc` — Cloudflare Workers Static Assets config (directory, html_handling, 404 page); `public/_redirects` — permanent redirects
 - `src/lib/api.ts` — API client, all data-fetching functions (errors propagate: all-or-nothing builds)
 - `src/lib/types.ts` — TypeScript interfaces for API data, `CONTENT_TYPE_PATHS`
 - `src/lib/article-paths.ts` — shared `getStaticPaths` helper for article detail routes
@@ -212,5 +212,5 @@ mapping is `CONTENT_TYPE_PATHS` in `src/lib/types.ts`.
 - Never catch-and-fallback inside `getStaticPaths` or page frontmatter: a failed fetch must fail the build, not publish an empty page
 - Use `toRoutePath()` for the current route and never build links from `Astro.url` (with `build.format: "file"` it contains `.html`)
 - Don't put `SITE_BUILD_TOKEN` in anything that reaches `dist/` (no `PUBLIC_` prefix, no inlining into client scripts)
-- Watch for case sensitivity in image paths (macOS vs Linux/Vercel)
+- Watch for case sensitivity in image paths (macOS vs Linux/Cloudflare)
 - Pagination is client-side over fully rendered lists; there is no server, so no query-string driven pages

@@ -1,14 +1,15 @@
 // Usage: npm run check:parity <oldBase> <newBase>
 // Compares status, redirect location and page facts for each URL on both sites.
-// Env: VERCEL_AUTOMATION_BYPASS_SECRET -> x-vercel-protection-bypass header for the NEW base.
-// Allowlist: scripts/parity-allow.json. Status/location differences can never be allowed.
+// Env: VERCEL_AUTOMATION_BYPASS_SECRET -> x-vercel-protection-bypass header for the NEW base (only for protected Vercel previews).
+// Allowlist: scripts/parity-allow.json. Status/location differences can never be allowed;
+// only the two cases of isApprovedStatusDifference (trailing slash 308->307, .html 404->307) are reported as allowed.
 //
 // NOTE (allowlist maintenance): pages whose only text difference is an Asia/Taipei date shift
 // are approved, but must be added to parity-allow.json per page after the first run.
 // Do not over-allow with prefixes.
 import { readFileSync } from "node:fs";
 import {
-  compareEmails, compareFacts, extractEmails, extractPageFacts, fieldOf, isAllowed, mediaType, normalizeLocation,
+  compareEmails, compareFacts, extractEmails, extractPageFacts, fieldOf, isAllowed, isApprovedStatusDifference, mediaType, normalizeLocation,
   pageProblems, sitemapProblem, statusEquivalent, unexpectedStatus,
 } from "../src/lib/parity.ts";
 
@@ -62,10 +63,13 @@ async function checkOne(path) {
   const [o, n] = await Promise.all([get(oldBase, path, false), get(newBase, path, true)]);
   const hard = []; // never allowable
   const diffs = []; // { field, text }
-  if (!statusEquivalent(o.status, n.status)) hard.push(`status ${o.status} vs ${n.status}`);
-  if (o.location !== n.location) hard.push(`location "${o.location}" vs "${n.location}"`);
+  const approvedStatus = isApprovedStatusDifference(path, o, n);
+  if (!approvedStatus) {
+    if (!statusEquivalent(o.status, n.status)) hard.push(`status ${o.status} vs ${n.status}`);
+    if (o.location !== n.location) hard.push(`location "${o.location}" vs "${n.location}"`);
+  }
   for (const [side, r] of [["old", o], ["new", n]]) {
-    const u = unexpectedStatus(path, r.status);
+    const u = approvedStatus && r.status !== 0 && r.status < 500 ? undefined : unexpectedStatus(path, r.status);
     if (u) hard.push(`${side}: ${u}`);
     const sp = sitemapPaths.has(path) ? sitemapProblem(path, r.status) : undefined;
     if (sp && !u) hard.push(`${side}: ${sp}`);
@@ -80,7 +84,7 @@ async function checkOne(path) {
   } else if (!!o.facts !== !!n.facts) hard.push("page facts present on only one side");
   const bad = diffs.filter((d) => !isAllowed(allow, path, d.field));
   const ok = diffs.filter((d) => isAllowed(allow, path, d.field));
-  return { path, o, n, hard, bad, ok };
+  return { path, o, n, hard, bad, ok, approvedStatus };
 }
 
 const paths = await urlList();
@@ -95,16 +99,17 @@ let failing = 0, allowed = 0;
 console.log("URL | status old/new | location | differing fields");
 for (const r of results) {
   const fields = [...new Set([...r.bad, ...r.ok].map((d) => d.field))];
-  const status = r.hard.length || r.bad.length ? "DIFF" : r.ok.length ? "allowed" : "ok";
+  const status = r.hard.length || r.bad.length ? "DIFF" : r.ok.length || r.approvedStatus ? "allowed" : "ok";
   const loc = r.o.location || r.n.location ? `${r.o.location || "-"} -> ${r.n.location || "-"}` : "-";
   console.log(`${status.padEnd(7)} ${r.path} | ${cell(r)} | ${loc} | ${fields.join(",") || "-"}`);
   if (r.hard.length || r.bad.length) failing++;
-  else if (r.ok.length) allowed++;
+  else if (r.ok.length || r.approvedStatus) allowed++;
 }
 console.log("\nDifferences:");
 for (const r of results) for (const h of r.hard) console.log(`  ${r.path}: ${h}`);
 for (const r of results) for (const d of r.bad) console.log(`  ${r.path}: ${d.text}`);
 console.log("\nAllowed differences:");
+for (const r of results) if (r.approvedStatus) console.log(`  ${r.path} [status]: approved status difference ${r.o.status} -> ${r.n.status} (${r.o.location || "-"} -> ${r.n.location || "-"})`);
 for (const r of results) for (const d of r.ok) console.log(`  ${r.path} [${d.field}]: ${isAllowed(allow, r.path, d.field)}`);
 console.log(`\n${results.length} urls: ${results.length - failing - allowed} identical, ${allowed} allowed-only, ${failing} with differences`);
 process.exit(failing ? 1 : 0);

@@ -49,3 +49,4 @@ hugo-archive/
 # astro
 /dist/
 /.astro/
+.wrangler/

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
-  compareFacts, extractPageFacts, fieldOf, isAllowed, normalizeLocation, statusEquivalent,
+  compareFacts, extractPageFacts, fieldOf, isAllowed, isApprovedStatusDifference, normalizeLocation, statusEquivalent,
 } from "./parity";
 
 const f = { title: "常見問題 | 台灣尤塞氏症暨視聽弱協會", h1: "常見問題", canonical: "https://www.usher.org.tw/faq", text: "常見問題 a b" };
@@ -144,5 +144,24 @@ describe("sitemapProblem", () => {
     expect(sitemapProblem("/faq", 200)).toBeUndefined();
     for (const st of [301, 308, 401, 403, 410, 404]) expect(sitemapProblem("/faq", st)).toMatch(String(st));
     expect(sitemapProblem("/About", 404)).toBeUndefined();
+  });
+});
+
+describe("isApprovedStatusDifference", () => {
+  const r = (status: number, location = "") => ({ status, location });
+  it("approves trailing-slash 301/308 vs 307 with the same target", () => {
+    expect(isApprovedStatusDifference("/news/", r(308, "/news"), r(307, "/news"))).toBe(true);
+    expect(isApprovedStatusDifference("/news/", r(301, "/news"), r(307, "/news"))).toBe(true);
+  });
+  it("approves .html 404 vs 307 to the extensionless path", () => {
+    expect(isApprovedStatusDifference("/about.html", r(404), r(307, "/about"))).toBe(true);
+  });
+  it("rejects different targets, 200 vs 404 and other combinations", () => {
+    expect(isApprovedStatusDifference("/news/", r(308, "/news"), r(307, "/about"))).toBe(false);
+    expect(isApprovedStatusDifference("/about.html", r(404), r(307, "/other"))).toBe(false);
+    expect(isApprovedStatusDifference("/about", r(200), r(404))).toBe(false);
+    expect(isApprovedStatusDifference("/about", r(404), r(307, "/about"))).toBe(false);
+    expect(isApprovedStatusDifference("/news/", r(200), r(307, "/news"))).toBe(false);
+    expect(isApprovedStatusDifference("/news/", r(308, "/news"), r(302, "/news"))).toBe(false);
   });
 });

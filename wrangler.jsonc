@@ -1,0 +1,10 @@
+{
+  // Static site only: Workers Static Assets serves ./dist, no Worker script.
+  "name": "usher-site",
+  "compatibility_date": "2026-10-23",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "drop-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}
