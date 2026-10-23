@@ -17,12 +17,15 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     env:
       CONTENT_SOURCE: api
       CMS_API_URL: https://member.usher.org.tw/api/v1
       SITE_URL: https://www.usher.org.tw
     steps:
       - uses: actions/checkout@v4
+        with:
+          lfs: true
 
       - uses: actions/setup-node@v4
         with:
