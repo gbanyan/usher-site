@@ -196,3 +196,4 @@ Next.js 在這個網站帶來、但實際用不到的複雜度：
 
 - **Cloudflare**：在終端機執行 `npx wrangler login`，授權本機。實作者再用它建立一組只能部署 Workers 的 API token，存進 GitHub secret。
 - **GitHub**：建立後台要用的 fine-grained token（只限 usher-site、Contents: write）。可以由秘書長在 GitHub 網頁建立；如果 `gh` 的登入權限足夠，也可以由實作者代為處理。
+- **DNS**：`wrangler login` 和 Workers 部署權限都不包含刪改 DNS 記錄。切換時要刪除 `www` 指向 Vercel 的記錄，回滾時要把它重建回來，所以需要另一組只限 `usher.org.tw` 的 API token（DNS Edit、Zone Read、Workers Routes Edit）。這組 token 只在本機使用，不放進 GitHub。切換前先完整備份 DNS 記錄。
