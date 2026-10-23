@@ -1,0 +1,21 @@
+---
+import { renderMarkdown } from "../lib/markdown";
+import { optimizeImage } from "../lib/images";
+
+interface Props {
+  content: string;
+  class?: string;
+}
+
+const { content, class: className = "" } = Astro.props;
+const html = await renderMarkdown(content, { optimizeImage });
+---
+
+{
+  html && (
+    <div
+      class={`prose prose-invert prose-dark prose-lg max-w-none prose-headings:text-white prose-a:text-accent hover:prose-a:text-accent-light prose-img:rounded-lg ${className}`}
+      set:html={html}
+    />
+  )
+}

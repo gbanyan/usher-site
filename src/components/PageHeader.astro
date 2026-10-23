@@ -1,0 +1,91 @@
+---
+import JsonLd from "./JsonLd.astro";
+import ResponsiveImage from "./ResponsiveImage.astro";
+import { getSiteUrl } from "../lib/site";
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  title: string;
+  items: BreadcrumbItem[];
+  description?: string;
+  bgImage?: string;
+}
+
+const { title, items, description, bgImage = "/images/banner/banner.jpg" } = Astro.props;
+const allItems: BreadcrumbItem[] = [{ label: "首頁", href: "/" }, ...items];
+const siteUrl = getSiteUrl();
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: allItems.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.label,
+    ...(item.href
+      ? {
+          item: item.href.startsWith("http")
+            ? item.href
+            : `${siteUrl}${item.href.startsWith("/") ? item.href : `/${item.href}`}`,
+        }
+      : {}),
+  })),
+};
+---
+
+<section class="relative h-[300px] w-full bg-cover bg-center sm:h-[400px]" aria-labelledby="page-header-title">
+  <div class="absolute inset-0">
+    <ResponsiveImage
+      src={bgImage}
+      alt=""
+      sizes="100vw"
+      width="1280"
+      height="671"
+      decoding="async"
+      fetchpriority="high"
+      class="h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-primary/60"></div>
+  </div>
+
+  <div class="relative z-10 flex h-full items-center justify-center text-center">
+    <div class="container mx-auto px-6 lg:px-8">
+      <nav aria-label="麵包屑導覽">
+        <JsonLd data={structuredData} />
+        <ol class="flex flex-wrap items-center justify-center gap-2 text-sm sm:text-base">
+          {
+            allItems.map((item, index) => {
+              const isLast = index === allItems.length - 1;
+              return (
+                <li class="flex items-center text-white/80">
+                  {index > 0 && (
+                    <span class="mx-2 text-white/50" aria-hidden="true">
+                      /
+                    </span>
+                  )}
+                  {isLast || !item.href ? (
+                    <span class="font-medium text-white" aria-current="page">
+                      {item.label}
+                    </span>
+                  ) : (
+                    <a href={item.href} class="transition-colors duration-200 hover:text-accent-light">
+                      {item.label}
+                    </a>
+                  )}
+                </li>
+              );
+            })
+          }
+        </ol>
+      </nav>
+
+      <h1 id="page-header-title" class="mt-4 text-heading-1 text-white">{title}</h1>
+
+      {description && <p class="mt-4 max-w-2xl mx-auto text-lead">{description}</p>}
+    </div>
+  </div>
+</section>

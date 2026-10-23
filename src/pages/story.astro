@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import ArticleListing from "../components/ArticleListing.astro";
+import { getAllArticles } from "../lib/api";
+import { buildPageMetadata } from "../lib/metadata";
+import { ARTICLE_SECTION_CONFIG } from "../lib/article-sections";
+
+const config = ARTICLE_SECTION_CONFIG.story;
+const articles = await getAllArticles({ type: "blog", category: config.categorySlug });
+---
+
+<BaseLayout meta={buildPageMetadata(config.label, config.fallbackDescription, config.path)}>
+  <PageHeader title={config.label} description={config.fallbackDescription} items={[{ label: config.label }]} />
+
+  <section class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+    <ArticleListing articles={articles} emptyText="目前沒有故事文章" basePath={config.path} />
+  </section>
+</BaseLayout>

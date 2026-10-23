@@ -1,0 +1,274 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroSlider from "../components/HeroSlider.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+import ResponsiveImage from "../components/ResponsiveImage.astro";
+import { optimizeImage } from "../lib/images";
+import { getHomepage } from "../lib/api";
+import { buildHomeMetadata } from "../lib/metadata";
+import type { ArticleSummary } from "../lib/types";
+import {
+  ABOUT_SECTION,
+  DOCUMENTARY,
+  FEATURE_ICON_PATHS,
+  FEATURE_ITEMS,
+  IMAGE_SIZES,
+  PARTNERS,
+  SLIDER_ITEMS,
+} from "../data/homepage";
+
+const ARTICLE_LIMIT = 3;
+
+// 最新消息：合併事務公告 + 部落格，依發佈日期排序，最多 3 篇
+function mergeAndSortLatestNews(data: {
+  latest_blog: ArticleSummary[];
+  latest_notice: ArticleSummary[];
+}): ArticleSummary[] {
+  const merged = [...data.latest_blog, ...data.latest_notice];
+  return merged
+    .sort((a, b) => {
+      const dateA = a.published_at ? new Date(a.published_at).getTime() : 0;
+      const dateB = b.published_at ? new Date(b.published_at).getTime() : 0;
+      return dateB - dateA;
+    })
+    .slice(0, ARTICLE_LIMIT);
+}
+
+// api mode: failures propagate so the build fails; snapshot fallback lives in api.ts.
+const data = await getHomepage();
+
+const slides = SLIDER_ITEMS.map((slide) => ({ ...slide, ...IMAGE_SIZES[slide.image] }));
+const lists = [
+  {
+    id: "article-list-相關報導",
+    title: "相關報導",
+    href: "/related-news",
+    articles: data.latest_related_news.slice(0, ARTICLE_LIMIT),
+    showType: false,
+    bg: "bg-primary-light",
+  },
+  {
+    id: "article-list-最新消息",
+    title: "最新消息",
+    href: "/news",
+    articles: mergeAndSortLatestNews(data),
+    showType: true,
+    bg: "bg-primary-dark",
+  },
+];
+const featureImage = IMAGE_SIZES["/images/banner/banner_feature.jpg"];
+const aboutImage = IMAGE_SIZES[ABOUT_SECTION.image];
+// CSS background: a single WebP variant (the original JPEG stays in public/).
+const documentaryBg = (await optimizeImage(DOCUMENTARY.bgImage, { widths: [1920] }))?.src ?? DOCUMENTARY.bgImage;
+---
+
+<BaseLayout meta={buildHomeMetadata("zh-TW")}>
+  <div class="flex flex-col">
+    <HeroSlider slides={slides} />
+
+    <section class="relative z-10 w-full bg-gray-100" aria-labelledby="feature-heading">
+      <div class="w-full">
+        <div class="relative -mt-12 w-full bg-primary-dark shadow-xl sm:-mt-24">
+          <div class="grid w-full lg:grid-cols-12">
+            <div class="relative hidden min-h-[400px] lg:col-span-4 lg:block">
+              <ResponsiveImage
+                src="/images/banner/banner_feature.jpg"
+                alt="台灣尤塞氏症暨視聽弱協會"
+                sizes="(max-width: 1024px) 0px, 33vw"
+                width={featureImage.width}
+                height={featureImage.height}
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+            </div>
+            <div class="w-full p-6 sm:p-12 lg:col-span-8 lg:pl-[70px] lg:pr-[10%] lg:pt-[80px] xl:pr-[30%]">
+              <h2 id="feature-heading" class="sr-only">認識尤塞氏症</h2>
+              <div class="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-y-12">
+                {
+                  FEATURE_ITEMS.map((item) => (
+                    <div class="text-white">
+                      <svg class="h-10 w-10 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        {FEATURE_ICON_PATHS[item.icon].map((d) => (
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={d} />
+                        ))}
+                      </svg>
+                      <h3 class="mt-6 text-heading-3">{item.name}</h3>
+                      <p class="mt-4 text-body text-muted">{item.content}</p>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-14 sm:py-20" aria-labelledby="about-heading">
+      <div class="mx-auto grid max-w-6xl items-center gap-8 px-6 md:grid-cols-2 lg:px-8">
+        <div>
+          <h2 id="about-heading" class="text-heading-2 text-accent">{ABOUT_SECTION.title}</h2>
+          <p class="mt-4 text-body text-muted">{ABOUT_SECTION.content}</p>
+          <a
+            href={ABOUT_SECTION.button.link}
+            class="mt-6 inline-block rounded-lg border-2 border-accent px-6 py-2.5 font-medium text-accent transition-colors duration-200 hover:bg-accent hover:text-primary-dark"
+          >
+            {ABOUT_SECTION.button.label}
+          </a>
+        </div>
+        <div class="relative mt-6 aspect-[4/3] overflow-hidden rounded-lg md:mt-0">
+          <ResponsiveImage
+            src={ABOUT_SECTION.image}
+            alt="視聽雙弱族群的困境"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            width={aboutImage.width}
+            height={aboutImage.height}
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    </section>
+
+    <div class="flex flex-col">
+      {
+        lists.map((list) => (
+          <section class={`${list.bg} py-16 sm:py-24`}>
+            {list.articles.length > 0 && (
+              <section class="mx-auto w-full max-w-6xl px-6 lg:px-8" aria-labelledby={list.id}>
+                <div class="mb-6 flex items-center justify-between gap-4">
+                  <h2 id={list.id} class="whitespace-nowrap text-heading-2 text-white">
+                    {list.title}
+                  </h2>
+                  <div class="hidden h-px w-full bg-accent sm:block" />
+                  <a
+                    href={list.href}
+                    class="hidden whitespace-nowrap rounded-lg border border-accent px-4 py-1.5 text-sm font-medium text-accent transition-colors duration-200 hover:bg-accent hover:text-primary-dark sm:inline-block"
+                    aria-label={`查看更多${list.title}列表`}
+                  >
+                    查看更多
+                  </a>
+                </div>
+                <ul class="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {list.articles.map((article) => (
+                    <li class="w-full">
+                      <ArticleCard article={article} showType={list.showType} />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+          </section>
+        ))
+      }
+    </div>
+
+    <section class="bg-accent py-14 text-center text-primary-dark sm:py-20" aria-labelledby="cta-heading">
+      <div class="mx-auto max-w-3xl px-6 lg:px-8">
+        <p class="text-sm font-medium uppercase tracking-wider text-primary-dark/90">志工、捐款、或合作計畫</p>
+        <h2 id="cta-heading" class="mt-3 text-heading-2">歡迎任何形式的支援、贊助！</h2>
+        <a
+          href="/contact"
+          class="mt-8 inline-flex items-center justify-center rounded-lg bg-primary-dark px-8 py-3 font-semibold text-white transition-colors duration-200 hover:bg-primary focus-visible:ring-2 focus-visible:ring-primary-dark focus-visible:ring-offset-2 focus-visible:ring-offset-accent"
+          aria-label="聯繫我們取得支援與贊助資訊"
+        >
+          聯繫我們
+        </a>
+      </div>
+    </section>
+
+    <section
+      class="relative bg-cover bg-center py-14 sm:py-24"
+      style={`background-image: url('${documentaryBg}')`}
+      aria-labelledby="documentary-heading"
+    >
+      <div class="absolute inset-0 bg-black/40" aria-hidden="true"></div>
+      <div class="relative mx-auto grid max-w-6xl items-center gap-10 px-6 md:grid-cols-2 lg:px-8">
+        <div class="order-first flex items-center justify-center md:order-last">
+          <a
+            href={DOCUMENTARY.videoLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="relative flex h-16 w-16 items-center justify-center rounded-full bg-accent text-primary-dark shadow-lg transition-transform hover:scale-110 sm:h-20 sm:w-20"
+            aria-label="播放紀錄片影片（在新視窗開啟）"
+          >
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75 motion-reduce:animate-none"></span>
+            <svg class="relative ml-1 h-6 w-6 sm:h-8 sm:w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14l11-7z"></path>
+            </svg>
+          </a>
+        </div>
+        <div class="rounded-lg bg-primary-dark/90 p-6 text-white sm:p-8">
+          <h2 id="documentary-heading" class="text-heading-2">{DOCUMENTARY.title}</h2>
+          <p class="mt-4 whitespace-pre-line text-body text-white/85">{DOCUMENTARY.content}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-white/10 bg-primary-dark py-12 sm:py-16" aria-labelledby="partners-heading">
+      <div class="mx-auto max-w-6xl px-6 lg:px-8">
+        <div class="mb-6 flex items-center gap-4">
+          <h2 id="partners-heading" class="whitespace-nowrap text-heading-2 text-white">合作夥伴</h2>
+          <div class="hidden h-px w-full bg-accent sm:block" aria-hidden="true"></div>
+        </div>
+        <ul class="grid grid-cols-2 gap-6 sm:grid-cols-3 sm:gap-8 lg:grid-cols-4" aria-labelledby="partners-heading">
+          {
+            PARTNERS.map((partner) => {
+              const linkClass =
+                "flex min-w-0 flex-col items-center gap-2 text-center transition-all hover:scale-[1.02] hover:opacity-90";
+              const container = `relative ${partner.logoSize ?? "h-14 w-24 sm:h-16 sm:w-28"}`;
+              const wrapper = partner.logoOnLightBg ? `rounded-lg bg-white p-2 ${container}` : container;
+              return (
+                <li class="min-w-0">
+                  {partner.website ? (
+                    <a
+                      href={partner.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class={`block ${linkClass}`}
+                      aria-label={`${partner.name}（在新視窗開啟官網）`}
+                    >
+                      <div class={wrapper}>
+                        <ResponsiveImage
+                          src={partner.logo}
+                          alt={partner.logoAlt}
+                          sizes="(max-width: 640px) 208px, 256px"
+                          widths={[128, 256, 384, 512]}
+                          width="112"
+                          height="64"
+                          loading="lazy"
+                          decoding="async"
+                          class="h-full w-full object-contain object-center"
+                        />
+                      </div>
+                      <span class="line-clamp-2 text-xs font-medium text-white/90">{partner.name}</span>
+                    </a>
+                  ) : (
+                    <div class={linkClass}>
+                      <div class={wrapper}>
+                        <ResponsiveImage
+                          src={partner.logo}
+                          alt={partner.logoAlt}
+                          sizes="(max-width: 640px) 208px, 256px"
+                          widths={[128, 256, 384, 512]}
+                          width="112"
+                          height="64"
+                          loading="lazy"
+                          decoding="async"
+                          class="h-full w-full object-contain object-center"
+                        />
+                      </div>
+                      <span class="line-clamp-2 text-xs font-medium text-white/90">{partner.name}</span>
+                    </div>
+                  )}
+                </li>
+              );
+            })
+          }
+        </ul>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

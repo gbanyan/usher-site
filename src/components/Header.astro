@@ -1,0 +1,440 @@
+---
+import Logo from "./Logo.astro";
+import Icon from "./Icon.astro";
+import { isNavHrefActive } from "../lib/nav";
+import { EN_COPY } from "../lib/i18n";
+import type { IconName } from "../lib/icons";
+
+interface NavDropdownItem {
+  label: string;
+  href: string;
+}
+
+interface NavItem {
+  label: string;
+  href?: string;
+  children?: NavDropdownItem[];
+  icon: IconName;
+}
+
+interface Props {
+  lang?: "zh-TW" | "en";
+  /** Public route path from toRoutePath(), never the raw Astro.url pathname. */
+  routePath: string;
+}
+
+const NAV_ITEMS: NavItem[] = [
+  {
+    label: "關於協會",
+    icon: "about",
+    children: [
+      { label: "創立目的", href: "/about" },
+      { label: "組織架構", href: "/structure" },
+      { label: "Logo象徵", href: "/logo-represent" },
+    ],
+  },
+  {
+    label: "資源中心",
+    icon: "resources",
+    children: [
+      { label: "協會文件", href: "/document" },
+      { label: "建議與指引", href: "/guides" },
+      { label: "病友故事", href: "/story" },
+      { label: "常見問題", href: "/faq" },
+    ],
+  },
+  {
+    label: "最新消息",
+    icon: "updates",
+    children: [
+      { label: "活動與公告", href: "/news" },
+      { label: "相關報導", href: "/related-news" },
+    ],
+  },
+  { label: "聯繫資訊", href: "/contact", icon: "contact" },
+];
+
+const EN_NAV_ITEMS: NavItem[] = [
+  { label: EN_COPY.nav.about, href: "/en#about", icon: "about" },
+  { label: EN_COPY.nav.usherSyndrome, href: "/en#usher-syndrome", icon: "resources" },
+  { label: EN_COPY.nav.stories, href: "/en#stories", icon: "related-news" },
+  { label: EN_COPY.nav.contact, href: "/en#contact", icon: "contact" },
+];
+
+const { lang = "zh-TW", routePath } = Astro.props;
+const isEnglish = lang === "en";
+const navItems = isEnglish ? EN_NAV_ITEMS : NAV_ITEMS;
+const active = (href: string) => isNavHrefActive(href, routePath);
+const hasActiveChild = (item: NavItem) => item.children?.some((child) => active(child.href)) ?? false;
+
+const labels = isEnglish
+  ? { open: "Open menu", close: "Close menu", expand: "expand", collapse: "collapse" }
+  : { open: "開啟選單", close: "關閉選單", expand: "展開", collapse: "收合" };
+const dropdownLabel = (label: string, open: boolean) => `${label}，${open ? "關閉" : "開啟"}子選單`;
+const mobileLabel = (label: string, open: boolean) =>
+  isEnglish
+    ? `${label}, ${open ? labels.collapse : labels.expand} submenu`
+    : `${label}，${open ? labels.collapse : labels.expand}子選單`;
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-white/10 bg-primary/95 backdrop-blur-md shadow-md"
+  role="banner"
+  data-pagefind-ignore
+>
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 lg:px-8">
+    <Logo variant="header" locale={lang} href={isEnglish ? "/en" : "/"} class="shrink-0" />
+
+    <div class="flex items-center gap-2">
+      <nav aria-label={isEnglish ? "Main navigation" : "主要導覽"} class="hidden items-center gap-1 lg:flex">
+        {
+          navItems.map((item) =>
+            item.children ? (
+              <div class="relative" data-dropdown>
+                <button
+                  type="button"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  aria-controls={`dropdown-${item.label}`}
+                  aria-label={dropdownLabel(item.label, false)}
+                  data-dropdown-toggle
+                  data-label={item.label}
+                  class={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-light/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent ${hasActiveChild(item) ? "text-accent" : "text-white"}`}
+                >
+                  <span class="inline-flex items-center gap-1.5">
+                    <Icon name={item.icon} class="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </span>
+                  <svg
+                    class="h-4 w-4 transition-transform"
+                    data-chevron
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <ul
+                  id={`dropdown-${item.label}`}
+                  hidden
+                  aria-label={`${item.label} 子選單`}
+                  class="absolute left-0 z-50 mt-1 min-w-[180px] rounded-lg border border-white/10 bg-primary-dark py-1 shadow-xl"
+                >
+                  {item.children.map((child) => (
+                    <li>
+                      <a
+                        href={child.href}
+                        aria-current={active(child.href) ? "page" : undefined}
+                        class={`block px-4 py-2.5 text-sm transition-colors hover:bg-primary-light/20 hover:text-accent ${active(child.href) ? "text-accent" : "text-white"}`}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <a
+                href={item.href}
+                aria-current={active(item.href!) ? "page" : undefined}
+                class={`inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-light/10 hover:text-accent ${active(item.href!) ? "text-accent" : "text-white"}`}
+              >
+                <Icon name={item.icon} class="h-4 w-4" />
+                <span>{item.label}</span>
+              </a>
+            )
+          )
+        }
+      </nav>
+
+      {
+        !isEnglish && (
+          <button
+            type="button"
+            data-search-open
+            class="inline-flex h-9 shrink-0 items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-sm text-white transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            <span class="sr-only shrink-0 whitespace-nowrap sm:not-sr-only sm:inline">搜尋</span>
+            <kbd
+              aria-hidden="true"
+              class="hidden rounded bg-black/20 px-1.5 py-0.5 text-xs font-semibold text-white/70 sm:inline-block"
+            >
+              ⌘K
+            </kbd>
+          </button>
+        )
+      }
+
+      <a
+        href={isEnglish ? "/" : "/en"}
+        class="rounded-md px-2 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-light/10 hover:text-accent"
+        aria-label={isEnglish ? "切換至繁體中文" : "Switch to English"}
+      >
+        {isEnglish ? EN_COPY.languageSwitchLabel : "English"}
+      </a>
+
+      <button
+        type="button"
+        id="mobile-menu-toggle"
+        class="inline-flex items-center justify-center rounded-md p-2 text-white transition-colors hover:bg-primary-light/20 lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label={labels.open}
+        data-label-open={labels.open}
+        data-label-close={labels.close}
+      >
+        <svg
+          data-icon-open
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg
+          data-icon-close
+          class="hidden h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    hidden
+    class="border-t border-white/10 bg-primary-dark lg:hidden"
+    role="navigation"
+    aria-label={isEnglish ? "Mobile navigation" : "行動版導覽"}
+    tabindex="-1"
+  >
+    <ul class="space-y-1 px-4 py-4">
+      {
+        navItems.map((item) => (
+          <li>
+            {item.children ? (
+              <>
+                <button
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls={`mobile-submenu-${item.label}`}
+                  aria-label={mobileLabel(item.label, false)}
+                  data-submenu-toggle
+                  data-label-expand={mobileLabel(item.label, false)}
+                  data-label-collapse={mobileLabel(item.label, true)}
+                  class={`flex w-full items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 ${hasActiveChild(item) ? "text-accent" : "text-white"}`}
+                >
+                  <span class="inline-flex items-center gap-2">
+                    <Icon name={item.icon} class="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </span>
+                  <svg
+                    class="h-4 w-4 transition-transform"
+                    data-chevron
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <ul
+                  id={`mobile-submenu-${item.label}`}
+                  hidden
+                  class="ml-4 space-y-1 border-l border-white/10 pl-3 pt-1"
+                  role="group"
+                  aria-label={`${item.label} 子選單`}
+                >
+                  {item.children.map((child) => (
+                    <li>
+                      <a
+                        href={child.href}
+                        aria-current={active(child.href) ? "page" : undefined}
+                        class={`block rounded-md px-3 py-2 text-sm transition-colors hover:bg-primary-light/20 hover:text-accent ${active(child.href) ? "text-accent" : "text-white/80"}`}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <a
+                href={item.href}
+                aria-current={active(item.href!) ? "page" : undefined}
+                class={`inline-flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-primary-light/20 hover:text-accent ${active(item.href!) ? "text-accent" : "text-white"}`}
+              >
+                <Icon name={item.icon} class="h-4 w-4" />
+                <span>{item.label}</span>
+              </a>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</header>
+
+<script>
+  // Desktop dropdowns: click toggles, hover opens, Escape closes (focus returns
+  // to the button), clicking outside closes.
+  const dropdowns = Array.from(document.querySelectorAll<HTMLElement>("[data-dropdown]"));
+
+  function setDropdown(root: HTMLElement, open: boolean) {
+    const button = root.querySelector<HTMLButtonElement>("[data-dropdown-toggle]");
+    const menu = root.querySelector<HTMLElement>("ul");
+    if (!button || !menu) return;
+    menu.hidden = !open;
+    button.setAttribute("aria-expanded", String(open));
+    button.setAttribute(
+      "aria-label",
+      `${button.dataset.label}，${open ? "關閉" : "開啟"}子選單`
+    );
+    button.querySelector("[data-chevron]")?.classList.toggle("rotate-180", open);
+  }
+
+  for (const root of dropdowns) {
+    const button = root.querySelector<HTMLButtonElement>("[data-dropdown-toggle]");
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    button?.addEventListener("click", () => {
+      const isOpen = button.getAttribute("aria-expanded") === "true";
+      for (const other of dropdowns) if (other !== root) setDropdown(other, false);
+      setDropdown(root, !isOpen);
+    });
+    root.addEventListener("mouseenter", () => {
+      clearTimeout(timer);
+      for (const other of dropdowns) if (other !== root) setDropdown(other, false);
+      setDropdown(root, true);
+    });
+    root.addEventListener("mouseleave", () => {
+      timer = setTimeout(() => setDropdown(root, false), 150);
+    });
+    root.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      if (button?.getAttribute("aria-expanded") !== "true") return;
+      setDropdown(root, false);
+      button.focus();
+    });
+  }
+
+  document.addEventListener("click", (event) => {
+    for (const root of dropdowns) {
+      if (!root.contains(event.target as Node)) setDropdown(root, false);
+    }
+  });
+
+  // Mobile menu: a keyboard-contained drawer.
+  const toggle = document.getElementById("mobile-menu-toggle") as HTMLButtonElement | null;
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  function setSubmenu(button: HTMLButtonElement, open: boolean) {
+    const submenu = document.getElementById(button.getAttribute("aria-controls") ?? "");
+    if (submenu) submenu.hidden = !open;
+    button.setAttribute("aria-expanded", String(open));
+    button.setAttribute(
+      "aria-label",
+      (open ? button.dataset.labelCollapse : button.dataset.labelExpand) ?? ""
+    );
+    button.querySelector("[data-chevron]")?.classList.toggle("rotate-180", open);
+  }
+
+  function focusables(): HTMLElement[] {
+    if (!mobileMenu) return [];
+    return Array.from(
+      mobileMenu.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((el) => el.offsetParent !== null);
+  }
+
+  function setMobileMenu(open: boolean, restoreFocus = true) {
+    if (!toggle || !mobileMenu) return;
+    const wasOpen = !mobileMenu.hidden;
+    mobileMenu.hidden = !open;
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute(
+      "aria-label",
+      (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? ""
+    );
+    toggle.querySelector("[data-icon-open]")?.classList.toggle("hidden", open);
+    toggle.querySelector("[data-icon-close]")?.classList.toggle("hidden", !open);
+    document.body.style.overflow = open ? "hidden" : "";
+    if (open) {
+      requestAnimationFrame(() => focusables()[0]?.focus());
+    } else {
+      mobileMenu
+        .querySelectorAll<HTMLButtonElement>("[data-submenu-toggle]")
+        .forEach((button) => setSubmenu(button, false));
+      if (wasOpen && restoreFocus) toggle.focus();
+    }
+  }
+
+  toggle?.addEventListener("click", () => setMobileMenu(mobileMenu?.hidden ?? false));
+
+  mobileMenu?.querySelectorAll<HTMLButtonElement>("[data-submenu-toggle]").forEach((button) => {
+    button.addEventListener("click", () =>
+      setSubmenu(button, button.getAttribute("aria-expanded") !== "true")
+    );
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (!mobileMenu || mobileMenu.hidden) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setMobileMenu(false);
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const items = focusables();
+    if (items.length === 0) {
+      event.preventDefault();
+      return;
+    }
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  // The drawer is mobile-only: close it if the viewport grows past the breakpoint.
+  window.matchMedia("(min-width: 1024px)").addEventListener("change", (event) => {
+    if (event.matches) setMobileMenu(false, false);
+  });
+
+  // Search: the dialog itself is mounted elsewhere and listens for this event.
+  function openSearch() {
+    document.dispatchEvent(new CustomEvent("open-search"));
+  }
+  document.querySelector("[data-search-open]")?.addEventListener("click", openSearch);
+  document.addEventListener("keydown", (event) => {
+    if (!document.querySelector("[data-search-open]")) return;
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+      event.preventDefault();
+      openSearch();
+    }
+  });
+</script>

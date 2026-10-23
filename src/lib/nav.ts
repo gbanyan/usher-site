@@ -15,3 +15,13 @@ export function isNavHrefActive(href: string, pathname: string): boolean {
     isWithin(prefix, pathname)
   );
 }
+
+/**
+ * Map a built-file pathname (build.format "file" emits /about.html) to the
+ * public route path: /about.html -> /about, /index.html -> /.
+ */
+export function toRoutePath(pathname: string): string {
+  const stripped = pathname.replace(/\.html$/, "");
+  if (stripped === "/index" || stripped === "") return "/";
+  return stripped.replace(/\/index$/, "") || "/";
+}

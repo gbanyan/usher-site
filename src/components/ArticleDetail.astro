@@ -1,0 +1,117 @@
+---
+import { formatDate } from "../lib/utils";
+import PageHeader from "./PageHeader.astro";
+import Markdown from "./Markdown.astro";
+import ArticleCard from "./ArticleCard.astro";
+import ArticleAttachments from "./ArticleAttachments.astro";
+import ResponsiveImage from "./ResponsiveImage.astro";
+import { ARTICLE_SECTION_CONFIG, getListingLink, type ArticleSectionType } from "../lib/article-sections";
+import type { Article, ArticleSummary } from "../lib/types";
+
+interface Props {
+  type: ArticleSectionType;
+  slug: string;
+  article: Article;
+  related: ArticleSummary[];
+}
+
+const { type, slug, article, related } = Astro.props;
+const config = ARTICLE_SECTION_CONFIG[type];
+const listing = getListingLink(config);
+
+// story/guides only link to articles in the same category; other sections keep
+// the API-provided related set (ArticleCard resolves each link itself).
+const relatedArticles = config.categorySlug
+  ? related.filter((item) => (item.categories ?? []).some((category) => category.slug === config.categorySlug))
+  : related;
+---
+
+<div data-pagefind-body>
+  <PageHeader
+    title={article.title}
+    items={[{ label: listing.label, href: listing.path }, { label: article.title }]}
+    description={article.published_at ? formatDate(article.published_at) : undefined}
+  />
+
+  <article class="mx-auto max-w-4xl px-6 py-12 lg:px-8">
+    <div class="mb-8">
+      <div class="flex flex-wrap items-center gap-4 text-sm text-white/70">
+        {
+          article.author_name && (
+            <span>
+              <span class="sr-only">作者：</span>
+              {article.author_name}
+            </span>
+          )
+        }
+      </div>
+
+      {
+        article.categories?.length > 0 && (
+          <div class="mt-4 flex flex-wrap gap-2">
+            {article.categories.map((category) => (
+              <span class="inline-flex items-center rounded-full bg-accent/15 px-3 py-1 text-xs font-medium text-accent">
+                {category.name}
+              </span>
+            ))}
+          </div>
+        )
+      }
+
+      {
+        article.tags?.length > 0 && (
+          <div class="mt-3 flex flex-wrap gap-2">
+            {article.tags.map((tag) => (
+              <span class="inline-flex items-center rounded-full border border-white/20 px-3 py-1 text-xs text-white/80">
+                {tag.name}
+              </span>
+            ))}
+          </div>
+        )
+      }
+    </div>
+
+    {
+      article.featured_image_url && (
+        <figure class="mb-8 overflow-hidden rounded-lg">
+          <ResponsiveImage
+            src={article.featured_image_url}
+            sizes="(max-width: 896px) 100vw, 896px"
+            alt={article.featured_image_alt || article.title}
+            width="1200"
+            height="630"
+            loading="lazy"
+            decoding="async"
+            class="h-auto w-full object-cover"
+          />
+        </figure>
+      )
+    }
+
+    <Markdown content={article.content} />
+
+    <ArticleAttachments articleSlug={slug} attachments={article.attachments} />
+
+    {
+      relatedArticles.length > 0 && (
+        <section class="mt-12 border-t border-white/10 pt-8" aria-labelledby="related-heading" data-pagefind-ignore>
+          <h2 id="related-heading" class="text-xl font-semibold text-white">
+            {config.relatedHeading}
+          </h2>
+          <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedArticles.map((relatedArticle) => (
+              <ArticleCard article={relatedArticle} basePath={config.categorySlug ? config.path : undefined} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </article>
+
+  <nav class="mx-auto max-w-4xl px-6 pb-12 lg:px-8" data-pagefind-ignore>
+    <a href={listing.path} class="inline-flex items-center text-sm font-medium text-accent transition-colors hover:text-accent-light">
+      <span aria-hidden="true">&larr;</span>
+      <span class="ml-2">返回{listing.label}列表</span>
+    </a>
+  </nav>
+</div>

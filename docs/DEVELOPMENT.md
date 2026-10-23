@@ -18,17 +18,15 @@ npm install
 
 ### Polishing UI, styling or layout — no CMS needed
 
-The site is fully static once built, so you only need the CMS for the initial
-content fetch.
+The site is fully static once built, so you only need the CMS (or committed
+snapshots) for the build itself.
 
 ```bash
-npm run build   # fetches content, generates static HTML (CMS must be running)
-npm run start   # serves the built site at http://localhost:3000
+npm run build     # fetches content, writes dist/, builds the Pagefind index
+npm run preview   # serves dist/ at http://localhost:4321
+# or, without any CMS:
+CONTENT_SOURCE=snapshot npm run build && npm run preview
 ```
-
-After changing code, re-run `npm run build && npm run start`. The CMS does not
-need to be running again unless the content itself changed — Next.js reuses the
-cached data in `.next/`.
 
 ### Active development with hot reload — CMS required
 
@@ -36,32 +34,37 @@ cached data in `.next/`.
 # in the CMS repository
 php artisan serve --port=8001
 
-# here
-npm run dev     # http://localhost:3000
+# here (CMS_API_URL=http://localhost:8001/api/v1 in .env.local)
+npm run dev     # http://localhost:4321
 ```
 
-`next dev` always server-renders, so it needs a reachable API. To test what
-production actually serves, use `build` + `start` instead.
+The dev server fetches content on demand and needs a reachable API. Pagefind
+search only exists after a build, so test search with `build` + `preview`.
 
 ## Scripts
 
 | Script | Purpose |
 |---|---|
-| `npm run dev` | Dev server with hot reload. Requires the CMS. |
-| `npm run build` | Production build, then generates the Pagefind search index. |
-| `npm run start` | Serves the pre-built static site. No CMS needed. |
+| `npm run dev` | Astro dev server with hot reload. Requires the CMS. |
+| `npm run build` | `astro build`, then the Pagefind index (`dist/_pagefind`), then `check:build-coverage`. |
+| `npm run preview` | Serves the pre-built `dist/`. No CMS needed. |
+| `npm run check:build-coverage` | Sitemap entries, internal detail links and per-section pages all resolve in `dist/`. Runs inside `build`. |
+| `npm run check:parity <oldBase> <newBase>` | Compares status, redirects and page facts of two deployments, using `scripts/parity-allow.json`. Set `VERCEL_AUTOMATION_BYPASS_SECRET` only for protected Vercel previews. Trailing-slash (308 to 307) and `.html` (404 to 307) status differences are the only approved ones and are reported as allowed. |
 | `npm run test` | Runs the vitest unit suite. |
 | `npm run check:content` | Validates snapshot Markdown for formatting errors (run before committing a snapshot refresh). |
 | `npm run check:assets` | Verifies every content reference resolves to a real file under `public/`. Exits 1 on missing references. |
 | `npm run check:a11y` | Static accessibility invariants over the built output (single page heading, skip links, focus ring). Run after `npm run build`. |
-| `npm run lint` | ESLint. |
+| `npm run lint` | `astro check` (types) and ESLint. |
 | `npm run snapshot` | Writes local content snapshots from the CMS into `content-snapshots/`. |
 | `npm run refresh:content` | One-command content refresh: `snapshot`, then both checks. Honours `SNAPSHOT_API_URL`. |
 | `npm run subset-logo-font` | Regenerates the subset logo webfont (`public/fonts/iansui-logo.woff2`). |
 | `npm run extract-logo-icon` | Extracts the logo icon asset. |
 
-`npm run build` runs `next build`, then indexes the output with Pagefind and
-copies the index to `public/_pagefind`.
+The build uses `build.format: "file"` (so `/about` is emitted as `about.html`);
+Cloudflare Workers Static Assets (`wrangler.jsonc`: `html_handling: "drop-trailing-slash"`,
+`not_found_handling: "404-page"`) serves it as `/about`, redirecting `/about/` and
+`/about.html` with 307; the permanent 308 redirects live in `public/_redirects`.
+`npm run preview:cf` (`wrangler dev`) reproduces this locally after a build.
 
 `node scripts/crop-tcu-logo.mjs` is a one-off logo-prep tool (not a package
 script); it is documented in `docs/assets/partner-logo-sources.md` and consumes
@@ -77,9 +80,9 @@ access and no secrets:
 npm ci → lint → test → check:content → check:assets → build → check:a11y
 ```
 
-`CONTENT_SOURCE=snapshot` makes `next build` read the committed
+`CONTENT_SOURCE=snapshot` makes `astro build` read the committed
 `content-snapshots/` instead of the CMS, so a fresh checkout is reproducible.
-Deployment stays on Vercel and is independent of this workflow.
+Hosting is Cloudflare Workers Static Assets; GitHub Actions deploys on push to main, CMS repository_dispatch, or manual run. The old Vercel project remains as a rollback target until removed.
 
 Adding a CI step: it must not require the CMS (use snapshot mode), must not
 need secrets that trip other contributors, and ideally must run in under a few
@@ -89,27 +92,28 @@ minutes.
 
 ```bash
 CONTENT_SOURCE=api                                # "api" (default) or "snapshot"
-NEXT_PUBLIC_API_URL=http://localhost:8001/api/v1  # CMS API base
-NEXT_PUBLIC_SITE_URL=https://www.usher.org.tw     # canonical URLs, OG tags, sitemap, JSON-LD
-REVALIDATE_TOKEN=your-secret-token-here           # shared secret for the webhook
+CMS_API_URL=http://localhost:8001/api/v1          # CMS API base
+SITE_URL=https://www.usher.org.tw                 # canonical URLs, OG tags, sitemap, JSON-LD
+SITE_BUILD_TOKEN=your-build-token-here            # sent as X-Site-Build-Token during build
 SNAPSHOT_API_URL=https://member.usher.org.tw/api/v1 # optional; target for `npm run snapshot` / `refresh:content`
+VERCEL_AUTOMATION_BYPASS_SECRET=...               # only for `npm run check:parity` on protected previews
 ```
 
-Copy `.env.example` to `.env.local` to get started. Production values are
-configured on the hosting platform.
+The old `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_SITE_URL` are still read as
+fallbacks. Copy `.env.example` to `.env.local` to get started. Production values
+are configured as GitHub Actions secrets/variables. Never expose `SITE_BUILD_TOKEN` to client code.
 
 ## Content sources
 
 ### API mode (default)
 
-`next build` fetches every article and page from the CMS and writes static HTML.
-All `fetch()` calls use `revalidate: false` — there is no time-based
-revalidation, only the webhook below.
+`astro build` fetches every article and page from the CMS and writes static
+HTML. Any failed fetch fails the whole build (all-or-nothing); nothing falls
+back silently.
 
 ### Snapshot mode (fallback)
 
-Use this only when the CMS cannot be reached at build time, for example in a CI
-environment with no access to the backend.
+Use this only when the CMS cannot be reached at build time, for example in CI.
 
 ```bash
 # with the CMS running locally
@@ -123,8 +127,7 @@ If snapshot builds must also serve file attachments, commit
 `public/attachments/` (plural) as well: `snapshot-content.mjs` downloads
 attachments there by default and snapshot-mode download URLs point at
 `/attachments/…`. This is separate from the legacy `public/attachment/`
-(singular) directory migrated from Hugo. Use
-Use `npm run snapshot -- --skip-attachments` to skip the download.
+(singular) directory migrated from Hugo. Use `npm run snapshot -- --skip-attachments` to skip the download.
 
 ### Refreshing committed content
 
@@ -169,24 +172,14 @@ Key endpoints:
 | `GET /homepage` | Aggregated homepage payload |
 | `GET /articles/{slug}/attachments/{id}/download` | File download |
 
-## Revalidation webhook
+## Publishing and rebuilds
 
-Editors publishing in the CMS should not have to wait for a rebuild, so the CMS
-calls the site when content changes.
-
-```
-POST /api/revalidate
-x-revalidate-token: <REVALIDATE_TOKEN>
-
-{ "type": "article" | "page", "slug": "optional-slug" }
-```
-
-Cache tags invalidated:
-
-- `type: "article"` → `articles`, `homepage`, `article-{slug}`
-- `type: "page"` → `pages`, `homepage`, `page-{slug}`
-
-The CMS fires this automatically on create, update, publish, archive and delete.
+There is no runtime revalidation. When an editor creates, updates, publishes,
+archives or deletes content, the CMS triggers a GitHub Actions run (`repository_dispatch`),
+which rebuilds and redeploys the whole site in about two minutes. A scheduled
+rebuild also runs daily at 03:00. The build authenticates to the CMS with the
+`X-Site-Build-Token` header (`SITE_BUILD_TOKEN`), and a failed build leaves the
+previous deployment live.
 
 ## Images
 
@@ -196,17 +189,17 @@ Two sources, handled differently:
    `public/attachment/`. The API returns relative paths such as
    `/images/blog/2024-lecture.jpg`, served straight out of `public/`.
 2. **CMS uploads** live on the Laravel backend. The API returns absolute URLs
-   such as `https://member.usher.org.tw/storage/articles/images/...`. Both the
-   production host and `localhost:8001` are allowed in the `remotePatterns`
-   config in `next.config.ts` — a new backend host needs adding there.
+   such as `https://member.usher.org.tw/storage/articles/images/...`. They are rendered as plain `<img>` elements, so no host allow-list is needed.
 
 ## Gotchas
 
 - **Case-sensitive paths.** macOS is case-insensitive, Linux hosting is not. A
   reference to `logo_long.png` for a file named `Logo_long.png` works locally and
   breaks in production.
-- **No `searchParams` on listing pages.** Reading them forces dynamic rendering
-  and breaks static generation. Paginate client-side instead.
+- **Never catch-and-fallback in `getStaticPaths` or page frontmatter.** A failed
+  fetch must fail the build instead of publishing an empty page.
+- **Use `toRoutePath()`**, not `Astro.url`, for links and the current route:
+  with `build.format: "file"` the raw pathname contains `.html`.
 - **Optional chaining on article relations.** `article.categories`,
   `article.tags` and `article.attachments` are absent on related-article
   payloads. Always use `?.length`.
@@ -216,13 +209,19 @@ Two sources, handled differently:
 
 | Path | Contents |
 |---|---|
-| `src/app/` | Routes (App Router), `layout.tsx`, `globals.css` |
+| `src/pages/` | Routes (`.astro` pages, `sitemap.xml`, `robots.txt`) |
+| `src/layouts/` | `BaseLayout.astro` |
+| `src/styles/` | `global.css` (Tailwind theme) |
+| `src/data/` | Static homepage data |
 | `src/components/` | Shared UI components |
 | `src/lib/api.ts` | API client and every data-fetching function |
 | `src/lib/types.ts` | Interfaces for API payloads, `CONTENT_TYPE_PATHS` |
-| `src/lib/metadata.ts`, `src/lib/jsonld.ts`, `src/lib/site.ts` | SEO helpers |
+| `src/lib/metadata.ts`, `jsonld.ts`, `site.ts`, `sitemap.ts` | SEO helpers |
+| `src/lib/markdown.ts`, `nav.ts` | Build-time markdown, navigation and `toRoutePath()` |
 | `content-snapshots/` | Committed content for snapshot mode |
-| `scripts/` | Build utilities: snapshots, snapshot Markdown checks, font subsetting, logo prep |
+| `scripts/` | Snapshots, content/asset/a11y/coverage checks, parity checker, font subsetting, logo prep |
+| `wrangler.jsonc` | Cloudflare Workers Static Assets settings |
+| `public/_redirects` | Permanent redirects (308) |
 | `hugo-archive/` | The original Hugo site, kept for reference |
 
 `CLAUDE.md` in the repository root covers the same ground in a format aimed at

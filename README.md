@@ -98,17 +98,17 @@ drove the following, all of which are in the codebase now:
 
 | Implemented | Where |
 |---|---|
-| Skip-to-content link, labelled in Chinese | `src/app/layout.tsx:54` |
-| 4px high-contrast focus ring with 4px offset on every focusable element | `src/app/globals.css:48` |
-| ARIA landmarks and descriptive labels throughout | 23 page and component files |
-| Carousel exposed as a labelled `role="region"` with `aria-roledescription`, and real `<button>` pagination controls rather than clickable `<div>`s | `src/components/HeroSlider.tsx:61,84` |
-| Navigation dropdowns as real `<button>` elements with `aria-expanded` and `aria-haspopup`, toggled on click rather than hover alone | `src/components/Header.tsx:143` |
-| Screen-reader-only captions and labels on the governance document tables | `src/app/about/page.tsx:105` |
-| External links announce that they open in a new window, instead of relying on a visual icon | `src/components/MarkdownRenderer.tsx:49` |
-| Fluid `clamp()` type scale and 1.625 body line-height for low-vision reading | `src/app/globals.css` |
-| Generous touch and reading margins on small screens | `.content-padding-x` in `src/app/globals.css` |
+| Skip-to-content link, labelled in Chinese | `src/layouts/BaseLayout.astro` |
+| 4px high-contrast focus ring with 4px offset on every focusable element | `src/styles/global.css` (`:focus-visible`) |
+| ARIA landmarks and descriptive labels throughout | `src/pages/`, `src/components/` |
+| Carousel exposed as a labelled `role="region"` with `aria-roledescription`, and real `<button>` pagination controls rather than clickable `<div>`s | `src/components/HeroSlider.astro` |
+| Navigation dropdowns as real `<button>` elements with `aria-expanded` and `aria-haspopup`, toggled on click rather than hover alone | `src/components/Header.astro` |
+| Screen-reader-only captions and labels on the governance document tables | `src/pages/about.astro` |
+| External links announce that they open in a new window, instead of relying on a visual icon | `src/lib/markdown.ts` |
+| Fluid `clamp()` type scale and 1.625 body line-height for low-vision reading | `src/styles/global.css` |
+| Generous touch and reading margins on small screens | `.content-padding-x` in `src/styles/global.css` |
 | Client-side search with Traditional Chinese word segmentation, so content is reachable without navigating the menus | Pagefind, indexed at build |
-| `prefers-reduced-motion` support — animations and autoplay disable, smooth scrolling is turned off | `src/components/HeroSlider.tsx:34`, `src/app/globals.css:136` |
+| `prefers-reduced-motion` support — animations and autoplay disable, smooth scrolling is turned off | `src/components/HeroSlider.astro`, `src/styles/global.css` |
 | Automated structural checks in CI that fail the build on regressions (single page heading, skip links, focus ring) | `.github/workflows/ci.yml`, `scripts/check-a11y-static.mjs` |
 
 An audit found white text on the orange accent colour failing badly at a 1.98:1
@@ -130,12 +130,15 @@ Accessibility work here is ongoing rather than finished:
 
 ## Architecture
 
-Next.js 16 (App Router), React 19, Tailwind CSS 4, TypeScript.
+Astro 7 (static output), Tailwind CSS 4, TypeScript, with vanilla TypeScript for
+the few interactive parts and Pagefind for search.
 
 Content is authored in a Laravel headless CMS and pulled in at build time. The
-deployed site is **entirely static** — there is no runtime dependency on the CMS.
-When an editor publishes, the CMS calls a webhook that invalidates only the
-affected cache tags, so updates appear without a full rebuild.
+deployed site is **entirely static**: there is no runtime dependency on the CMS.
+When an editor publishes, the CMS triggers a rebuild and the whole site
+rebuilds in about two minutes (hosted on Cloudflare Workers Static Assets; GitHub Actions deploys on push to main, CMS repository_dispatch, or manual run); a scheduled rebuild also runs daily at 03:00.
+Builds are all-or-nothing, so a CMS outage fails the build and the previous
+deployment keeps serving.
 
 This is a deliberate choice for an organisation with no full-time engineering
 staff: nothing to monitor at 3am, nothing that breaks when the backend is down,
@@ -149,13 +152,12 @@ and hosting costs that stay near zero.
 | `/contact` | Contact and community channels (聯繫資訊) |
 | `/story`, `/story/[slug]` | Patient and family stories (病友故事) |
 | `/guides`, `/guides/[slug]` | Care and resource guidance (建議與指引) |
-| `/blog`, `/blog/[slug]` | Blog (部落格) |
-| `/notice`, `/notice/[slug]` | Notices (事務公告) |
+| `/news` | Activities and notices listing (活動與公告) |
+| `/blog/[slug]`, `/notice/[slug]` | Blog (部落格) and notice (事務公告) details |
 | `/document`, `/document/[slug]` | Resource centre, with document version history (協會文件) |
 | `/related-news`, `/related-news/[slug]` | Related news coverage (相關報導) |
-| `/[pageSlug]` | Static pages (structure, message, logo-represent) |
-| `/research` | Permanent redirect to `/document` |
-| `/api/revalidate` | Webhook for on-demand cache invalidation |
+| `/faq`, `/logo-represent`, … | CMS-backed static pages |
+| `/blog`, `/notice`, `/message`, `/research`, `/logo_represent` | Permanent redirects (see `public/_redirects`) |
 
 The site carries `sitemap.xml`, `robots.txt`, Open Graph and Twitter metadata,
 and JSON-LD structured data for the organisation, articles and pages.
@@ -182,12 +184,12 @@ Requires Node.js 24 and, for fresh content, the Laravel CMS on port 8001.
 
 ```bash
 npm install
-npm run dev     # hot reload, needs the CMS running
-npm run build   # static build + search index
-npm run start   # serve the built site, no CMS needed
+npm run dev       # hot reload at http://localhost:4321, needs the CMS running
+npm run build     # static build + search index
+npm run preview   # serve the built site, no CMS needed
 ```
 
-Full setup, environment variables, content sources and the revalidation webhook
+Full setup, environment variables, content sources and the rebuild flow
 are documented in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md).
 
 ## Contributing

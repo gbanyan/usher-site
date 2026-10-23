@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches-ignore: [main]
   pull_request:
 
 permissions:
@@ -16,7 +16,7 @@ env:
   # Snapshot mode builds without a live CMS: committed content-snapshots are
   # the content source, so CI needs no CMS access and no secrets.
   CONTENT_SOURCE: snapshot
-  NEXT_PUBLIC_SITE_URL: https://www.usher.org.tw
+  SITE_URL: https://www.usher.org.tw
 
 jobs:
   check:
@@ -31,6 +31,17 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Restore image variant cache
+        uses: actions/cache@v4
+        with:
+          # Responsive WebP variants written by src/lib/images.ts (file names
+          # carry the source content hash, so stale entries are never served).
+          # One entry per images.ts + public/ state; actions/cache saves only on
+          # an exact-key miss, so the cache does not grow with every run.
+          path: node_modules/.cache/usher-images
+          key: usher-images-${{ hashFiles('src/lib/images.ts', 'public/**') }}
+          restore-keys: usher-images-
 
       - name: Lint
         run: npm run lint

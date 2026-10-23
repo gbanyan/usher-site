@@ -1,0 +1,30 @@
+---
+import type { ArticleSummary } from "../lib/types";
+import ArticleCard from "./ArticleCard.astro";
+import PaginationControls from "./PaginationControls.astro";
+
+interface Props {
+  articles: ArticleSummary[];
+  basePath?: string;
+}
+
+const PAGE_SIZE = 12;
+const { articles, basePath } = Astro.props;
+---
+
+<div data-paginated data-page-size={PAGE_SIZE}>
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3" data-paginated-items>
+    {articles.map((article) => <ArticleCard article={article} basePath={basePath} />)}
+  </div>
+
+  <PaginationControls label="文章列表分頁" />
+</div>
+
+<script>
+  import { initPagination } from "../lib/paginated-dom";
+
+  document.querySelectorAll<HTMLElement>("[data-paginated]").forEach((root) => {
+    const grid = root.querySelector<HTMLElement>("[data-paginated-items]");
+    if (grid) initPagination(root, [Array.from(grid.children) as HTMLElement[]]);
+  });
+</script>

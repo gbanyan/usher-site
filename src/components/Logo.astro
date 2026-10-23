@@ -1,0 +1,62 @@
+---
+import ResponsiveImage from "./ResponsiveImage.astro";
+
+const ORG_NAME = "台灣尤塞氏症暨視聽弱協會";
+const ORG_NAME_EN = "Taiwan Usher Syndrome and Audiovisual Impairment Association";
+const ORG_NAME_EN_SHORT = "Taiwan Usher Syndrome and Deafblind Association";
+
+interface Props {
+  variant?: "header" | "footer";
+  href?: string;
+  class?: string;
+  locale?: "zh-TW" | "en";
+}
+
+const { variant = "header", href = "/", class: className = "", locale = "zh-TW" } = Astro.props;
+const isEnglish = locale === "en";
+const label =
+  variant === "footer" ? undefined : isEnglish ? `${ORG_NAME_EN_SHORT} - Home` : `${ORG_NAME} - 回到首頁`;
+---
+
+<a href={href} class="transition-opacity hover:opacity-90" aria-label={label}>
+  <span
+    class={`inline-flex items-center gap-2 sm:gap-3 ${className}`}
+    style="font-family: Iansui, var(--font-sans)"
+  >
+    <ResponsiveImage
+      src="/images/logo-icon.png"
+      alt=""
+      sizes={variant === "header" ? "(max-width: 639px) 32px, 48px" : "32px"}
+      widths={[32, 48, 64, 96, 144]}
+      width="408"
+      height="408"
+      decoding="async"
+      aria-hidden="true"
+      class={`shrink-0 ${variant === "header" ? "h-8 w-8 sm:h-12 sm:w-12" : "h-8 w-8"}`}
+    />
+    <span class="flex flex-col justify-center">
+      {
+        isEnglish ? (
+          <span class={`max-w-[15rem] leading-tight text-white ${variant === "header" ? "text-sm sm:text-base" : "text-sm"}`}>
+            {ORG_NAME_EN_SHORT}
+          </span>
+        ) : (
+          <span class={`leading-tight text-white ${variant === "header" ? "text-base sm:text-xl" : "text-sm"}`}>
+            <span>台灣</span>
+            <span class="text-accent">尤塞氏症</span>
+            <span>暨</span>
+            <span class="text-accent">視聽弱</span>
+            <span>協會</span>
+          </span>
+        )
+      }
+      {
+        variant === "footer" && (
+          <span class="mt-0.5 text-xs font-sans text-white/90 leading-tight">
+            {isEnglish ? ORG_NAME_EN_SHORT : ORG_NAME_EN}
+          </span>
+        )
+      }
+    </span>
+  </span>
+</a>

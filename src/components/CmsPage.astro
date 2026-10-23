@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "./PageHeader.astro";
+import Markdown from "./Markdown.astro";
+import { getPage } from "../lib/api";
+import { buildPageMetadata } from "../lib/metadata";
+
+interface Props {
+  slug: "structure" | "logo_represent" | "faq";
+  path: string;
+  fallbackTitle: string;
+}
+
+const { slug, path, fallbackTitle } = Astro.props;
+const page = await getPage(slug);
+const title = page.title || fallbackTitle;
+const description = page.meta_description || `台灣尤塞氏症暨視聽弱協會 - ${title}`;
+---
+
+<BaseLayout meta={buildPageMetadata(title, description, path, { keywords: page.meta_keywords || undefined })}>
+  <div data-pagefind-body>
+    <PageHeader title={page.title} items={[{ label: page.title }]} />
+
+    <article class="mx-auto max-w-4xl px-6 py-12 lg:px-8">
+      <Markdown content={page.content} />
+    </article>
+  </div>
+</BaseLayout>

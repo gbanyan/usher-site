@@ -148,3 +148,66 @@ Next.js 在這個網站帶來、但實際用不到的複雜度：
 - 用 Lighthouse 量測首頁、一篇文章頁、FAQ 頁在手機模式下的表現，記錄改寫前後的 JavaScript 傳輸量。結果只需要記錄，不設門檻；但如果數字明顯變差，要說明原因。
 - 在預覽部署上，從後台發布一次測試修改，確認重建會被觸發、內容會更新。
 - CI（snapshot 模式）建置成功。
+
+## 7. 修訂（2026-10-23）：改為部署到 Cloudflare
+
+秘書長決定這次改寫直接部署到 Cloudflare，不再停留在 Vercel。理由是 Cloudflare 可以用 Wrangler 從命令列完成部署、設定與回滾；停在 Vercel 的話，環境變數、Deploy Hook、存取保護等設定都必須由秘書長在網頁後台手動操作。本節**取代**前文中與 Vercel 有關的部分，包括 §2 非目標第一點、§4.3 的 Vercel Deploy Hook、§4.5 的 Vercel 預覽與回滾。
+
+### 7.1 主機與網址
+
+- 使用 **Cloudflare Workers 靜態資產**（Workers Static Assets），不使用 Pages。設定寫在 repo 的 `wrangler.jsonc`。純靜態輸出，不寫 Worker 程式碼。
+- `assets.html_handling` 設為 `drop-trailing-slash`，`assets.not_found_handling` 設為 `404-page`。Astro 維持 `build.format: "file"`。
+- 五條永久轉址寫在 `public/_redirects`，狀態碼 308；`vercel.json` 刪除。
+- **已知且核准的差異**：`/news/` 這類結尾斜線網址、`/about.html` 這類 `.html` 網址，Cloudflare 會用 307 轉到乾淨網址；現況則分別是 308 轉址和 404。比對工具要把這兩類列為「已核准的狀態差異」，只允許符合這兩種模式、而且轉址目標正確的網址，其他狀態差異一律不准核准。
+- 網域 `www.usher.org.tw` 的 DNS 已經在 Cloudflare。切換時把網域綁成 Worker 的 Custom Domain，Vercel 專案保留不動，作為回滾目標。
+
+### 7.2 建置與內容更新
+
+- Workers Builds 只能由 Git 推送觸發，沒有 Deploy Hook，所以建置和部署改由 **GitHub Actions** 負責。workflow 的觸發來源有三種：
+  - 推送到 `main`，包括後台的資產自動推送；
+  - `repository_dispatch`（事件類型 `cms-content-changed`），由後台發布內容時觸發；
+  - 手動觸發（`workflow_dispatch`）。
+- workflow 依序執行：安裝 → 測試 → 用 api 模式建置（帶 `SITE_BUILD_TOKEN`）→ `check:a11y` → `wrangler deploy`。任何一步失敗都不部署，正式站維持上一個版本；GitHub 會寄失敗通知給 repo 擁有者。
+- 同一時間只跑一次建置，新的觸發排在後面等候，不取消正在跑的建置，也不平行部署（使用 `concurrency`，且 `cancel-in-progress: false`）。
+- 每日 03:00 的重建維持由後台排程觸發，改成發 `repository_dispatch`。
+- **後台的修改**：`TriggerSiteRebuildJob` 改成呼叫 GitHub API `POST /repos/gbanyan/usher-site/dispatches`，帶 `Authorization: Bearer <token>` 與 JSON body `{"event_type":"cms-content-changed"}`，成功時回傳 204。
+  - 新增設定 `SITE_REBUILD_GITHUB_TOKEN`（fine-grained token，只對 usher-site 有 Contents: write，這是 `repository_dispatch` 的必要權限）和 `SITE_REBUILD_GITHUB_REPO`。
+  - `SITE_DEPLOY_HOOK_URL` 不再使用，可以移除。
+  - token 和 Deploy Hook 網址一樣不得寫進日誌。去重、延遲合併、重試、失敗記錄等既有機制全部保留。
+  - 模式名稱維持 `deploy_hook`，代表「整站重建」，不再改名。
+- GitHub repo secrets：`CLOUDFLARE_API_TOKEN`（只有 Workers 部署權限）、`CLOUDFLARE_ACCOUNT_ID`、`SITE_BUILD_TOKEN`。
+
+### 7.3 預覽、比對與切換
+
+- **預覽**：用 `wrangler versions upload` 上傳不啟用的新版本，取得公開的預覽網址，不需要繞過存取保護。逐頁比對與 Lighthouse 都對這個網址執行。
+- **切換步驟**：
+  1. 合併到 `main`，GitHub Actions 部署 Worker；
+  2. 用 workers.dev 網址做一次完整比對；
+  3. 把 `www.usher.org.tw` 綁到 Worker；
+  4. 在正式網域再比對一次；
+  5. 後台改成 `deploy_hook` 模式，並設好 GitHub token；
+  6. 端對端測試：後台存一次頁面，約兩分鐘內上線。
+- **回滾**：
+  - **立即止血**：把網域綁回 Vercel，後台改回 `revalidate`，並暫停資產自動推送。注意：`main` 已經是 Astro 版，Vercel 收到推送會建置失敗，但正式部署維持舊版，不受影響。
+  - **Worker 本身的問題**：用 `wrangler rollback` 切回上一個 Worker 版本。
+- Vercel 專案在新架構穩定兩週後，才討論是否移除。
+
+### 7.4 授權（一次性，秘書長操作）
+
+- **Cloudflare**：在終端機執行 `npx wrangler login`，授權本機。實作者再用它建立一組只能部署 Workers 的 API token，存進 GitHub secret。
+- **GitHub**：建立後台要用的 fine-grained token（只限 usher-site、Contents: write）。可以由秘書長在 GitHub 網頁建立；如果 `gh` 的登入權限足夠，也可以由實作者代為處理。
+- **DNS**：`wrangler login` 和 Workers 部署權限都不包含刪改 DNS 記錄。切換時要刪除 `www` 指向 Vercel 的記錄，回滾時要把它重建回來，所以需要另一組只限 `usher.org.tw` 的 API token（DNS Edit、Zone Read、Workers Routes Edit）。這組 token 只在本機使用，不放進 GitHub。切換前先完整備份 DNS 記錄。
+
+## 8. 量測結果（2026-10-23，Lighthouse 12，手機模式）
+
+舊版是正式站 `https://www.usher.org.tw`（Next.js on Vercel）；新版是 `https://usher-site.gbanyan.workers.dev`（Astro on Cloudflare Workers，含建置時圖片優化）。
+
+| 頁面 | 效能分數 | LCP | CLS | JavaScript | 總下載量 |
+|---|---|---|---|---|---|
+| `/` | 80 → 98 | 4.0 → 1.4 秒 | 0 → 0 | 266 → 3 KB | 639 → 320 KB |
+| `/story/document-694e4dd6` | 88 → 100 | 3.3 → 1.3 秒 | 0.008 → 0 | 270 → 3 KB | 374 → 98 KB |
+| `/faq` | 89 → 98 | 3.2 → 1.4 秒 | 0 → 0 | 266 → 3 KB | 352 → 80 KB |
+
+逐頁比對（`check:parity`，61 個網址）的結果：43 頁完全相同，7 頁是預先核准的差異，11 頁只有兩種差異——Asia/Taipei 時區修正造成的日期變動，以及 `/en` 新增的螢幕閱讀器提示。把這兩種遮掉後，這 11 頁的標題、h1、canonical 與全文都完全一致。
+
+觀察：部署後短時間內，Cloudflare 邊緣節點可能還在提供舊版 HTML，或出現零星 404。第一次部署時這個現象持續了約一分鐘，之後就穩定了。

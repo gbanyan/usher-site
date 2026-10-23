@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleDetail from "../../components/ArticleDetail.astro";
+import { getArticlePaths } from "../../lib/article-paths";
+import { buildArticleMetadata } from "../../lib/metadata";
+import { getArticleSchema } from "../../lib/jsonld";
+import { ARTICLE_SECTION_CONFIG } from "../../lib/article-sections";
+import { toRoutePath } from "../../lib/nav";
+import type { Article, ArticleSummary } from "../../lib/types";
+
+const config = ARTICLE_SECTION_CONFIG.blog;
+
+export async function getStaticPaths() {
+  return getArticlePaths({ type: "blog" }, (article) => {
+    const slugs = article.categories?.map((category) => category.slug) ?? [];
+    return !slugs.includes("guides") && !slugs.includes("story");
+  });
+}
+
+interface Props {
+  article: Article;
+  related: ArticleSummary[];
+}
+
+const { article, related } = Astro.props;
+const { slug } = Astro.params;
+const pathname = toRoutePath(Astro.url.pathname);
+---
+
+<BaseLayout
+  meta={buildArticleMetadata(article, pathname, config.fallbackDescription)}
+  jsonLd={getArticleSchema(article, pathname, config.fallbackDescription)}
+>
+  <ArticleDetail type="blog" slug={slug!} article={article} related={related} />
+</BaseLayout>

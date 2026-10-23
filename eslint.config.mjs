@@ -1,23 +1,18 @@
 import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import tseslint from "typescript-eslint";
+import astro from "eslint-plugin-astro";
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  // Override default ignores of eslint-config-next.
+export default defineConfig([
+  ...tseslint.configs.recommended,
+  ...astro.configs.recommended,
   globalIgnores([
-    // Default ignores of eslint-config-next:
+    "dist/**",
     ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-    // Repo archives / generated / large snapshot artifacts:
+    ".astro/**",
     "hugo-archive/**",
     "content-snapshots/**",
-    "public/attachments/**",
-    "public/_pagefind/**",
+    "public/**",
+    "scripts/**",
+    ".superpowers/**",
   ]),
 ]);
-
-export default eslintConfig;

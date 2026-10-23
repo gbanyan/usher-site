@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import type { PageMeta } from "../lib/metadata";
+import { getSiteUrl } from "../lib/site";
+
+const QUICK_LINKS = [
+  { label: "首頁", href: "/" },
+  { label: "活動與公告", href: "/news" },
+  { label: "常見問題", href: "/faq" },
+  { label: "協會文件", href: "/document" },
+  { label: "相關報導", href: "/related-news" },
+  { label: "聯繫資訊", href: "/contact" },
+];
+// Production's 404 falls through to the root-layout defaults, plus noindex.
+const NOT_FOUND_META: PageMeta = {
+  title: "台灣尤塞氏症暨視聽弱協會 | 尤塞氏症以及視聽雙弱者之病友團體",
+  absoluteTitle: true,
+  description:
+    "台灣尤塞氏症暨視聽弱協會致力於尤塞氏症（Usher Syndrome）及視聽雙重障礙者的支持與服務，提供病友交流、資源分享與權益倡導。",
+  canonical: getSiteUrl(),
+  ogType: "website",
+  image: "/images/banner/hero-support.jpg",
+  locale: "zh_TW",
+  siteName: "台灣尤塞氏症暨視聽弱協會",
+  noindex: true,
+};
+---
+
+<BaseLayout meta={NOT_FOUND_META}>
+  <div class="flex min-h-[60vh] flex-col items-center justify-center px-6 text-center">
+    <h1 class="text-6xl font-bold text-accent">404</h1>
+    <p class="mt-4 text-xl text-white">找不到頁面</p>
+    <p class="mt-2 text-gray-400">您所尋找的頁面不存在，可能已被移除或網址有誤。</p>
+    <a
+      href="/"
+      class="mt-8 inline-block rounded-lg bg-accent px-6 py-3 font-semibold text-primary-dark transition-colors hover:bg-accent-light"
+      aria-label="返回網站首頁"
+    >
+      返回首頁
+    </a>
+    <nav aria-label="常用頁面" class="mt-10">
+      <h2 class="text-sm font-medium text-white/70">常用頁面</h2>
+      <ul class="mt-4 flex flex-wrap items-center justify-center gap-3">
+        {
+          QUICK_LINKS.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="inline-block rounded-md border border-white/20 px-4 py-2 text-sm text-white/80 transition-colors hover:border-accent hover:text-accent"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</BaseLayout>

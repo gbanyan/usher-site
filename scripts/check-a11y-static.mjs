@@ -10,29 +10,20 @@
  *   2. Every page expose a skip-to-content link targeting #main-content.
  *   3. The global 4px high-contrast focus ring is present in the compiled CSS.
  *
- * Scope: `next build` output under .next. Redirect stubs (research) and the
- * global error boundary (_global-error) render outside the root layout and
- * are exempt.
+ * Scope: Astro build output under dist/ (build.format "file"). The 404 page is
+ * exempt only if it does not use the base layout.
  */
 
 import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 
 const ROOT = process.cwd();
-const HTML_DIR = path.join(ROOT, ".next", "server", "app");
-const CSS_DIR = path.join(ROOT, ".next", "static", "chunks");
+const HTML_DIR = path.join(ROOT, "dist");
+const CSS_DIR = path.join(ROOT, "dist", "_astro");
 
-// These generated support documents (and permanent-redirect stubs) are not
-// rendered through the root layout, so they do not expose the site's
-// navigation or skip link.
-const EXEMPT_PAGES = new Set([
-  "research.html",
-  "blog.html",
-  "notice.html",
-  "message.html",
-  "_global-error.html",
-  "llms.txt.html",
-]);
+// Generated support documents that are not rendered through the layout.
+// Redirects are defined in vercel.json, so no HTML stubs need exempting.
+const EXEMPT_PAGES = new Set(["404.html"]);
 
 async function walk(dir) {
   const out = [];
@@ -98,7 +89,7 @@ async function main() {
 
   // Compiled CSS: search all output chunks for the global focus ring.
   if (!(await exists(CSS_DIR))) {
-    failures.push("compiled-css: .next/static/chunks not found");
+    failures.push("compiled-css: dist/_astro not found");
   } else {
     const chunks = (await walk(CSS_DIR)).filter((f) => f.endsWith(".css"));
     const css = (await Promise.all(chunks.map((f) => readFile(f, "utf8")))).join("\n");

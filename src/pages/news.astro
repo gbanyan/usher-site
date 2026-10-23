@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import ArticleListing from "../components/ArticleListing.astro";
+import { getAllArticles } from "../lib/api";
+import { buildPageMetadata } from "../lib/metadata";
+import { NEWS_LISTING, isNewsArticle } from "../lib/article-sections";
+
+function publishedTime(value: string | null | undefined): number {
+  return value ? new Date(value).getTime() : 0;
+}
+
+const [blog, notice] = await Promise.all([
+  getAllArticles({ type: "blog" }),
+  getAllArticles({ type: "notice" }),
+]);
+const articles = [...blog, ...notice]
+  .filter(isNewsArticle)
+  .sort((a, b) => publishedTime(b.published_at) - publishedTime(a.published_at));
+---
+
+<BaseLayout meta={buildPageMetadata(NEWS_LISTING.label, NEWS_LISTING.description, NEWS_LISTING.path)}>
+  <PageHeader title={NEWS_LISTING.label} description={NEWS_LISTING.description} items={[{ label: NEWS_LISTING.label }]} />
+
+  <section class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+    <ArticleListing articles={articles} emptyText="目前沒有活動與公告" />
+  </section>
+</BaseLayout>

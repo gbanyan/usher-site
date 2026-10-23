@@ -1,8 +1,39 @@
-import type { Metadata } from "next";
 import { getSiteUrl } from "./site";
 import { stripMarkdown } from "./utils";
 
 const DEFAULT_OG_IMAGE = "/images/banner/hero-support.jpg";
+
+const ZH_SITE_NAME = "台灣尤塞氏症暨視聽弱協會";
+const ZH_HOME_DESCRIPTION =
+  "台灣尤塞氏症暨視聽弱協會致力於尤塞氏症（Usher Syndrome）及視聽雙重障礙者的支持與服務，提供病友交流、資源分享與權益倡導。";
+const ZH_HOME_OG_DESCRIPTION =
+  "台灣尤塞氏症暨視聽弱協會致力於尤塞氏症及視聽雙重障礙者的支持與服務，提供病友交流、資源分享與權益倡導。";
+const EN_SITE_NAME = "Taiwan Usher Syndrome and Deafblind Association";
+const EN_HOME_DESCRIPTION =
+  "Supporting people with Usher syndrome and deafblind people through connection, resources, advocacy, and community.";
+
+export interface PageMeta {
+  title: string;
+  /** When true, the layout must not append the site-name suffix. */
+  absoluteTitle?: boolean;
+  description: string;
+  /** og:/twitter: description when production differs from the meta description. */
+  ogDescription?: string;
+  canonical: string;
+  /** Emitted as og:url only when set (production omits it on /en). */
+  ogUrl?: string;
+  keywords?: string;
+  /** Emitted only when set; production omits og:type on the zh-TW home page. */
+  ogType?: "website" | "article";
+  image: string;
+  publishedTime?: string;
+  /** og:locale / og:site_name are emitted only when set (production: /en only). */
+  locale?: "zh_TW" | "en_US";
+  siteName?: string;
+  alternates?: { "zh-TW": string; en: string };
+  /** Emits <meta name="robots" content="noindex"> (production does this on its 404 page). */
+  noindex?: boolean;
+}
 
 /**
  * Build metadata for article pages (blog, notice, document, related-news, guides, story).
@@ -18,34 +49,18 @@ export function buildArticleMetadata(
   },
   pathname: string,
   fallbackDescription: string
-): Metadata {
-  const siteUrl = getSiteUrl();
+): PageMeta {
   const rawDesc = article.meta_description || article.excerpt || fallbackDescription;
-  const description = stripMarkdown(rawDesc);
-  const image = article.featured_image_url || DEFAULT_OG_IMAGE;
-  const url = `${siteUrl}${pathname}`;
 
   return {
     title: article.title,
-    description,
+    description: stripMarkdown(rawDesc),
+    canonical: `${getSiteUrl()}${pathname}`,
+    ogUrl: `${getSiteUrl()}${pathname}`,
     keywords: article.meta_keywords || undefined,
-    openGraph: {
-      title: article.title,
-      description,
-      url,
-      type: "article",
-      publishedTime: article.published_at || undefined,
-      images: [image],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: article.title,
-      description,
-      images: [image],
-    },
-    alternates: {
-      canonical: url,
-    },
+    ogType: "article",
+    image: article.featured_image_url || DEFAULT_OG_IMAGE,
+    publishedTime: article.published_at || undefined,
   };
 }
 
@@ -60,30 +75,45 @@ export function buildPageMetadata(
     image?: string;
     keywords?: string;
   }
-): Metadata {
-  const siteUrl = getSiteUrl();
-  const url = `${siteUrl}${pathname}`;
-  const image = options?.image || DEFAULT_OG_IMAGE;
-
+): PageMeta {
   return {
     title,
     description,
+    canonical: `${getSiteUrl()}${pathname}`,
+    ogUrl: `${getSiteUrl()}${pathname}`,
     keywords: options?.keywords || undefined,
-    openGraph: {
-      title,
-      description,
-      url,
-      type: "website",
-      images: [image],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [image],
-    },
-    alternates: {
-      canonical: url,
-    },
+    ogType: "website",
+    image: options?.image || DEFAULT_OG_IMAGE,
+  };
+}
+
+/**
+ * Build metadata for the zh-TW home page (/) and the English home page (/en).
+ */
+export function buildHomeMetadata(lang: "zh-TW" | "en"): PageMeta {
+  const siteUrl = getSiteUrl();
+
+  if (lang === "en") {
+    return {
+      title: EN_SITE_NAME,
+      absoluteTitle: true,
+      description: EN_HOME_DESCRIPTION,
+      canonical: `${siteUrl}/en`,
+      ogType: "website",
+      image: DEFAULT_OG_IMAGE,
+      locale: "en_US",
+      siteName: EN_SITE_NAME,
+      alternates: { "zh-TW": siteUrl, en: `${siteUrl}/en` },
+    };
+  }
+
+  return {
+    title: ZH_SITE_NAME,
+    absoluteTitle: true,
+    description: ZH_HOME_DESCRIPTION,
+    ogDescription: ZH_HOME_OG_DESCRIPTION,
+    canonical: siteUrl,
+    ogUrl: siteUrl,
+    image: DEFAULT_OG_IMAGE,
   };
 }
