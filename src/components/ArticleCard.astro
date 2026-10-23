@@ -2,6 +2,7 @@
 import type { ArticleSummary } from "../lib/types";
 import { CONTENT_TYPE_PATHS } from "../lib/types";
 import { formatDate, stripMarkdown } from "../lib/utils";
+import ResponsiveImage from "./ResponsiveImage.astro";
 
 interface Props {
   article: ArticleSummary;
@@ -84,9 +85,10 @@ const articleUrl = `${resolveBasePath()}/${article.slug}`;
     <div class="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-primary/80 to-primary-light/60">
       {
         article.featured_image_url ? (
-          <img
+          <ResponsiveImage
             src={article.featured_image_url}
             alt={article.featured_image_alt || article.title}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             width="640"
             height="360"
             loading="lazy"

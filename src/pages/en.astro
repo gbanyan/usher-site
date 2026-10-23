@@ -2,6 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HeroSlider from "../components/HeroSlider.astro";
 import ArticleCard from "../components/ArticleCard.astro";
+import ResponsiveImage from "../components/ResponsiveImage.astro";
+import { optimizeImage } from "../lib/images";
 import { getChineseStoryFallbackArticles, getOrganizationProfile } from "../lib/api";
 import { buildHomeMetadata } from "../lib/metadata";
 import { EN_COPY } from "../lib/i18n";
@@ -78,6 +80,8 @@ const [profile, stories] = await Promise.all([getOrganizationProfile(), getChine
 const fallbackStories = stories.slice(0, 3);
 const featureImage = IMAGE_SIZES["/images/banner/banner_feature.jpg"];
 const aboutImage = IMAGE_SIZES["/images/banner/about-plight.jpg"];
+const DOCUMENTARY_BG = "/images/backgrounds/Film-Background.jpg";
+const documentaryBg = (await optimizeImage(DOCUMENTARY_BG, { widths: [1920] }))?.src ?? DOCUMENTARY_BG;
 ---
 
 <BaseLayout meta={buildHomeMetadata("en")} lang="en">
@@ -88,9 +92,10 @@ const aboutImage = IMAGE_SIZES["/images/banner/about-plight.jpg"];
       <div class="relative -mt-12 w-full bg-primary-dark shadow-xl sm:-mt-24">
         <div class="grid w-full lg:grid-cols-12">
           <div class="relative hidden min-h-[400px] lg:col-span-4 lg:block">
-            <img
+            <ResponsiveImage
               src="/images/banner/banner_feature.jpg"
               alt=""
+              sizes="(max-width: 1024px) 0px, 33vw"
               width={featureImage.width}
               height={featureImage.height}
               loading="lazy"
@@ -135,9 +140,10 @@ const aboutImage = IMAGE_SIZES["/images/banner/about-plight.jpg"];
           </a>
         </div>
         <div class="relative mt-6 aspect-[4/3] overflow-hidden rounded-lg md:mt-0">
-          <img
+          <ResponsiveImage
             src="/images/banner/about-plight.jpg"
             alt="The challenges facing the deafblind community"
+            sizes="(max-width: 768px) 100vw, 50vw"
             width={aboutImage.width}
             height={aboutImage.height}
             loading="lazy"
@@ -190,7 +196,7 @@ const aboutImage = IMAGE_SIZES["/images/banner/about-plight.jpg"];
 
     <section
       class="relative bg-cover bg-center py-14 sm:py-24"
-      style="background-image: url('/images/backgrounds/Film-Background.jpg')"
+      style={`background-image: url('${documentaryBg}')`}
       aria-labelledby="documentary-heading-en"
     >
       <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
@@ -227,9 +233,11 @@ const aboutImage = IMAGE_SIZES["/images/banner/about-plight.jpg"];
                 class="rounded-xl border border-white/10 bg-primary p-5 transition-colors hover:border-accent/50"
               >
                 <div class="flex h-20 items-center justify-center rounded-lg bg-white p-3">
-                  <img
+                  <ResponsiveImage
                     src={partner.logo}
                     alt={`${partner.name} logo`}
+                    sizes="256px"
+                    widths={[128, 256, 384, 512]}
                     width="220"
                     height="80"
                     loading="lazy"

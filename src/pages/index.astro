@@ -2,6 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HeroSlider from "../components/HeroSlider.astro";
 import ArticleCard from "../components/ArticleCard.astro";
+import ResponsiveImage from "../components/ResponsiveImage.astro";
+import { optimizeImage } from "../lib/images";
 import { getHomepage } from "../lib/api";
 import { buildHomeMetadata } from "../lib/metadata";
 import type { ArticleSummary } from "../lib/types";
@@ -56,6 +58,8 @@ const lists = [
 ];
 const featureImage = IMAGE_SIZES["/images/banner/banner_feature.jpg"];
 const aboutImage = IMAGE_SIZES[ABOUT_SECTION.image];
+// CSS background: a single WebP variant (the original JPEG stays in public/).
+const documentaryBg = (await optimizeImage(DOCUMENTARY.bgImage, { widths: [1920] }))?.src ?? DOCUMENTARY.bgImage;
 ---
 
 <BaseLayout meta={buildHomeMetadata("zh-TW")}>
@@ -67,9 +71,10 @@ const aboutImage = IMAGE_SIZES[ABOUT_SECTION.image];
         <div class="relative -mt-12 w-full bg-primary-dark shadow-xl sm:-mt-24">
           <div class="grid w-full lg:grid-cols-12">
             <div class="relative hidden min-h-[400px] lg:col-span-4 lg:block">
-              <img
+              <ResponsiveImage
                 src="/images/banner/banner_feature.jpg"
                 alt="台灣尤塞氏症暨視聽弱協會"
+                sizes="(max-width: 1024px) 0px, 33vw"
                 width={featureImage.width}
                 height={featureImage.height}
                 loading="lazy"
@@ -113,9 +118,10 @@ const aboutImage = IMAGE_SIZES[ABOUT_SECTION.image];
           </a>
         </div>
         <div class="relative mt-6 aspect-[4/3] overflow-hidden rounded-lg md:mt-0">
-          <img
+          <ResponsiveImage
             src={ABOUT_SECTION.image}
             alt="視聽雙弱族群的困境"
+            sizes="(max-width: 768px) 100vw, 50vw"
             width={aboutImage.width}
             height={aboutImage.height}
             loading="lazy"
@@ -175,7 +181,7 @@ const aboutImage = IMAGE_SIZES[ABOUT_SECTION.image];
 
     <section
       class="relative bg-cover bg-center py-14 sm:py-24"
-      style={`background-image: url('${DOCUMENTARY.bgImage}')`}
+      style={`background-image: url('${documentaryBg}')`}
       aria-labelledby="documentary-heading"
     >
       <div class="absolute inset-0 bg-black/40" aria-hidden="true"></div>
@@ -225,9 +231,11 @@ const aboutImage = IMAGE_SIZES[ABOUT_SECTION.image];
                       aria-label={`${partner.name}（在新視窗開啟官網）`}
                     >
                       <div class={wrapper}>
-                        <img
+                        <ResponsiveImage
                           src={partner.logo}
                           alt={partner.logoAlt}
+                          sizes="(max-width: 640px) 208px, 256px"
+                          widths={[128, 256, 384, 512]}
                           width="112"
                           height="64"
                           loading="lazy"
@@ -240,9 +248,11 @@ const aboutImage = IMAGE_SIZES[ABOUT_SECTION.image];
                   ) : (
                     <div class={linkClass}>
                       <div class={wrapper}>
-                        <img
+                        <ResponsiveImage
                           src={partner.logo}
                           alt={partner.logoAlt}
+                          sizes="(max-width: 640px) 208px, 256px"
+                          widths={[128, 256, 384, 512]}
                           width="112"
                           height="64"
                           loading="lazy"

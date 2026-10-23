@@ -1,5 +1,6 @@
 ---
 import JsonLd from "./JsonLd.astro";
+import ResponsiveImage from "./ResponsiveImage.astro";
 import { getSiteUrl } from "../lib/site";
 
 interface BreadcrumbItem {
@@ -38,9 +39,10 @@ const structuredData = {
 
 <section class="relative h-[300px] w-full bg-cover bg-center sm:h-[400px]" aria-labelledby="page-header-title">
   <div class="absolute inset-0">
-    <img
+    <ResponsiveImage
       src={bgImage}
       alt=""
+      sizes="100vw"
       width="1280"
       height="671"
       decoding="async"

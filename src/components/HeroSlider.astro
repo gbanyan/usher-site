@@ -1,5 +1,6 @@
 ---
 import { EN_COPY } from "../lib/i18n";
+import ResponsiveImage from "./ResponsiveImage.astro";
 
 interface SliderItem {
   image: string;
@@ -68,9 +69,10 @@ const titleClass = "text-display text-white";
           class="relative h-full w-full shrink-0 snap-start"
         >
           <div class="absolute inset-0 z-0">
-            <img
+            <ResponsiveImage
               src={slide.image}
               alt=""
+              sizes="100vw"
               width={slide.width}
               height={slide.height}
               decoding="async"

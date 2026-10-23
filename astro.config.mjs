@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
+import { imageVariants } from "./src/integrations/image-variants.ts";
 
 export default defineConfig({
   site:
@@ -9,5 +10,6 @@ export default defineConfig({
   output: "static",
   build: { format: "file" },
   trailingSlash: "never",
+  integrations: [imageVariants()],
   vite: { plugins: [tailwindcss()] },
 });

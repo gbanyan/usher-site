@@ -1,4 +1,6 @@
 ---
+import ResponsiveImage from "./ResponsiveImage.astro";
+
 const ORG_NAME = "台灣尤塞氏症暨視聽弱協會";
 const ORG_NAME_EN = "Taiwan Usher Syndrome and Audiovisual Impairment Association";
 const ORG_NAME_EN_SHORT = "Taiwan Usher Syndrome and Deafblind Association";
@@ -21,9 +23,11 @@ const label =
     class={`inline-flex items-center gap-2 sm:gap-3 ${className}`}
     style="font-family: Iansui, var(--font-sans)"
   >
-    <img
+    <ResponsiveImage
       src="/images/logo-icon.png"
       alt=""
+      sizes={variant === "header" ? "(max-width: 639px) 32px, 48px" : "32px"}
+      widths={[32, 48, 64, 96, 144]}
       width="408"
       height="408"
       decoding="async"

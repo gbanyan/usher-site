@@ -32,6 +32,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Restore image variant cache
+        uses: actions/cache@v4
+        with:
+          # Responsive WebP variants written by src/lib/images.ts (keyed by
+          # source content hash, so stale entries are never served).
+          path: node_modules/.cache/usher-images
+          key: usher-images-${{ hashFiles('src/lib/images.ts') }}-${{ github.run_id }}
+          restore-keys: usher-images-${{ hashFiles('src/lib/images.ts') }}-
+
       - name: Lint
         run: npm run lint
 

@@ -4,6 +4,7 @@ import PageHeader from "./PageHeader.astro";
 import Markdown from "./Markdown.astro";
 import ArticleCard from "./ArticleCard.astro";
 import ArticleAttachments from "./ArticleAttachments.astro";
+import ResponsiveImage from "./ResponsiveImage.astro";
 import { ARTICLE_SECTION_CONFIG, getListingLink, type ArticleSectionType } from "../lib/article-sections";
 import type { Article, ArticleSummary } from "../lib/types";
 
@@ -73,8 +74,9 @@ const relatedArticles = config.categorySlug
     {
       article.featured_image_url && (
         <figure class="mb-8 overflow-hidden rounded-lg">
-          <img
+          <ResponsiveImage
             src={article.featured_image_url}
+            sizes="(max-width: 896px) 100vw, 896px"
             alt={article.featured_image_alt || article.title}
             width="1200"
             height="630"
