@@ -3,6 +3,9 @@
   "name": "usher-site",
   "compatibility_date": "2026-10-23",
   "workers_dev": true,
+  // Production domain. The old www CNAME to Vercel was replaced at cutover;
+  // rollback steps are in docs/superpowers/specs/2026-10-22-astro-migration-design.md §7.3.
+  "routes": [{ "pattern": "www.usher.org.tw", "custom_domain": true }],
   "assets": {
     "directory": "./dist",
     "html_handling": "drop-trailing-slash",
