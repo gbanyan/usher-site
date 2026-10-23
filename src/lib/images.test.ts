@@ -195,12 +195,14 @@ describe("remote CMS image hardening", () => {
   let jpeg: Buffer;
 
   beforeEach(async () => {
+    vi.stubEnv("CMS_FETCH_RETRY_DELAYS_MS", "0,0");
     root = await mkdtemp(path.join(os.tmpdir(), "usher-img-remote-"));
     jpeg = await sharp({ create: { width: 64, height: 32, channels: 3, background: { r: 0, g: 0, b: 0 } } })
       .jpeg()
       .toBuffer();
   });
   afterEach(async () => {
+    vi.unstubAllEnvs();
     await rm(root, { recursive: true, force: true });
   });
 
@@ -262,5 +264,36 @@ describe("remote CMS image hardening", () => {
     const fetchImpl = async () =>
       new Response(new Uint8Array(jpeg), { status: 200, headers: { "content-type": "image/jpeg" } });
     expect(await make(fetchImpl).optimize(URL_OK)).toMatchObject({ width: 64, height: 32 });
+  });
+
+  const ok = () =>
+    new Response(new Uint8Array(jpeg), { status: 200, headers: { "content-type": "image/jpeg" } });
+
+  it("retries a transient network blip and then succeeds", async () => {
+    const fetchImpl = vi.fn().mockRejectedValueOnce(new TypeError("fetch failed")).mockImplementation(async () => ok());
+    expect(await make(fetchImpl).optimize(URL_OK)).toMatchObject({ width: 64, height: 32 });
+    expect(fetchImpl).toHaveBeenCalledTimes(2);
+    for (const call of fetchImpl.mock.calls) {
+      expect(call[1]).toMatchObject({ redirect: "error" });
+      expect(call[1].signal).toBeInstanceOf(AbortSignal);
+    }
+  });
+
+  it("retries 503 and rejects after three attempts", async () => {
+    const fetchImpl = vi.fn(async () => new Response("down", { status: 503 }));
+    await expect(make(fetchImpl).optimize(URL_OK)).rejects.toThrow(/HTTP 503/);
+    expect(fetchImpl).toHaveBeenCalledTimes(3);
+  });
+
+  it("does not retry a 404", async () => {
+    const fetchImpl = vi.fn(async () => new Response("nope", { status: 404 }));
+    await expect(make(fetchImpl).optimize(URL_OK)).rejects.toThrow(/HTTP 404/);
+    expect(fetchImpl).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not retry a non-image content-type", async () => {
+    const fetchImpl = vi.fn(async () => new Response("x", { status: 200, headers: { "content-type": "text/html" } }));
+    await expect(make(fetchImpl).optimize(URL_OK)).rejects.toThrow(/content-type/);
+    expect(fetchImpl).toHaveBeenCalledTimes(1);
   });
 });

@@ -140,6 +140,35 @@ describe("fetchAPI retries", () => {
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
+  it("cancels the unconsumed body of a failed response before retrying", async () => {
+    const cancel = vi.fn(async () => {});
+    const failing = { ok: false, status: 503, statusText: "x", headers: new Headers(), body: { cancel } } as unknown as Response;
+    const fetchMock = vi.fn().mockResolvedValueOnce(failing).mockResolvedValueOnce(jsonResponse({ ok: 3 }));
+    vi.stubGlobal("fetch", fetchMock);
+    const { fetchAPI } = await loadApi();
+    await expect(fetchAPI("/x")).resolves.toEqual({ ok: 3 });
+    expect(cancel).toHaveBeenCalledTimes(1);
+  });
+
+  it("honours Retry-After seconds on 429, capped at 10 s", async () => {
+    const delays: number[] = [];
+    vi.stubGlobal("setTimeout", ((fn: () => void, ms?: number) => {
+      delays.push(ms ?? 0);
+      fn();
+      return 0;
+    }) as unknown as typeof setTimeout);
+    const rl = (v: string) => new Response("{}", { status: 429, headers: { "retry-after": v } });
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(rl("2"))
+      .mockResolvedValueOnce(rl("120"))
+      .mockResolvedValueOnce(jsonResponse({ ok: 4 }));
+    vi.stubGlobal("fetch", fetchMock);
+    const { fetchAPI } = await loadApi();
+    await expect(fetchAPI("/x")).resolves.toEqual({ ok: 4 });
+    expect(delays).toEqual([2000, 10000]);
+  });
+
   it("passes an abort signal to each attempt", async () => {
     const fetchMock = vi.fn(async () => jsonResponse({}));
     vi.stubGlobal("fetch", fetchMock);

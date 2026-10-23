@@ -19,6 +19,7 @@ import {
 } from "./transform";
 
 import path from "node:path";
+import { HttpStatusError, fetchWithRetry } from "./retry";
 import { readFile } from "node:fs/promises";
 
 type ContentSource = "api" | "snapshot";
@@ -49,12 +50,10 @@ async function readSnapshot<T>(relativePath: string): Promise<T> {
   return JSON.parse(raw) as T;
 }
 
-export class ApiError extends Error {
-  readonly status: number;
-  constructor(status: number, message: string) {
-    super(message);
+export class ApiError extends HttpStatusError {
+  constructor(status: number, message: string, retryAfterMs?: number) {
+    super(status, message, retryAfterMs);
     this.name = "ApiError";
-    this.status = status;
   }
 }
 
@@ -63,27 +62,6 @@ function isNotFound(error: unknown): boolean {
 }
 
 const FETCH_TIMEOUT_MS = 20_000;
-const DEFAULT_RETRY_DELAYS_MS = [1_000, 3_000]; // 3 attempts total
-
-// Overridable (comma-separated ms) so tests do not wait on real backoff.
-function getRetryDelays(): number[] {
-  const raw = process.env.CMS_FETCH_RETRY_DELAYS_MS;
-  if (!raw) return DEFAULT_RETRY_DELAYS_MS;
-  return raw.split(",").map((n) => Math.max(0, Number(n) || 0));
-}
-
-// Network errors/timeouts (fetch rejects), 429 and 5xx are worth retrying;
-// every other ApiError (404, 401, 403, ...) is final.
-function isTransient(error: unknown): boolean {
-  if (error instanceof ApiError) {
-    return error.status === 429 || error.status >= 500;
-  }
-  return true;
-}
-
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 // Identical requests within one build share a single in-flight/settled promise.
 const requestCache = new Map<string, Promise<unknown>>();
@@ -106,28 +84,16 @@ export function fetchAPI<T>(endpoint: string): Promise<T> {
   const headers: Record<string, string> = { Accept: "application/json" };
   if (token) headers["X-Site-Build-Token"] = token;
 
-  const request = (async () => {
-    const delays = getRetryDelays();
-    const maxAttempts = delays.length + 1;
-    for (let attempt = 1; ; attempt += 1) {
-      try {
-        const res = await fetch(url, {
-          headers,
-          signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-        });
-        if (!res.ok) {
-          throw new ApiError(
-            res.status,
-            `API error: ${res.status} ${res.statusText} (${url})`
-          );
-        }
-        return (await res.json()) as T;
-      } catch (error) {
-        if (attempt >= maxAttempts || !isTransient(error)) throw error;
-        await sleep(delays[attempt - 1]);
-      }
+  const request = fetchWithRetry<T>(
+    url,
+    { headers },
+    {
+      timeoutMs: FETCH_TIMEOUT_MS,
+      describe: (res) => `API error: ${res.status} ${res.statusText} (${url})`,
+      makeError: (status, message, retryAfterMs) => new ApiError(status, message, retryAfterMs),
+      read: (res) => res.json(),
     }
-  })();
+  );
 
   requestCache.set(key, request);
   // Do not cache failures: a retry in the same process may succeed.

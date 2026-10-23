@@ -12,6 +12,7 @@
 import { createHash } from "node:crypto";
 import { mkdir, readFile, rename, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { fetchWithRetry } from "./retry";
 import sharp, { type Metadata } from "sharp";
 
 export const IMAGE_OUTPUT_PREFIX = "/_img/";
@@ -141,8 +142,8 @@ export function createImageOptimizer({
   async function download(url: string): Promise<Buffer> {
     try {
       // No redirects (the URL must stay on the allowed CMS host) and a hard timeout.
-      const response = await fetchImpl(url, { redirect: "error", signal: AbortSignal.timeout(fetchTimeoutMs) });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      // Transient failures (network/timeout, 429, 5xx) are retried per attempt.
+      const response = await fetchWithRetry(url, { redirect: "error" }, { timeoutMs: fetchTimeoutMs, fetch: fetchImpl });
       const type = response.headers.get("content-type") ?? "";
       if (!type.toLowerCase().startsWith("image/")) throw new Error(`unexpected content-type "${type}"`);
       const declared = Number(response.headers.get("content-length") ?? "0");
