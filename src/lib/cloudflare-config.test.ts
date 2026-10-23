@@ -31,9 +31,22 @@ it("drops trailing slashes and serves the 404 page", () => {
 
 const REDIRECTS = [["/blog","/news"],["/notice","/news"],["/message","/about"],["/research","/document"],["/logo_represent","/logo-represent"]];
 const rules = read("public/_redirects").split("\n").map((l) => l.trim()).filter((l) => l && !l.startsWith("#"));
-it("has exactly the five permanent redirects", () => {
-  expect(rules).toHaveLength(5);
+it("has the five permanent redirects plus their trailing-slash variants", () => {
+  expect(rules).toHaveLength(10);
 });
-it.each(REDIRECTS)("redirects %s to %s with 308", (s, d) => {
+it.each(REDIRECTS)("redirects %s (and %s/) to %s with 308", (s, d) => {
   expect(rules).toContainEqual(`${s} ${d} 308`);
+  expect(rules).toContainEqual(`${s}/ ${d} 308`);
+});
+
+it("caches hashed assets immutably and sets baseline security headers", () => {
+  const headers = read("public/_headers");
+  const block = (path: string) => headers.split(/\n\s*\n/).find((b) => b.startsWith(path + "\n")) ?? "";
+  for (const p of ["/_astro/*", "/_img/*"]) {
+    expect(block(p)).toContain("Cache-Control: public, max-age=31536000, immutable");
+  }
+  const all = block("/*");
+  expect(all).toContain("X-Content-Type-Options: nosniff");
+  expect(all).toContain("Referrer-Policy: strict-origin-when-cross-origin");
+  expect(all).toContain("X-Frame-Options: SAMEORIGIN");
 });

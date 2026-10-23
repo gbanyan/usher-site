@@ -160,8 +160,13 @@ const navActions = [
     current.scrollIntoView({ block: "nearest" });
   }
 
-  function showStatus(text: string | null) {
+  const STATUS_VISIBLE = ["py-8", "text-center", "text-sm", "text-white/60"];
+  // `announceOnly` keeps the live region in the layout (so AT announces it)
+  // but visually hidden, e.g. for the result count above a visible list.
+  function showStatus(text: string | null, announceOnly = false) {
     status.hidden = text === null;
+    status.classList.toggle("sr-only", announceOnly);
+    for (const c of STATUS_VISIBLE) status.classList.toggle(c, !announceOnly);
     status.textContent = text ?? "";
   }
 
@@ -241,7 +246,7 @@ const navActions = [
         return;
       }
       renderResults(items);
-      showStatus(null);
+      showStatus(`找到 ${items.length} 筆結果`, true);
       resultsGroup.hidden = false;
       setActive(0);
     } catch (error) {

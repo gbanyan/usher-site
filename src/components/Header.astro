@@ -320,12 +320,16 @@ const mobileLabel = (label: string, open: boolean) =>
       for (const other of dropdowns) if (other !== root) setDropdown(other, false);
       setDropdown(root, !isOpen);
     });
-    root.addEventListener("mouseenter", () => {
+    // Hover opens only for a real mouse; on touch the tap's emulated hover
+    // would otherwise open the menu and the click handler would close it again.
+    root.addEventListener("pointerenter", (event) => {
+      if (event.pointerType !== "mouse") return;
       clearTimeout(timer);
       for (const other of dropdowns) if (other !== root) setDropdown(other, false);
       setDropdown(root, true);
     });
-    root.addEventListener("mouseleave", () => {
+    root.addEventListener("pointerleave", (event) => {
+      if (event.pointerType !== "mouse") return;
       timer = setTimeout(() => setDropdown(root, false), 150);
     });
     root.addEventListener("keydown", (event) => {

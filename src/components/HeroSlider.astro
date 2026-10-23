@@ -50,6 +50,9 @@ const controlClass =
 const titleClass = "text-display text-white";
 ---
 
+{/* The page's only h1 lives outside the slider: inactive slides are inert (hidden from AT), so a slide h1 would vanish while autoplay runs. */}
+{slides[0] && <h1 class="sr-only">{slides[0].title}</h1>}
+
 <section
   data-hero-slider
   data-labels={JSON.stringify(labels)}
@@ -85,7 +88,7 @@ const titleClass = "text-display text-white";
           <div class="relative z-10 flex h-full items-center">
             <div class="container mx-auto px-6 lg:px-8">
               <div class="max-w-3xl pt-10 text-left sm:pt-0">
-                {index === 0 ? <h1 class={titleClass}>{slide.title}</h1> : <h2 class={titleClass}>{slide.title}</h2>}
+                <h2 class={titleClass}>{slide.title}</h2>
                 <p class="mt-4 text-lead sm:mt-6">{slide.content}</p>
                 {slide.button?.label && (
                   <a
