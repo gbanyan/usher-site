@@ -35,11 +35,13 @@ jobs:
       - name: Restore image variant cache
         uses: actions/cache@v4
         with:
-          # Responsive WebP variants written by src/lib/images.ts (keyed by
-          # source content hash, so stale entries are never served).
+          # Responsive WebP variants written by src/lib/images.ts (file names
+          # carry the source content hash, so stale entries are never served).
+          # One entry per images.ts + public/ state; actions/cache saves only on
+          # an exact-key miss, so the cache does not grow with every run.
           path: node_modules/.cache/usher-images
-          key: usher-images-${{ hashFiles('src/lib/images.ts') }}-${{ github.run_id }}
-          restore-keys: usher-images-${{ hashFiles('src/lib/images.ts') }}-
+          key: usher-images-${{ hashFiles('src/lib/images.ts', 'public/**') }}
+          restore-keys: usher-images-
 
       - name: Lint
         run: npm run lint

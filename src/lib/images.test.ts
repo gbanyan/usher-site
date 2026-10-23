@@ -166,7 +166,7 @@ describe("createImageOptimizer", () => {
       .toBuffer();
     const fetchImpl = vi.fn(async (url: string) =>
       url.endsWith("ok.jpg")
-        ? new Response(new Uint8Array(body), { status: 200 })
+        ? new Response(new Uint8Array(body), { status: 200, headers: { "content-type": "image/jpeg" } })
         : new Response("nope", { status: 404 })
     );
     const optimizer = createImageOptimizer({ publicDir, cacheDir, fetch: fetchImpl as unknown as typeof fetch });
@@ -186,5 +186,81 @@ describe("findVariantRefs", () => {
       "<div style=\"background-image: url('/_img/bg.def.1920.webp')\"></div>" +
       '<img src="/images/a.jpg">';
     expect(findVariantRefs(html).sort()).toEqual(["a.abc.384.webp", "a.abc.640.webp", "bg.def.1920.webp"]);
+  });
+});
+
+describe("remote CMS image hardening", () => {
+  const URL_OK = "https://member.usher.org.tw/storage/articles/a.jpg";
+  let root: string;
+  let jpeg: Buffer;
+
+  beforeEach(async () => {
+    root = await mkdtemp(path.join(os.tmpdir(), "usher-img-remote-"));
+    jpeg = await sharp({ create: { width: 64, height: 32, channels: 3, background: { r: 0, g: 0, b: 0 } } })
+      .jpeg()
+      .toBuffer();
+  });
+  afterEach(async () => {
+    await rm(root, { recursive: true, force: true });
+  });
+
+  const make = (fetchImpl: unknown, extra: Record<string, number> = {}) =>
+    createImageOptimizer({
+      publicDir: path.join(root, "public"),
+      cacheDir: path.join(root, "cache"),
+      fetch: fetchImpl as typeof fetch,
+      ...extra,
+    });
+
+  it("refuses redirects and uses a timeout signal", async () => {
+    const fetchImpl = vi.fn(async (_url: string, init?: RequestInit) => {
+      expect(init?.signal).toBeInstanceOf(AbortSignal);
+      if (init?.redirect === "error") throw new TypeError("fetch failed: unexpected redirect");
+      return new Response(null, { status: 302, headers: { location: "https://evil.example/x.jpg" } });
+    });
+    await expect(make(fetchImpl).optimize(URL_OK)).rejects.toThrow(/redirect/);
+    expect(fetchImpl).toHaveBeenCalledWith(URL_OK, expect.objectContaining({ redirect: "error" }));
+  });
+
+  it("rejects responses that are not images", async () => {
+    const fetchImpl = async () =>
+      new Response("<html>login</html>", { status: 200, headers: { "content-type": "text/html" } });
+    await expect(make(fetchImpl).optimize(URL_OK)).rejects.toThrow(/content-type/);
+  });
+
+  it("rejects an oversize content-length without reading the body", async () => {
+    const fetchImpl = async () =>
+      new Response(new Uint8Array(jpeg), {
+        status: 200,
+        headers: { "content-type": "image/jpeg", "content-length": String(26 * 1024 * 1024) },
+      });
+    await expect(make(fetchImpl).optimize(URL_OK)).rejects.toThrow(/too large/);
+  });
+
+  it("aborts when the streamed body exceeds the byte cap", async () => {
+    const fetchImpl = async () => {
+      const chunk = new Uint8Array(600);
+      const stream = new ReadableStream<Uint8Array>({
+        pull(controller) {
+          controller.enqueue(chunk);
+        },
+      });
+      return new Response(stream, { status: 200, headers: { "content-type": "image/jpeg" } });
+    };
+    await expect(make(fetchImpl, { maxRemoteBytes: 1000 }).optimize(URL_OK)).rejects.toThrow(/too large/);
+  });
+
+  it("fails when the download times out", async () => {
+    const fetchImpl = (_url: string, init?: RequestInit) =>
+      new Promise<Response>((_resolve, reject) => {
+        init?.signal?.addEventListener("abort", () => reject(init.signal!.reason));
+      });
+    await expect(make(fetchImpl, { fetchTimeoutMs: 20 }).optimize(URL_OK)).rejects.toThrow(/timed out|timeout|aborted/i);
+  });
+
+  it("accepts a well-formed image response", async () => {
+    const fetchImpl = async () =>
+      new Response(new Uint8Array(jpeg), { status: 200, headers: { "content-type": "image/jpeg" } });
+    expect(await make(fetchImpl).optimize(URL_OK)).toMatchObject({ width: 64, height: 32 });
   });
 });

@@ -18,11 +18,23 @@ export const IMAGE_OUTPUT_PREFIX = "/_img/";
 /** Close to next/image's deviceSizes, capped at 1920 for this site. */
 export const DEFAULT_WIDTHS = [384, 640, 750, 828, 1080, 1200, 1920];
 export const IMAGE_QUALITY = 75;
+/** Remote (CMS) download limits; exceeding any of them fails the build. */
+export const MAX_REMOTE_BYTES = 25 * 1024 * 1024;
+export const REMOTE_FETCH_TIMEOUT_MS = 30_000;
+/** Decompression-bomb guard passed to sharp (100 megapixels). */
+export const MAX_INPUT_PIXELS = 100_000_000;
 export const IMAGE_CACHE_DIR = path.join(process.cwd(), "node_modules", ".cache", "usher-images");
 
 const LOCAL_PREFIXES = ["/images/", "/uploads/", "/attachment/", "/attachments/"];
 const REMOTE_PREFIXES = ["https://member.usher.org.tw/storage/"];
 const RASTER_EXT = /\.(jpe?g|png|webp)$/i;
+
+/**
+ * Input options for every sharp call. Animated GIF/WebP inputs are decoded as
+ * their first frame only (sharp's default `pages: 1`), so variants are static;
+ * GIFs are not optimised at all (see classifyImageUrl).
+ */
+const SHARP_INPUT = { limitInputPixels: MAX_INPUT_PIXELS } as const;
 
 export interface OptimizedImage {
   src: string;
@@ -91,6 +103,27 @@ interface OptimizerConfig {
   cacheDir: string;
   quality?: number;
   fetch?: typeof fetch;
+  maxRemoteBytes?: number;
+  fetchTimeoutMs?: number;
+}
+
+/** Read a response body, aborting once it exceeds `limit` bytes. */
+async function readCapped(response: Response, limit: number): Promise<Buffer> {
+  if (!response.body) return Buffer.alloc(0);
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value.byteLength;
+    if (total > limit) {
+      await reader.cancel();
+      throw new Error(`too large (more than ${limit} bytes)`);
+    }
+    chunks.push(value);
+  }
+  return Buffer.concat(chunks);
 }
 
 export function createImageOptimizer({
@@ -98,10 +131,31 @@ export function createImageOptimizer({
   cacheDir,
   quality = IMAGE_QUALITY,
   fetch: fetchImpl = fetch,
+  maxRemoteBytes = MAX_REMOTE_BYTES,
+  fetchTimeoutMs = REMOTE_FETCH_TIMEOUT_MS,
 }: OptimizerConfig) {
   const root = path.resolve(publicDir);
   const sources = new Map<string, Promise<{ buffer: Buffer; hash: string; width: number; height: number }>>();
   const writes = new Map<string, Promise<void>>();
+
+  async function download(url: string): Promise<Buffer> {
+    try {
+      // No redirects (the URL must stay on the allowed CMS host) and a hard timeout.
+      const response = await fetchImpl(url, { redirect: "error", signal: AbortSignal.timeout(fetchTimeoutMs) });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const type = response.headers.get("content-type") ?? "";
+      if (!type.toLowerCase().startsWith("image/")) throw new Error(`unexpected content-type "${type}"`);
+      const declared = Number(response.headers.get("content-length") ?? "0");
+      if (declared > maxRemoteBytes) {
+        await response.body?.cancel();
+        throw new Error(`too large (content-length ${declared} > ${maxRemoteBytes})`);
+      }
+      return await readCapped(response, maxRemoteBytes);
+    } catch (error) {
+      const message = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+      throw new Error(`[images] fetching ${url} failed: ${message}`, { cause: error });
+    }
+  }
 
   async function loadSource(url: string, kind: "local" | "remote") {
     let buffer: Buffer;
@@ -116,15 +170,11 @@ export function createImageOptimizer({
         throw new Error(`[images] cannot read local image ${url} (${file}): ${(error as Error).message}`);
       }
     } else {
-      const response = await fetchImpl(url);
-      if (!response.ok) {
-        throw new Error(`[images] fetching ${url} failed: HTTP ${response.status}`);
-      }
-      buffer = Buffer.from(await response.arrayBuffer());
+      buffer = await download(url);
     }
     let meta: Metadata;
     try {
-      meta = await sharp(buffer).metadata();
+      meta = await sharp(buffer, SHARP_INPUT).metadata();
     } catch (error) {
       throw new Error(`[images] cannot decode ${url}: ${(error as Error).message}`);
     }
@@ -145,7 +195,7 @@ export function createImageOptimizer({
     if (!pending) {
       pending = (async () => {
         if (await exists(file)) return;
-        const data = await sharp(buffer).rotate().resize({ width }).webp({ quality }).toBuffer();
+        const data = await sharp(buffer, SHARP_INPUT).rotate().resize({ width }).webp({ quality }).toBuffer();
         const tmp = `${file}.${process.pid}.tmp`;
         await writeFile(tmp, data);
         await rename(tmp, file);
