@@ -62,6 +62,29 @@ function isNotFound(error: unknown): boolean {
   return error instanceof ApiError && error.status === 404;
 }
 
+const FETCH_TIMEOUT_MS = 20_000;
+const DEFAULT_RETRY_DELAYS_MS = [1_000, 3_000]; // 3 attempts total
+
+// Overridable (comma-separated ms) so tests do not wait on real backoff.
+function getRetryDelays(): number[] {
+  const raw = process.env.CMS_FETCH_RETRY_DELAYS_MS;
+  if (!raw) return DEFAULT_RETRY_DELAYS_MS;
+  return raw.split(",").map((n) => Math.max(0, Number(n) || 0));
+}
+
+// Network errors/timeouts (fetch rejects), 429 and 5xx are worth retrying;
+// every other ApiError (404, 401, 403, ...) is final.
+function isTransient(error: unknown): boolean {
+  if (error instanceof ApiError) {
+    return error.status === 429 || error.status >= 500;
+  }
+  return true;
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 // Identical requests within one build share a single in-flight/settled promise.
 const requestCache = new Map<string, Promise<unknown>>();
 
@@ -84,14 +107,26 @@ export function fetchAPI<T>(endpoint: string): Promise<T> {
   if (token) headers["X-Site-Build-Token"] = token;
 
   const request = (async () => {
-    const res = await fetch(url, { headers });
-    if (!res.ok) {
-      throw new ApiError(
-        res.status,
-        `API error: ${res.status} ${res.statusText} (${url})`
-      );
+    const delays = getRetryDelays();
+    const maxAttempts = delays.length + 1;
+    for (let attempt = 1; ; attempt += 1) {
+      try {
+        const res = await fetch(url, {
+          headers,
+          signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+        });
+        if (!res.ok) {
+          throw new ApiError(
+            res.status,
+            `API error: ${res.status} ${res.statusText} (${url})`
+          );
+        }
+        return (await res.json()) as T;
+      } catch (error) {
+        if (attempt >= maxAttempts || !isTransient(error)) throw error;
+        await sleep(delays[attempt - 1]);
+      }
     }
-    return (await res.json()) as T;
   })();
 
   requestCache.set(key, request);

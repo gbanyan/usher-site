@@ -17,6 +17,7 @@ beforeEach(() => {
   vi.stubEnv("CMS_API_URL", "http://cms.test/api/v1");
   vi.stubEnv("NEXT_PUBLIC_API_URL", "");
   vi.stubEnv("SITE_BUILD_TOKEN", "");
+  vi.stubEnv("CMS_FETCH_RETRY_DELAYS_MS", "0,0");
 });
 
 afterEach(() => {
@@ -73,6 +74,79 @@ describe("fetchAPI", () => {
     const [a, b] = await Promise.all([fetchAPI("/x"), fetchAPI("/x")]);
     expect(a).toEqual(b);
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("fetchAPI retries", () => {
+  it("retries network errors and resolves, leaving one cache entry", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockRejectedValueOnce(new TypeError("fetch failed"))
+      .mockRejectedValueOnce(new TypeError("fetch failed"))
+      .mockResolvedValueOnce(jsonResponse({ ok: 1 }));
+    vi.stubGlobal("fetch", fetchMock);
+    const { fetchAPI } = await loadApi();
+    await expect(fetchAPI("/x")).resolves.toEqual({ ok: 1 });
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+    await fetchAPI("/x");
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
+  it("gives up after 3 attempts on persistent 503 with status in message", async () => {
+    const fetchMock = vi.fn(async () => jsonResponse({}, 503));
+    vi.stubGlobal("fetch", fetchMock);
+    const { fetchAPI, ApiError } = await loadApi();
+    const err = (await fetchAPI("/x").catch((e: unknown) => e)) as InstanceType<
+      typeof ApiError
+    >;
+    expect(err).toBeInstanceOf(ApiError);
+    expect(err.status).toBe(503);
+    expect(err.message).toMatch(/503/);
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
+  it("rethrows the last network error after 3 attempts", async () => {
+    const fetchMock = vi.fn().mockRejectedValue(new TypeError("fetch failed"));
+    vi.stubGlobal("fetch", fetchMock);
+    const { fetchAPI } = await loadApi();
+    await expect(fetchAPI("/x")).rejects.toThrow(/fetch failed/);
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
+  it("does not retry 404", async () => {
+    const fetchMock = vi.fn(async () => jsonResponse({}, 404));
+    vi.stubGlobal("fetch", fetchMock);
+    const { fetchAPI } = await loadApi();
+    await expect(fetchAPI("/x")).rejects.toThrow(/404/);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not retry 401", async () => {
+    const fetchMock = vi.fn(async () => jsonResponse({}, 401));
+    vi.stubGlobal("fetch", fetchMock);
+    const { fetchAPI } = await loadApi();
+    await expect(fetchAPI("/x")).rejects.toThrow(/401/);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("retries 429 then succeeds", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(jsonResponse({}, 429))
+      .mockResolvedValueOnce(jsonResponse({ ok: 2 }));
+    vi.stubGlobal("fetch", fetchMock);
+    const { fetchAPI } = await loadApi();
+    await expect(fetchAPI("/x")).resolves.toEqual({ ok: 2 });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("passes an abort signal to each attempt", async () => {
+    const fetchMock = vi.fn(async () => jsonResponse({}));
+    vi.stubGlobal("fetch", fetchMock);
+    const { fetchAPI } = await loadApi();
+    await fetchAPI("/x");
+    const init = (fetchMock.mock.calls[0] as unknown as [string, RequestInit])[1];
+    expect(init.signal).toBeInstanceOf(AbortSignal);
   });
 });
 
